@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import '../models/contact.dart';
 import '../connector/meshcore_protocol.dart';
 
@@ -8,24 +9,56 @@ class PathHelper {
         .join(',');
   }
 
+  /// Resolves path bytes to contact names, supporting multi-byte hash widths.
+  /// 
+  /// Groups path bytes according to [hashByteWidth]:
+  /// - 1: Single byte per hop (256 unique nodes)
+  /// - 2: Two bytes per hop (65K unique nodes)
+  /// - 3: Three bytes per hop (16M unique nodes)
   static String resolvePathNames(
     List<int> pathBytes,
     List<Contact> allContacts,
+    int hashByteWidth,
   ) {
-    return pathBytes
-        .map((b) {
-          final hex = b.toRadixString(16).padLeft(2, '0').toUpperCase();
-          final matches = allContacts
-              .where(
-                (c) =>
-                    c.publicKey.first == b &&
-                    (c.type == advTypeRepeater || c.type == advTypeRoom),
-              )
-              .toList();
-          if (matches.isEmpty) return hex;
-          if (matches.length == 1) return matches.first.name;
-          return matches.map((c) => c.name).join(' | ');
-        })
-        .join(' \u2192 ');
+    if (pathBytes.isEmpty) return '';
+    
+    final width = hashByteWidth.clamp(1, 8);
+    final parts = <String>[];
+    
+    // Group bytes according to width
+    for (int i = 0; i < pathBytes.length; i += width) {
+      final endIdx = (i + width).clamp(0, pathBytes.length);
+      final hopBytes = pathBytes.sublist(i, endIdx);
+      
+      if (hopBytes.isEmpty) continue;
+      
+      // Format hex for display
+      final hex = hopBytes
+          .map((b) => b.toRadixString(16).padLeft(2, '0').toUpperCase())
+          .join('');
+      
+      // Find matching contacts by comparing public key prefix
+      final matches = allContacts
+          .where((c) {
+            if (c.publicKey.length < hopBytes.length) return false;
+            if (c.type != advTypeRepeater && c.type != advTypeRoom) return false;
+            // Compare bytes using listEquals for multi-byte support
+            return listEquals(
+              c.publicKey.sublist(0, hopBytes.length),
+              hopBytes,
+            );
+          })
+          .toList();
+      
+      if (matches.isEmpty) {
+        parts.add(hex);
+      } else if (matches.length == 1) {
+        parts.add(matches.first.name);
+      } else {
+        parts.add(matches.map((c) => c.name).join(' | '));
+      }
+    }
+    
+    return parts.join(' \u2192 ');
   }
 }

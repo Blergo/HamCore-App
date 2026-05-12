@@ -12,6 +12,7 @@ class PathSelectionDialog extends StatefulWidget {
   final String? initialPath;
   final String? currentPathLabel;
   final VoidCallback? onRefresh;
+  final int pathHashByteWidth;
 
   const PathSelectionDialog({
     super.key,
@@ -20,6 +21,7 @@ class PathSelectionDialog extends StatefulWidget {
     this.initialPath,
     this.currentPathLabel,
     this.onRefresh,
+    this.pathHashByteWidth = 1,
   });
 
   @override
@@ -32,6 +34,7 @@ class PathSelectionDialog extends StatefulWidget {
     String? initialPath,
     String? currentPathLabel,
     VoidCallback? onRefresh,
+    int pathHashByteWidth = 1,
   }) {
     return showDialog<Uint8List?>(
       context: context,
@@ -41,6 +44,7 @@ class PathSelectionDialog extends StatefulWidget {
         initialPath: initialPath,
         currentPathLabel: currentPathLabel,
         onRefresh: onRefresh,
+        pathHashByteWidth: pathHashByteWidth,
       ),
     );
   }
@@ -73,10 +77,12 @@ class _PathSelectionDialogState extends State<PathSelectionDialog> {
   }
 
   void _updateTextFromContacts() {
+    final width = widget.pathHashByteWidth.clamp(1, 8);
+    final hexCharsPerHop = width * 2;
     final pathParts = _selectedContacts
         .map((contact) {
-          if (contact.publicKeyHex.length >= 2) {
-            return contact.publicKeyHex.substring(0, 2);
+          if (contact.publicKeyHex.length >= hexCharsPerHop) {
+            return contact.publicKeyHex.substring(0, hexCharsPerHop);
           }
           return '';
         })
@@ -112,6 +118,9 @@ class _PathSelectionDialogState extends State<PathSelectionDialog> {
       return;
     }
 
+    final width = widget.pathHashByteWidth.clamp(1, 8);
+    final expectedHexLen = width * 2; // 2 hex chars per byte
+    
     // Parse comma-separated hex prefixes
     final pathIds = path
         .split(',')

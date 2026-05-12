@@ -1111,7 +1111,11 @@ class _ChatScreenState extends State<ChatScreen> {
     final allContacts = connector.allContacts;
 
     final formattedPath = PathHelper.formatPathHex(pathBytes);
-    final resolvedNames = PathHelper.resolvePathNames(pathBytes, allContacts);
+    final resolvedNames = PathHelper.resolvePathNames(
+      pathBytes,
+      allContacts,
+      connector.pathHashByteWidth,
+    );
 
     showDialog(
       context: context,

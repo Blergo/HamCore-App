@@ -79,7 +79,11 @@ class _PathManagementDialogState extends State<_PathManagementDialog> {
     final allContacts = connector.allContacts;
 
     final formattedPath = PathHelper.formatPathHex(pathBytes);
-    final resolvedNames = PathHelper.resolvePathNames(pathBytes, allContacts);
+    final resolvedNames = PathHelper.resolvePathNames(
+      pathBytes,
+      allContacts,
+      connector.pathHashByteWidth,
+    );
 
     showDialog(
       context: context,
@@ -150,6 +154,7 @@ class _PathManagementDialogState extends State<_PathManagementDialog> {
       initialPath: pathForInput.isEmpty ? null : pathForInput,
       currentPathLabel: currentContact.pathLabel(l10n),
       onRefresh: connector.isConnected ? connector.getContacts : null,
+      pathHashByteWidth: connector.pathHashByteWidth,
     );
 
     if (result != null && context.mounted) {

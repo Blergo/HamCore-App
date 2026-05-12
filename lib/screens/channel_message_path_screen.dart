@@ -42,9 +42,14 @@ class ChannelMessagePathScreen extends StatelessWidget {
             : primaryPathTmp;
         final hops = _buildPathHops(primaryPath, connector, l10n);
         final hasHopDetails = primaryPath.isNotEmpty;
+        
+        // Convert path byte length to hop count based on device width
+        final width = connector.pathHashByteWidth.clamp(1, 8);
+        final observedHopCount = primaryPath.length ~/ width;
+        
         final observedLabel = _formatObservedHops(
-          primaryPath.length,
-          message.pathLength,
+          observedHopCount,
+          message.pathLength != null ? message.pathLength! ~/ width : null,
           l10n,
         );
         final extraPaths = _otherPaths(primaryPath, message.pathVariants);
@@ -886,6 +891,7 @@ class _PathHop {
   final Contact? contact;
   final LatLng? position;
   final AppLocalizations l10n;
+  final Uint8List? hopBytes;
 
   const _PathHop({
     required this.index,
@@ -893,12 +899,15 @@ class _PathHop {
     required this.contact,
     required this.position,
     required this.l10n,
+    this.hopBytes,
   });
 
   bool get hasLocation => position != null;
 
   String get displayLabel {
-    final prefixLabel = _formatPrefix(prefix);
+    final prefixLabel = hopBytes != null && hopBytes!.isNotEmpty
+        ? hopBytes!.map((b) => b.toRadixString(16).padLeft(2, '0')).join('').toUpperCase()
+        : _formatPrefix(prefix);
     return '($prefixLabel) ${_resolveName(contact, l10n)}';
   }
 }
@@ -916,19 +925,30 @@ List<_PathHop> _buildPathHops(
   AppLocalizations l10n,
 ) {
   if (pathBytes.isEmpty) return const [];
-  final candidatesByPrefix = <int, List<Contact>>{};
+  
+  final width = connector.pathHashByteWidth.clamp(1, 8);
+  final candidatesByHashBytes = <List<int>, List<Contact>>{};
   final allContacts = connector.allContacts;
+  
+  // Build lookup map using hash byte sequences
   for (final contact in allContacts) {
     if (contact.publicKey.isEmpty) continue;
     if (contact.type != advTypeRepeater && contact.type != advTypeRoom) {
       continue;
     }
-    final prefix = contact.publicKey.first;
-    candidatesByPrefix.putIfAbsent(prefix, () => <Contact>[]).add(contact);
+    // Extract the hash bytes that match the device width
+    final keyBytes = contact.publicKey.sublist(
+      0,
+      min(width, contact.publicKey.length),
+    );
+    candidatesByHashBytes.putIfAbsent(keyBytes, () => <Contact>[]).add(contact);
   }
-  for (final candidates in candidatesByPrefix.values) {
+  
+  // Sort candidates by last seen
+  for (final candidates in candidatesByHashBytes.values) {
     candidates.sort((a, b) => b.lastSeen.compareTo(a.lastSeen));
   }
+  
   final startPoint =
       (connector.selfLatitude != null && connector.selfLongitude != null)
       ? LatLng(connector.selfLatitude!, connector.selfLongitude!)
@@ -938,10 +958,17 @@ List<_PathHop> _buildPathHops(
   var lastDistance = 0.0;
   var bestDistance = 0.0;
   final hops = <_PathHop>[];
-  for (var i = 0; i < pathBytes.length; i++) {
-    final searchPoint = i == 0 ? startPoint : previousPosition;
-    final candidates = candidatesByPrefix[pathBytes[i]];
+  
+  // Process path in hop-sized chunks
+  for (var hopIdx = 0; hopIdx * width < pathBytes.length; hopIdx++) {
+    final startByte = hopIdx * width;
+    final endByte = min(startByte + width, pathBytes.length);
+    final hopBytes = pathBytes.sublist(startByte, endByte);
+    
+    final searchPoint = hopIdx == 0 ? startPoint : previousPosition;
+    final candidates = candidatesByHashBytes[hopBytes.toList()];
     Contact? contact;
+    
     if (candidates != null && candidates.isNotEmpty) {
       var bestIndex = 0;
       if (searchPoint != null) {
@@ -965,7 +992,7 @@ List<_PathHop> _buildPathHops(
       }
       contact = candidates.removeAt(bestIndex);
       if (candidates.isEmpty) {
-        candidatesByPrefix.remove(pathBytes[i]);
+        candidatesByHashBytes.remove(hopBytes.toList());
       }
     }
 
@@ -973,11 +1000,12 @@ List<_PathHop> _buildPathHops(
     if (resolvedPosition != null) {
       previousPosition = resolvedPosition;
     }
+    
     // If the best candidate is much farther than the previous hop, it's likely not the correct match.
     if (lastDistance + bestDistance > 50000 &&
         candidates != null &&
         candidates.isNotEmpty) {
-      i--;
+      hopIdx--;
       lastDistance = bestDistance;
       continue;
     }
@@ -985,11 +1013,12 @@ List<_PathHop> _buildPathHops(
 
     hops.add(
       _PathHop(
-        index: i + 1,
-        prefix: pathBytes[i],
+        index: hopIdx + 1,
+        prefix: hopBytes.isNotEmpty ? hopBytes[0] : 0,
         contact: contact,
         position: resolvedPosition,
         l10n: l10n,
+        hopBytes: hopBytes,
       ),
     );
   }
