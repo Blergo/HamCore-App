@@ -118,9 +118,6 @@ class _PathSelectionDialogState extends State<PathSelectionDialog> {
       return;
     }
 
-    final width = widget.pathHashByteWidth.clamp(1, 8);
-    final expectedHexLen = width * 2; // 2 hex chars per byte
-    
     // Parse comma-separated hex prefixes
     final pathIds = path
         .split(',')
