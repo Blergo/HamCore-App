@@ -51,6 +51,12 @@ class PathTraceData {
 
 String _hopKey(Uint8List hopBytes) => PathHelper.formatHopHex(hopBytes);
 
+Uint8List _lastHopChunk(Uint8List path, int hopWidth) {
+  if (path.isEmpty) return Uint8List(0);
+  final width = hopWidth.clamp(1, path.length);
+  return Uint8List.fromList(path.sublist(path.length - width));
+}
+
 class PathTraceMapScreen extends StatefulWidget {
   final String title;
   final Uint8List path;
@@ -208,8 +214,9 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
     }
 
     final mirroredHops = <Uint8List>[...pathHops];
-    if (widget.targetContact?.type == advTypeRepeater ||
-        widget.targetContact?.type == advTypeRoom) {
+    final isRepeaterOrRoom = widget.targetContact?.type == advTypeRepeater ||
+        widget.targetContact?.type == advTypeRoom;
+    if (isRepeaterOrRoom) {
       final pk = widget.targetContact?.publicKey;
       if (pk != null && pk.length >= hopWidth) {
         mirroredHops.add(Uint8List.fromList(pk.sublist(0, hopWidth)));
@@ -220,8 +227,16 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
           ),
         );
       }
+      // For repeaters/rooms, include full reversed path
+      mirroredHops.addAll(pathHops.reversed);
+    } else {
+      // For non-repeater/room targets, reverse without duplicating the pivot hop
+      if (pathHops.length > 1) {
+        mirroredHops.addAll(
+          pathHops.sublist(0, pathHops.length - 1).reversed,
+        );
+      }
     }
-    mirroredHops.addAll(pathHops.reversed);
 
     final traceBytes = <int>[];
     for (final hop in mirroredHops) {
@@ -396,7 +411,8 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
               (c) =>
                   c.hasLocation &&
                   c.path.isNotEmpty &&
-                  _hopKey(Uint8List.fromList([c.path.last])) == hopKey,
+              _hopKey(_lastHopChunk(c.path, widget.pathHashByteWidth)) ==
+                hopKey,
             )
             .toList();
         if (peers.isNotEmpty) {
@@ -442,7 +458,10 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
                   (c) =>
                       c.hasLocation &&
                       c.path.isNotEmpty &&
-                      _hopKey(Uint8List.fromList([c.path.last])) == lastHopKey,
+                      _hopKey(
+                            _lastHopChunk(c.path, widget.pathHashByteWidth),
+                          ) ==
+                          lastHopKey,
                 )
                 .toList();
             if (peers.isNotEmpty) {
