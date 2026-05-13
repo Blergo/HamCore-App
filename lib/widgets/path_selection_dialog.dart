@@ -126,17 +126,19 @@ class _PathSelectionDialogState extends State<PathSelectionDialog> {
         .toList();
     final pathBytesList = <int>[];
     final invalidPrefixes = <String>[];
+    final hexCharsPerHop = widget.pathHashByteWidth.clamp(1, 8) * 2;
 
     for (final id in pathIds) {
-      if (id.length < 2) {
+      if (id.length < hexCharsPerHop) {
         invalidPrefixes.add(id);
         continue;
       }
 
-      final prefix = id.substring(0, 2);
+      final prefix = id.substring(0, hexCharsPerHop);
       try {
-        final byte = int.parse(prefix, radix: 16);
-        pathBytesList.add(byte);
+        for (int i = 0; i < prefix.length; i += 2) {
+          pathBytesList.add(int.parse(prefix.substring(i, i + 2), radix: 16));
+        }
       } catch (e) {
         invalidPrefixes.add(id);
       }
@@ -318,7 +320,7 @@ class _PathSelectionDialogState extends State<PathSelectionDialog> {
                           style: const TextStyle(fontSize: 14),
                         ),
                         subtitle: Text(
-                          '${contact.typeLabel(l10n)} • ${contact.publicKeyHex.substring(0, 2)}',
+                          '${contact.typeLabel(l10n)} • ${contact.publicKeyHex.substring(0, widget.pathHashByteWidth.clamp(1, 8) * 2)}',
                           style: const TextStyle(fontSize: 10),
                         ),
                         trailing: isSelected

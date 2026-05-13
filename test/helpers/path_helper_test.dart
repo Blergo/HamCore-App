@@ -22,6 +22,15 @@ Contact _contact({
 }
 
 void main() {
+  test('splitPathBytes groups bytes by hash width', () {
+    final hops = PathHelper.splitPathBytes([0xA1, 0xA2, 0xC1, 0xC2], 2);
+
+    expect(hops, hasLength(2));
+    expect(hops.first, equals(Uint8List.fromList([0xA1, 0xA2])));
+    expect(hops.last, equals(Uint8List.fromList([0xC1, 0xC2])));
+    expect(PathHelper.formatHopHex(hops.first), equals('A1A2'));
+  });
+
   test('resolvePathNames ignores chat nodes and keeps repeater/room nodes with 1-byte paths', () {
     final contacts = [
       _contact(firstByte: 0xF2, name: 'MunTui', type: advTypeChat),
