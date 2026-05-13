@@ -35,9 +35,10 @@ The current implementation intentionally clamps to modes `0..2`, so the supporte
 
 Paths in messages and storage consist of:
 
-- **`pathLength`**: Hop count reported in the radio header (may differ from decoded path)
+- **`pathLength`**: Encoded path length in bytes as carried by the frame/header. This is not the hop count when `pathHashByteWidth > 1`.
 - **`pathBytes`**: Raw bytes of the path, grouped by `pathHashByteWidth`
-- **Example**: With `pathHashByteWidth=2`, a 3-hop path needs 6 bytes:
+- **`hopCount`**: Derived display value computed from bytes and width: `(byteCount + hashByteWidth - 1) ~/ hashByteWidth`
+- **Example**: With `pathHashByteWidth=2`, a 3-hop path needs 6 bytes, so `pathLength = 6` and `hopCount = 3`:
   - `pathBytes = [0xA1, 0xA2, 0xB1, 0xB2, 0xC1, 0xC2]`
   - Hops: `[0xA1A2]`, `[0xB1B2]`, `[0xC1C2]`
 
@@ -49,12 +50,12 @@ Convert path byte length to hop count:
 int hopCount = (byteCount + hashByteWidth - 1) ~/ hashByteWidth;
 ```
 
-Use this consistently when displaying hop counts in UI to avoid mismatch between metadata (`pathLength`) and observed paths (`pathBytes`).
+Use this consistently when displaying hop counts in UI. Do not treat `pathLength` as a hop count when the path uses multi-byte hop hashes.
 
 ### Path Usage in Different Message Types
 
 - **Direct messages**: Extract path from decrypted payload to trace sender route.
-- **Channel messages**: Decrypt hop-by-hop routing chain from payload; header includes `pathLength` metadata.
+- **Channel messages**: Decrypt hop-by-hop routing chain from payload; the header carries the encoded byte length for the path blob, not the derived hop count.
 - **Contact storage**: Path length in byte 32, raw path bytes in bytes 33-96, grouped by detected `pathHashByteWidth`.
 
 ### UI Hop Count Display
@@ -65,12 +66,12 @@ Use this consistently when displaying hop counts in UI to avoid mismatch between
 // Preferred: use actual observed path length
 final effectiveHopCount = (pathBytes.length + width - 1) ~/ width;
 
-// Avoid: using radio metadata directly
-// pathLength can diverge from decoded bytes and cause UI mismatches
+// Avoid: using encoded byte length as if it were a hop count
+// pathLength is bytes; converting it twice causes inflated counts
 ```
 
 Example scenario:
-- Radio header reports `pathLength: 32`
+- Radio header reports `pathLength: 32` bytes
 - Decoded path bytes: `[0xAB, 0xCD]` (2 bytes = 1 hop with width=2)
-- **Display**: "1 hop" (from pathBytes), NOT "32 hops" (from pathLength)
+- **Display**: "1 hop" (from `pathBytes`), not "32 hops" (which would double-count the encoded length)
 

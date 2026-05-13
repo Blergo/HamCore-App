@@ -157,8 +157,8 @@ class _PathSelectionDialogState extends State<PathSelectionDialog> {
       return;
     }
 
-    // Check max path length (64 hops)
-    if (pathBytesList.length > 64) {
+    // Check max path size in bytes, as defined by the protocol.
+    if (pathBytesList.length > maxPathSize) {
       showDismissibleSnackBar(
         context,
         content: Text(l10n.path_tooLong),
