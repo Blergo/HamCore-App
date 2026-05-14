@@ -982,7 +982,6 @@ List<_PathHop> _buildPathHops(
       : null;
   var previousPosition = startPoint;
   final distance = Distance();
-  var lastDistance = 0.0;
   var bestDistance = 0.0;
   final hops = <_PathHop>[];
 
@@ -1029,15 +1028,9 @@ List<_PathHop> _buildPathHops(
       previousPosition = resolvedPosition;
     }
 
-    // If the best candidate is much farther than the previous hop, it's likely not the correct match.
-    if (lastDistance + bestDistance > 50000 &&
-        candidates != null &&
-        candidates.isNotEmpty) {
-      hopIdx--;
-      lastDistance = bestDistance;
-      continue;
-    }
-    lastDistance = bestDistance;
+    // NOTE: removed distance-based rejection filter. Accept the best candidate
+    // even if the distance is large — historical filtering could drop valid
+    // long-distance links and cause cascading mismatches.
 
     hops.add(
       _PathHop(
