@@ -114,8 +114,9 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
   Contact? _targetContact;
 
   String _formatPathPrefixes(Uint8List pathBytes) {
-    return PathHelper.splitPathBytes(pathBytes, widget.pathHashByteWidth)
-      .map(PathHelper.formatHopHex)
+    final width = PathHelper.detectPathHashWidth(pathBytes, fallback: widget.pathHashByteWidth);
+    return PathHelper.splitPathBytes(pathBytes, width)
+        .map(PathHelper.formatHopHex)
         .join(',');
   }
 
@@ -214,28 +215,11 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
     }
 
     final mirroredHops = <Uint8List>[...pathHops];
-    final isRepeaterOrRoom = widget.targetContact?.type == advTypeRepeater ||
-        widget.targetContact?.type == advTypeRoom;
-    if (isRepeaterOrRoom) {
-      final pk = widget.targetContact?.publicKey;
-      if (pk != null && pk.length >= hopWidth) {
-        mirroredHops.add(Uint8List.fromList(pk.sublist(0, hopWidth)));
-      } else {
-        mirroredHops.add(
-          Uint8List.fromList(
-            pk != null && pk.isNotEmpty ? [pk[0]] : const [0],
-          ),
-        );
-      }
-      // For repeaters/rooms, include full reversed path
-      mirroredHops.addAll(pathHops.reversed);
-    } else {
-      // For non-repeater/room targets, reverse without duplicating the pivot hop
-      if (pathHops.length > 1) {
-        mirroredHops.addAll(
-          pathHops.sublist(0, pathHops.length - 1).reversed,
-        );
-      }
+    // Mirror the path without duplicating the pivot hop.
+    if (pathHops.length > 1) {
+      mirroredHops.addAll(
+        pathHops.sublist(0, pathHops.length - 1).reversed,
+      );
     }
 
     final traceBytes = <int>[];
@@ -343,14 +327,21 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
     final buffer = BufferReader(frame);
     try {
       buffer.skipBytes(2); // Skip push code and reserved byte
-      int pathLength = buffer.readUInt8();
-      buffer.skipBytes(5); // Skip Flag byte and tag data
-      buffer.skipBytes(4); // Skip auth code
-      final pathBytes = buffer.readBytes(pathLength);
+      // Read the packed path byte: top2 bits = hash width mode, low6 bits = hop count
+      final pathByte = buffer.readUInt8();
+      final packetPathHashWidth = ((pathByte & 0xC0) >> 6) + 1;
+      final hopCount = pathByte & 0x3F;
+      // Skip flag byte + tag (4) + auth code (4)
+      buffer.skipBytes(5);
+      buffer.skipBytes(4);
+      final pathBytes = buffer.readBytes(hopCount * packetPathHashWidth);
+     
+        final packetWidth = packetPathHashWidth;
       final pathData = PathHelper.splitPathBytes(
         pathBytes,
-        widget.pathHashByteWidth,
+        packetWidth,
       );
+        
       List<double> snrData = buffer
           .readRemainingBytes()
           .map((snr) => snr.toSigned(8).toDouble() / 4)
@@ -368,15 +359,25 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
         lastSeen: DateTime.now(),
       );
       if (widget.pathContacts != null) {
-        final hopWidth = widget.pathHashByteWidth.clamp(1, pubKeySize);
-        pathContacts = {
-          for (var c in widget.pathContacts!)
-            if (c.publicKey.length >= hopWidth)
-              _hopKey(Uint8List.fromList(c.publicKey.sublist(0, hopWidth))): c,
-        };
+        final orderedContacts = widget.pathContacts!;
+        if (orderedContacts.length == pathData.length) {
+          pathContacts = {
+            for (var i = 0; i < pathData.length; i++)
+              _hopKey(pathData[i]): orderedContacts[i],
+          };
+        } else {
+          final hopWidth = packetWidth.clamp(1, pubKeySize);
+          pathContacts = {
+            for (var c in orderedContacts)
+              if (c.publicKey.length >= hopWidth)
+                _hopKey(Uint8List.fromList(c.publicKey.sublist(0, hopWidth))): c,
+          };
+        }
       } else {
         final contacts = connector.allContactsUnfiltered;
         contacts.where((c) => c.type != advTypeChat).forEach((repeater) {
+          final hopWidthPreview = pathData.isNotEmpty ? pathData.first.length : packetWidth.clamp(1, pubKeySize);
+
           if (lastContact.latitude != null &&
               lastContact.longitude != null &&
               repeater.hasLocation &&
@@ -386,12 +387,17 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
                     LatLng(repeater.latitude!, repeater.longitude!),
                   ) >
                   _maxRepeaterMatchDistanceMeters) {
+            // skip repeaters that are far away from the last one with known GPS
+            // (no logging here)
             return; //skip reapeaters that are far away from the last one with known GPS, to avoid false matches
           }
           for (final repeaterData in pathData) {
             final hopWidth = repeaterData.length;
+            
             if (repeater.publicKey.length < hopWidth) continue;
+            
             if (listEquals(repeater.publicKey.sublist(0, hopWidth), repeaterData)) {
+              
               pathContacts[_hopKey(repeaterData)] = repeater;
               lastContact = repeater;
             }
@@ -411,7 +417,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
               (c) =>
                   c.hasLocation &&
                   c.path.isNotEmpty &&
-              _hopKey(_lastHopChunk(c.path, widget.pathHashByteWidth)) ==
+              _hopKey(_lastHopChunk(c.path, packetWidth)) ==
                 hopKey,
             )
             .toList();
@@ -458,9 +464,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
                   (c) =>
                       c.hasLocation &&
                       c.path.isNotEmpty &&
-                      _hopKey(
-                            _lastHopChunk(c.path, widget.pathHashByteWidth),
-                          ) ==
+                      _hopKey(_lastHopChunk(c.path, packetWidth)) ==
                           lastHopKey,
                 )
                 .toList();
@@ -846,7 +850,11 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
     if (pathTraceData.pathData.isEmpty) {
       return context.l10n.pathTrace_you;
     }
-    if (index == 0 || index == pathTraceData.pathData.length - 1) {
+    if (index < 0 || index > pathTraceData.pathData.length) {
+      return context.l10n.pathTrace_you;
+    }
+
+    if (index == 0 || index == pathTraceData.pathData.length) {
       if (index == 0) {
         return context.l10n.pathTrace_you;
       } else {
@@ -871,7 +879,11 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
     if (pathTraceData.pathData.isEmpty) {
       return context.l10n.pathTrace_you;
     }
-    if (index == 0 || index == pathTraceData.pathData.length - 1) {
+    if (index < 0 || index > pathTraceData.pathData.length) {
+      return context.l10n.pathTrace_you;
+    }
+
+    if (index == 0 || index == pathTraceData.pathData.length) {
       if (index == 0) {
         final hop = pathTraceData.pathData.first;
         final contactName = pathTraceData.pathContacts[_hopKey(hop)]?.name;

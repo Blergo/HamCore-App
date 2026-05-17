@@ -163,12 +163,18 @@ class ChannelMessage {
         final hasPath = (flags & 0x01) != 0;
         reader.skipBytes(1); // Skip reserved byte
         channelIdx = reader.readByte();
-        pathLen = reader.readInt8();
-        txtType = reader.readByte();
-        if (hasPath && pathLen > 0) {
-          reader.rewind(); // Rewind to read path length again for pathBytes
-          pathBytes = reader.readBytes(pathLen);
+        final pathByte = reader.readUInt8();
+        // pathByte packs: top 2 bits = hash width mode, low 6 bits = hop count
+        final packetPathHashWidth = ((pathByte & 0xC0) >> 6) + 1;
+        final hopCount = pathByte & 0x3F;
+        pathLen = hopCount;
+        // If a path is present, read hopCount * width bytes
+        if (hasPath && hopCount > 0) {
+          final totalPathBytes = hopCount * packetPathHashWidth;
+          pathBytes = reader.readBytes(totalPathBytes);
         }
+        // After consuming optional path bytes, read the text type byte.
+        txtType = reader.readByte();
       } else {
         channelIdx = reader.readByte();
         pathLen = reader.readInt8();

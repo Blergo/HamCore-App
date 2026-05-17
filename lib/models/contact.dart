@@ -119,7 +119,7 @@ class Contact {
   String pathFormattedIdList(int hashByteWidth) {
     final pathBytes = pathBytesForDisplay;
     if (pathBytes.isEmpty) return '';
-    final w = hashByteWidth.clamp(1, 8);
+    final w = hashByteWidth.clamp(1, 4);
     final parts = <String>[];
     for (int i = 0; i < pathBytes.length; i += w) {
       final end = (i + w) <= pathBytes.length ? (i + w) : pathBytes.length;

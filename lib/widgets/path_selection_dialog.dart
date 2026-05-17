@@ -77,7 +77,7 @@ class _PathSelectionDialogState extends State<PathSelectionDialog> {
   }
 
   void _updateTextFromContacts() {
-    final width = widget.pathHashByteWidth.clamp(1, 8);
+    final width = widget.pathHashByteWidth.clamp(1, 4);
     final hexCharsPerHop = width * 2;
     final pathParts = _selectedContacts
         .map((contact) {
@@ -126,7 +126,7 @@ class _PathSelectionDialogState extends State<PathSelectionDialog> {
         .toList();
     final pathBytesList = <int>[];
     final invalidPrefixes = <String>[];
-    final hexCharsPerHop = widget.pathHashByteWidth.clamp(1, 8) * 2;
+    final hexCharsPerHop = widget.pathHashByteWidth.clamp(1, 4) * 2;
 
     for (final id in pathIds) {
       if (id.length < hexCharsPerHop) {
@@ -320,7 +320,7 @@ class _PathSelectionDialogState extends State<PathSelectionDialog> {
                           style: const TextStyle(fontSize: 14),
                         ),
                         subtitle: Text(
-                          '${contact.typeLabel(l10n)} • ${contact.publicKeyHex.substring(0, widget.pathHashByteWidth.clamp(1, 8) * 2)}',
+                          '${contact.typeLabel(l10n)} • ${contact.publicKeyHex.substring(0, widget.pathHashByteWidth.clamp(1, 4) * 2)}',
                           style: const TextStyle(fontSize: 10),
                         ),
                         trailing: isSelected

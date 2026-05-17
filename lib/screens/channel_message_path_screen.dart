@@ -45,16 +45,16 @@ class ChannelMessagePathScreen extends StatelessWidget {
         final hasHopDetails = primaryPath.isNotEmpty;
 
         // Convert path byte length to hop count based on device width
-        final width = connector.pathHashByteWidth.clamp(1, 8);
+        final width = primaryPath.isNotEmpty
+            ? PathHelper.detectPathHashWidth(primaryPath, fallback: connector.pathHashByteWidth)
+            : connector.pathHashByteWidth.clamp(1, 4);
         final observedHopCount = _hopCountFromBytes(primaryPath.length, width);
         final reportedHopCount = message.pathLength == null
             ? null
             : (message.pathLength! < 0
-                  ? message.pathLength
-                  : _hopCountFromBytes(message.pathLength!, width));
-        final effectiveHopCount = observedHopCount > 0
-            ? observedHopCount
-            : reportedHopCount;
+                ? message.pathLength
+                : _hopCountFromBytes(message.pathLength!, width));
+        final effectiveHopCount = observedHopCount > 0 ? observedHopCount : reportedHopCount;
 
         final observedLabel = _formatObservedHops(
           observedHopCount,
@@ -76,11 +76,11 @@ class ChannelMessagePathScreen extends StatelessWidget {
                       title: context.l10n.contacts_repeaterPathTrace,
                       path: primaryPath,
                       flipPathAround: true,
-                      reversePathAround:
-                          !(!channelMessage && !message.isOutgoing),
-                      pathHashByteWidth: context
-                          .read<MeshCoreConnector>()
-                          .pathHashByteWidth,
+                      reversePathAround: !(!channelMessage && !message.isOutgoing),
+                      pathHashByteWidth: PathHelper.detectPathHashWidth(
+                        primaryPath,
+                        fallback: context.read<MeshCoreConnector>().pathHashByteWidth,
+                      ),
                     ),
                   ),
                 ),
@@ -491,7 +491,7 @@ class _ChannelMessagePathMapScreenState
 
         final selectedIndex = _indexForPath(selectedPath, observedPaths);
         final hops = _buildPathHops(selectedPath, connector, context.l10n);
-        final width = connector.pathHashByteWidth.clamp(1, 8);
+        final width = connector.pathHashByteWidth.clamp(1, 4);
 
         final points = <LatLng>[];
 
@@ -951,8 +951,7 @@ List<_PathHop> _buildPathHops(
   AppLocalizations l10n,
 ) {
   if (pathBytes.isEmpty) return const [];
-
-  final width = connector.pathHashByteWidth.clamp(1, 8);
+  final width = PathHelper.detectPathHashWidth(pathBytes, fallback: connector.pathHashByteWidth);
   final candidatesByHashBytes = <String, List<Contact>>{};
   final allContacts = connector.allContacts;
 
@@ -1067,7 +1066,7 @@ String _formatPathPrefixes(Uint8List pathBytes, int hashByteWidth) {
 
 int _hopCountFromBytes(int byteCount, int hashByteWidth) {
   if (byteCount <= 0) return 0;
-  final width = hashByteWidth.clamp(1, 8);
+  final width = hashByteWidth.clamp(1, 4);
   return (byteCount + width - 1) ~/ width;
 }
 

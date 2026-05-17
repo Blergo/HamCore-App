@@ -1508,6 +1508,7 @@ class _ChatScreenState extends State<ChatScreen> {
       title: context.l10n.chat_setCustomPath,
       currentPathLabel: currentPathLabel,
       onRefresh: connector.isConnected ? connector.getContacts : null,
+      pathHashByteWidth: connector.pathHashByteWidth,
     );
 
     appLogger.info(

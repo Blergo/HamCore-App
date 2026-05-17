@@ -3854,7 +3854,7 @@ class MeshCoreConnector extends ChangeNotifier {
     }
     // Path hash mode v10+ (byte 81): width = mode + 1 byte(s) per hop
     if (frame.length >= 82) {
-      final mode = (frame[81] & 0xFF).clamp(0, 2);
+      final mode = (frame[81] & 0xFF).clamp(0, 3);
       _pathHashByteWidth = mode + 1;
     } else {
       _pathHashByteWidth = 1;

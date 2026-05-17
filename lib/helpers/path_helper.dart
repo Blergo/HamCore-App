@@ -20,7 +20,7 @@ class PathHelper {
   static List<Uint8List> splitPathBytes(List<int> pathBytes, int hashByteWidth) {
     if (pathBytes.isEmpty) return const [];
 
-    final width = hashByteWidth.clamp(1, 8);
+    final width = hashByteWidth.clamp(1, 4);
     final hops = <Uint8List>[];
     for (int i = 0; i < pathBytes.length; i += width) {
       final endIdx = (i + width).clamp(0, pathBytes.length);
@@ -30,6 +30,21 @@ class PathHelper {
       }
     }
     return hops;
+  }
+
+  /// Detect the path hash width encoded in a packet's path bytes.
+  ///
+  /// MeshCore packets encode a "mode" in the high bits of the path bytes
+  /// (same rule used by meshcore_py): mode = ((firstByte & 0xC0) >> 6),
+  /// width = mode + 1 (yielding 1..4). If the packet is empty or detection
+  /// fails, `fallback` is returned (clamped to 1..4).
+  static int detectPathHashWidth(List<int> pathBytes, {int fallback = 1}) {
+    final fb = fallback.clamp(1, 4);
+    if (pathBytes.isEmpty) return fb;
+    final first = pathBytes[0] & 0xFF;
+    final mode = (first & 0xC0) >> 6;
+    final width = (mode & 0x03) + 1;
+    return width.clamp(1, 4);
   }
 
   /// Resolves path bytes to contact names, supporting multi-byte hash widths.

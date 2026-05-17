@@ -10,8 +10,9 @@ import 'package:meshcore_open/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../connector/meshcore_connector.dart';
-import '../l10n/l10n.dart';
 import '../connector/meshcore_protocol.dart';
+import '../helpers/path_helper.dart';
+import '../l10n/l10n.dart';
 import '../models/app_settings.dart';
 import '../models/channel.dart';
 import '../models/contact.dart';
@@ -268,7 +269,7 @@ class _MapScreenState extends State<MapScreen> {
             )
             .join(',');
         final cacheKey =
-            '$filteredKeys|$anchorKeys|${pathHistory.version}:${connector.currentSf}:${connector.currentBwHz}:${connector.currentTxPower}:${settings.mapShowGuessedLocations}';
+            '$filteredKeys|$anchorKeys|${pathHistory.version}:${connector.pathHashByteWidth}:${connector.currentSf}:${connector.currentBwHz}:${connector.currentTxPower}:${settings.mapShowGuessedLocations}';
         if (cacheKey != _guessedLocationsCacheKey) {
           _guessedLocationsCacheKey = cacheKey;
           _cachedGuessedLocations = settings.mapShowGuessedLocations
@@ -277,6 +278,7 @@ class _MapScreenState extends State<MapScreen> {
                   allContactsWithLocation,
                   pathHistory,
                   maxRangeKm,
+                  connector.pathHashByteWidth,
                 )
               : [];
         }
@@ -694,22 +696,8 @@ class _MapScreenState extends State<MapScreen> {
     List<Contact> withLocation,
     PathHistoryService pathHistory,
     double? maxRangeKm,
+    int pathHashByteWidth,
   ) {
-    // Index known-location repeaters by their 1-byte hash.
-    // null value = two repeaters share the same hash byte (ambiguous collision).
-    final repeaterByHash = <int, Contact?>{};
-
-    for (final c in withLocation) {
-      if (c.type == advTypeRepeater) {
-        if (repeaterByHash.containsKey(c.publicKey[0])) {
-          repeaterByHash[c.publicKey[0]] =
-              null; // collision: can't disambiguate
-        } else {
-          repeaterByHash[c.publicKey[0]] = c;
-        }
-      }
-    }
-
     final result = <_GuessedLocation>[];
 
     for (final contact in allContacts) {
@@ -732,13 +720,24 @@ class _MapScreenState extends State<MapScreen> {
             .getRecentPaths(contact.publicKeyHex)
             .map((r) => r.pathBytes),
       ];
-      final lastHopBytes = <int>{};
       for (final pathBytes in pathSets) {
         if (pathBytes.isEmpty) continue;
-        final lastHop = pathBytes.last;
-        lastHopBytes.add(lastHop);
-        final r = repeaterByHash[lastHop];
-        if (r != null) anchorSet.add(LatLng(r.latitude!, r.longitude!));
+        final hopWidth = PathHelper.detectPathHashWidth(
+          pathBytes,
+          fallback: pathHashByteWidth,
+        );
+        final lastHop = pathBytes.sublist(max(0, pathBytes.length - hopWidth));
+        if (lastHop.isEmpty) continue;
+
+        for (final repeater in withLocation) {
+          if (repeater.type != advTypeRepeater) continue;
+          if (repeater.publicKey.length < lastHop.length) continue;
+          if (!listEquals(repeater.publicKey.sublist(0, lastHop.length), lastHop)) {
+            continue;
+          }
+          anchorSet.add(LatLng(repeater.latitude!, repeater.longitude!));
+          break;
+        }
       }
 
       // Filter anchors that are geometrically inconsistent with radio range.
@@ -2290,10 +2289,15 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void _addToPath(BuildContext context, Contact contact, {LatLng? position}) {
+    final connector = context.read<MeshCoreConnector>();
+    final hopWidth = min(
+      connector.pathHashByteWidth.clamp(1, pubKeySize),
+      contact.publicKey.length,
+    );
     setState(() {
-      _pathTrace.add(
-        contact.publicKey[0],
-      ); // Add first 16 bytes of public key to path trace
+      _pathTrace.addAll(
+        contact.publicKey.sublist(0, hopWidth),
+      ); // Add the hop-width prefix of the public key to the trace
       _pathTraceContacts.add(
         contact.copyWith(
           latitude: position?.latitude ?? contact.latitude,
