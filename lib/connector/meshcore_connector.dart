@@ -4274,6 +4274,7 @@ class MeshCoreConnector extends ChangeNotifier {
     String senderName,
     DateTime timestamp, {
     Uint8List? pathBytes,
+    int? pathHashWidth,
     bool notify = false,
   }) {
     final normalized = senderName.trim().toLowerCase();
@@ -4297,7 +4298,7 @@ class MeshCoreConnector extends ChangeNotifier {
       for (var i = 0; i < _contacts.length; i++) {
         final contact = _contacts[i];
         if (contact.type != advTypeChat) continue;
-        if (_pathMatchesContact(pathBytes, contact.publicKey)) {
+        if (_pathMatchesContact(pathBytes, contact.publicKey, pathHashWidth: pathHashWidth)) {
           matches.add(i);
         }
       }
@@ -4314,8 +4315,8 @@ class MeshCoreConnector extends ChangeNotifier {
     }
   }
 
-  bool _pathMatchesContact(Uint8List pathBytes, Uint8List publicKey) {
-    final w = _pathHashByteWidth;
+  bool _pathMatchesContact(Uint8List pathBytes, Uint8List publicKey, {int? pathHashWidth}) {
+    final w = pathHashWidth ?? _pathHashByteWidth;
     if (pathBytes.isEmpty || publicKey.length < w) return false;
     for (int i = 0; i + w <= pathBytes.length; i += w) {
       final prefix = pathBytes.sublist(i, i + w);
@@ -4731,6 +4732,7 @@ class MeshCoreConnector extends ChangeNotifier {
         message.senderName,
         message.timestamp,
         pathBytes: message.pathBytes,
+        pathHashWidth: message.pathHashWidth,
       );
       final isNew = _addChannelMessage(message.channelIndex!, message);
       if (isNew && !message.isOutgoing) {
@@ -4806,6 +4808,7 @@ class MeshCoreConnector extends ChangeNotifier {
             isOutgoing: false,
             status: ChannelMessageStatus.sent,
             pathLength: packet.isFlood ? packet.hopCount : 0,
+            pathHashWidth: packet.pathHashWidth,
             pathBytes: packet.pathBytes,
             channelIndex: channel.index,
             packetHash: pktHash,
@@ -4815,6 +4818,7 @@ class MeshCoreConnector extends ChangeNotifier {
             parsed.senderName,
             message.timestamp,
             pathBytes: message.pathBytes,
+            pathHashWidth: message.pathHashWidth,
           );
           final isNew = _addChannelMessage(channel.index, message);
           if (isNew && !message.isOutgoing) {
@@ -6358,6 +6362,7 @@ class _RawPacket {
       routeType == _routeFlood || routeType == _routeTransportFlood;
 
   int get hopCount => pathLenRaw & 63;
+  int get pathHashWidth => ((pathLenRaw >> 6) & 0x03) + 1;
 }
 
 class _ParsedText {

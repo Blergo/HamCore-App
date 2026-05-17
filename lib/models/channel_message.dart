@@ -41,6 +41,7 @@ class ChannelMessage {
   final List<Repeat> repeats;
   final int repeatCount;
   final int? pathLength;
+  final int? pathHashWidth;
   final Uint8List pathBytes;
   final List<Uint8List> pathVariants;
   final int? channelIndex;
@@ -66,6 +67,7 @@ class ChannelMessage {
     this.repeats = const [],
     this.repeatCount = 0,
     this.pathLength,
+    this.pathHashWidth,
     Uint8List? pathBytes,
     List<Uint8List>? pathVariants,
     this.channelIndex,
@@ -93,6 +95,7 @@ class ChannelMessage {
     List<Repeat>? repeats,
     int? repeatCount,
     int? pathLength,
+    int? pathHashWidth,
     Uint8List? pathBytes,
     List<Uint8List>? pathVariants,
     String? packetHash,
@@ -129,6 +132,7 @@ class ChannelMessage {
       repeats: repeats ?? this.repeats,
       repeatCount: repeatCount ?? this.repeatCount,
       pathLength: pathLength ?? this.pathLength,
+      pathHashWidth: pathHashWidth ?? this.pathHashWidth,
       pathBytes: pathBytes ?? this.pathBytes,
       pathVariants: pathVariants ?? this.pathVariants,
       channelIndex: channelIndex,
@@ -155,6 +159,7 @@ class ChannelMessage {
 
       int pathLen;
       int txtType;
+      int? packetPathHashWidth;
       Uint8List pathBytes = Uint8List(0);
       int channelIdx;
       if (code == respCodeChannelMsgRecvV3) {
@@ -165,7 +170,7 @@ class ChannelMessage {
         channelIdx = reader.readByte();
         final pathByte = reader.readUInt8();
         // pathByte packs: top 2 bits = hash width mode, low 6 bits = hop count
-        final packetPathHashWidth = ((pathByte & 0xC0) >> 6) + 1;
+        packetPathHashWidth = ((pathByte & 0xC0) >> 6) + 1;
         final hopCount = pathByte & 0x3F;
         pathLen = hopCount;
         // If a path is present, read hopCount * width bytes
@@ -215,6 +220,7 @@ class ChannelMessage {
         isOutgoing: false,
         status: ChannelMessageStatus.sent,
         pathLength: pathLen,
+        pathHashWidth: packetPathHashWidth,
         pathBytes: pathBytes,
         channelIndex: channelIdx,
       );
