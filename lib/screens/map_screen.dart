@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 
 import '../connector/meshcore_connector.dart';
 import '../connector/meshcore_protocol.dart';
-import '../helpers/path_helper.dart';
 import '../l10n/l10n.dart';
 import '../models/app_settings.dart';
 import '../models/channel.dart';
@@ -722,10 +721,7 @@ class _MapScreenState extends State<MapScreen> {
       ];
       for (final pathBytes in pathSets) {
         if (pathBytes.isEmpty) continue;
-        final hopWidth = PathHelper.detectPathHashWidth(
-          pathBytes,
-          fallback: pathHashByteWidth,
-        );
+        final hopWidth = pathHashByteWidth.clamp(1, 4);
         final lastHop = pathBytes.sublist(max(0, pathBytes.length - hopWidth));
         if (lastHop.isEmpty) continue;
 
