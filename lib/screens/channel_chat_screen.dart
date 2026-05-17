@@ -36,7 +36,6 @@ import '../widgets/translated_message_content.dart';
 import '../widgets/unread_divider.dart';
 import 'channel_message_path_screen.dart';
 import 'map_screen.dart';
-import '../helpers/path_helper.dart';
 
 class ChannelChatScreen extends StatefulWidget {
   final Channel channel;
@@ -1434,12 +1433,8 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   }
 
   String _formatPathPrefixes(Uint8List pathBytes) {
-    final width = PathHelper.detectPathHashWidth(
-      pathBytes,
-      fallback: context.read<MeshCoreConnector>().pathHashByteWidth,
-    );
-    return PathHelper.splitPathBytes(pathBytes, width)
-        .map(PathHelper.formatHopHex)
+    return pathBytes
+        .map((b) => b.toRadixString(16).padLeft(2, '0').toUpperCase())
         .join(',');
   }
 }

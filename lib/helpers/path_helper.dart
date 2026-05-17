@@ -32,21 +32,6 @@ class PathHelper {
     return hops;
   }
 
-  /// Detect the path hash width encoded in a packet's path bytes.
-  ///
-  /// MeshCore packets encode a "mode" in the high bits of the path bytes
-  /// (same rule used by meshcore_py): mode = ((firstByte & 0xC0) >> 6),
-  /// width = mode + 1 (yielding 1..4). If the packet is empty or detection
-  /// fails, `fallback` is returned (clamped to 1..4).
-  static int detectPathHashWidth(List<int> pathBytes, {int fallback = 1}) {
-    final fb = fallback.clamp(1, 4);
-    if (pathBytes.isEmpty) return fb;
-    final first = pathBytes[0] & 0xFF;
-    final mode = (first & 0xC0) >> 6;
-    final width = (mode & 0x03) + 1;
-    return width.clamp(1, 4);
-  }
-
   /// Resolves path bytes to contact names, supporting multi-byte hash widths.
 
   /// Groups path bytes according to [hashByteWidth]:
