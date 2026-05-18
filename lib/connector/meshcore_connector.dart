@@ -50,11 +50,13 @@ import 'meshcore_protocol.dart';
 class DirectRepeater {
   static const int maxAgeMinutes = 30; // Max age for direct repeater info
   final List<int> pubkeyPrefix;
+  final int pathHashWidth;
   double snr;
   DateTime lastUpdated;
 
   DirectRepeater({
     required List<int> pubkeyPrefix,
+    required this.pathHashWidth,
     required this.snr,
     DateTime? lastUpdated,
   }) : pubkeyPrefix = List.unmodifiable(pubkeyPrefix),
@@ -69,8 +71,8 @@ class DirectRepeater {
         listEquals(pubkeyPrefix, prefix);
   }
 
-  bool matchesPathStart(List<int> pathBytes, int hashByteWidth) {
-    final width = hashByteWidth.clamp(1, 4).toInt();
+  bool matchesPathStart(List<int> pathBytes, int pathHashByteWidth) {
+    final width = pathHashByteWidth.clamp(1, 4).toInt();
     if (pathBytes.length < width || pubkeyPrefix.length != width) {
       return false;
     }
@@ -5566,6 +5568,7 @@ class MeshCoreConnector extends ChangeNotifier {
           repeats: message.repeats,
           repeatCount: message.repeatCount,
           pathLength: message.pathLength,
+          pathHashWidth: message.pathHashWidth,
           pathBytes: message.pathBytes,
           pathVariants: message.pathVariants,
           channelIndex: message.channelIndex,
@@ -5602,6 +5605,7 @@ class MeshCoreConnector extends ChangeNotifier {
       messages[existingIndex] = existing.copyWith(
         repeatCount: newRepeatCount,
         pathLength: mergedPathLength,
+        pathHashWidth: existing.pathHashWidth ?? processedMessage.pathHashWidth,
         pathBytes: mergedPathBytes,
         pathVariants: mergedPathVariants,
         packetHash: existing.packetHash ?? processedMessage.packetHash,
@@ -5966,6 +5970,7 @@ class MeshCoreConnector extends ChangeNotifier {
       //final payloadVer = (header >> 6) & 0x03;
       final pathLenRaw = packet.readByte();
       final pathByteLen = _decodePathByteLen(pathLenRaw);
+      final pathHashWidth = _decodePathHashWidth(pathLenRaw);
       final pathBytes = packet.readBytes(pathByteLen);
       final payload = packet.readBytes(packet.remaining);
 
@@ -5976,6 +5981,7 @@ class MeshCoreConnector extends ChangeNotifier {
             rawPacket,
             payload,
             pathBytes,
+            pathHashWidth,
             routeType,
             snr,
           );
@@ -6079,6 +6085,7 @@ class MeshCoreConnector extends ChangeNotifier {
     Uint8List rawPacket,
     Uint8List payload,
     Uint8List path,
+    int pathHashWidth,
     int routeType,
     double snr,
   ) {
@@ -6159,7 +6166,12 @@ class MeshCoreConnector extends ChangeNotifier {
       } else {
         _handleDiscovery(newContact, rawPacket);
       }
-      _updateDirectRepeater(newContact, snr, path);
+      _updateDirectRepeater(
+        newContact,
+        snr,
+        path,
+        pathHashWidth: pathHashWidth,
+      );
       return;
     }
 
@@ -6197,7 +6209,12 @@ class MeshCoreConnector extends ChangeNotifier {
         _pathHistoryService!.handlePathUpdated(_contacts[existingIndex]);
       }
 
-      _updateDirectRepeater(_contacts[existingIndex], snr, path);
+      _updateDirectRepeater(
+        _contacts[existingIndex],
+        snr,
+        path,
+        pathHashWidth: pathHashWidth,
+      );
 
       appLogger.info(
         'After merge: pathOverride=${_contacts[existingIndex].pathOverride}, devicePath=${_contacts[existingIndex].pathLength}',
@@ -6206,8 +6223,16 @@ class MeshCoreConnector extends ChangeNotifier {
     }
   }
 
-  void _updateDirectRepeater(Contact contact, double snr, Uint8List path) {
-    final hashWidth = _pathHashByteWidth.clamp(1, 4).toInt();
+  void _updateDirectRepeater(
+    Contact contact,
+    double snr,
+    Uint8List path, {
+    required int pathHashWidth,
+  }) {
+    final hashWidth = pathHashWidth.clamp(1, 4).toInt();
+    if (path.isNotEmpty && path.length < hashWidth) {
+      return;
+    }
     final pubkeyPrefix = path.isNotEmpty
         ? path.sublist(math.max(0, path.length - hashWidth))
         : contact.publicKey.sublist(
@@ -6225,7 +6250,7 @@ class MeshCoreConnector extends ChangeNotifier {
     }
 
     final isTracked = _directRepeaters.where(
-      (r) => r.matchesPrefix(pubkeyPrefix),
+      (r) => r.pathHashWidth == hashWidth && r.matchesPrefix(pubkeyPrefix),
     );
 
     final sortedRepeaters = List<DirectRepeater>.from(_directRepeaters)
@@ -6245,7 +6270,11 @@ class MeshCoreConnector extends ChangeNotifier {
       repeater.update(snr);
     } else if (_directRepeaters.length < 5) {
       _directRepeaters.add(
-        DirectRepeater(pubkeyPrefix: pubkeyPrefix, snr: snr),
+        DirectRepeater(
+          pubkeyPrefix: pubkeyPrefix,
+          pathHashWidth: hashWidth,
+          snr: snr,
+        ),
       );
     }
     notifyListeners();
@@ -6376,8 +6405,12 @@ const int _cipherMacSize = 2;
 /// Bits 0-5: hash count (0-63), Bits 6-7: hash size code (0=1byte, 1=2bytes, 2=3bytes).
 int _decodePathByteLen(int pathLenRaw) {
   final hashCount = pathLenRaw & 63;
-  final hashSize = ((pathLenRaw >> 6) & 0x03) + 1;
+  final hashSize = _decodePathHashWidth(pathLenRaw);
   return hashCount * hashSize;
+}
+
+int _decodePathHashWidth(int pathLenRaw) {
+  return ((pathLenRaw >> 6) & 0x03) + 1;
 }
 
 class _RawPacket {

@@ -2523,7 +2523,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get repeater_pathHashModeHelper =>
-      'Byte utilizzati per codificare l\'ID di questo ripetitore nei tag per il rilevamento del percorso/loop. 0=1 byte (256 ID, fino a 64 salti), 1=2 byte (65.000 ID, fino a 32 salti), 2=3 byte (16 milioni di ID, fino a 21 salti). Le versioni 1.13 e precedenti utilizzano percorsi multi-byte: è necessario attivare la rete prima di utilizzare questa funzionalità (a partire dalla versione 1.14).';
+      'Byte utilizzati per codificare l\'ID di questo ripetitore nei tag di percorso flood/rilevamento loop. 0=1 byte (256 ID, fino a 64 salti), 1=2 byte (65.000 ID, fino a 32 salti), 2=3 byte (16 milioni di ID, fino a 21 salti). Il firmware precedente alla v1.14 usava sempre percorsi a 1 byte; v1.14 e versioni successive possono essere configurate per percorsi a 2 o 3 byte.';
 
   @override
   String get repeater_txDelay => 'Ritardo a Flood, TX';
