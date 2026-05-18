@@ -490,11 +490,17 @@ class _ChannelMessagePathMapScreenState
             ? Uint8List.fromList(selectedPathTmp.reversed.toList())
             : selectedPathTmp;
 
-        final selectedIndex = _indexForPath(selectedPath, observedPaths);
-        final width = (widget.message.pathHashWidth ?? connector.pathHashByteWidth)
-          .clamp(1, 4)
-          .toInt();
-        final hops = _buildPathHops(selectedPath, connector, context.l10n, width);
+        final width =
+            (widget.message.pathHashWidth ?? connector.pathHashByteWidth)
+                .clamp(1, 4)
+                .toInt();
+        final selectedIndex = _indexForPath(selectedPathTmp, observedPaths);
+        final hops = _buildPathHops(
+          selectedPath,
+          connector,
+          context.l10n,
+          width,
+        );
 
         final points = <LatLng>[];
 
@@ -612,14 +618,18 @@ class _ChannelMessagePathMapScreenState
                     bounds: bounds,
                   ),
                 if (observedPaths.length > 1)
-                  _buildPathSelector(context, observedPaths, selectedIndex, (
-                    index,
-                  ) {
-                    setState(() {
-                      _selectedPath = observedPaths[index].pathBytes;
-                      _focusedHopIndex = null;
-                    });
-                  }),
+                  _buildPathSelector(
+                    context,
+                    observedPaths,
+                    selectedIndex,
+                    width,
+                    (index) {
+                      setState(() {
+                        _selectedPath = observedPaths[index].pathBytes;
+                        _focusedHopIndex = null;
+                      });
+                    },
+                  ),
                 if (points.isEmpty)
                   Center(
                     child: Card(
@@ -645,13 +655,11 @@ class _ChannelMessagePathMapScreenState
     BuildContext context,
     List<_ObservedPath> paths,
     int selectedIndex,
+    int hashByteWidth,
     ValueChanged<int> onSelected,
   ) {
     final l10n = context.l10n;
-    final width = context.read<MeshCoreConnector>().pathHashByteWidth.clamp(
-      1,
-      4,
-    );
+    final width = hashByteWidth.clamp(1, 4);
     final selectedPath = paths[selectedIndex];
     final label = selectedPath.isPrimary
         ? l10n.channelPath_primaryPath(selectedIndex + 1)
