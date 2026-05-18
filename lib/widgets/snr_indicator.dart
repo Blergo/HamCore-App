@@ -12,9 +12,18 @@ import 'signal_ui.dart';
 Contact? _getRepeaterPrefixMatchNearLocation(
   List<Contact> contacts,
   List<int> pubkeyPrefix, {
+  String? contactKeyHex,
   LatLng? searchPoint,
   bool preferFavorites = false,
 }) {
+  if (contactKeyHex != null) {
+    for (final c in contacts) {
+      if (c.publicKeyHex == contactKeyHex) {
+        return c;
+      }
+    }
+  }
+
   final candidates = contacts
       .where(
         (c) =>
@@ -242,6 +251,7 @@ class _SNRIndicatorState extends State<SNRIndicator> {
                 final contact = _getRepeaterPrefixMatchNearLocation(
                   allContacts,
                   repeater.pubkeyPrefix,
+                  contactKeyHex: repeater.contactKeyHex,
                   searchPoint: selfPoint,
                   preferFavorites: true,
                 );

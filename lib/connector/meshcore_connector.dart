@@ -49,14 +49,16 @@ import 'meshcore_protocol.dart';
 
 class DirectRepeater {
   static const int maxAgeMinutes = 30; // Max age for direct repeater info
-  final List<int> pubkeyPrefix;
-  final int pathHashWidth;
+  List<int> pubkeyPrefix;
+  int pathHashWidth;
+  String? contactKeyHex;
   double snr;
   DateTime lastUpdated;
 
   DirectRepeater({
     required List<int> pubkeyPrefix,
     required this.pathHashWidth,
+    this.contactKeyHex,
     required this.snr,
     DateTime? lastUpdated,
   }) : pubkeyPrefix = List.unmodifiable(pubkeyPrefix),
@@ -79,8 +81,21 @@ class DirectRepeater {
     return listEquals(pubkeyPrefix, pathBytes.sublist(0, width));
   }
 
-  void update(double newSNR) {
+  void update(
+    double newSNR, {
+    List<int>? pubkeyPrefix,
+    int? pathHashWidth,
+    String? contactKeyHex,
+  }) {
     snr = newSNR;
+    if (pubkeyPrefix != null &&
+        pubkeyPrefix.length >= this.pubkeyPrefix.length) {
+      this.pubkeyPrefix = List.unmodifiable(pubkeyPrefix);
+    }
+    if (pathHashWidth != null && pathHashWidth >= this.pathHashWidth) {
+      this.pathHashWidth = pathHashWidth;
+    }
+    this.contactKeyHex ??= contactKeyHex;
     lastUpdated = DateTime.now();
   }
 
@@ -6239,6 +6254,25 @@ class MeshCoreConnector extends ChangeNotifier {
             0,
             math.min(hashWidth, contact.publicKey.length),
           );
+    final contactKeyHex = _resolveDirectRepeaterContactKeyHex(
+      contact,
+      pubkeyPrefix,
+      path.isEmpty,
+    );
+    final knownRepeaters = contactKeyHex == null
+        ? _directRepeaters
+              .where(
+                (r) =>
+                    r.contactKeyHex != null &&
+                    _contactKeyMatchesPrefix(r.contactKeyHex!, pubkeyPrefix),
+              )
+              .toList()
+        : const <DirectRepeater>[];
+    final knownRepeater = knownRepeaters.length == 1
+        ? knownRepeaters.first
+        : null;
+    final effectiveContactKeyHex =
+        contactKeyHex ?? knownRepeater?.contactKeyHex;
 
     _directRepeaters.removeWhere((r) => r.isStale());
 
@@ -6249,9 +6283,25 @@ class MeshCoreConnector extends ChangeNotifier {
       return;
     }
 
-    final isTracked = _directRepeaters.where(
-      (r) => r.pathHashWidth == hashWidth && r.matchesPrefix(pubkeyPrefix),
-    );
+    final isTracked = _directRepeaters.where((r) {
+      if (knownRepeater != null) {
+        return identical(r, knownRepeater);
+      }
+      if (effectiveContactKeyHex != null) {
+        return r.contactKeyHex == effectiveContactKeyHex ||
+            (r.contactKeyHex == null &&
+                _contactKeyMatchesPrefix(
+                  effectiveContactKeyHex,
+                  r.pubkeyPrefix,
+                ));
+      }
+      if (r.contactKeyHex == null &&
+          r.pathHashWidth == hashWidth &&
+          r.matchesPrefix(pubkeyPrefix)) {
+        return true;
+      }
+      return false;
+    }).toList();
 
     final sortedRepeaters = List<DirectRepeater>.from(_directRepeaters)
       ..sort((a, b) => b.snr.compareTo(a.snr));
@@ -6267,17 +6317,66 @@ class MeshCoreConnector extends ChangeNotifier {
 
     if (isTracked.isNotEmpty) {
       final repeater = isTracked.first;
-      repeater.update(snr);
+      repeater.update(
+        snr,
+        pubkeyPrefix: pubkeyPrefix,
+        pathHashWidth: hashWidth,
+        contactKeyHex: effectiveContactKeyHex,
+      );
+      if (effectiveContactKeyHex != null) {
+        _directRepeaters.removeWhere(
+          (r) =>
+              !identical(r, repeater) &&
+              (r.contactKeyHex == effectiveContactKeyHex ||
+                  (r.contactKeyHex == null &&
+                      _contactKeyMatchesPrefix(
+                        effectiveContactKeyHex,
+                        r.pubkeyPrefix,
+                      ))),
+        );
+      }
     } else if (_directRepeaters.length < 5) {
       _directRepeaters.add(
         DirectRepeater(
           pubkeyPrefix: pubkeyPrefix,
           pathHashWidth: hashWidth,
+          contactKeyHex: effectiveContactKeyHex,
           snr: snr,
         ),
       );
     }
     notifyListeners();
+  }
+
+  String? _resolveDirectRepeaterContactKeyHex(
+    Contact contact,
+    List<int> pubkeyPrefix,
+    bool pathIsEmpty,
+  ) {
+    if (pathIsEmpty &&
+        (contact.type == advTypeRepeater || contact.type == advTypeRoom)) {
+      return contact.publicKeyHex;
+    }
+
+    final prefixMatches = allContacts
+        .where(
+          (c) =>
+              (c.type == advTypeRepeater || c.type == advTypeRoom) &&
+              _contactKeyMatchesPrefix(c.publicKeyHex, pubkeyPrefix),
+        )
+        .toList();
+    if (prefixMatches.length == 1) {
+      return prefixMatches.first.publicKeyHex;
+    }
+
+    return null;
+  }
+
+  bool _contactKeyMatchesPrefix(String contactKeyHex, List<int> pubkeyPrefix) {
+    final prefixHex = pubkeyPrefix
+        .map((b) => b.toRadixString(16).padLeft(2, '0'))
+        .join();
+    return contactKeyHex.startsWith(prefixHex);
   }
 
   void _handleAutoAddConfig(Uint8List frame) {
