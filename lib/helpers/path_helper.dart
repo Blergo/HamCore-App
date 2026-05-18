@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/foundation.dart';
 import '../models/contact.dart';
 import '../connector/meshcore_protocol.dart';
@@ -17,7 +15,10 @@ class PathHelper {
         .join();
   }
 
-  static List<Uint8List> splitPathBytes(List<int> pathBytes, int hashByteWidth) {
+  static List<Uint8List> splitPathBytes(
+    List<int> pathBytes,
+    int hashByteWidth,
+  ) {
     if (pathBytes.isEmpty) return const [];
 
     final width = hashByteWidth.clamp(1, 4);
@@ -51,18 +52,13 @@ class PathHelper {
       final hex = formatHopHex(hopBytes);
 
       // Find matching contacts by comparing public key prefix
-      final matches = allContacts
-          .where((c) {
-            if (c.publicKey.length < hopBytes.length) return false;
-            if (c.type != advTypeRepeater && c.type != advTypeRoom) return false;
-            // Compare bytes using listEquals for multi-byte support
-            return listEquals(
-              c.publicKey.sublist(0, hopBytes.length),
-              hopBytes,
-            );
-          })
-          .toList();
-      
+      final matches = allContacts.where((c) {
+        if (c.publicKey.length < hopBytes.length) return false;
+        if (c.type != advTypeRepeater && c.type != advTypeRoom) return false;
+        // Compare bytes using listEquals for multi-byte support
+        return listEquals(c.publicKey.sublist(0, hopBytes.length), hopBytes);
+      }).toList();
+
       if (matches.isEmpty) {
         parts.add(hex);
       } else if (matches.length == 1) {
@@ -71,7 +67,7 @@ class PathHelper {
         parts.add(matches.map((c) => c.name).join(' | '));
       }
     }
-    
+
     return parts.join(' \u2192 ');
   }
 }

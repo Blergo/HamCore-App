@@ -202,16 +202,22 @@ class _PathManagementDialogState extends State<_PathManagementDialog> {
             paths.map((path) {
               final isDirectRepeater =
                   directRepeater != null &&
-                  path.pathBytes.isNotEmpty &&
-                  directRepeater.pubkeyFirstByte == path.pathBytes.first;
+                  directRepeater.matchesPathStart(
+                    path.pathBytes,
+                    connector.pathHashByteWidth,
+                  );
               final isSecondDirectRepeater =
                   secondDirectRepeater != null &&
-                  path.pathBytes.isNotEmpty &&
-                  secondDirectRepeater.pubkeyFirstByte == path.pathBytes.first;
+                  secondDirectRepeater.matchesPathStart(
+                    path.pathBytes,
+                    connector.pathHashByteWidth,
+                  );
               final isThirdDirectRepeater =
                   thirdDirectRepeater != null &&
-                  path.pathBytes.isNotEmpty &&
-                  thirdDirectRepeater.pubkeyFirstByte == path.pathBytes.first;
+                  thirdDirectRepeater.matchesPathStart(
+                    path.pathBytes,
+                    connector.pathHashByteWidth,
+                  );
 
               int ranking = -1;
               Color color = Colors.grey;
