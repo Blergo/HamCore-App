@@ -41,20 +41,23 @@ class ChannelMessagePathScreen extends StatelessWidget {
         final primaryPath = !channelMessage && !message.isOutgoing
             ? Uint8List.fromList(primaryPathTmp.reversed.toList())
             : primaryPathTmp;
-        final hops = _buildPathHops(primaryPath, connector, l10n);
+        final hashByteWidth = (message.pathHashWidth ?? connector.pathHashByteWidth)
+          .clamp(1, 4)
+          .toInt();
+        final hops = _buildPathHops(primaryPath, connector, l10n, hashByteWidth);
         final hasHopDetails = primaryPath.isNotEmpty;
 
-        // Convert path byte length to hop count based on device width
-        final width = connector.pathHashByteWidth.clamp(1, 4);
-        final observedHopCount = _hopCountFromBytes(primaryPath.length, width);
+        // Convert path byte length to hop count using the packet width.
+        // Legacy messages fall back to the current connector width.
+        final observedHopCount = _hopCountFromBytes(primaryPath.length, hashByteWidth);
         final reportedHopCount = message.pathLength == null
-            ? null
-            : (message.pathLength! < 0
-                  ? message.pathLength
-                  : _hopCountFromBytes(message.pathLength!, width));
+          ? null
+          : (message.pathLength! < 0
+            ? message.pathLength
+            : _hopCountFromBytes(message.pathLength!, hashByteWidth));
         final effectiveHopCount = observedHopCount > 0
-            ? observedHopCount
-            : reportedHopCount;
+          ? observedHopCount
+          : reportedHopCount;
 
         final observedLabel = _formatObservedHops(
           observedHopCount,
@@ -78,9 +81,7 @@ class ChannelMessagePathScreen extends StatelessWidget {
                       flipPathAround: true,
                       reversePathAround:
                           !(!channelMessage && !message.isOutgoing),
-                      pathHashByteWidth: context
-                          .read<MeshCoreConnector>()
-                          .pathHashByteWidth,
+                      pathHashByteWidth: hashByteWidth,
                     ),
                   ),
                 ),
@@ -113,7 +114,7 @@ class ChannelMessagePathScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   const SizedBox(height: 8),
-                  _buildPathVariants(context, extraPaths, width),
+                  _buildPathVariants(context, extraPaths, hashByteWidth),
                   const SizedBox(height: 16),
                 ],
                 Text(
@@ -227,7 +228,7 @@ class ChannelMessagePathScreen extends StatelessWidget {
             subtitle: Text(
               hop.hasLocation
                   ? '${hop.position!.latitude.toStringAsFixed(5)}, '
-                        '${hop.position!.longitude.toStringAsFixed(5)}'
+                      '${hop.position!.longitude.toStringAsFixed(5)}'
                   : l10n.channelPath_noLocationData,
             ),
           ),
@@ -490,8 +491,10 @@ class _ChannelMessagePathMapScreenState
             : selectedPathTmp;
 
         final selectedIndex = _indexForPath(selectedPath, observedPaths);
-        final hops = _buildPathHops(selectedPath, connector, context.l10n);
-        final width = connector.pathHashByteWidth.clamp(1, 4);
+        final width = (widget.message.pathHashWidth ?? connector.pathHashByteWidth)
+          .clamp(1, 4)
+          .toInt();
+        final hops = _buildPathHops(selectedPath, connector, context.l10n, width);
 
         final points = <LatLng>[];
 
@@ -647,7 +650,7 @@ class _ChannelMessagePathMapScreenState
     final l10n = context.l10n;
     final width = context.read<MeshCoreConnector>().pathHashByteWidth.clamp(
       1,
-      8,
+      4,
     );
     final selectedPath = paths[selectedIndex];
     final label = selectedPath.isPrimary
@@ -949,10 +952,11 @@ List<_PathHop> _buildPathHops(
   Uint8List pathBytes,
   MeshCoreConnector connector,
   AppLocalizations l10n,
+  int hashByteWidth,
 ) {
   if (pathBytes.isEmpty) return const [];
 
-  final width = connector.pathHashByteWidth.clamp(1, 4);
+  final width = hashByteWidth.clamp(1, 4);
   final candidatesByHashBytes = <String, List<Contact>>{};
   final allContacts = connector.allContacts;
 

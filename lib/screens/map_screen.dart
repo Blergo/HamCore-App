@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:meshcore_open/helpers/path_helper.dart';
 import 'package:meshcore_open/screens/path_trace_map.dart';
 import 'package:meshcore_open/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
@@ -264,7 +265,7 @@ class _MapScreenState extends State<MapScreen> {
         final anchorKeys = allContactsWithLocation
             .map(
               (c) =>
-                  '${c.publicKeyHex}:${c.latitude}:${c.longitude}:${c.path.isNotEmpty ? c.path.last : ""}',
+                  '${c.publicKeyHex}:${c.latitude}:${c.longitude}:${PathHelper.formatHopHex(c.path.isNotEmpty ? c.path.sublist(max(0, c.path.length - connector.pathHashByteWidth.clamp(1, 4))) : const [])}',
             )
             .join(',');
         final cacheKey =
@@ -711,8 +712,7 @@ class _MapScreenState extends State<MapScreen> {
 
       // Collect the contact-side (last-hop) repeater from every known path.
       // path = [device-side hop, ..., contact-side hop]
-      // Only path.last is actually within radio range of the contact — using
-      // earlier bytes would anchor against our own side of the network.
+      // Only the last hop chunk is actually within radio range of the contact.
       final pathSets = <List<int>>[
         contact.path.toList(),
         ...pathHistory
@@ -2398,6 +2398,9 @@ class _MapScreenState extends State<MapScreen> {
                               title: l10n.contacts_pathTrace,
                               path: Uint8List.fromList(_pathTrace),
                               flipPathAround: true,
+                              pathHashByteWidth: context
+                                  .read<MeshCoreConnector>()
+                                  .pathHashByteWidth,
                             ),
                           ),
                         );
