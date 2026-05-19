@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/foundation.dart';
 import '../models/contact.dart';
 import '../connector/meshcore_protocol.dart';
