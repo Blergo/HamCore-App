@@ -15,6 +15,7 @@ The device capability determines the hash width (number of bytes per hop):
 | 1 byte | 256 | Single-byte node IDs |
 | 2 bytes | 65,536 | Medium meshes |
 | 3 bytes | 16.7M | Large networks |
+| 4 bytes | 4.3G | Very large meshes / future-proofing |
 
 ### Device Capability Detection
 
@@ -25,11 +26,11 @@ On device connection, the app reads the firmware capability to set `pathHashByte
 final modeRaw = firmwareBytes.length >= 82
     ? (firmwareBytes[81] & 0xFF)
     : 0;
-final mode = modeRaw.clamp(0, 2);
-_pathHashByteWidth = mode + 1; // 1, 2, or 3 bytes per hop
+final mode = modeRaw.clamp(0, 3);
+_pathHashByteWidth = mode + 1; // 1, 2, 3, or 4 bytes per hop
 ```
 
-The current implementation intentionally clamps to modes `0..2`, so the supported hop width is `1..3` bytes. Do not document 4-byte hops unless the connector implementation is widened first.
+The connector reads a single-mode byte and clamps to `0..3`, so the supported hop width is `1..4` bytes. UI code also clamps widths when rendering (typically to `1..4`) so 4-byte hops are handled end-to-end in the current codebase.
 
 ### Path Data Structure
 

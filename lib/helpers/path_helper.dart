@@ -38,6 +38,7 @@ class PathHelper {
   /// - 1: Single byte per hop (256 unique nodes)
   /// - 2: Two bytes per hop (65K unique nodes)
   /// - 3: Three bytes per hop (16M unique nodes)
+  /// - 4: Four bytes per hop (4.3G unique nodes)
   static String resolvePathNames(
     List<int> pathBytes,
     List<Contact> allContacts,

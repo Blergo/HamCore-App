@@ -47,14 +47,12 @@ class ChannelMessagePathScreen extends StatelessWidget {
         final hops = _buildPathHops(primaryPath, connector, l10n, hashByteWidth);
         final hasHopDetails = primaryPath.isNotEmpty;
 
-        // Convert path byte length to hop count using the packet width.
+        // Convert observed path byte length to hop count using the packet width.
         // Legacy messages fall back to the current connector width.
+        // Reported path length (V3+) is already stored as a hop count; preserve
+        // the negative flood sentinel when present.
         final observedHopCount = _hopCountFromBytes(primaryPath.length, hashByteWidth);
-        final reportedHopCount = message.pathLength == null
-          ? null
-          : (message.pathLength! < 0
-            ? message.pathLength
-            : _hopCountFromBytes(message.pathLength!, hashByteWidth));
+        final reportedHopCount = message.pathLength;
         final effectiveHopCount = observedHopCount > 0
           ? observedHopCount
           : reportedHopCount;
