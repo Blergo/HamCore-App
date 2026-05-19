@@ -28,8 +28,8 @@ class NotificationService {
   AppLocalizations get _l10n => lookupAppLocalizations(_locale);
 
   String _logSafe(String value) {
-        final sanitized = value.replaceAll(RegExp(r'[\x00-\x1F\x7F]'), ' ');
-        return Uri.encodeComponent(sanitized);
+      final sanitized = value.replaceAll(RegExp(r'[\x00-\x1F\x7F]'), ' ');
+      return Uri.encodeComponent(sanitized);
   }
 
   // Rate limiting to prevent notification storms

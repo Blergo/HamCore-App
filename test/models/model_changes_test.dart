@@ -1,10 +1,12 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:meshcore_open/connector/meshcore_protocol.dart';
+import 'package:meshcore_open/models/channel_message.dart';
 import 'package:meshcore_open/models/contact.dart';
 import 'package:meshcore_open/models/path_history.dart';
 import 'package:meshcore_open/models/app_settings.dart';
-import 'package:meshcore_open/connector/meshcore_protocol.dart';
 
 // Builds a valid contact frame with the given pathLen and optional overrides.
 // Frame layout: [respCode(1)][pubKey(32)][type(1)][flags(1)][pathLen(1)][path(64)][name(32)][timestamp(4)][lat(4)][lon(4)]
@@ -37,7 +39,99 @@ Uint8List _buildContactFrame({
   return Uint8List.fromList(writer.toBytes());
 }
 
+Uint8List _buildChannelMessageFrameV3({
+  required int pathHashWidth,
+  required int hopCount,
+  required bool hasPath,
+  int channelIndex = 7,
+  String senderName = 'Alice',
+  String text = 'Hello world',
+  int txtType = txtTypePlain,
+}) {
+  final writer = BytesBuilder();
+  writer.addByte(respCodeChannelMsgRecvV3);
+  writer.addByte(0x10);
+  writer.addByte(hasPath ? 0x01 : 0x00);
+  writer.addByte(0x00);
+  writer.addByte(channelIndex);
+  writer.addByte(((pathHashWidth - 1) << 6) | hopCount);
+
+  if (hasPath && hopCount > 0) {
+    writer.add(
+      Uint8List.fromList(
+        List.generate(hopCount * pathHashWidth, (i) => i + 1),
+      ),
+    );
+  }
+
+  writer.addByte(txtType);
+  writer.add(Uint8List.fromList([0x01, 0x00, 0x00, 0x00]));
+  writer.add(utf8.encode('$senderName: $text'));
+  writer.addByte(0x00);
+
+  return Uint8List.fromList(writer.toBytes());
+}
+
 void main() {
+  group('ChannelMessage.fromFrame — V3 packed path decoding', () {
+    test('hasPath reads width, hop count, path bytes, and txtType correctly',
+        () {
+      final frame = _buildChannelMessageFrameV3(
+        pathHashWidth: 2,
+        hopCount: 3,
+        hasPath: true,
+      );
+
+      final message = ChannelMessage.fromFrame(frame);
+
+      expect(message, isNotNull);
+      expect(message!.pathHashWidth, equals(2));
+      expect(message.pathLength, equals(3));
+      expect(message.pathBytes.length, equals(6));
+      expect(message.senderName, equals('Alice'));
+      expect(message.text, equals('Hello world'));
+    });
+
+    test('no path still reads width, hop count, and txtType correctly', () {
+      final frame = _buildChannelMessageFrameV3(
+        pathHashWidth: 4,
+        hopCount: 5,
+        hasPath: false,
+      );
+
+      final message = ChannelMessage.fromFrame(frame);
+
+      expect(message, isNotNull);
+      expect(message!.pathHashWidth, equals(4));
+      expect(message.pathLength, equals(5));
+      expect(message.pathBytes, isEmpty);
+      expect(message.senderName, equals('Alice'));
+      expect(message.text, equals('Hello world'));
+    });
+
+    test('non-plain txtType with path -> returns null', () {
+      final frame = _buildChannelMessageFrameV3(
+        pathHashWidth: 2,
+        hopCount: 2,
+        hasPath: true,
+        txtType: txtTypeCliData,
+      );
+      final message = ChannelMessage.fromFrame(frame);
+      expect(message, isNull);
+    });
+
+    test('non-plain txtType without path -> returns null', () {
+      final frame = _buildChannelMessageFrameV3(
+        pathHashWidth: 2,
+        hopCount: 2,
+        hasPath: false,
+        txtType: txtTypeCliData,
+      );
+      final message = ChannelMessage.fromFrame(frame);
+      expect(message, isNull);
+    });
+  });
+
   group('Contact.fromFrame — pathLen mapping', () {
     test('pathLen == 0 → pathLength == 0 (direct, NOT flood)', () {
       final frame = _buildContactFrame(pathLen: 0);
