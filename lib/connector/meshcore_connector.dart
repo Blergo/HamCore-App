@@ -49,18 +49,53 @@ import 'meshcore_protocol.dart';
 
 class DirectRepeater {
   static const int maxAgeMinutes = 30; // Max age for direct repeater info
-  final int pubkeyFirstByte;
+  List<int> pubkeyPrefix;
+  int pathHashWidth;
+  String? contactKeyHex;
   double snr;
   DateTime lastUpdated;
 
   DirectRepeater({
-    required this.pubkeyFirstByte,
+    required List<int> pubkeyPrefix,
+    required this.pathHashWidth,
+    this.contactKeyHex,
     required this.snr,
     DateTime? lastUpdated,
-  }) : lastUpdated = lastUpdated ?? DateTime.now();
+  }) : pubkeyPrefix = List.unmodifiable(pubkeyPrefix),
+       lastUpdated = lastUpdated ?? DateTime.now();
 
-  void update(double newSNR) {
+  String get pubkeyPrefixHex => pubkeyPrefix
+      .map((b) => b.toRadixString(16).padLeft(2, '0').toUpperCase())
+      .join();
+
+  bool matchesPrefix(List<int> prefix) {
+    return pubkeyPrefix.length == prefix.length &&
+        listEquals(pubkeyPrefix, prefix);
+  }
+
+  bool matchesPathStart(List<int> pathBytes, int pathHashByteWidth) {
+    final width = pathHashByteWidth.clamp(1, 4).toInt();
+    if (pathBytes.length < width || pubkeyPrefix.length != width) {
+      return false;
+    }
+    return listEquals(pubkeyPrefix, pathBytes.sublist(0, width));
+  }
+
+  void update(
+    double newSNR, {
+    List<int>? pubkeyPrefix,
+    int? pathHashWidth,
+    String? contactKeyHex,
+  }) {
     snr = newSNR;
+    if (pubkeyPrefix != null &&
+        pubkeyPrefix.length >= this.pubkeyPrefix.length) {
+      this.pubkeyPrefix = List.unmodifiable(pubkeyPrefix);
+    }
+    if (pathHashWidth != null && pathHashWidth >= this.pathHashWidth) {
+      this.pathHashWidth = pathHashWidth;
+    }
+    this.contactKeyHex ??= contactKeyHex;
     lastUpdated = DateTime.now();
   }
 
@@ -2553,7 +2588,14 @@ class MeshCoreConnector extends ChangeNotifier {
 
   Future<void> setPathHashMode(int mode) async {
     if (!isConnected) return;
-    await sendFrame(buildSetPathHashModeFrame(mode.clamp(0, 2)));
+    final clampedMode = mode.clamp(0, 2).toInt();
+    await sendFrame(buildSetPathHashModeFrame(clampedMode));
+    final nextWidth = clampedMode + 1;
+    if (_pathHashByteWidth != nextWidth) {
+      _pathHashByteWidth = nextWidth;
+      _directRepeaters.clear();
+      notifyListeners();
+    }
   }
 
   Future<void> refreshDeviceInfo() async {
@@ -3853,11 +3895,15 @@ class MeshCoreConnector extends ChangeNotifier {
       _clientRepeat = frame[80] != 0;
     }
     // Path hash mode v10+ (byte 81): width = mode + 1 byte(s) per hop
+    final previousPathHashByteWidth = _pathHashByteWidth;
     if (frame.length >= 82) {
       final mode = (frame[81] & 0xFF).clamp(0, 3);
       _pathHashByteWidth = mode + 1;
     } else {
       _pathHashByteWidth = 1;
+    }
+    if (_pathHashByteWidth != previousPathHashByteWidth) {
+      _directRepeaters.clear();
     }
 
     // Firmware reports MAX_CONTACTS / 2 for v3+ device info.
@@ -4298,7 +4344,11 @@ class MeshCoreConnector extends ChangeNotifier {
       for (var i = 0; i < _contacts.length; i++) {
         final contact = _contacts[i];
         if (contact.type != advTypeChat) continue;
-        if (_pathMatchesContact(pathBytes, contact.publicKey, pathHashWidth: pathHashWidth)) {
+        if (_pathMatchesContact(
+          pathBytes,
+          contact.publicKey,
+          pathHashWidth: pathHashWidth,
+        )) {
           matches.add(i);
         }
       }
@@ -4315,7 +4365,11 @@ class MeshCoreConnector extends ChangeNotifier {
     }
   }
 
-  bool _pathMatchesContact(Uint8List pathBytes, Uint8List publicKey, {int? pathHashWidth}) {
+  bool _pathMatchesContact(
+    Uint8List pathBytes,
+    Uint8List publicKey, {
+    int? pathHashWidth,
+  }) {
     final w = pathHashWidth ?? _pathHashByteWidth;
     if (pathBytes.isEmpty || publicKey.length < w) return false;
     for (int i = 0; i + w <= pathBytes.length; i += w) {
@@ -5529,6 +5583,7 @@ class MeshCoreConnector extends ChangeNotifier {
           repeats: message.repeats,
           repeatCount: message.repeatCount,
           pathLength: message.pathLength,
+          pathHashWidth: message.pathHashWidth,
           pathBytes: message.pathBytes,
           pathVariants: message.pathVariants,
           channelIndex: message.channelIndex,
@@ -5565,6 +5620,7 @@ class MeshCoreConnector extends ChangeNotifier {
       messages[existingIndex] = existing.copyWith(
         repeatCount: newRepeatCount,
         pathLength: mergedPathLength,
+        pathHashWidth: existing.pathHashWidth ?? processedMessage.pathHashWidth,
         pathBytes: mergedPathBytes,
         pathVariants: mergedPathVariants,
         packetHash: existing.packetHash ?? processedMessage.packetHash,
@@ -5929,6 +5985,7 @@ class MeshCoreConnector extends ChangeNotifier {
       //final payloadVer = (header >> 6) & 0x03;
       final pathLenRaw = packet.readByte();
       final pathByteLen = _decodePathByteLen(pathLenRaw);
+      final pathHashWidth = _decodePathHashWidth(pathLenRaw);
       final pathBytes = packet.readBytes(pathByteLen);
       final payload = packet.readBytes(packet.remaining);
 
@@ -5939,6 +5996,7 @@ class MeshCoreConnector extends ChangeNotifier {
             rawPacket,
             payload,
             pathBytes,
+            pathHashWidth,
             routeType,
             snr,
           );
@@ -6042,6 +6100,7 @@ class MeshCoreConnector extends ChangeNotifier {
     Uint8List rawPacket,
     Uint8List payload,
     Uint8List path,
+    int pathHashWidth,
     int routeType,
     double snr,
   ) {
@@ -6122,7 +6181,12 @@ class MeshCoreConnector extends ChangeNotifier {
       } else {
         _handleDiscovery(newContact, rawPacket);
       }
-      _updateDirectRepeater(newContact, snr, path);
+      _updateDirectRepeater(
+        newContact,
+        snr,
+        path,
+        pathHashWidth: pathHashWidth,
+      );
       return;
     }
 
@@ -6160,7 +6224,12 @@ class MeshCoreConnector extends ChangeNotifier {
         _pathHistoryService!.handlePathUpdated(_contacts[existingIndex]);
       }
 
-      _updateDirectRepeater(_contacts[existingIndex], snr, path);
+      _updateDirectRepeater(
+        _contacts[existingIndex],
+        snr,
+        path,
+        pathHashWidth: pathHashWidth,
+      );
 
       appLogger.info(
         'After merge: pathOverride=${_contacts[existingIndex].pathOverride}, devicePath=${_contacts[existingIndex].pathLength}',
@@ -6169,10 +6238,41 @@ class MeshCoreConnector extends ChangeNotifier {
     }
   }
 
-  void _updateDirectRepeater(Contact contact, double snr, Uint8List path) {
-    final pubkeyFirstByte = path.isNotEmpty
-        ? path.last
-        : contact.publicKey.first;
+  void _updateDirectRepeater(
+    Contact contact,
+    double snr,
+    Uint8List path, {
+    required int pathHashWidth,
+  }) {
+    final hashWidth = pathHashWidth.clamp(1, 4).toInt();
+    if (path.isNotEmpty && path.length < hashWidth) {
+      return;
+    }
+    final pubkeyPrefix = path.isNotEmpty
+        ? path.sublist(math.max(0, path.length - hashWidth))
+        : contact.publicKey.sublist(
+            0,
+            math.min(hashWidth, contact.publicKey.length),
+          );
+    final contactKeyHex = _resolveDirectRepeaterContactKeyHex(
+      contact,
+      pubkeyPrefix,
+      path.isEmpty,
+    );
+    final knownRepeaters = contactKeyHex == null
+        ? _directRepeaters
+              .where(
+                (r) =>
+                    r.contactKeyHex != null &&
+                    _contactKeyMatchesPrefix(r.contactKeyHex!, pubkeyPrefix),
+              )
+              .toList()
+        : const <DirectRepeater>[];
+    final knownRepeater = knownRepeaters.length == 1
+        ? knownRepeaters.first
+        : null;
+    final effectiveContactKeyHex =
+        contactKeyHex ?? knownRepeater?.contactKeyHex;
 
     _directRepeaters.removeWhere((r) => r.isStale());
 
@@ -6183,9 +6283,25 @@ class MeshCoreConnector extends ChangeNotifier {
       return;
     }
 
-    final isTracked = _directRepeaters.where(
-      (r) => r.pubkeyFirstByte == pubkeyFirstByte,
-    );
+    final isTracked = _directRepeaters.where((r) {
+      if (knownRepeater != null) {
+        return identical(r, knownRepeater);
+      }
+      if (effectiveContactKeyHex != null) {
+        return r.contactKeyHex == effectiveContactKeyHex ||
+            (r.contactKeyHex == null &&
+                _contactKeyMatchesPrefix(
+                  effectiveContactKeyHex,
+                  r.pubkeyPrefix,
+                ));
+      }
+      if (r.contactKeyHex == null &&
+          r.pathHashWidth == hashWidth &&
+          r.matchesPrefix(pubkeyPrefix)) {
+        return true;
+      }
+      return false;
+    }).toList();
 
     final sortedRepeaters = List<DirectRepeater>.from(_directRepeaters)
       ..sort((a, b) => b.snr.compareTo(a.snr));
@@ -6201,13 +6317,66 @@ class MeshCoreConnector extends ChangeNotifier {
 
     if (isTracked.isNotEmpty) {
       final repeater = isTracked.first;
-      repeater.update(snr);
+      repeater.update(
+        snr,
+        pubkeyPrefix: pubkeyPrefix,
+        pathHashWidth: hashWidth,
+        contactKeyHex: effectiveContactKeyHex,
+      );
+      if (effectiveContactKeyHex != null) {
+        _directRepeaters.removeWhere(
+          (r) =>
+              !identical(r, repeater) &&
+              (r.contactKeyHex == effectiveContactKeyHex ||
+                  (r.contactKeyHex == null &&
+                      _contactKeyMatchesPrefix(
+                        effectiveContactKeyHex,
+                        r.pubkeyPrefix,
+                      ))),
+        );
+      }
     } else if (_directRepeaters.length < 5) {
       _directRepeaters.add(
-        DirectRepeater(pubkeyFirstByte: pubkeyFirstByte, snr: snr),
+        DirectRepeater(
+          pubkeyPrefix: pubkeyPrefix,
+          pathHashWidth: hashWidth,
+          contactKeyHex: effectiveContactKeyHex,
+          snr: snr,
+        ),
       );
     }
     notifyListeners();
+  }
+
+  String? _resolveDirectRepeaterContactKeyHex(
+    Contact contact,
+    List<int> pubkeyPrefix,
+    bool pathIsEmpty,
+  ) {
+    if (pathIsEmpty &&
+        (contact.type == advTypeRepeater || contact.type == advTypeRoom)) {
+      return contact.publicKeyHex;
+    }
+
+    final prefixMatches = allContacts
+        .where(
+          (c) =>
+              (c.type == advTypeRepeater || c.type == advTypeRoom) &&
+              _contactKeyMatchesPrefix(c.publicKeyHex, pubkeyPrefix),
+        )
+        .toList();
+    if (prefixMatches.length == 1) {
+      return prefixMatches.first.publicKeyHex;
+    }
+
+    return null;
+  }
+
+  bool _contactKeyMatchesPrefix(String contactKeyHex, List<int> pubkeyPrefix) {
+    final prefixHex = pubkeyPrefix
+        .map((b) => b.toRadixString(16).padLeft(2, '0'))
+        .join();
+    return contactKeyHex.startsWith(prefixHex);
   }
 
   void _handleAutoAddConfig(Uint8List frame) {
@@ -6335,8 +6504,12 @@ const int _cipherMacSize = 2;
 /// Bits 0-5: hash count (0-63), Bits 6-7: hash size code (0=1byte, 1=2bytes, 2=3bytes).
 int _decodePathByteLen(int pathLenRaw) {
   final hashCount = pathLenRaw & 63;
-  final hashSize = ((pathLenRaw >> 6) & 0x03) + 1;
+  final hashSize = _decodePathHashWidth(pathLenRaw);
   return hashCount * hashSize;
+}
+
+int _decodePathHashWidth(int pathLenRaw) {
+  return ((pathLenRaw >> 6) & 0x03) + 1;
 }
 
 class _RawPacket {

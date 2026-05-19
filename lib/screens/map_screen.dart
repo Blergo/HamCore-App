@@ -728,7 +728,10 @@ class _MapScreenState extends State<MapScreen> {
         for (final repeater in withLocation) {
           if (repeater.type != advTypeRepeater) continue;
           if (repeater.publicKey.length < lastHop.length) continue;
-          if (!listEquals(repeater.publicKey.sublist(0, lastHop.length), lastHop)) {
+          if (!listEquals(
+            repeater.publicKey.sublist(0, lastHop.length),
+            lastHop,
+          )) {
             continue;
           }
           anchorSet.add(LatLng(repeater.latitude!, repeater.longitude!));
@@ -986,11 +989,21 @@ class _MapScreenState extends State<MapScreen> {
       }
 
       if (settings.mapShowOverlaps) {
+        final hopWidth = context
+            .read<MeshCoreConnector>()
+            .pathHashByteWidth
+            .clamp(1, pubKeySize)
+            .toInt();
         final hasOverlap = contacts
             .where(
               (c) =>
                   c.publicKeyHex != contact.publicKeyHex &&
-                  c.publicKey.first == contact.publicKey.first &&
+                  c.publicKey.length >= hopWidth &&
+                  contact.publicKey.length >= hopWidth &&
+                  listEquals(
+                    c.publicKey.sublist(0, hopWidth),
+                    contact.publicKey.sublist(0, hopWidth),
+                  ) &&
                   (c.type == advTypeRepeater || c.type == advTypeRoom) &&
                   (contact.type == advTypeRepeater ||
                       contact.type == advTypeRoom),

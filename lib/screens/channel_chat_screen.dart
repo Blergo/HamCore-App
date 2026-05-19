@@ -13,6 +13,7 @@ import '../helpers/chat_scroll_controller.dart';
 import '../connector/meshcore_protocol.dart';
 import '../helpers/cyr2lat.dart';
 import '../helpers/gif_helper.dart';
+import '../helpers/path_helper.dart';
 import '../helpers/reaction_helper.dart';
 import '../helpers/snack_bar_builder.dart';
 import '../l10n/l10n.dart';
@@ -422,6 +423,9 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
         : (message.pathVariants.isNotEmpty
               ? message.pathVariants.first
               : Uint8List(0));
+    final displayPathHashWidth =
+        message.pathHashWidth ??
+        context.read<MeshCoreConnector>().pathHashByteWidth;
 
     const maxSwipeOffset = 64.0;
     const replySwipeThreshold = 64.0;
@@ -608,7 +612,10 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                                 : EdgeInsets.zero,
                             child: Text(
                               context.l10n.channels_via(
-                                _formatPathPrefixes(displayPath),
+                                _formatPathPrefixes(
+                                  displayPath,
+                                  displayPathHashWidth,
+                                ),
                               ),
                               style: TextStyle(
                                 fontSize: 11,
@@ -1432,10 +1439,11 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     );
   }
 
-  String _formatPathPrefixes(Uint8List pathBytes) {
-    return pathBytes
-        .map((b) => b.toRadixString(16).padLeft(2, '0').toUpperCase())
-        .join(',');
+  String _formatPathPrefixes(Uint8List pathBytes, int pathHashByteWidth) {
+    return PathHelper.splitPathBytes(
+      pathBytes,
+      pathHashByteWidth,
+    ).map(PathHelper.formatHopHex).join(',');
   }
 }
 

@@ -299,6 +299,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const Divider(height: 1),
           ListTile(
+            leading: const Icon(Icons.route_outlined),
+            title: Text(l10n.repeater_pathHashMode),
+            subtitle: Text(_pathHashModeSubtitle(connector.pathHashByteWidth)),
+            trailing: const Icon(Icons.chevron_right),
+            enabled: connector.isConnected,
+            onTap: () => _editPathHashMode(context, connector),
+          ),
+          const Divider(height: 1),
+          ListTile(
             leading: const Icon(Icons.location_on_outlined),
             title: Text(l10n.settings_location),
             subtitle: Text(l10n.settings_locationSubtitle),
@@ -336,6 +345,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ],
       ),
     );
+  }
+
+  String _pathHashModeSubtitle(int pathHashByteWidth) {
+    final width = pathHashByteWidth.clamp(1, 3).toInt();
+    final mode = width - 1;
+    final unit = width == 1 ? 'byte' : 'bytes';
+    return 'Mode $mode - $width $unit per hop';
   }
 
   Widget _buildActionsCard(BuildContext context, MeshCoreConnector connector) {
@@ -542,6 +558,74 @@ class _SettingsScreenState extends State<SettingsScreen> {
     showDialog(
       context: context,
       builder: (context) => _RadioSettingsDialog(connector: connector),
+    );
+  }
+
+  void _editPathHashMode(BuildContext context, MeshCoreConnector connector) {
+    final l10n = context.l10n;
+    var selectedMode = (connector.pathHashByteWidth - 1).clamp(0, 2).toInt();
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: Text(l10n.repeater_pathHashMode),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DropdownButtonFormField<int>(
+                initialValue: selectedMode,
+                decoration: InputDecoration(
+                  labelText: l10n.repeater_pathHashMode,
+                  border: const OutlineInputBorder(),
+                ),
+                items: const [
+                  DropdownMenuItem(value: 0, child: Text('0 - 1 byte')),
+                  DropdownMenuItem(value: 1, child: Text('1 - 2 bytes')),
+                  DropdownMenuItem(value: 2, child: Text('2 - 3 bytes')),
+                ],
+                onChanged: (value) {
+                  if (value == null) return;
+                  setDialogState(() => selectedMode = value);
+                },
+              ),
+              const SizedBox(height: 12),
+              Text(
+                l10n.repeater_pathHashModeHelper,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text(l10n.common_cancel),
+            ),
+            FilledButton(
+              onPressed: () async {
+                Navigator.pop(dialogContext);
+                try {
+                  await connector.setPathHashMode(selectedMode);
+                  await connector.refreshDeviceInfo();
+                  if (!context.mounted) return;
+                  showDismissibleSnackBar(
+                    context,
+                    content: Text(l10n.repeater_settingsSaved),
+                  );
+                } catch (e) {
+                  if (!context.mounted) return;
+                  showDismissibleSnackBar(
+                    context,
+                    content: Text(l10n.settings_error(e.toString())),
+                  );
+                }
+              },
+              child: Text(l10n.common_save),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
