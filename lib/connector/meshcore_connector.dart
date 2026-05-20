@@ -2588,7 +2588,7 @@ class MeshCoreConnector extends ChangeNotifier {
 
   Future<void> setPathHashMode(int mode) async {
     if (!isConnected) return;
-    final clampedMode = mode.clamp(0, 2).toInt();
+    final clampedMode = mode.clamp(0, 3).toInt();
     await sendFrame(buildSetPathHashModeFrame(clampedMode));
     final nextWidth = clampedMode + 1;
     if (_pathHashByteWidth != nextWidth) {

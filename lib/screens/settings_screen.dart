@@ -563,7 +563,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _editPathHashMode(BuildContext context, MeshCoreConnector connector) {
     final l10n = context.l10n;
-    var selectedMode = (connector.pathHashByteWidth - 1).clamp(0, 2).toInt();
+    var selectedMode = (connector.pathHashByteWidth - 1).clamp(0, 3).toInt();
 
     showDialog(
       context: context,
@@ -584,6 +584,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   DropdownMenuItem(value: 0, child: Text('0 - 1 byte')),
                   DropdownMenuItem(value: 1, child: Text('1 - 2 bytes')),
                   DropdownMenuItem(value: 2, child: Text('2 - 3 bytes')),
+                  DropdownMenuItem(value: 3, child: Text('3 - 4 bytes')),
                 ],
                 onChanged: (value) {
                   if (value == null) return;
