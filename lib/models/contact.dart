@@ -166,8 +166,18 @@ class Contact {
       final type = reader.readByte();
       final flags = reader.readByte();
       final pathLen = reader.readByte();
-      final safePathLen = pathLen > 0
-          ? (pathLen > maxPathSize ? maxPathSize : pathLen)
+      int hopCount = 0;
+      int byteLen = 0;
+      if (pathLen == 0xFF) {
+        hopCount = -1;
+      } else {
+        final mode = (pathLen & 0xC0) >> 6;
+        hopCount = pathLen & 0x3F;
+        final width = mode + 1;
+        byteLen = hopCount * width;
+      }
+      final safePathLen = byteLen > 0
+          ? (byteLen > maxPathSize ? maxPathSize : byteLen)
           : 0;
       final pathBytes = reader.readBytes(maxPathSize).sublist(0, safePathLen);
       final name = reader.readCStringGreedy(maxNameSize);
@@ -213,7 +223,7 @@ class Contact {
         name: name.isEmpty ? 'Unknown' : name,
         type: type,
         flags: flags,
-        pathLength: (pathLen == 0xFF || pathLen > maxPathSize) ? -1 : pathLen,
+        pathLength: hopCount,
         path: pathBytes,
         latitude: lat,
         longitude: lon,

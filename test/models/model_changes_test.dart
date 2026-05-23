@@ -2,11 +2,16 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:meshcore_open/connector/meshcore_protocol.dart';
 import 'package:meshcore_open/models/channel_message.dart';
 import 'package:meshcore_open/models/contact.dart';
+import 'package:meshcore_open/models/message.dart';
 import 'package:meshcore_open/models/path_history.dart';
 import 'package:meshcore_open/models/app_settings.dart';
+import 'package:meshcore_open/storage/prefs_manager.dart';
+import 'package:meshcore_open/storage/contact_store.dart';
+import 'package:meshcore_open/storage/message_store.dart';
 
 // Builds a valid contact frame with the given pathLen and optional overrides.
 // Frame layout: [respCode(1)][pubKey(32)][type(1)][flags(1)][pathLen(1)][path(64)][name(32)][timestamp(4)][lat(4)][lon(4)]
@@ -147,11 +152,11 @@ void main() {
       expect(contact!.pathLength, equals(1));
     });
 
-    test('pathLen == 64 (maxPathSize) → pathLength == 64', () {
-      final frame = _buildContactFrame(pathLen: maxPathSize);
+    test('pathLen == 64 (mode 1, 0 hops) → pathLength == 0', () {
+      final frame = _buildContactFrame(pathLen: 64);
       final contact = Contact.fromFrame(frame);
       expect(contact, isNotNull);
-      expect(contact!.pathLength, equals(maxPathSize));
+      expect(contact!.pathLength, equals(0));
     });
 
     test('pathLen == 0xFF → pathLength == -1 (flood)', () {
@@ -161,11 +166,18 @@ void main() {
       expect(contact!.pathLength, equals(-1));
     });
 
-    test('pathLen == 65 (over maxPathSize) → pathLength == -1 (flood)', () {
+    test('pathLen == 65 (mode 1, 1 hop) → pathLength == 1', () {
       final frame = _buildContactFrame(pathLen: 65);
       final contact = Contact.fromFrame(frame);
       expect(contact, isNotNull);
-      expect(contact!.pathLength, equals(-1));
+      expect(contact!.pathLength, equals(1));
+    });
+
+    test('pathLen == 129 (mode 2, 1 hop) → pathLength == 1', () {
+      final frame = _buildContactFrame(pathLen: 129);
+      final contact = Contact.fromFrame(frame);
+      expect(contact, isNotNull);
+      expect(contact!.pathLength, equals(1));
     });
   });
 
@@ -450,6 +462,96 @@ void main() {
       final updated = settings.copyWith(maxMessageRetries: 10);
       expect(updated.maxMessageRetries, equals(10));
       expect(updated.maxRouteWeight, equals(settings.maxRouteWeight));
+    });
+  });
+
+  group('Storage migration — multi-byte paths compatibility', () {
+    setUp(() async {
+      SharedPreferences.setMockInitialValues({});
+      await PrefsManager.initialize();
+    });
+
+    test('ContactStore decodes and migrates legacy mode-encoded paths', () async {
+      final store = ContactStore()..publicKeyHex = '1234567890';
+      
+      // Let's create a contact with legacy 64 path length (mode 1, 0 hops)
+      final rawPath = Uint8List(64); // 64 bytes of zeroes
+      final contactJson = [
+        {
+          'publicKey': base64Encode(Uint8List(32)..[0] = 0xAA),
+          'name': 'LegacyNode',
+          'type': 2,
+          'flags': 0,
+          'pathLength': 64, // encoded pathLength (mode 1, 0 hops)
+          'path': base64Encode(rawPath),
+          'lastSeen': DateTime.now().millisecondsSinceEpoch,
+          'lastMessageAt': DateTime.now().millisecondsSinceEpoch,
+          'isActive': true,
+        }
+      ];
+      
+      final prefs = PrefsManager.instance;
+      await prefs.setString(store.keyFor, jsonEncode(contactJson));
+      
+      final contacts = await store.loadContacts();
+      expect(contacts, hasLength(1));
+      expect(contacts.first.pathLength, equals(0));
+      expect(contacts.first.path, isEmpty);
+    });
+
+    test('ContactStore decodes and migrates legacy mode-1 paths with hops', () async {
+      final store = ContactStore()..publicKeyHex = '1234567890';
+      
+      // Contact with legacy 65 path length (mode 1, 1 hop)
+      final rawPath = Uint8List(64)..[0] = 0xBB..[1] = 0xCC; 
+      final contactJson = [
+        {
+          'publicKey': base64Encode(Uint8List(32)..[0] = 0xAA),
+          'name': 'LegacyNode2',
+          'type': 2,
+          'flags': 0,
+          'pathLength': 65, // encoded pathLength (mode 1, 1 hop)
+          'path': base64Encode(rawPath),
+          'lastSeen': DateTime.now().millisecondsSinceEpoch,
+          'lastMessageAt': DateTime.now().millisecondsSinceEpoch,
+          'isActive': true,
+        }
+      ];
+      
+      final prefs = PrefsManager.instance;
+      await prefs.setString(store.keyFor, jsonEncode(contactJson));
+      
+      final contacts = await store.loadContacts();
+      expect(contacts, hasLength(1));
+      expect(contacts.first.pathLength, equals(1));
+      expect(contacts.first.path, equals(Uint8List.fromList([0xBB, 0xCC])));
+    });
+
+    test('MessageStore decodes and migrates legacy mode-encoded message paths', () async {
+      final store = MessageStore()..publicKeyHex = '1234567890';
+      final contactKeyHex = pubKeyToHex(Uint8List(32)..[0] = 0xAA);
+      
+      final rawPath = Uint8List(64);
+      final messageJson = [
+        {
+          'senderKey': base64Encode(Uint8List(32)..[0] = 0xAA),
+          'text': 'Hello',
+          'timestamp': DateTime.now().millisecondsSinceEpoch,
+          'isOutgoing': false,
+          'status': 2, // delivered
+          'messageId': 'msg_1',
+          'pathLength': 64, // encoded pathLength (mode 1, 0 hops)
+          'pathBytes': base64Encode(rawPath),
+        }
+      ];
+      
+      final prefs = PrefsManager.instance;
+      await prefs.setString('${store.keyFor}$contactKeyHex', jsonEncode(messageJson));
+      
+      final messages = await store.loadMessages(contactKeyHex);
+      expect(messages, hasLength(1));
+      expect(messages.first.pathLength, equals(0));
+      expect(messages.first.pathBytes, isEmpty);
     });
   });
 }

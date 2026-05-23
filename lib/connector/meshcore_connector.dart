@@ -2797,11 +2797,15 @@ class MeshCoreConnector extends ChangeNotifier {
     try {
       if (!isConnected) return;
 
+      final mode = _pathHashByteWidth - 1;
+      final encodedPathLen = (pathLen >= 0 && pathLen != 0xFF)
+          ? (pathLen | (mode << 6))
+          : pathLen;
       await sendFrame(
         buildUpdateContactPathFrame(
           contact.publicKey,
           customPath,
-          pathLen,
+          encodedPathLen,
           type: contact.type,
           flags: contact.flags,
           name: contact.name,
@@ -2858,11 +2862,15 @@ class MeshCoreConnector extends ChangeNotifier {
               : (updatedFlags & ~contactFlagTeleEnv))
         : updatedFlags;
 
+    final mode = _pathHashByteWidth - 1;
+    final encodedPathLen = (latestContact.pathLength >= 0 && latestContact.pathLength != 0xFF)
+        ? (latestContact.pathLength | (mode << 6))
+        : latestContact.pathLength;
     await sendFrame(
       buildUpdateContactPathFrame(
         latestContact.publicKey,
         latestContact.path,
-        latestContact.pathLength,
+        encodedPathLen,
         type: latestContact.type,
         flags: updatedFlags,
         name: latestContact.name,
@@ -3198,11 +3206,15 @@ class MeshCoreConnector extends ChangeNotifier {
   Future<void> importDiscoveredContact(Contact contact) async {
     if (!isConnected) return;
 
+    final mode = _pathHashByteWidth - 1;
+    final encodedPathLen = (contact.pathLength >= 0 && contact.pathLength != 0xFF)
+        ? (contact.pathLength | (mode << 6))
+        : contact.pathLength;
     await sendFrame(
       buildUpdateContactPathFrame(
         contact.publicKey,
         contact.path,
-        contact.pathLength,
+        encodedPathLen,
         type: contact.type,
         flags: contact.flags,
         name: contact.name,
