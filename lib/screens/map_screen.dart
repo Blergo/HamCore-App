@@ -2390,6 +2390,10 @@ class _MapScreenState extends State<MapScreen> {
                             builder: (context) => PathTraceMapScreen(
                               title: l10n.contacts_pathTrace,
                               path: Uint8List.fromList(_pathTrace),
+                              flipPathAround: true,
+                              targetContact: _pathTraceContacts.isNotEmpty
+                                  ? _pathTraceContacts.last
+                                  : null,
                               pathHashByteWidth: hashW,
                               pathContacts: _pathTraceContacts,
                             ),
@@ -2412,9 +2416,13 @@ class _MapScreenState extends State<MapScreen> {
                               title: l10n.contacts_pathTrace,
                               path: Uint8List.fromList(_pathTrace),
                               flipPathAround: true,
+                              targetContact: _pathTraceContacts.isNotEmpty
+                                  ? _pathTraceContacts.last
+                                  : null,
                               pathHashByteWidth: context
                                   .read<MeshCoreConnector>()
                                   .pathHashByteWidth,
+                              pathContacts: _pathTraceContacts,
                             ),
                           ),
                         );
