@@ -6385,10 +6385,12 @@ class MeshCoreConnector extends ChangeNotifier {
   }
 
   bool _contactKeyMatchesPrefix(String contactKeyHex, List<int> pubkeyPrefix) {
-    final prefixHex = pubkeyPrefix
-        .map((b) => b.toRadixString(16).padLeft(2, '0'))
+    // Normalize both sides to upper-case hex to avoid case-sensitive mismatches.
+    final normalizedPrefixHex = pubkeyPrefix
+        .map((b) => b.toRadixString(16).padLeft(2, '0').toUpperCase())
         .join();
-    return contactKeyHex.startsWith(prefixHex);
+    final normalizedContactKeyHex = contactKeyHex.toUpperCase();
+    return normalizedContactKeyHex.startsWith(normalizedPrefixHex);
   }
 
   void _handleAutoAddConfig(Uint8List frame) {
