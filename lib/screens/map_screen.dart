@@ -2366,9 +2366,10 @@ class _MapScreenState extends State<MapScreen> {
                   style: TextStyle(fontSize: 12, color: Colors.grey[700]),
                 ),
               SelectableText(
-                _pathTrace
-                    .map((b) => b.toRadixString(16).padLeft(2, '0'))
-                    .join(','),
+                PathHelper.splitPathBytes(
+                  _pathTrace,
+                  context.read<MeshCoreConnector>().pathHashByteWidth,
+                ).map(PathHelper.formatHopHex).join(',') ,
                 style: TextStyle(fontSize: 18),
               ),
               // const SizedBox(height: 6),
