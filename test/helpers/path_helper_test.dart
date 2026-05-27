@@ -31,28 +31,31 @@ void main() {
     expect(PathHelper.formatHopHex(hops.first), equals('A1A2'));
   });
 
-  test('resolvePathNames ignores chat nodes and keeps repeater/room nodes with 1-byte paths', () {
-    final contacts = [
-      _contact(firstByte: 0xF2, name: 'MunTui', type: advTypeChat),
-      _contact(firstByte: 0x7E, name: 'zrepeater', type: advTypeRepeater),
-      _contact(firstByte: 0xBA, name: 'USS Ronald Reagan', type: advTypeRoom),
-    ];
+  test(
+    'resolvePathNames ignores chat nodes and keeps repeater/room nodes with 1-byte paths',
+    () {
+      final contacts = [
+        _contact(firstByte: 0xF2, name: 'MunTui', type: advTypeChat),
+        _contact(firstByte: 0x7E, name: 'zrepeater', type: advTypeRepeater),
+        _contact(firstByte: 0xBA, name: 'USS Ronald Reagan', type: advTypeRoom),
+      ];
 
-    final resolved = PathHelper.resolvePathNames(
-      [0xF2, 0x7E, 0xBA],
-      contacts,
-      1, // 1-byte hash width
-    );
+      final resolved = PathHelper.resolvePathNames(
+        [0xF2, 0x7E, 0xBA],
+        contacts,
+        1, // 1-byte hash width
+      );
 
-    expect(resolved, equals('F2 → zrepeater → USS Ronald Reagan'));
-  });
+      expect(resolved, equals('F2 → zrepeater → USS Ronald Reagan'));
+    },
+  );
 
   test('resolvePathNames supports multi-byte paths', () {
     final contacts = [
       _contact(firstByte: 0xA1, name: 'Repeater1', type: advTypeRepeater),
       _contact(firstByte: 0xC1, name: 'Room42', type: advTypeRoom),
     ];
-    
+
     // Contacts with 2-byte public keys
     contacts[0] = Contact(
       publicKey: Uint8List.fromList([0xA1, 0xA2, ...List.filled(30, 0)]),

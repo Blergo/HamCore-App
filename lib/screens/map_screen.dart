@@ -70,6 +70,7 @@ class _MapScreenState extends State<MapScreen> {
   bool _hasInitializedMap = false;
   bool _removedMarkersLoaded = false;
   final List<int> _pathTrace = [];
+  final List<int> _pathTraceHopWidths = [];
   final List<Contact> _pathTraceContacts = [];
   final List<LatLng> _points = [];
   final List<Polyline> _polylines = [];
@@ -2302,11 +2303,12 @@ class _MapScreenState extends State<MapScreen> {
     final hopWidth = min(
       connector.pathHashByteWidth.clamp(1, pubKeySize),
       contact.publicKey.length,
-    );
+    ).toInt();
     setState(() {
       _pathTrace.addAll(
         contact.publicKey.sublist(0, hopWidth),
       ); // Add the hop-width prefix of the public key to the trace
+      _pathTraceHopWidths.add(hopWidth);
       _pathTraceContacts.add(
         contact.copyWith(
           latitude: position?.latitude ?? contact.latitude,
@@ -2321,6 +2323,7 @@ class _MapScreenState extends State<MapScreen> {
     setState(() {
       _isBuildingPathTrace = true;
       _pathTrace.clear();
+      _pathTraceHopWidths.clear();
       _pathTraceContacts.clear();
       _points.clear();
       _polylines.clear();
@@ -2330,8 +2333,19 @@ class _MapScreenState extends State<MapScreen> {
 
   void _removePath() {
     setState(() {
+      final recordedHopWidth = _pathTraceHopWidths.isNotEmpty
+          ? _pathTraceHopWidths.removeLast()
+          : context.read<MeshCoreConnector>().pathHashByteWidth.clamp(
+              1,
+              pubKeySize,
+            );
+      final hopByteCount = min(recordedHopWidth, _pathTrace.length).toInt();
       _pathTraceContacts.removeLast();
-      _pathTrace.removeLast(); // Remove last node from path trace
+      // A path trace hop can be wider than one byte; remove the full hash prefix.
+      _pathTrace.removeRange(
+        _pathTrace.length - hopByteCount,
+        _pathTrace.length,
+      );
       _points.removeLast(); // Remove last point from points list
       _polylines.clear(); // Clear polylines
     });
@@ -2369,7 +2383,7 @@ class _MapScreenState extends State<MapScreen> {
                 PathHelper.splitPathBytes(
                   _pathTrace,
                   context.read<MeshCoreConnector>().pathHashByteWidth,
-                ).map(PathHelper.formatHopHex).join(',') ,
+                ).map(PathHelper.formatHopHex).join(','),
                 style: TextStyle(fontSize: 18),
               ),
               // const SizedBox(height: 6),
@@ -2445,6 +2459,7 @@ class _MapScreenState extends State<MapScreen> {
                         setState(() {
                           _isBuildingPathTrace = false;
                           _pathTrace.clear();
+                          _pathTraceHopWidths.clear();
                           _points.clear();
                           _polylines.clear();
                         });

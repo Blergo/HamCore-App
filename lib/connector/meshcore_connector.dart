@@ -2864,7 +2864,8 @@ class MeshCoreConnector extends ChangeNotifier {
         : updatedFlags;
 
     final mode = _pathHashByteWidth - 1;
-    final encodedPathLen = (latestContact.pathLength >= 0 && latestContact.pathLength != 0xFF)
+    final encodedPathLen =
+        (latestContact.pathLength >= 0 && latestContact.pathLength != 0xFF)
         ? (latestContact.pathLength | (mode << 6))
         : latestContact.pathLength;
     await sendFrame(
@@ -3208,7 +3209,8 @@ class MeshCoreConnector extends ChangeNotifier {
     if (!isConnected) return;
 
     final mode = _pathHashByteWidth - 1;
-    final encodedPathLen = (contact.pathLength >= 0 && contact.pathLength != 0xFF)
+    final encodedPathLen =
+        (contact.pathLength >= 0 && contact.pathLength != 0xFF)
         ? (contact.pathLength | (mode << 6))
         : contact.pathLength;
     await sendFrame(
@@ -6089,7 +6091,9 @@ class MeshCoreConnector extends ChangeNotifier {
         publicKey: publicKey,
         name: name,
         type: type,
-        pathLength: pathBytes.isEmpty ? -1 : (pathBytes.length ~/ pathHashWidth),
+        pathLength: pathBytes.isEmpty
+            ? -1
+            : (pathBytes.length ~/ pathHashWidth),
         path: Uint8List.fromList(
           pathBytes.reversed.toList(),
         ), // Store path in reverse for easier use in outgoing messages

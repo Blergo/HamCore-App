@@ -115,9 +115,10 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
   Uint8List? _sentTagBytes;
 
   String _formatPathPrefixes(Uint8List pathBytes) {
-    return PathHelper.splitPathBytes(pathBytes, widget.pathHashByteWidth)
-      .map(PathHelper.formatHopHex)
-        .join(',');
+    return PathHelper.splitPathBytes(
+      pathBytes,
+      widget.pathHashByteWidth,
+    ).map(PathHelper.formatHopHex).join(',');
   }
 
   @override
@@ -327,7 +328,8 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
         // Check if it's a binary response
         if (frame.length >= 12 &&
             code == pushCodeTraceData &&
-            (listEquals(frame.sublist(4, 8), _sentTagBytes) || listEquals(frame.sublist(4, 8), tagData))) {
+            (listEquals(frame.sublist(4, 8), _sentTagBytes) ||
+                listEquals(frame.sublist(4, 8), tagData))) {
           _timeoutTimer?.cancel();
           if (!mounted) return;
           _handleTraceResponse(frame);
@@ -370,10 +372,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
       buffer.skipBytes(5); // Skip Flag byte and tag data
       buffer.skipBytes(4); // Skip auth code
       final pathBytes = buffer.readBytes(pathLength);
-      final pathData = PathHelper.splitPathBytes(
-        pathBytes,
-        width,
-      );
+      final pathData = PathHelper.splitPathBytes(pathBytes, width);
       List<double> snrData = buffer
           .readRemainingBytes()
           .map((snr) => snr.toSigned(8).toDouble() / 4)
@@ -414,7 +413,10 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
           for (final repeaterData in pathData) {
             final hopWidth = repeaterData.length;
             if (repeater.publicKey.length < hopWidth) continue;
-            if (listEquals(repeater.publicKey.sublist(0, hopWidth), repeaterData)) {
+            if (listEquals(
+              repeater.publicKey.sublist(0, hopWidth),
+              repeaterData,
+            )) {
               pathContacts[_hopKey(repeaterData)] = repeater;
               lastContact = repeater;
             }
@@ -434,8 +436,8 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen> {
               (c) =>
                   c.hasLocation &&
                   c.path.isNotEmpty &&
-              _hopKey(_lastHopChunk(c.path, widget.pathHashByteWidth)) ==
-                hopKey,
+                  _hopKey(_lastHopChunk(c.path, widget.pathHashByteWidth)) ==
+                      hopKey,
             )
             .toList();
         if (peers.isNotEmpty) {
