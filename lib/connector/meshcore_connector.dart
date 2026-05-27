@@ -2798,9 +2798,10 @@ class MeshCoreConnector extends ChangeNotifier {
       if (!isConnected) return;
 
       final mode = _pathHashByteWidth - 1;
-      final encodedPathLen = (pathLen >= 0 && pathLen != 0xFF)
-          ? (pathLen | (mode << 6))
-          : pathLen;
+      if (pathLen < 0 || pathLen > 0x3F) {
+        return;
+      }
+      final encodedPathLen = pathLen | (mode << 6);
       await sendFrame(
         buildUpdateContactPathFrame(
           contact.publicKey,
