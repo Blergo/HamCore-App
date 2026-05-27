@@ -6094,9 +6094,9 @@ class MeshCoreConnector extends ChangeNotifier {
         pathLength: pathBytes.isEmpty
             ? -1
             : (pathBytes.length ~/ pathHashWidth),
-        path: Uint8List.fromList(
-          pathBytes.reversed.toList(),
-        ), // Store path in reverse for easier use in outgoing messages
+        // Store hop order reversed for easier outgoing messages; keep bytes
+        // inside each multi-byte hop in their original order.
+        path: _reversePathByHop(pathBytes, pathHashWidth),
         latitude: latitude,
         longitude: longitude,
         lastSeen: DateTime.fromMillisecondsSinceEpoch(timestamp * 1000),
@@ -6179,9 +6179,9 @@ class MeshCoreConnector extends ChangeNotifier {
         name: name,
         type: type,
         pathLength: path.isEmpty ? -1 : (path.length ~/ pathHashWidth),
-        path: Uint8List.fromList(
-          path.reversed.toList(),
-        ), // Store path in reverse for easier use in outgoing messages
+        // Store hop order reversed for easier outgoing messages; keep bytes
+        // inside each multi-byte hop in their original order.
+        path: _reversePathByHop(path, pathHashWidth),
         latitude: latitude,
         longitude: longitude,
         lastSeen: DateTime.fromMillisecondsSinceEpoch(timestamp * 1000),
@@ -6229,7 +6229,7 @@ class MeshCoreConnector extends ChangeNotifier {
         latitude: hasLocation ? latitude : existing.latitude,
         longitude: hasLocation ? longitude : existing.longitude,
         name: hasName ? name : existing.name,
-        path: Uint8List.fromList(path.reversed.toList()),
+        path: _reversePathByHop(path, pathHashWidth),
         pathLength: path.isEmpty ? -1 : (path.length ~/ pathHashWidth),
         lastMessageAt: mergedLastMessageAt,
         lastSeen: DateTime.fromMillisecondsSinceEpoch(timestamp * 1000),
@@ -6522,7 +6522,7 @@ const int _payloadTypeGroupText = 0x05;
 const int _cipherMacSize = 2;
 
 /// Decodes the firmware's encoded path_len byte into actual byte length.
-/// Bits 0-5: hash count (0-63), Bits 6-7: hash size code (0=1byte, 1=2bytes, 2=3bytes).
+/// Bits 0-5: hash count (0-63), Bits 6-7: hash size code (0=1byte ... 3=4bytes).
 int _decodePathByteLen(int pathLenRaw) {
   if (pathLenRaw == 0xFF || pathLenRaw == 0) return 0;
   final hashCount = pathLenRaw & 63;
@@ -6533,6 +6533,17 @@ int _decodePathByteLen(int pathLenRaw) {
 int _decodePathHashWidth(int pathLenRaw) {
   if (pathLenRaw == 0xFF) return 1;
   return ((pathLenRaw >> 6) & 0x03) + 1;
+}
+
+Uint8List _reversePathByHop(Uint8List pathBytes, int pathHashWidth) {
+  if (pathBytes.isEmpty) return Uint8List(0);
+  final width = pathHashWidth.clamp(1, 4).toInt();
+  final reversed = <int>[];
+  for (var i = pathBytes.length; i > 0; i -= width) {
+    final start = (i - width).clamp(0, pathBytes.length).toInt();
+    reversed.addAll(pathBytes.sublist(start, i));
+  }
+  return Uint8List.fromList(reversed);
 }
 
 class _RawPacket {
