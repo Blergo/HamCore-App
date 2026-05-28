@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
 
@@ -8,6 +9,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../connector/meshcore_connector.dart';
+import '../models/community.dart';
+import '../storage/community_store.dart';
 import '../utils/platform_info.dart';
 import '../helpers/chat_scroll_controller.dart';
 import '../connector/meshcore_protocol.dart';
@@ -33,6 +36,7 @@ import '../widgets/gif_picker.dart';
 import '../widgets/message_translation_button.dart';
 import '../widgets/message_status_icon.dart';
 import '../widgets/radio_stats_entry.dart';
+import '../widgets/sync_progress_overlay.dart';
 import '../widgets/translated_message_content.dart';
 import '../widgets/unread_divider.dart';
 import 'channel_message_path_screen.dart';
@@ -57,8 +61,11 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   final ChatScrollController _scrollController = ChatScrollController();
   final FocusNode _textFieldFocusNode = FocusNode();
   ChannelMessage? _replyingToMessage;
+  final CommunityStore _communityStore = CommunityStore();
+  final CommunityPskIndex _communityIndex = CommunityPskIndex();
   final Map<String, GlobalKey> _messageKeys = {};
   bool _isLoadingOlder = false;
+  bool _communitiesLoaded = false;
 
   MeshCoreConnector? _connector;
   DateTime? _lastChannelSendAt;
@@ -82,6 +89,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
       final idx = widget.channel.index;
       final unread = widget.initialUnreadCount;
       final messages = connector.getChannelMessages(widget.channel);
+      _loadCommunities();
       ChannelMessage? anchor;
       if (unread > 0) {
         anchor = _findOldestUnreadChannelAnchor(messages, unread);
@@ -106,6 +114,19 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
         });
       }
     });
+  }
+
+  // TODO: Reload communities when returning from another screen
+  Future<void> _loadCommunities() async {
+    final connector = context.read<MeshCoreConnector>();
+    _communityStore.setPublicKeyHex = connector.selfPublicKeyHex;
+    final communities = await _communityStore.loadCommunities();
+    if (mounted) {
+      setState(() {
+        _communityIndex.initialize(communities);
+        _communitiesLoaded = true;
+      });
+    }
   }
 
   ChannelMessage? _findOldestUnreadChannelAnchor(
@@ -194,16 +215,63 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     );
   }
 
+  Widget _channelIcon(Channel channel) {
+    // Determine icon based on channel type
+    final ChannelType channelType = Channel.getChannelType(
+      channel,
+      _communityIndex,
+    );
+    final bool isCommunityChannel = Channel.isCommunityChannel(channelType);
+    IconData icon;
+    switch (channelType) {
+      case ChannelType.communityPublic:
+        icon = Icons.groups;
+      case ChannelType.communityHashtag:
+        icon = Icons.tag;
+      case ChannelType.public:
+        icon = Icons.public;
+      case ChannelType.hashtag:
+        icon = Icons.tag;
+      case ChannelType.private:
+        icon = Icons.lock;
+    }
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3),
+          child: _communitiesLoaded
+              ? Icon(icon, size: 20)
+              : SizedBox.square(dimension: 20),
+        ),
+        if (isCommunityChannel)
+          Positioned(
+            right: 0,
+            bottom: 0,
+            child: Container(
+              width: 12,
+              height: 12,
+              decoration: BoxDecoration(
+                color: Colors.purple,
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Theme.of(context).cardColor,
+                  width: 2,
+                ),
+              ),
+              child: const Icon(Icons.people, size: 8, color: Colors.white),
+            ),
+          ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Row(
           children: [
-            Icon(
-              widget.channel.isPublicChannel ? Icons.public : Icons.tag,
-              size: 20,
-            ),
+            _channelIcon(widget.channel),
             const SizedBox(width: 8),
             Expanded(
               child: Column(
@@ -237,6 +305,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
           ],
         ),
         centerTitle: false,
+        bottom: const SyncProgressAppBarBottom(),
         actions: [
           const RadioStatsIconButton(),
           PopupMenuButton<String>(
@@ -1327,6 +1396,15 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   }
 
   void _showMessageActions(ChannelMessage message) {
+    final translationService = context.read<TranslationService>();
+    final canTranslateMessage =
+        translationService.canTranslateIncoming(
+          text: message.text,
+          isCli: false,
+          isOutgoing: message.isOutgoing,
+        ) &&
+        (message.translatedText?.trim().isEmpty ?? true);
+
     showModalBottomSheet(
       context: context,
       builder: (sheetContext) => SafeArea(
@@ -1368,6 +1446,21 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                 _copyMessageText(message.text);
               },
             ),
+            if (canTranslateMessage)
+              ListTile(
+                leading: const Icon(Icons.translate),
+                title: Text(context.l10n.translation_translateMessage),
+                onTap: () {
+                  Navigator.pop(sheetContext);
+                  unawaited(
+                    context.read<MeshCoreConnector>().translateChannelMessage(
+                      widget.channel.index,
+                      message,
+                      manualTranslation: true,
+                    ),
+                  );
+                },
+              ),
             if (!message.isOutgoing)
               ListTile(
                 leading: const Icon(Icons.mark_chat_unread_outlined),

@@ -23,6 +23,7 @@ import '../widgets/list_filter_widget.dart';
 import '../widgets/empty_state.dart';
 import '../widgets/qr_code_display.dart';
 import '../widgets/quick_switch_bar.dart';
+import '../widgets/sync_progress_overlay.dart';
 import '../widgets/unread_badge.dart';
 import '../helpers/snack_bar_builder.dart';
 import 'channel_chat_screen.dart';
@@ -44,11 +45,9 @@ class _ChannelsScreenState extends State<ChannelsScreen>
     with DisconnectNavigationMixin {
   final TextEditingController _searchController = TextEditingController();
   final CommunityStore _communityStore = CommunityStore();
-  Timer? _searchDebounce;
+  final CommunityPskIndex _communityIndex = CommunityPskIndex();
   List<Community> _communities = [];
-
-  // Cache of PSK hex -> Community for quick lookup
-  final Map<String, Community> _pskToCommunity = {};
+  Timer? _searchDebounce;
 
   ChannelMessageStore get _channelMessageStore => ChannelMessageStore();
 
@@ -71,35 +70,9 @@ class _ChannelsScreenState extends State<ChannelsScreen>
     if (mounted) {
       setState(() {
         _communities = communities;
-        _buildPskCommunityMap();
+        _communityIndex.initialize(communities);
       });
     }
-  }
-
-  void _buildPskCommunityMap() {
-    _pskToCommunity.clear();
-    for (final community in _communities) {
-      // Map the community public channel PSK
-      final publicPsk = community.deriveCommunityPublicPsk();
-      _pskToCommunity[Channel.formatPskHex(publicPsk)] = community;
-
-      // Map all known hashtag channel PSKs
-      for (final hashtag in community.hashtagChannels) {
-        final hashtagPsk = community.deriveCommunityHashtagPsk(hashtag);
-        _pskToCommunity[Channel.formatPskHex(hashtagPsk)] = community;
-      }
-    }
-  }
-
-  /// Returns the community this channel belongs to, or null if not a community channel
-  Community? _getCommunityForChannel(Channel channel) {
-    return _pskToCommunity[channel.pskHex];
-  }
-
-  /// Returns true if this is the community's public channel
-  bool _isCommunityPublicChannel(Channel channel, Community community) {
-    final publicPsk = community.deriveCommunityPublicPsk();
-    return channel.pskHex == Channel.formatPskHex(publicPsk);
   }
 
   @override
@@ -131,6 +104,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
           title: AppBarTitle(context.l10n.channels_title),
           centerTitle: true,
           automaticallyImplyLeading: false,
+          bottom: const SyncProgressAppBarBottom(),
           actions: [
             PopupMenuButton(
               itemBuilder: (context) => [
@@ -180,11 +154,16 @@ class _ChannelsScreenState extends State<ChannelsScreen>
             await context.read<MeshCoreConnector>().getChannels(force: true);
           },
           child: () {
-            if (connector.isLoadingChannels) {
+            final channels = connector.channels;
+            final waitingForFirstChannel =
+                connector.isLoadingChannels && channels.isEmpty;
+
+            // Only block the list while the first channel is actively loading.
+            // If the initial sync aborts, show cached/partial channels instead
+            // of trapping the user behind an idle spinner.
+            if (waitingForFirstChannel) {
               return const Center(child: CircularProgressIndicator());
             }
-
-            final channels = connector.channels;
 
             if (channels.isEmpty) {
               return ListView(
@@ -359,6 +338,8 @@ class _ChannelsScreenState extends State<ChannelsScreen>
             selectedIndex: 1,
             onDestinationSelected: (index) =>
                 _handleQuickSwitch(index, context),
+            contactsUnreadCount: connector.getTotalContactsUnreadCount(),
+            channelsUnreadCount: connector.getTotalChannelsUnreadCount(),
           ),
         ),
       ),
@@ -374,37 +355,37 @@ class _ChannelsScreenState extends State<ChannelsScreen>
     int? dragIndex,
   }) {
     final unreadCount = connector.getUnreadCountForChannel(channel);
-    final community = _getCommunityForChannel(channel);
-    final isCommunityChannel = community != null;
-    final isCommunityPublic =
-        isCommunityChannel && _isCommunityPublicChannel(channel, community);
 
     // Determine icon and colors based on channel type
     IconData icon;
     Color iconColor;
     Color bgColor;
-
-    if (isCommunityChannel) {
-      // Community channel styling
-      iconColor = Colors.purple;
-      bgColor = Colors.purple.withValues(alpha: 0.2);
-      if (isCommunityPublic) {
+    final ChannelType channelType = Channel.getChannelType(
+      channel,
+      _communityIndex,
+    );
+    final bool isCommunityChannel = Channel.isCommunityChannel(channelType);
+    switch (channelType) {
+      case ChannelType.communityPublic:
         icon = Icons.groups;
-      } else {
+        iconColor = Colors.purple;
+        bgColor = Colors.purple.withValues(alpha: 0.2);
+      case ChannelType.communityHashtag:
         icon = Icons.tag;
-      }
-    } else if (channel.isPublicChannel) {
-      icon = Icons.public;
-      iconColor = Colors.green;
-      bgColor = Colors.green.withValues(alpha: 0.2);
-    } else if (channel.name.startsWith('#')) {
-      icon = Icons.tag;
-      iconColor = Colors.blue;
-      bgColor = Colors.blue.withValues(alpha: 0.2);
-    } else {
-      icon = Icons.lock;
-      iconColor = Colors.blue;
-      bgColor = Colors.blue.withValues(alpha: 0.2);
+        iconColor = Colors.purple;
+        bgColor = Colors.purple.withValues(alpha: 0.2);
+      case ChannelType.public:
+        icon = Icons.public;
+        iconColor = Colors.green;
+        bgColor = Colors.green.withValues(alpha: 0.2);
+      case ChannelType.hashtag:
+        icon = Icons.tag;
+        iconColor = Colors.blue;
+        bgColor = Colors.blue.withValues(alpha: 0.2);
+      case ChannelType.private:
+        icon = Icons.lock;
+        iconColor = Colors.blue;
+        bgColor = Colors.blue.withValues(alpha: 0.2);
     }
 
     return Card(
