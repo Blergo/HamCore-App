@@ -2598,6 +2598,24 @@ class MeshCoreConnector extends ChangeNotifier {
     }
   }
 
+  bool _isPathLenValidForCurrentMode(int pathLen, List<int> pathBytes) {
+    return _isPathLenValidForMode(pathLen, pathBytes, _pathHashByteWidth);
+  }
+
+  int? _encodePathLenForCurrentMode(int pathLen, List<int> pathBytes) {
+    if (pathLen < 0 || pathLen == 0xFF) return pathLen;
+    if (!_isPathLenValidForCurrentMode(pathLen, pathBytes)) {
+      appLogger.warn(
+        'Invalid path_len for mode: pathLen=$pathLen, '
+        'bytesLen=${pathBytes.length}, width=$_pathHashByteWidth',
+        tag: 'Connector',
+      );
+      return null;
+    }
+    final mode = (_pathHashByteWidth - 1) & 0x03;
+    return (pathLen & 0x3F) | (mode << 6);
+  }
+
   Future<void> refreshDeviceInfo() async {
     if (!isConnected) return;
     if (PlatformInfo.isWeb &&
@@ -2797,11 +2815,10 @@ class MeshCoreConnector extends ChangeNotifier {
     try {
       if (!isConnected) return;
 
-      final mode = _pathHashByteWidth - 1;
-      if (pathLen < 0 || pathLen > 0x3F) {
+      final encodedPathLen = _encodePathLenForCurrentMode(pathLen, customPath);
+      if (encodedPathLen == null) {
         return;
       }
-      final encodedPathLen = pathLen | (mode << 6);
       await sendFrame(
         buildUpdateContactPathFrame(
           contact.publicKey,
@@ -2863,11 +2880,11 @@ class MeshCoreConnector extends ChangeNotifier {
               : (updatedFlags & ~contactFlagTeleEnv))
         : updatedFlags;
 
-    final mode = _pathHashByteWidth - 1;
-    final encodedPathLen =
-        (latestContact.pathLength >= 0 && latestContact.pathLength != 0xFF)
-        ? (latestContact.pathLength | (mode << 6))
-        : latestContact.pathLength;
+    final encodedPathLen = _encodePathLenForCurrentMode(
+      latestContact.pathLength,
+      latestContact.path,
+    );
+    if (encodedPathLen == null) return;
     await sendFrame(
       buildUpdateContactPathFrame(
         latestContact.publicKey,
@@ -2954,6 +2971,19 @@ class MeshCoreConnector extends ChangeNotifier {
       'Found contact at index $index. Current override: ${_contacts[index].pathOverride}',
       tag: 'Connector',
     );
+
+    if (pathLen != null &&
+        pathLen >= 0 &&
+        (pathBytes == null ||
+            !_isPathLenValidForCurrentMode(pathLen, pathBytes))) {
+      appLogger.warn(
+        'setPathOverride: invalid path for ${contact.name}: '
+        'pathLen=$pathLen, bytesLen=${pathBytes?.length ?? 0}, '
+        'width=$_pathHashByteWidth',
+        tag: 'Connector',
+      );
+      return;
+    }
 
     // Update contact with new path override
     _contacts[index] = _contacts[index].copyWith(
@@ -3208,11 +3238,11 @@ class MeshCoreConnector extends ChangeNotifier {
   Future<void> importDiscoveredContact(Contact contact) async {
     if (!isConnected) return;
 
-    final mode = _pathHashByteWidth - 1;
-    final encodedPathLen =
-        (contact.pathLength >= 0 && contact.pathLength != 0xFF)
-        ? (contact.pathLength | (mode << 6))
-        : contact.pathLength;
+    final encodedPathLen = _encodePathLenForCurrentMode(
+      contact.pathLength,
+      contact.path,
+    );
+    if (encodedPathLen == null) return;
     await sendFrame(
       buildUpdateContactPathFrame(
         contact.publicKey,
@@ -6533,6 +6563,18 @@ int _decodePathByteLen(int pathLenRaw) {
 int _decodePathHashWidth(int pathLenRaw) {
   if (pathLenRaw == 0xFF) return 1;
   return ((pathLenRaw >> 6) & 0x03) + 1;
+}
+
+bool _isPathLenValidForMode(
+  int pathLen,
+  List<int> pathBytes,
+  int pathHashWidth,
+) {
+  if (pathLen < 0 || pathLen > 0x3F) return false;
+  final width = pathHashWidth.clamp(1, 4).toInt();
+  final maxHopCountByBytes = maxPathSize ~/ width;
+  if (pathLen > maxHopCountByBytes) return false;
+  return pathBytes.length <= maxPathSize && pathBytes.length == pathLen * width;
 }
 
 Uint8List _reversePathByHop(Uint8List pathBytes, int pathHashWidth) {
