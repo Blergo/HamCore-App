@@ -2638,6 +2638,41 @@ class AppLocalizationsUk extends AppLocalizations {
       'Байти, що використовуються для кодування ідентифікатора цього ретранслятора в тегах для виявлення потоків/петлі. 0=1 байт (256 ідентифікаторів, до 64 перехідів), 1=2 байти (65 000 ідентифікаторів, до 32 перехідів), 2=3 байти (16 мільйонів ідентифікаторів, до 21 переходу). Версії 1.13 та старіші не підтримують багатобайтні шляхи — вони активуються лише після того, як мережа буде оновлена до версії 1.14+.';
 
   @override
+  String get repeater_keySettings => 'Change Identity Keys';
+
+  @override
+  String get repeater_keySettingsSubtitle =>
+      'Change the public/private keypair';
+
+  @override
+  String get repeater_prvKey => 'Private key';
+
+  @override
+  String get repeater_prvKeyHelper =>
+      'A new private key for the repeater, a 128-character hex string.';
+
+  @override
+  String get repeater_generatePrvKey => 'Generate a random keypair';
+
+  @override
+  String get repeater_stopGeneratingPrvKey => 'Interrupt search for keypair';
+
+  @override
+  String get repeater_pubKey => 'Public key';
+
+  @override
+  String get repeater_pubKeyHelper =>
+      'This is the public key that goes with the generated private key. You can\'t set this directly.';
+
+  @override
+  String get repeater_pubKeyPrefix => 'Desired prefix';
+
+  @override
+  String repeater_pubKeyPrefixHelper(int tries) {
+    return 'Find a public key that starts with these hex digits. Expected tries needed: $tries.';
+  }
+
+  @override
   String get repeater_txDelay => 'Затримка у Flood, штат Техас';
 
   @override

@@ -15,13 +15,33 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "de": [
     "settings_regionFetchRegions",
     "settings_regionFetchRegionsFail",
-    "settings_regionFetchRegionsAlreadyExists"
+    "settings_regionFetchRegionsAlreadyExists",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "es": [
@@ -40,7 +60,17 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "fr": [
@@ -59,7 +89,17 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "hu": [
@@ -78,7 +118,17 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "it": [
@@ -97,7 +147,17 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "ja": [
@@ -116,7 +176,17 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "ko": [
@@ -135,7 +205,17 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "nl": [
@@ -154,7 +234,17 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "pl": [
@@ -173,7 +263,17 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "pt": [
@@ -192,7 +292,17 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "ru": [
@@ -211,7 +321,17 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "sk": [
@@ -230,7 +350,17 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "sl": [
@@ -249,7 +379,17 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "sv": [
@@ -268,7 +408,17 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "uk": [
@@ -287,7 +437,17 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ],
 
   "zh": [
@@ -306,6 +466,16 @@
     "channels_regionSetTo",
     "channels_regionNotSet",
     "channels_regionSelect_Title",
-    "channels_clearRegion"
+    "channels_clearRegion",
+    "repeater_keySettings",
+    "repeater_keySettingsSubtitle",
+    "repeater_prvKey",
+    "repeater_prvKeyHelper",
+    "repeater_generatePrvKey",
+    "repeater_stopGeneratingPrvKey",
+    "repeater_pubKey",
+    "repeater_pubKeyHelper",
+    "repeater_pubKeyPrefix",
+    "repeater_pubKeyPrefixHelper"
   ]
 }

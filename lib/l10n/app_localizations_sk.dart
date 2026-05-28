@@ -2622,6 +2622,41 @@ class AppLocalizationsSk extends AppLocalizations {
       'Byty použité na zakódovanie ID tohto opakovača v tagoch pre trasu/detekciu slučky. 0 = 1 bytu (256 ID, až 64 skokov), 1 = 2 byty (65 000 ID, až 32 skokov), 2 = 3 byty (16 miliónov ID, až 21 skokov). Verzie 1.13 a staršie nepodporujú viacbytové trasy – fungujú len, keď je sieť aktivovaná.';
 
   @override
+  String get repeater_keySettings => 'Change Identity Keys';
+
+  @override
+  String get repeater_keySettingsSubtitle =>
+      'Change the public/private keypair';
+
+  @override
+  String get repeater_prvKey => 'Private key';
+
+  @override
+  String get repeater_prvKeyHelper =>
+      'A new private key for the repeater, a 128-character hex string.';
+
+  @override
+  String get repeater_generatePrvKey => 'Generate a random keypair';
+
+  @override
+  String get repeater_stopGeneratingPrvKey => 'Interrupt search for keypair';
+
+  @override
+  String get repeater_pubKey => 'Public key';
+
+  @override
+  String get repeater_pubKeyHelper =>
+      'This is the public key that goes with the generated private key. You can\'t set this directly.';
+
+  @override
+  String get repeater_pubKeyPrefix => 'Desired prefix';
+
+  @override
+  String repeater_pubKeyPrefixHelper(int tries) {
+    return 'Find a public key that starts with these hex digits. Expected tries needed: $tries.';
+  }
+
+  @override
   String get repeater_txDelay => 'Zpoždanie v Flood, TX';
 
   @override

@@ -2651,6 +2651,41 @@ class AppLocalizationsPl extends AppLocalizations {
       'Bity wykorzystywane do kodowania identyfikatora tego urządzenia w tagach ścieżek/detekcji pętli. 0=1 bity (256 identyfikatorów, do 64 skoków), 1=2 bity (65 000 identyfikatorów, do 32 skoków), 2=3 bity (1 600 000 identyfikatorów, do 21 skoków). Wersje 1.13 i wcześniejsze nie obsługują ścieżek wielobitowych – wykrywają tylko jedną, gdy sieć jest w wersji 1.14 lub nowszej.';
 
   @override
+  String get repeater_keySettings => 'Change Identity Keys';
+
+  @override
+  String get repeater_keySettingsSubtitle =>
+      'Change the public/private keypair';
+
+  @override
+  String get repeater_prvKey => 'Private key';
+
+  @override
+  String get repeater_prvKeyHelper =>
+      'A new private key for the repeater, a 128-character hex string.';
+
+  @override
+  String get repeater_generatePrvKey => 'Generate a random keypair';
+
+  @override
+  String get repeater_stopGeneratingPrvKey => 'Interrupt search for keypair';
+
+  @override
+  String get repeater_pubKey => 'Public key';
+
+  @override
+  String get repeater_pubKeyHelper =>
+      'This is the public key that goes with the generated private key. You can\'t set this directly.';
+
+  @override
+  String get repeater_pubKeyPrefix => 'Desired prefix';
+
+  @override
+  String repeater_pubKeyPrefixHelper(int tries) {
+    return 'Find a public key that starts with these hex digits. Expected tries needed: $tries.';
+  }
+
+  @override
   String get repeater_txDelay => 'Opóźnienie w Flood, TX';
 
   @override

@@ -1409,6 +1409,26 @@
   "repeater_advancedSettingsSubtitle": "Tuning knobs for experienced operators",
   "repeater_pathHashMode": "Path hash mode",
   "repeater_pathHashModeHelper": "Bytes used to encode this repeater's ID in flood path/loop-detect tags. 0=1 byte (256 IDs, up to 64 hops), 1=2 bytes (65K IDs, up to 32 hops), 2=3 bytes (16M IDs, up to 21 hops). v1.13 and older firmware drops multi-byte paths — only raise once your network is on v1.14+.",
+  "repeater_keySettings": "Change Identity Keys",
+  "repeater_keySettingsSubtitle": "Change the public/private keypair",
+  "repeater_prvKey": "Private key",
+  "repeater_prvKeyHelper": "A new private key for the repeater, a 128-character hex string.",
+  "repeater_generatePrvKey": "Generate a random keypair",
+  "repeater_stopGeneratingPrvKey": "Interrupt search for keypair",
+  "repeater_pubKey": "Public key",
+  "repeater_pubKeyHelper": "This is the public key that goes with the generated private key. You can't set this directly.",
+  "repeater_pubKeyPrefix": "Desired prefix",
+  "repeater_pubKeyPrefixHelper": "Find a public key that starts with these hex digits. Expected tries needed: {tries}.",
+  "@repeater_pubKeyPrefixHelper": {
+    "placeholders": {
+      "tries": {
+        "type": "int"
+      }
+    }
+  },
+
+
+
   "repeater_txDelay": "Flood TX delay",
   "repeater_txDelayHelper": "Retransmit spacing for flood traffic, as a multiplier of the packet's airtime (0-2, default 0.5). Higher = fewer collisions but slower delivery.",
   "repeater_directTxDelay": "Direct TX delay",
@@ -1589,7 +1609,7 @@
   "repeater_cliHelpPowersavingOnOff": "Enables or disables powersaving mode (where supported).",
   "repeater_cliHelpErase": "(Serial only) Formats the device file system. Wipes all settings and contacts.",
   "repeater_cliHelpSetDutyCycle": "Sets the maximum allowed transmit duty cycle as a percentage (1-100). Internally adjusts the airtime factor.",
-  "repeater_cliHelpSetPrvKey": "(Serial only) Replaces the device identity private key. Reboot required to apply. Generates a new public key.",
+  "repeater_cliHelpSetPrvKey": "Replaces the device identity private key. Reboot required to apply. Generates a new public key.",
   "repeater_cliHelpSetRadioRxGain": "(SX126x only) Toggles boosted RX gain for improved sensitivity at higher current draw.",
   "repeater_cliHelpSetOwnerInfo": "Sets the owner contact info string included in adverts. Use '|' for newlines.",
   "repeater_cliHelpSetPathHashMode": "Sets the path-hash mode. 0 = legacy, 1 = standard, 2 = strict. Affects how routing paths are matched.",
