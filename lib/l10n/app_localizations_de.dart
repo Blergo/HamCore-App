@@ -93,6 +93,24 @@ class AppLocalizationsDe extends AppLocalizations {
   String get common_disable => 'Deaktivieren';
 
   @override
+  String get common_undo => 'Rückgängig machen';
+
+  @override
+  String get messageStatus_sent => 'Gesendet';
+
+  @override
+  String get messageStatus_delivered => 'Geliefert';
+
+  @override
+  String get messageStatus_pending => 'Versenden';
+
+  @override
+  String get messageStatus_failed => 'Nicht gesendet';
+
+  @override
+  String get messageStatus_repeated => 'Wiederholt gehört';
+
+  @override
   String get common_reboot => 'Neustart';
 
   @override
@@ -110,6 +128,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String common_percentValue(int percent) {
     return '$percent%';
   }
+
+  @override
+  String get common_autoRefresh => 'Automatische Aktualisierung';
+
+  @override
+  String get common_interval => 'Intervall';
 
   @override
   String get scanner_title => 'MeshCore – Open-Version';
@@ -799,11 +823,6 @@ class AppLocalizationsDe extends AppLocalizations {
       'Anzahl der Versuche, eine Nachricht erneut zu senden, bevor sie als fehlgeschlagen markiert wird.';
 
   @override
-  String path_routeWeight(String weight, String max) {
-    return '$weight/$max';
-  }
-
-  @override
   String get appSettings_battery => 'Akku';
 
   @override
@@ -1003,6 +1022,15 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get contacts_newGroup => 'Neue Gruppe';
+
+  @override
+  String get contacts_moreOptions => 'Weitere Optionen';
+
+  @override
+  String get contacts_searchOpen => 'Kontakte suchen';
+
+  @override
+  String get contacts_searchClose => 'Erweiterte Suche';
 
   @override
   String get contacts_groupName => 'Gruppenname';
@@ -1487,36 +1515,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get debugFrame_hexDump => 'Hex-Dump:';
 
   @override
-  String get chat_pathManagement => 'Pfadverwaltung';
-
-  @override
-  String get chat_ShowAllPaths => 'Alle Pfade anzeigen';
-
-  @override
-  String get chat_routingMode => 'Routenmodus';
-
-  @override
-  String get chat_autoUseSavedPath =>
-      'Automatisch (gespeicherten Pfad verwenden)';
-
-  @override
-  String get chat_forceFloodMode => 'Flut-Modus erzwingen';
-
-  @override
-  String get chat_recentAckPaths =>
-      'Aktuelle ACK-Pfade (antippen, um zu verwenden):';
-
-  @override
-  String get chat_pathHistoryFull =>
-      'Die Pfadhistorie ist voll. Entferne Einträge, um neue hinzuzufügen.';
-
-  @override
-  String get chat_hopSingular => 'Sprung';
-
-  @override
-  String get chat_hopPlural => 'Sprünge';
-
-  @override
   String chat_hopsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -1528,12 +1526,6 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get chat_successes => 'Erfolgreich';
-
-  @override
-  String get chat_score => 'Score';
-
-  @override
   String get chat_removePath => 'Pfad entfernen';
 
   @override
@@ -1541,49 +1533,146 @@ class AppLocalizationsDe extends AppLocalizations {
       'Keine Pfadhistorie vorhanden.\nSende eine Nachricht, um Pfade zu entdecken.';
 
   @override
-  String get chat_pathActions => 'Pfadaktionen:';
-
-  @override
-  String get chat_setCustomPath => 'Lege benutzerdefinierten Pfad fest';
-
-  @override
-  String get chat_setCustomPathSubtitle => 'Manuellen Routenpfad festlegen';
-
-  @override
-  String get chat_clearPath => 'Pfad zurücksetzen';
-
-  @override
-  String get chat_clearPathSubtitle =>
-      'Setze Pfad zurück, erkenne neuen Pfad bei nächster Sendung.';
-
-  @override
   String get chat_pathCleared =>
       'Pfad zurückgesetzt. Nächste Nachricht wird Route neu entdecken.';
-
-  @override
-  String get chat_floodModeSubtitle =>
-      'Verwende den Routingschalter in der App-Leiste';
-
-  @override
-  String get chat_floodModeEnabled => 'Flutmodus aktiviert.';
 
   @override
   String get chat_fullPath => 'Vollständiger Pfad';
 
   @override
-  String get chat_pathDetailsNotAvailable =>
-      'Die Pfaddetails sind noch nicht verfügbar. Versuchen Sie, eine Nachricht zu senden, um zu aktualisieren.';
+  String get routing_title => 'Routenplanung';
 
   @override
-  String chat_pathSetHops(int hopCount, String status) {
-    String _temp0 = intl.Intl.pluralLogic(
-      hopCount,
-      locale: localeName,
-      other: 'hops',
-      one: 'hop',
-    );
-    return 'Pfad gesetzt: $hopCount $_temp0 - $status';
+  String get routing_modeAuto => 'Auto';
+
+  @override
+  String get routing_modeFlood => 'Überschwemmung';
+
+  @override
+  String get routing_modeManual => 'Handbuch';
+
+  @override
+  String get routing_modeAutoHint =>
+      'Wählt automatisch den bekanntesten Pfad aus und verwendet eine Flutungsmethode, wenn kein Pfad bekannt ist.';
+
+  @override
+  String get routing_modeFloodHint =>
+      'Übertragung über alle Repeater. Die zuverlässigste Methode, jedoch mit höherem Datenverbrauch.';
+
+  @override
+  String get routing_modeManualHint =>
+      'Sendet immer genau den von Ihnen festgelegten Weg.';
+
+  @override
+  String get routing_currentRoute => 'Aktuelle Route';
+
+  @override
+  String get routing_directNoHops => 'Direkt – ohne Zwischenverstärkung';
+
+  @override
+  String get routing_noPathYet =>
+      'Noch kein Pfad gefunden. Die Nachricht wird gesendet, bis ein Weg entdeckt wurde.';
+
+  @override
+  String get routing_floodBroadcast => 'Übertragung über jeden Repeater';
+
+  @override
+  String get routing_editPath => 'Pfad bearbeiten';
+
+  @override
+  String get routing_forgetPath => 'Vergiss den Weg';
+
+  @override
+  String get routing_knownPaths => 'Bekannte Routen';
+
+  @override
+  String get routing_knownPathsHint =>
+      'Wählen Sie den Pfad, um zu diesem zu wechseln.';
+
+  @override
+  String get routing_inUse => 'Im Gebrauch';
+
+  @override
+  String get routing_qualityStrong => 'Ein starker erster Sprung';
+
+  @override
+  String get routing_qualityGood => 'Ein guter erster Schritt';
+
+  @override
+  String get routing_qualityFair => 'Erster erfolgreicher Schritt';
+
+  @override
+  String get routing_qualityWorked => 'Hat erfolgreich geliefert';
+
+  @override
+  String get routing_qualityFlood =>
+      'Information erhalten durch Nachrichten über die Überschwemmung';
+
+  @override
+  String get routing_qualityUntested => 'Nicht getestet';
+
+  @override
+  String routing_lastWorked(String when) {
+    return 'war beschäftigt $when';
   }
+
+  @override
+  String get routing_neverWorked => 'nie bestätigt';
+
+  @override
+  String routing_deliveryCounts(int successes, int failures) {
+    return '$successes delivered, $failures failed';
+  }
+
+  @override
+  String get routing_floodDelivery => 'Lieferung bei Überschwemmung';
+
+  @override
+  String get pathEditor_title => 'Pfad erstellen';
+
+  @override
+  String pathEditor_hopCounter(int count) {
+    return '$count von 64 Hopfengewächsen';
+  }
+
+  @override
+  String get pathEditor_noHops =>
+      'Noch keine Hopfen hinzugefügt. Klicken Sie auf die Schaltflächen unten, um sie nacheinander hinzuzufügen, oder speichern Sie die Rezepter ohne Hopfen, um sie direkt zu versenden.';
+
+  @override
+  String get pathEditor_addHops =>
+      'Fügen Sie die Hopfen in der richtigen Reihenfolge hinzu.';
+
+  @override
+  String get pathEditor_searchRepeaters =>
+      'Suche nach wiederholten Nachrichten';
+
+  @override
+  String get pathEditor_advancedHex => 'Fortgeschritten: Roh-Hex-Pfad';
+
+  @override
+  String get pathEditor_hexLabel => 'Hex-Präfixe';
+
+  @override
+  String get pathEditor_hexHelper =>
+      'Zwei Hexadezimalzeichen pro Sprung, getrennt durch Kommas';
+
+  @override
+  String pathEditor_invalidTokens(String tokens) {
+    return 'Ungültig: $tokens';
+  }
+
+  @override
+  String get pathEditor_tooManyHops => 'Maximal 64 Hopfengreifer';
+
+  @override
+  String get pathEditor_usePath => 'Verwenden Sie diesen Pfad.';
+
+  @override
+  String get pathEditor_removeHop => 'Hop entfernen';
+
+  @override
+  String get pathEditor_unknownHop => 'Unbekannter Repeater';
 
   @override
   String get chat_pathSavedLocally =>
@@ -2056,63 +2145,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get common_clear => 'Löschen';
 
   @override
-  String path_currentPath(String path) {
-    return 'Aktiver Pfad: $path';
-  }
-
-  @override
-  String path_usingHopsPath(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Hops',
-      one: 'Hop',
-    );
-    return 'Verwenden Sie $count $_temp0 Pfad';
-  }
-
-  @override
-  String get path_enterCustomPath => 'Gebe Pfad ein';
-
-  @override
   String get path_currentPathLabel => 'Aktueller Pfad';
-
-  @override
-  String get path_hexPrefixInstructions =>
-      'Gebe für jeden Zwischen-Hop das 2-stellige Hex-Präfix ein, getrennt durch Kommas.';
-
-  @override
-  String get path_hexPrefixExample =>
-      'Beispiel: A1,F2,3C (jeder Knoten verwendet den ersten Byte seines öffentlichen Schlüssels)';
-
-  @override
-  String get path_labelHexPrefixes => 'Pfad (Hex-Präfixe)';
-
-  @override
-  String get path_helperMaxHops =>
-      'Max 64 Sprünge. Jede Präfixe ist 2 Hexadezimalzeichen (1 Byte)';
-
-  @override
-  String get path_selectFromContacts => 'Oder wähle aus Kontakten aus:';
 
   @override
   String get path_noRepeatersFound =>
       'Keine Repeater oder Raumserver gefunden.';
-
-  @override
-  String get path_customPathsRequire =>
-      'Benutzerdefinierte Pfade erfordern Zwischen-Hops, die Nachrichten weiterleiten können.';
-
-  @override
-  String path_invalidHexPrefixes(String prefixes) {
-    return 'Ungültige Hexadezimal-Präfixe: $prefixes';
-  }
-
-  @override
-  String get path_tooLong => 'Pfad zu lang. Maximal 64 Hops erlaubt.';
-
-  @override
-  String get path_setPath => 'Pfad festlegen';
 
   @override
   String get repeater_management => 'Repeater-Verwaltung';
@@ -2177,16 +2214,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get repeater_routingMode => 'Routenmodus';
-
-  @override
-  String get repeater_autoUseSavedPath =>
-      'Automatisch (gespeicherten Pfad verwenden)';
-
-  @override
-  String get repeater_forceFloodMode => 'Flut-Modus erzwingen';
-
-  @override
-  String get repeater_pathManagement => 'Pfadverwaltung';
 
   @override
   String get repeater_refresh => 'Aktualisieren';
@@ -3295,6 +3322,139 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get telemetry_digitalInputLabel => 'Digitaleingang';
+
+  @override
+  String get telemetry_digitalOutputLabel => 'Digitalausgang';
+
+  @override
+  String get telemetry_analogInputLabel => 'Analogeingang';
+
+  @override
+  String get telemetry_analogOutputLabel => 'Analogausgang';
+
+  @override
+  String get telemetry_genericLabel => 'Allgemeiner Sensor';
+
+  @override
+  String get telemetry_luminosityLabel => 'Helligkeit';
+
+  @override
+  String get telemetry_presenceLabel => 'Anwesenheit';
+
+  @override
+  String get telemetry_humidityLabel => 'Luftfeuchtigkeit';
+
+  @override
+  String get telemetry_accelerometerLabel => 'Beschleunigungsmesser';
+
+  @override
+  String get telemetry_pressureLabel => 'Druck';
+
+  @override
+  String get telemetry_altitudeLabel => 'Höhe';
+
+  @override
+  String get telemetry_frequencyLabel => 'Frequenz';
+
+  @override
+  String get telemetry_percentageLabel => 'Prozentsatz';
+
+  @override
+  String get telemetry_concentrationLabel => 'Konzentration';
+
+  @override
+  String get telemetry_powerLabel => 'Leistung';
+
+  @override
+  String get telemetry_distanceLabel => 'Entfernung';
+
+  @override
+  String get telemetry_energyLabel => 'Energie';
+
+  @override
+  String get telemetry_directionLabel => 'Richtung';
+
+  @override
+  String get telemetry_timeLabel => 'Zeit';
+
+  @override
+  String get telemetry_gyrometerLabel => 'Gyroskop';
+
+  @override
+  String get telemetry_colourLabel => 'Farbe';
+
+  @override
+  String get telemetry_gpsLabel => 'GPS';
+
+  @override
+  String get telemetry_switchLabel => 'Schalter';
+
+  @override
+  String get telemetry_polylineLabel => 'Polylinie';
+
+  @override
+  String telemetry_altitudeValue(String meters) {
+    return '$meters m';
+  }
+
+  @override
+  String telemetry_frequencyValue(String hertz) {
+    return '$hertz Hz';
+  }
+
+  @override
+  String telemetry_pressureValue(String hpa) {
+    return '$hpa hPa';
+  }
+
+  @override
+  String telemetry_luminosityValue(String lux) {
+    return '$lux lx';
+  }
+
+  @override
+  String telemetry_powerValue(String watts) {
+    return '$watts W';
+  }
+
+  @override
+  String telemetry_distanceValue(String meters) {
+    return '$meters m';
+  }
+
+  @override
+  String telemetry_energyValue(String kilowattHours) {
+    return '$kilowattHours kWh';
+  }
+
+  @override
+  String telemetry_directionValue(String degrees) {
+    return '$degrees°';
+  }
+
+  @override
+  String telemetry_concentrationValue(String ppm) {
+    return '$ppm ppm';
+  }
+
+  @override
+  String telemetry_percentageValue(String percent) {
+    return '$percent%';
+  }
+
+  @override
+  String telemetry_analogValue(String value) {
+    return '$value';
+  }
+
+  @override
+  String get telemetry_autoFetchQuantity => 'Anzahl der Anfragen';
+
+  @override
+  String get telemetry_error => 'Daten konnten nicht abgerufen werden';
+
+  @override
   String get neighbors_receivedData => 'Empfangene Nachbarsdaten';
 
   @override
@@ -4328,4 +4488,28 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get contact_typeUnknown => 'Unknown';
+
+  @override
+  String get map_zoomIn => 'Zoomen';
+
+  @override
+  String get map_zoomOut => 'Auszoomen';
+
+  @override
+  String get map_centerMap => 'Zentralkarte';
+
+  @override
+  String get chrome_bluetoothRequiresChromium =>
+      'Web Bluetooth benötigt einen Chromium-Browser.';
+
+  @override
+  String channels_communityShortId(String id) {
+    return 'ID: $id…';
+  }
+
+  @override
+  String get pathTrace_legendGpsConfirmed => 'GPS-Bestätigung';
+
+  @override
+  String get pathTrace_legendInferred => 'Abgeleitete Position';
 }

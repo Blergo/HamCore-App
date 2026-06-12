@@ -5,7 +5,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 
 import '../connector/meshcore_connector.dart';
@@ -26,8 +26,9 @@ import '../models/translation_support.dart';
 import '../services/app_settings_service.dart';
 import '../services/chat_text_scale_service.dart';
 import '../services/translation_service.dart';
-import '../utils/emoji_utils.dart';
+import '../helpers/contact_ui.dart';
 import '../widgets/byte_count_input.dart';
+import '../widgets/empty_state.dart';
 import '../widgets/chat_zoom_wrapper.dart';
 import '../widgets/emoji_picker.dart';
 import '../widgets/gif_message.dart';
@@ -284,6 +285,8 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                           )
                         : widget.channel.name,
                     style: const TextStyle(fontSize: 16),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   Consumer<MeshCoreConnector>(
                     builder: (context, connector, _) {
@@ -312,9 +315,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
             icon: const Icon(Icons.more_vert),
             onSelected: (value) {
               if (value == 'clearChat') {
-                context.read<MeshCoreConnector>().clearMessagesForChannel(
-                  widget.channel.index,
-                );
+                _confirmClearChat();
               }
             },
             itemBuilder: (context) => [
@@ -322,11 +323,17 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                 value: 'clearChat',
                 child: Row(
                   children: [
-                    const Icon(Icons.delete, size: 20, color: Colors.red),
+                    Icon(
+                      Icons.delete,
+                      size: 20,
+                      color: Theme.of(context).colorScheme.error,
+                    ),
                     const SizedBox(width: 12),
                     Text(
                       context.l10n.contact_clearChat,
-                      style: const TextStyle(color: Colors.red),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
                     ),
                   ],
                 ),
@@ -345,34 +352,17 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                   final messages = connector.getChannelMessages(widget.channel);
 
                   if (messages.isEmpty) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            widget.channel.isPublicChannel
-                                ? Icons.public
-                                : Icons.tag,
-                            size: 64,
-                            color: Colors.grey[400],
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            context.l10n.chat_noMessages,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            context.l10n.chat_sendMessageToStart,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[500],
-                            ),
-                          ),
-                        ],
+                    return EmptyState(
+                      icon: widget.channel.isPublicChannel
+                          ? Icons.public
+                          : Icons.tag,
+                      title: context.l10n.chat_noMessages,
+                      subtitle: context.l10n.chat_sendMessageTo(
+                        widget.channel.name.isEmpty
+                            ? context.l10n.channels_channelIndex(
+                                widget.channel.index,
+                              )
+                            : widget.channel.name,
                       ),
                     );
                   }
@@ -381,6 +371,25 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                   final reversedMessages = messages.reversed.toList();
                   final itemCount =
                       reversedMessages.length + (_isLoadingOlder ? 1 : 0);
+
+                  // Prune stale keys (deleted/cleared messages) to avoid
+                  // unbounded growth.
+                  final liveIds = reversedMessages
+                      .map((m) => m.messageId)
+                      .toSet();
+                  _messageKeys.removeWhere((id, _) => !liveIds.contains(id));
+
+                  // Two messages can collide on messageId (same ms + name/text
+                  // hash). Only the first occurrence owns the shared GlobalKey
+                  // used for scroll-to-message; duplicates get a local key so
+                  // no two widgets share one GlobalKey.
+                  final seenIds = <String>{};
+                  final keyedIndices = <int>{};
+                  for (var i = 0; i < reversedMessages.length; i++) {
+                    if (seenIds.add(reversedMessages[i].messageId)) {
+                      keyedIndices.add(i);
+                    }
+                  }
 
                   // Auto-scroll to bottom if user is already at bottom
                   WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -417,14 +426,20 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                             }
                             final messageIndex = index;
                             final message = reversedMessages[messageIndex];
-                            if (!_messageKeys.containsKey(message.messageId)) {
-                              _messageKeys[message.messageId] = GlobalKey();
+                            final GlobalKey messageKey;
+                            if (keyedIndices.contains(messageIndex)) {
+                              messageKey = _messageKeys.putIfAbsent(
+                                message.messageId,
+                                GlobalKey.new,
+                              );
+                            } else {
+                              messageKey = GlobalKey();
                             }
                             final isUnreadAnchor =
                                 _unreadDividerMessageId != null &&
                                 message.messageId == _unreadDividerMessageId;
                             return Container(
-                              key: _messageKeys[message.messageId]!,
+                              key: messageKey,
                               child: Builder(
                                 builder: (context) {
                                   final textScale = context
@@ -499,181 +514,126 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     const maxSwipeOffset = 64.0;
     const replySwipeThreshold = 64.0;
     const bodyFontSize = 14.0;
-    final messageBody = Column(
-      crossAxisAlignment: isOutgoing
-          ? CrossAxisAlignment.end
-          : CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: isOutgoing
-              ? MainAxisAlignment.end
-              : MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (!isOutgoing) ...[
-              _buildAvatar(message.senderName),
-              const SizedBox(width: 8),
-            ],
-            Flexible(
-              child: GestureDetector(
-                onTap: PlatformInfo.isDesktop
-                    ? null
-                    : () => _showMessagePathInfo(message),
-                onLongPress: () => _showMessageActions(message),
-                onSecondaryTapUp: PlatformInfo.isDesktop
-                    ? (_) => _showMessageActions(message)
-                    : null,
-                child: Container(
-                  padding: gifId != null
-                      ? const EdgeInsets.all(4)
-                      : const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.65,
-                  ),
-                  decoration: BoxDecoration(
-                    color: isOutgoing
-                        ? Theme.of(context).colorScheme.primaryContainer
-                        : Theme.of(context).colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (!isOutgoing) ...[
-                        Padding(
-                          padding: gifId != null
-                              ? const EdgeInsets.only(
-                                  left: 8,
-                                  top: 4,
-                                  bottom: 4,
-                                )
-                              : EdgeInsets.zero,
-                          child: Text(
-                            message.senderName,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
+    final messageBody = LayoutBuilder(
+      builder: (context, constraints) => Column(
+        crossAxisAlignment: isOutgoing
+            ? CrossAxisAlignment.end
+            : CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: isOutgoing
+                ? MainAxisAlignment.end
+                : MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (!isOutgoing) ...[
+                _buildAvatar(message.senderName),
+                const SizedBox(width: 8),
+              ],
+              Flexible(
+                child: GestureDetector(
+                  onLongPress: () => _showMessageActions(message),
+                  onSecondaryTapUp: PlatformInfo.isDesktop
+                      ? (_) => _showMessageActions(message)
+                      : null,
+                  child: Container(
+                    padding: gifId != null
+                        ? const EdgeInsets.all(4)
+                        : const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
+                    constraints: BoxConstraints(
+                      maxWidth: constraints.maxWidth * 0.65,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isOutgoing
+                          ? Theme.of(context).colorScheme.primaryContainer
+                          : Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (!isOutgoing) ...[
+                          Padding(
+                            padding: gifId != null
+                                ? const EdgeInsets.only(
+                                    left: 8,
+                                    top: 4,
+                                    bottom: 4,
+                                  )
+                                : EdgeInsets.zero,
+                            child: Text(
+                              message.senderName,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             ),
                           ),
-                        ),
-                        if (gifId == null) const SizedBox(height: 4),
-                      ],
-                      if (message.replyToMessageId != null) ...[
-                        _buildReplyPreview(message, textScale),
-                        const SizedBox(height: 8),
-                      ],
-                      if (poi != null)
-                        _buildPoiMessage(
-                          context,
-                          poi,
-                          isOutgoing,
-                          textScale,
-                          message.senderName,
-                          trailing: (!enableTracing && isOutgoing)
-                              ? Padding(
-                                  padding: const EdgeInsets.only(bottom: 2),
-                                  child: MessageStatusIcon(
-                                    isAcked:
-                                        message.status ==
-                                            ChannelMessageStatus.sent &&
-                                        displayPath.isNotEmpty,
-                                    isFailed:
-                                        message.status ==
-                                        ChannelMessageStatus.failed,
-                                  ),
-                                )
-                              : null,
-                        )
-                      else if (gifId != null)
-                        Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: GifMessage(
-                                url:
-                                    'https://media.giphy.com/media/$gifId/giphy.gif',
-                                backgroundColor: Colors.transparent,
-                                fallbackTextColor: isOutgoing
-                                    ? Theme.of(context)
-                                          .colorScheme
-                                          .onPrimaryContainer
-                                          .withValues(alpha: 0.7)
-                                    : Theme.of(context).colorScheme.onSurface
-                                          .withValues(alpha: 0.6),
-                              ),
-                            ),
-                            if (!enableTracing && isOutgoing)
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                child: Container(
-                                  padding: const EdgeInsets.all(3),
-                                  decoration: BoxDecoration(
-                                    color: isOutgoing
-                                        ? Theme.of(
-                                            context,
-                                          ).colorScheme.primaryContainer
-                                        : Theme.of(
-                                            context,
-                                          ).colorScheme.surfaceContainerHighest,
-                                    borderRadius: const BorderRadius.only(
-                                      bottomLeft: Radius.circular(10),
-                                      topRight: Radius.circular(8),
-                                    ),
-                                  ),
-                                  child: MessageStatusIcon(
-                                    isAcked:
-                                        message.status ==
-                                            ChannelMessageStatus.sent &&
-                                        displayPath.isNotEmpty,
-                                    isFailed:
-                                        message.status ==
-                                        ChannelMessageStatus.failed,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        )
-                      else
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Flexible(
-                              child: TranslatedMessageContent(
-                                displayText: translatedDisplayText,
-                                originalText: originalDisplayText,
-                                style: TextStyle(
-                                  fontSize: bodyFontSize * textScale,
-                                ),
-                                originalStyle: TextStyle(
-                                  fontSize: bodyFontSize * textScale,
-                                  fontStyle: FontStyle.italic,
-                                  color: Theme.of(context).colorScheme.onSurface
-                                      .withValues(alpha: 0.72),
-                                ),
-                              ),
-                            ),
-                            if (!enableTracing && isOutgoing) ...[
-                              const SizedBox(width: 4),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 2),
-                                child: MessageStatusIcon(
-                                  isAcked:
-                                      message.status ==
-                                          ChannelMessageStatus.sent &&
-                                      displayPath.isNotEmpty,
-                                  isFailed:
-                                      message.status ==
-                                      ChannelMessageStatus.failed,
+                          if (gifId == null) const SizedBox(height: 4),
+                        ],
+                        if (message.replyToMessageId != null) ...[
+                          _buildReplyPreview(message, textScale),
+                          const SizedBox(height: 8),
+                        ],
+                        if (poi != null)
+                          _buildPoiMessage(
+                            context,
+                            poi,
+                            isOutgoing,
+                            textScale,
+                            message.senderName,
+                          )
+                        else if (gifId != null)
+                          Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: GifMessage(
+                                  url:
+                                      'https://media.giphy.com/media/$gifId/giphy.gif',
+                                  backgroundColor: Colors.transparent,
+                                  fallbackTextColor: isOutgoing
+                                      ? Theme.of(context)
+                                            .colorScheme
+                                            .onPrimaryContainer
+                                            .withValues(alpha: 0.7)
+                                      : Theme.of(context).colorScheme.onSurface
+                                            .withValues(alpha: 0.6),
                                 ),
                               ),
                             ],
-                          ],
-                        ),
-                      if (enableTracing) ...[
-                        if (displayPath.isNotEmpty) ...[
+                          )
+                        else
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Flexible(
+                                child: TranslatedMessageContent(
+                                  displayText: translatedDisplayText,
+                                  originalText: originalDisplayText,
+                                  style: TextStyle(
+                                    fontSize: bodyFontSize * textScale,
+                                  ),
+                                  originalStyle: TextStyle(
+                                    fontSize: bodyFontSize * textScale,
+                                    fontStyle: FontStyle.italic,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withValues(alpha: 0.72),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        if (enableTracing && displayPath.isNotEmpty) ...[
                           const SizedBox(height: 4),
                           Padding(
                             padding: gifId != null
@@ -687,8 +647,10 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                                 ),
                               ),
                               style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.grey[600],
+                                fontSize: 11 * textScale,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
                               ),
                             ),
                           ),
@@ -708,62 +670,69 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                               Text(
                                 _formatTime(context, message.timestamp),
                                 style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.grey[600],
+                                  fontSize: 11 * textScale,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
                                 ),
                               ),
-                              if (message.repeatCount > 0) ...[
+                              if (enableTracing && message.repeatCount > 0) ...[
                                 const SizedBox(width: 6),
                                 Icon(
                                   Icons.repeat,
-                                  size: 12,
-                                  color: Colors.grey[600],
+                                  size: 12 * textScale,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
                                 ),
                                 const SizedBox(width: 2),
                                 Text(
                                   '${message.repeatCount}',
                                   style: TextStyle(
-                                    fontSize: 11,
-                                    color: Colors.grey[600],
+                                    fontSize: 11 * textScale,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
                                   ),
                                 ),
                               ],
                               if (isOutgoing) ...[
                                 const SizedBox(width: 4),
-                                Icon(
-                                  message.status == ChannelMessageStatus.sent
-                                      ? Icons.check
-                                      : message.status ==
-                                            ChannelMessageStatus.pending
-                                      ? Icons.schedule
-                                      : Icons.error_outline,
-                                  size: 14,
-                                  color:
+                                MessageStatusIcon(
+                                  isAcked:
                                       message.status ==
-                                          ChannelMessageStatus.failed
-                                      ? Colors.red
-                                      : Colors.grey[600],
+                                      ChannelMessageStatus.sent,
+                                  isRepeated:
+                                      message.status ==
+                                          ChannelMessageStatus.sent &&
+                                      displayPath.isNotEmpty,
+                                  isPending:
+                                      message.status ==
+                                      ChannelMessageStatus.pending,
+                                  isFailed:
+                                      message.status ==
+                                      ChannelMessageStatus.failed,
                                 ),
                               ],
                             ],
                           ),
                         ),
                       ],
-                    ],
+                    ),
                   ),
                 ),
               ),
+            ],
+          ),
+          if (message.reactions.isNotEmpty) ...[
+            const SizedBox(height: 4),
+            Padding(
+              padding: EdgeInsets.only(left: isOutgoing ? 0 : 48),
+              child: _buildReactionsDisplay(message),
             ),
           ],
-        ),
-        if (message.reactions.isNotEmpty) ...[
-          const SizedBox(height: 4),
-          Padding(
-            padding: EdgeInsets.only(left: isOutgoing ? 0 : 48),
-            child: _buildReactionsDisplay(message),
-          ),
         ],
-      ],
+      ),
     );
 
     if (!isOutgoing && !PlatformInfo.isDesktop) {
@@ -965,9 +934,11 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
         IconButton(
           icon: Icon(Icons.location_on_outlined, color: channelColor),
           padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+          constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
           onPressed: () {
-            final selfName = context.read<MeshCoreConnector>().selfName ?? 'Me';
+            final selfName =
+                context.read<MeshCoreConnector>().selfName ??
+                context.l10n.chat_me;
             final fromName = isOutgoing ? selfName : senderName;
             final key = buildSharedMarkerKey(
               sourceId: 'channel:${widget.channel.index}',
@@ -1027,8 +998,8 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   }
 
   Widget _buildAvatar(String senderName) {
-    final initial = _getFirstCharacterOrEmoji(senderName);
-    final color = _getColorForName(senderName);
+    final initial = firstCharacterOrEmoji(senderName);
+    final color = colorForName(senderName);
 
     return CircleAvatar(
       radius: 18,
@@ -1042,36 +1013,6 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
         ),
       ),
     );
-  }
-
-  String _getFirstCharacterOrEmoji(String name) {
-    if (name.isEmpty) return '?';
-
-    final emoji = firstEmoji(name);
-    if (emoji != null) return emoji;
-
-    final runes = name.runes.toList();
-    if (runes.isEmpty) return '?';
-    return String.fromCharCode(runes[0]).toUpperCase();
-  }
-
-  Color _getColorForName(String name) {
-    // Generate a consistent color based on the name hash
-    final hash = name.hashCode;
-    final colors = [
-      Colors.blue,
-      Colors.green,
-      Colors.orange,
-      Colors.purple,
-      Colors.pink,
-      Colors.teal,
-      Colors.indigo,
-      Colors.cyan,
-      Colors.amber,
-      Colors.deepOrange,
-    ];
-
-    return colors[hash.abs() % colors.length];
   }
 
   Widget _buildReplyBanner(double textScale) {
@@ -1123,8 +1064,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
             icon: const Icon(Icons.close, size: 18),
             onPressed: _cancelReply,
             color: Theme.of(context).colorScheme.onSecondaryContainer,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
+            constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
           ),
         ],
       ),
@@ -1419,15 +1359,14 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                 _setReplyingTo(message);
               },
             ),
-            if (PlatformInfo.isDesktop)
-              ListTile(
-                leading: const Icon(Icons.route),
-                title: Text(context.l10n.chat_path),
-                onTap: () {
-                  Navigator.pop(sheetContext);
-                  _showMessagePathInfo(message);
-                },
-              ),
+            ListTile(
+              leading: const Icon(Icons.route),
+              title: Text(context.l10n.chat_path),
+              onTap: () {
+                Navigator.pop(sheetContext);
+                _showMessagePathInfo(message);
+              },
+            ),
             // Can't react to your own messages
             if (!message.isOutgoing)
               ListTile(
@@ -1470,18 +1409,20 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                   _markAsUnread(message);
                 },
               ),
+            const Divider(),
             ListTile(
-              leading: const Icon(Icons.delete_outline),
-              title: Text(context.l10n.common_delete),
+              leading: Icon(
+                Icons.delete_outline,
+                color: Theme.of(context).colorScheme.error,
+              ),
+              title: Text(
+                context.l10n.common_delete,
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
               onTap: () async {
                 Navigator.pop(sheetContext);
                 await _deleteMessage(message);
               },
-            ),
-            ListTile(
-              leading: const Icon(Icons.close),
-              title: Text(context.l10n.common_cancel),
-              onTap: () => Navigator.pop(sheetContext),
             ),
           ],
         ),
@@ -1521,6 +1462,34 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
       context,
       content: Text(context.l10n.chat_messageCopied),
     );
+  }
+
+  Future<void> _confirmClearChat() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(context.l10n.contact_clearChat),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(context.l10n.common_cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error,
+            ),
+            child: Text(context.l10n.common_delete),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) {
+      if (!mounted) return;
+      context.read<MeshCoreConnector>().clearMessagesForChannel(
+        widget.channel.index,
+      );
+    }
   }
 
   Future<void> _deleteMessage(ChannelMessage message) async {
@@ -1565,6 +1534,7 @@ class _SwipeReplyBubbleState extends State<_SwipeReplyBubble> {
   double _maxSwipeDistance = 0;
   int? _swipePointerId;
   bool _swipeLockedToHorizontal = false;
+  bool _isRtl = false;
 
   void _handleSwipeStart(Offset position) {
     _swipeStartPosition = position;
@@ -1585,11 +1555,13 @@ class _SwipeReplyBubbleState extends State<_SwipeReplyBubble> {
       return;
     }
 
-    final dx = event.position.dx - _swipeStartPosition!.dx;
+    final rawDx = event.position.dx - _swipeStartPosition!.dx;
+    // In LTR swipe left (rawDx < 0) triggers reply; in RTL swipe right (rawDx > 0).
+    final signedDx = _isRtl ? rawDx : -rawDx;
 
     const axisLockThreshold = 12.0;
     if (!_swipeLockedToHorizontal) {
-      if (-dx < axisLockThreshold) {
+      if (signedDx < axisLockThreshold) {
         return;
       }
       _swipeLockedToHorizontal = true;
@@ -1601,28 +1573,32 @@ class _SwipeReplyBubbleState extends State<_SwipeReplyBubble> {
   void _handleSwipeUpdate(Offset position) {
     if (_swipeStartPosition == null) return;
 
-    final dx = position.dx - _swipeStartPosition!.dx;
-    if (dx >= 0) return;
+    final rawDx = position.dx - _swipeStartPosition!.dx;
+    final signedDx = _isRtl ? rawDx : -rawDx;
+    if (signedDx <= 0) return;
 
-    if (-dx < 6) return;
+    if (signedDx < 6) return;
 
-    if (-dx > _maxSwipeDistance) {
-      _maxSwipeDistance = -dx;
+    if (signedDx > _maxSwipeDistance) {
+      _maxSwipeDistance = signedDx;
     }
 
-    final double clamped = dx.clamp(-widget.maxSwipeOffset, 0.0).toDouble();
+    final double clamped = signedDx.clamp(0.0, widget.maxSwipeOffset);
     final adjusted = _applySwipeResistance(clamped, widget.maxSwipeOffset);
-    if (adjusted != _swipeOffset) {
-      setState(() => _swipeOffset = adjusted);
+    // Translate in the gesture direction: negative for LTR (left), positive for RTL (right).
+    final translationOffset = _isRtl ? adjusted : -adjusted;
+    if (translationOffset != _swipeOffset) {
+      setState(() => _swipeOffset = translationOffset);
     }
   }
 
   void _handleSwipePointerUp(Offset position) {
     if (_swipeLockedToHorizontal && _swipeStartPosition != null) {
-      final dx = position.dx - _swipeStartPosition!.dx;
+      final rawDx = position.dx - _swipeStartPosition!.dx;
+      final signedDx = _isRtl ? rawDx : -rawDx;
       final peak = math.max(
         _maxSwipeDistance,
-        (-dx).clamp(0.0, double.infinity),
+        signedDx.clamp(0.0, double.infinity),
       );
       if (peak >= widget.replySwipeThreshold) {
         widget.onReplyTriggered();
@@ -1662,6 +1638,10 @@ class _SwipeReplyBubbleState extends State<_SwipeReplyBubble> {
 
   @override
   Widget build(BuildContext context) {
+    _isRtl = Directionality.of(context) == TextDirection.rtl;
+    // In LTR, the bubble slides left and the hint appears on the right (isStart: false).
+    // In RTL, the bubble slides right and the hint appears on the left (isStart: true).
+    final hintIsStart = _isRtl;
     return Listener(
       onPointerDown: _handleSwipePointerDown,
       onPointerMove: _handleSwipePointerMove,
@@ -1675,7 +1655,7 @@ class _SwipeReplyBubbleState extends State<_SwipeReplyBubble> {
             Positioned.fill(
               child: Opacity(
                 opacity: _swipeOffset.abs() / widget.maxSwipeOffset,
-                child: widget.hintBuilder(isStart: false),
+                child: widget.hintBuilder(isStart: hintIsStart),
               ),
             ),
             AnimatedContainer(
