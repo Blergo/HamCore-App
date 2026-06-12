@@ -547,9 +547,15 @@ class _RoutingSheetBodyState extends State<_RoutingSheetBody> {
             connector.pathHashByteWidth,
           )
         : l10n.chat_hopsCount(record.hopCount);
+    final displayHopCount = hasBytes
+        ? PathHelper.splitPathBytes(
+            record.pathBytes,
+            connector.pathHashByteWidth,
+          ).length
+        : record.hopCount;
 
     final line1 =
-        '${l10n.chat_hopsCount(record.hopCount)} • ${_qualityLabel(context, quality)}';
+        '${l10n.chat_hopsCount(displayHopCount)} • ${_qualityLabel(context, quality)}';
     final line2Parts = <String>[
       record.timestamp != null
           ? l10n.routing_lastWorked(_relativeTime(context, record.timestamp!))

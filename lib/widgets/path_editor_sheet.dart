@@ -97,7 +97,9 @@ class _PathEditorSheetState extends State<PathEditorSheet> {
 
   void _syncHexFromHops() {
     _syncingHex = true;
-    _hexController.text = _hops.map((h) => PathHelper.formatHopHex(h.bytes)).join(',');
+    _hexController.text = _hops
+        .map((h) => PathHelper.formatHopHex(h.bytes))
+        .join(',');
     _syncingHex = false;
     _hexError = null;
   }
@@ -114,8 +116,7 @@ class _PathEditorSheetState extends State<PathEditorSheet> {
     final invalid = tokens
         .where(
           (t) =>
-              t.length != expectedChars ||
-              int.tryParse(t, radix: 16) == null,
+              t.length != expectedChars || int.tryParse(t, radix: 16) == null,
         )
         .toList();
     setState(() {
@@ -144,10 +145,15 @@ class _PathEditorSheetState extends State<PathEditorSheet> {
 
   void _addHop(Contact contact) {
     if (_hops.length >= _maxHops) return;
-    final width = widget.pathHashByteWidth.clamp(1, contact.publicKey.length).toInt();
+    final width = widget.pathHashByteWidth
+        .clamp(1, contact.publicKey.length)
+        .toInt();
     setState(() {
       _hops.add(
-        _Hop(_nextHopId++, Uint8List.fromList(contact.publicKey.sublist(0, width))),
+        _Hop(
+          _nextHopId++,
+          Uint8List.fromList(contact.publicKey.sublist(0, width)),
+        ),
       );
       _syncHexFromHops();
     });
@@ -173,10 +179,7 @@ class _PathEditorSheetState extends State<PathEditorSheet> {
     for (final hop in _hops) {
       bytes.addAll(hop.bytes);
     }
-    Navigator.pop(
-      context,
-      Uint8List.fromList(bytes),
-    );
+    Navigator.pop(context, Uint8List.fromList(bytes));
   }
 
   Widget _hopTile(BuildContext context, int index) {

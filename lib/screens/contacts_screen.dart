@@ -911,6 +911,7 @@ class _ContactsScreenState extends State<ContactsScreen>
                       );
                       return _ContactTile(
                         contact: contact,
+                        pathHashByteWidth: connector.pathHashByteWidth,
                         lastSeen: _resolveLastSeen(contact),
                         unreadCount: unreadCount,
                         isFavorite: contact.isFavorite,
@@ -1553,6 +1554,7 @@ class _ContactsScreenState extends State<ContactsScreen>
 
 class _ContactTile extends StatelessWidget {
   final Contact contact;
+  final int pathHashByteWidth;
   final DateTime lastSeen;
   final int unreadCount;
   final bool isFavorite;
@@ -1561,6 +1563,7 @@ class _ContactTile extends StatelessWidget {
 
   const _ContactTile({
     required this.contact,
+    required this.pathHashByteWidth,
     required this.lastSeen,
     required this.unreadCount,
     required this.isFavorite,
@@ -1579,7 +1582,7 @@ class _ContactTile extends StatelessWidget {
         ),
         title: Text(contact.name, maxLines: 1, overflow: TextOverflow.ellipsis),
         subtitle: Text(
-          contact.pathLabel(context.l10n),
+          contact.pathLabel(context.l10n, pathHashByteWidth: pathHashByteWidth),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),

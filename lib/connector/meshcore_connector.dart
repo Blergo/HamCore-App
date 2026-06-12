@@ -3208,10 +3208,7 @@ class MeshCoreConnector extends ChangeNotifier {
 
     if (pathLen != null &&
         pathLen >= 0 &&
-        !_isPathLenValidForCurrentMode(
-          pathLen,
-          pathBytes ?? Uint8List(0),
-        )) {
+        !_isPathLenValidForCurrentMode(pathLen, pathBytes ?? Uint8List(0))) {
       appLogger.warn(
         'setPathOverride: invalid path for ${contact.name}: '
         'pathLen=$pathLen, bytesLen=${pathBytes?.length ?? 0}, '
@@ -6694,13 +6691,12 @@ class MeshCoreConnector extends ChangeNotifier {
       return;
     }
     final pathStartIndex = path.isNotEmpty ? path.length - hashWidth : 0;
-    final publicKeyPrefixEnd = math.min(hashWidth, contact.publicKey.length).toInt();
+    final publicKeyPrefixEnd = math
+        .min(hashWidth, contact.publicKey.length)
+        .toInt();
     final pubkeyPrefix = path.isNotEmpty
         ? path.sublist(pathStartIndex)
-        : contact.publicKey.sublist(
-            0,
-            publicKeyPrefixEnd,
-          );
+        : contact.publicKey.sublist(0, publicKeyPrefixEnd);
     final contactKeyHex = _resolveDirectRepeaterContactKeyHex(
       contact,
       pubkeyPrefix,
