@@ -321,6 +321,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get scanner_enableBluetooth => 'Включите Bluetooth';
 
   @override
+  String get scanner_bluetoothWebUnsupported =>
+      'Bluetooth недоступен в браузере. Подключитесь через USB.';
+
+  @override
   String get device_quickSwitch => 'Быстрое переключение';
 
   @override
@@ -1750,6 +1754,39 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get map_title => 'Карта нод';
+
+  @override
+  String get map_searchHint => 'Поиск по имени или ID узла';
+
+  @override
+  String get map_activity => 'Активность';
+
+  @override
+  String get map_online => 'Онлайн';
+
+  @override
+  String get map_recent => 'Недавно';
+
+  @override
+  String get map_stale => 'Устаревший';
+
+  @override
+  String get map_visible => 'Видимый';
+
+  @override
+  String get map_hidden => 'Скрытый';
+
+  @override
+  String get map_centerOnNode => 'Центрировать на узле';
+
+  @override
+  String get map_details => 'Детали';
+
+  @override
+  String get map_noGps => 'Без GPS';
+
+  @override
+  String get map_noResults => 'Не найдено соответствующих узлов';
 
   @override
   String get map_lineOfSight => 'Линия видимости';
@@ -4508,4 +4545,115 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get pathTrace_legendInferred => 'Выведенная позиция';
+
+  @override
+  String get pathMap_viewSingle => 'Одиночный';
+
+  @override
+  String get pathMap_viewCombined => 'Объединённые';
+
+  @override
+  String get pathMap_play => 'Воспроизвести';
+
+  @override
+  String get pathMap_pause => 'Пауза';
+
+  @override
+  String get pathMap_replay => 'Повтор';
+
+  @override
+  String get pathMap_stepBack => 'Предыдущий хоп';
+
+  @override
+  String get pathMap_stepForward => 'Следующий хоп';
+
+  @override
+  String get pathMap_animationOn => 'Показать анимацию пакета';
+
+  @override
+  String get pathMap_animationOff => 'Скрыть анимацию пакета';
+
+  @override
+  String pathMap_hopOf(int current, int total) {
+    return 'Хоп $current из $total';
+  }
+
+  @override
+  String pathMap_observedPaths(int count) {
+    return 'Наблюдаемые маршруты: $count';
+  }
+
+  @override
+  String get pathMap_primary => 'Основной';
+
+  @override
+  String pathMap_alternate(int index) {
+    return 'Альт $index';
+  }
+
+  @override
+  String pathMap_hopCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count хопов',
+      many: '$count хопов',
+      few: '$count хопа',
+      one: '$count хоп',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String pathMap_gpsCount(int confirmed, int total) {
+    return '$confirmed/$total GPS';
+  }
+
+  @override
+  String get pathMap_legendShared => 'Общий сегмент';
+
+  @override
+  String get pathMap_legendEstimated => 'Расчётный сегмент';
+
+  @override
+  String pathMap_sharedNodeCount(int count) {
+    return 'Используется в $count маршрутах';
+  }
+
+  @override
+  String pathMap_partialAnimation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count хопов не имеют координат — показанный путь неполный',
+      many: '$count хопов не имеют координат — показанный путь неполный',
+      few: '$count хопа не имеют координат — показанный путь неполный',
+      one: '$count хоп не имеет координат — показанный путь неполный',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get pathMap_showAllPaths => 'Показать всё';
+
+  @override
+  String get pathMap_hidePath => 'Скрыть путь';
+
+  @override
+  String get pathMap_showPath => 'Показать маршрут';
+
+  @override
+  String get pathMap_collapsePanel => 'Скрыть панель';
+
+  @override
+  String get pathMap_expandPanel => 'Расширить панель';
+
+  @override
+  String get pathMap_noLocation => 'Нет координат';
+
+  @override
+  String get pathMap_followPacket => 'Следить за пакетом';
+
+  @override
+  String get pathMap_unfollowPacket => 'Не следить за пакетом';
 }
