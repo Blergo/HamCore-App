@@ -1321,7 +1321,9 @@ class _MapScreenState extends State<MapScreen> {
         (contact.type == advTypeRepeater || contact.type == advTypeRoom) &&
         contact.publicKey.length >= overlapHopWidth &&
         overlapPrefixes.contains(
-          PathHelper.formatHopHex(contact.publicKey.sublist(0, overlapHopWidth)),
+          PathHelper.formatHopHex(
+            contact.publicKey.sublist(0, overlapHopWidth),
+          ),
         );
 
     void addNode(Contact contact, {bool dot = false}) {

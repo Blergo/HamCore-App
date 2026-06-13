@@ -21,10 +21,10 @@ class PathHopResolver {
       if (contact.type != advTypeRepeater && contact.type != advTypeRoom) {
         continue;
       }
-      final prefix = PathHelper.formatHopHex(contact.publicKey.sublist(0, width));
-      candidatesByPrefix
-          .putIfAbsent(prefix, () => <Contact>[])
-          .add(contact);
+      final prefix = PathHelper.formatHopHex(
+        contact.publicKey.sublist(0, width),
+      );
+      candidatesByPrefix.putIfAbsent(prefix, () => <Contact>[]).add(contact);
     }
     for (final candidates in candidatesByPrefix.values) {
       candidates.sort((a, b) => b.lastSeen.compareTo(a.lastSeen));
@@ -39,7 +39,8 @@ class PathHopResolver {
     var previousPosition = endpoint;
 
     for (final index in indexes) {
-      final candidates = candidatesByPrefix[PathHelper.formatHopHex(hops[index])];
+      final candidates =
+          candidatesByPrefix[PathHelper.formatHopHex(hops[index])];
       if (candidates == null || candidates.isEmpty) continue;
 
       var bestIndex = 0;

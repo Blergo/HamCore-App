@@ -2591,7 +2591,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get repeater_pathHashModeHelper =>
-      'Bytes utilizados para codificar el ID de este repetidor en las etiquetas de ruta flood/detección de bucles. 0=1 byte (256 IDs, hasta 64 saltos), 1=2 bytes (65.000 IDs, hasta 32 saltos), 2=3 bytes (16 millones de IDs, hasta 21 saltos). El firmware anterior a v1.14 siempre usaba rutas de 1 byte; v1.14 y posteriores pueden configurarse para rutas de 2 o 3 bytes.';
+      'Bytes utilizados para codificar el ID de este repetidor en las etiquetas de ruta/detección de bucles. 0=1 byte (256 IDs, hasta 64 saltos), 1=2 bytes (65.000 IDs, hasta 32 saltos), 2=3 bytes (16 millones de IDs, hasta 21 saltos). Las versiones 1.13 y anteriores de firmware eliminan rutas de múltiples bytes; solo se detectan una vez que la red está activa en la versión 1.14 o posterior.';
 
   @override
   String get repeater_txDelay => 'Retraso TX por inundación';

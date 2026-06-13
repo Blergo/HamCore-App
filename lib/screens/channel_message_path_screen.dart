@@ -156,11 +156,11 @@ class ChannelMessagePathScreen extends StatelessWidget {
   }) {
     final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
-    final routeChip = message.pathLength == null
+    final routeChip = effectiveHopCount == null
         ? null
-        : message.pathLength! < 0
+        : effectiveHopCount < 0
         ? const RouteChip(isDirect: false)
-        : RouteChip(isDirect: true, hops: message.pathLength);
+        : RouteChip(isDirect: true, hops: effectiveHopCount);
 
     return MeshCard(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -1887,9 +1887,7 @@ Uint8List _orientPathBytes(
 }) {
   if (!reverse || pathBytes.isEmpty) return pathBytes;
   final hops = PathHelper.splitPathBytes(pathBytes, hashByteWidth);
-  return Uint8List.fromList([
-    for (final hop in hops.reversed) ...hop,
-  ]);
+  return Uint8List.fromList([for (final hop in hops.reversed) ...hop]);
 }
 
 int _hopCountFromBytes(int byteCount, int hashByteWidth) {

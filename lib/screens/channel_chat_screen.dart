@@ -515,6 +515,11 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     final displayPathHashWidth =
         message.pathHashWidth ??
         context.read<MeshCoreConnector>().pathHashByteWidth;
+    final displayHopCount = _displayHopCount(
+      displayPath,
+      displayPathHashWidth,
+      message.pathLength,
+    );
 
     // Bubble colors — outgoing uses MeshPalette.me / meBorder / meInk.
     final bubbleColor = isOutgoing
@@ -665,9 +670,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                               children: [
                                 RouteChip(
                                   isDirect: (message.pathLength ?? -1) >= 0,
-                                  hops: (message.pathLength ?? -1) >= 0
-                                      ? message.pathLength
-                                      : null,
+                                  hops: displayHopCount,
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
@@ -1562,6 +1565,16 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
       pathBytes,
       pathHashByteWidth,
     ).map(PathHelper.formatHopHex).join(',');
+  }
+
+  int? _displayHopCount(
+    Uint8List pathBytes,
+    int pathHashByteWidth,
+    int? fallbackPathLength,
+  ) {
+    if ((fallbackPathLength ?? -1) < 0) return null;
+    if (pathBytes.isEmpty) return fallbackPathLength;
+    return PathHelper.splitPathBytes(pathBytes, pathHashByteWidth).length;
   }
 
   /// Deterministic name-to-hue mapping consistent with [AvatarCircle].
