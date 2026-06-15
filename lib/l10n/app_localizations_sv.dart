@@ -93,6 +93,24 @@ class AppLocalizationsSv extends AppLocalizations {
   String get common_disable => 'Inaktivera';
 
   @override
+  String get common_undo => 'Ångra';
+
+  @override
+  String get messageStatus_sent => 'Sen';
+
+  @override
+  String get messageStatus_delivered => 'Levererad';
+
+  @override
+  String get messageStatus_pending => 'Skicka';
+
+  @override
+  String get messageStatus_failed => 'Misslyckades med att skicka';
+
+  @override
+  String get messageStatus_repeated => 'Hördes upprepade gånger';
+
+  @override
   String get common_reboot => 'Start om';
 
   @override
@@ -110,6 +128,12 @@ class AppLocalizationsSv extends AppLocalizations {
   String common_percentValue(int percent) {
     return '$percent%';
   }
+
+  @override
+  String get common_autoRefresh => 'Automatisk uppdatering';
+
+  @override
+  String get common_interval => 'Intervall';
 
   @override
   String get scanner_title => 'MeshCore – Öppen version';
@@ -291,6 +315,10 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get scanner_enableBluetooth => 'Aktivera Bluetooth';
+
+  @override
+  String get scanner_bluetoothWebUnsupported =>
+      'Bluetooth är inte tillgängligt i webbläsaren. Anslut istället via USB.';
 
   @override
   String get device_quickSwitch => 'Snabb växling';
@@ -784,11 +812,6 @@ class AppLocalizationsSv extends AppLocalizations {
       'Antal försök att skicka om ett meddelande innan det markeras som misslyckat.';
 
   @override
-  String path_routeWeight(String weight, String max) {
-    return '$weight/$max';
-  }
-
-  @override
   String get appSettings_battery => 'Batteri';
 
   @override
@@ -987,6 +1010,15 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get contacts_newGroup => 'Ny grupp';
+
+  @override
+  String get contacts_moreOptions => 'Fler alternativ';
+
+  @override
+  String get contacts_searchOpen => 'Sök efter kontakter';
+
+  @override
+  String get contacts_searchClose => 'Avancerad sökning';
 
   @override
   String get contacts_groupName => 'Gruppnamn';
@@ -1467,35 +1499,6 @@ class AppLocalizationsSv extends AppLocalizations {
   String get debugFrame_hexDump => 'Hexdump:';
 
   @override
-  String get chat_pathManagement => 'Stigarhantering';
-
-  @override
-  String get chat_ShowAllPaths => 'Visa alla vägar';
-
-  @override
-  String get chat_routingMode => 'Ruttläge';
-
-  @override
-  String get chat_autoUseSavedPath => 'Automatisk (använd sparad sökväg)';
-
-  @override
-  String get chat_forceFloodMode => 'Tvinga Översvämningsläge';
-
-  @override
-  String get chat_recentAckPaths =>
-      'Nyligen Ack-vägar (tryck för att använda):';
-
-  @override
-  String get chat_pathHistoryFull =>
-      'Historisk sökväg är full. Ta bort poster för att lägga till nya.';
-
-  @override
-  String get chat_hopSingular => 'hoppa';
-
-  @override
-  String get chat_hopPlural => 'hoppar';
-
-  @override
   String chat_hopsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -1507,12 +1510,6 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
-  String get chat_successes => 'framgångar';
-
-  @override
-  String get chat_score => 'Score';
-
-  @override
   String get chat_removePath => 'Ta bort sökväg';
 
   @override
@@ -1520,48 +1517,142 @@ class AppLocalizationsSv extends AppLocalizations {
       'Ingen historik ännu.\nSkicka ett meddelande för att upptäcka spår.';
 
   @override
-  String get chat_pathActions => 'Stigar:';
-
-  @override
-  String get chat_setCustomPath => 'Ange anpassad sökväg';
-
-  @override
-  String get chat_setCustomPathSubtitle => 'Ange ruttväg manuellt';
-
-  @override
-  String get chat_clearPath => 'Rensa Vägen';
-
-  @override
-  String get chat_clearPathSubtitle => 'Tvinga fram omstart vid nästa sändning';
-
-  @override
   String get chat_pathCleared =>
       'Routen är nu fri. Nästa meddelande kommer att upptäcka rutten igen.';
-
-  @override
-  String get chat_floodModeSubtitle => 'Använd routningsomkopplaren i appraden';
-
-  @override
-  String get chat_floodModeEnabled =>
-      'Översvämningsläge aktiverat. Stäng av via ruttikonen i appraden.';
 
   @override
   String get chat_fullPath => 'Fullständig sökväg';
 
   @override
-  String get chat_pathDetailsNotAvailable =>
-      'Stigaruppgifterna är ännu inte tillgängliga. Försök att skicka ett meddelande för att uppdatera.';
+  String get routing_title => 'Ruttplanering';
 
   @override
-  String chat_pathSetHops(int hopCount, String status) {
-    String _temp0 = intl.Intl.pluralLogic(
-      hopCount,
-      locale: localeName,
-      other: 'hoppar',
-      one: 'hopp',
-    );
-    return 'Sökväg inställd: $hopCount $_temp0 - $status';
+  String get routing_modeAuto => 'Bil';
+
+  @override
+  String get routing_modeFlood => 'Översvämning';
+
+  @override
+  String get routing_modeManual => 'Instruktioner';
+
+  @override
+  String get routing_modeAutoHint =>
+      'Väljer automatiskt den bästa kända vägen, och använder en \"flooding\"-strategi om ingen väg är känd.';
+
+  @override
+  String get routing_modeFloodHint =>
+      'Sändningar via alla repetrar. Det mest pålitliga alternativet, men kräver mer sändtid.';
+
+  @override
+  String get routing_modeManualHint =>
+      'Skickar alltid den exakta väg du har angivit.';
+
+  @override
+  String get routing_currentRoute => 'Nuvarande rutt';
+
+  @override
+  String get routing_directNoHops => 'Direkt – utan mellanliggande routrar';
+
+  @override
+  String get routing_noPathYet =>
+      'Ingen väg hittad ännu. Nästa meddelande skickas tills en rutt har upptäckts.';
+
+  @override
+  String get routing_floodBroadcast => 'Sändas via alla repetrar';
+
+  @override
+  String get routing_editPath => 'Redigera sökväg';
+
+  @override
+  String get routing_forgetPath => 'Glöm vägen';
+
+  @override
+  String get routing_knownPaths => 'Kända vägar';
+
+  @override
+  String get routing_knownPathsHint => 'Välj en väg för att byta till den.';
+
+  @override
+  String get routing_inUse => 'I användning';
+
+  @override
+  String get routing_qualityStrong => 'En stark start';
+
+  @override
+  String get routing_qualityGood => 'Bra första steg';
+
+  @override
+  String get routing_qualityFair => 'Bra första hopp';
+
+  @override
+  String get routing_qualityWorked => 'Har levererat';
+
+  @override
+  String get routing_qualityFlood => 'Fått information via nyhetsflöde';
+
+  @override
+  String get routing_qualityUntested => 'Ej testat';
+
+  @override
+  String routing_lastWorked(String when) {
+    return 'arbetade $when';
   }
+
+  @override
+  String get routing_neverWorked => 'aldrig bekräftat';
+
+  @override
+  String routing_deliveryCounts(int successes, int failures) {
+    return '$successes delivered, $failures failed';
+  }
+
+  @override
+  String get routing_floodDelivery => 'Leverans vid översvämningsområde';
+
+  @override
+  String get pathEditor_title => 'Skapa väg';
+
+  @override
+  String pathEditor_hopCounter(int count) {
+    return '$count av 64 humlor';
+  }
+
+  @override
+  String get pathEditor_noHops =>
+      'Inga humle än. Använd knapparna nedan för att lägga till dem i rätt ordning, eller spara utan humle för att skicka direkt.';
+
+  @override
+  String get pathEditor_addHops => 'Tillsätt humlen i rätt ordning.';
+
+  @override
+  String get pathEditor_searchRepeaters => 'Sök efter återupptagna samtal';
+
+  @override
+  String get pathEditor_advancedHex => 'Avancerat: rå hex-sökväg';
+
+  @override
+  String get pathEditor_hexLabel => 'Hex-prefikser';
+
+  @override
+  String get pathEditor_hexHelper =>
+      'Två hex-tecken per steg, separerade med kommatecken.';
+
+  @override
+  String pathEditor_invalidTokens(String tokens) {
+    return 'Ogiltigt: $tokens';
+  }
+
+  @override
+  String get pathEditor_tooManyHops => 'Maximalt 64 humlörter';
+
+  @override
+  String get pathEditor_usePath => 'Använd denna väg';
+
+  @override
+  String get pathEditor_removeHop => 'Ta bort humlen';
+
+  @override
+  String get pathEditor_unknownHop => 'Okänd förstärkare';
 
   @override
   String get chat_pathSavedLocally =>
@@ -1636,6 +1727,39 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get map_title => 'Nodkarta';
+
+  @override
+  String get map_searchHint => 'Sök efter nodens namn eller ID';
+
+  @override
+  String get map_activity => 'Aktivitet';
+
+  @override
+  String get map_online => 'Online';
+
+  @override
+  String get map_recent => 'Nyligen';
+
+  @override
+  String get map_stale => 'Inaktuell';
+
+  @override
+  String get map_visible => 'Synlig';
+
+  @override
+  String get map_hidden => 'Dold';
+
+  @override
+  String get map_centerOnNode => 'Centrera på nod';
+
+  @override
+  String get map_details => 'Detaljer';
+
+  @override
+  String get map_noGps => 'Ingen GPS';
+
+  @override
+  String get map_noResults => 'Inga matchande noder';
 
   @override
   String get map_lineOfSight => 'Synlinje';
@@ -2028,63 +2152,11 @@ class AppLocalizationsSv extends AppLocalizations {
   String get common_clear => 'Rensa';
 
   @override
-  String path_currentPath(String path) {
-    return 'Nuvarande sökväg: $path';
-  }
-
-  @override
-  String path_usingHopsPath(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'hops',
-      one: 'hop',
-    );
-    return 'Använda $count $_temp0 sökväg';
-  }
-
-  @override
-  String get path_enterCustomPath => 'Ange anpassad sökväg';
-
-  @override
   String get path_currentPathLabel => 'Nuvarande sökväg';
-
-  @override
-  String get path_hexPrefixInstructions =>
-      'Ange 2-tecknets hex-prefett för varje hopp, åtskilda med komma.';
-
-  @override
-  String get path_hexPrefixExample =>
-      'Exempel: A1,F2,3C (varje nod använder det första bytet av sitt publika nyckel)';
-
-  @override
-  String get path_labelHexPrefixes => 'Hexprefixer';
-
-  @override
-  String get path_helperMaxHops =>
-      'Max 64 hopp. Varje prefix är 2 hex-tecken (1 byte)';
-
-  @override
-  String get path_selectFromContacts => 'Välj istället från kontakter:';
 
   @override
   String get path_noRepeatersFound =>
       'Inga återuppspelare eller rumsservrar hittades.';
-
-  @override
-  String get path_customPathsRequire =>
-      'Anpassade sökvägar kräver mellansteg som kan vidarebefordra meddelanden.';
-
-  @override
-  String path_invalidHexPrefixes(String prefixes) {
-    return 'Ogiltiga hex-prefikser: $prefixes';
-  }
-
-  @override
-  String get path_tooLong => 'Sökvägen är för lång. Max 64 hopp tillåtna.';
-
-  @override
-  String get path_setPath => 'Ange Sökväg';
 
   @override
   String get repeater_management => 'Återuppspelarens Hantering';
@@ -2149,15 +2221,6 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get repeater_routingMode => 'Ruttläge';
-
-  @override
-  String get repeater_autoUseSavedPath => 'Automatisk (använd sparad sökväg)';
-
-  @override
-  String get repeater_forceFloodMode => 'Tvinga Översvämningsläge';
-
-  @override
-  String get repeater_pathManagement => 'Stigarhantering';
 
   @override
   String get repeater_refresh => 'Uppdatera';
@@ -3244,6 +3307,139 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
+  String get telemetry_digitalInputLabel => 'Digital ingång';
+
+  @override
+  String get telemetry_digitalOutputLabel => 'Digital utgång';
+
+  @override
+  String get telemetry_analogInputLabel => 'Analog ingång';
+
+  @override
+  String get telemetry_analogOutputLabel => 'Analog utgång';
+
+  @override
+  String get telemetry_genericLabel => 'Allmän sensor';
+
+  @override
+  String get telemetry_luminosityLabel => 'Ljusstyrka';
+
+  @override
+  String get telemetry_presenceLabel => 'Närvaro';
+
+  @override
+  String get telemetry_humidityLabel => 'Luftfuktighet';
+
+  @override
+  String get telemetry_accelerometerLabel => 'Accelerometer';
+
+  @override
+  String get telemetry_pressureLabel => 'Tryck';
+
+  @override
+  String get telemetry_altitudeLabel => 'Höjd';
+
+  @override
+  String get telemetry_frequencyLabel => 'Frekvens';
+
+  @override
+  String get telemetry_percentageLabel => 'Procent';
+
+  @override
+  String get telemetry_concentrationLabel => 'Koncentration';
+
+  @override
+  String get telemetry_powerLabel => 'Effekt';
+
+  @override
+  String get telemetry_distanceLabel => 'Avstånd';
+
+  @override
+  String get telemetry_energyLabel => 'Energi';
+
+  @override
+  String get telemetry_directionLabel => 'Riktning';
+
+  @override
+  String get telemetry_timeLabel => 'Tid';
+
+  @override
+  String get telemetry_gyrometerLabel => 'Gyrometer';
+
+  @override
+  String get telemetry_colourLabel => 'Färg';
+
+  @override
+  String get telemetry_gpsLabel => 'GPS';
+
+  @override
+  String get telemetry_switchLabel => 'Brytare';
+
+  @override
+  String get telemetry_polylineLabel => 'Polylinje';
+
+  @override
+  String telemetry_altitudeValue(String meters) {
+    return '$meters m';
+  }
+
+  @override
+  String telemetry_frequencyValue(String hertz) {
+    return '$hertz Hz';
+  }
+
+  @override
+  String telemetry_pressureValue(String hpa) {
+    return '$hpa hPa';
+  }
+
+  @override
+  String telemetry_luminosityValue(String lux) {
+    return '$lux lx';
+  }
+
+  @override
+  String telemetry_powerValue(String watts) {
+    return '$watts W';
+  }
+
+  @override
+  String telemetry_distanceValue(String meters) {
+    return '$meters m';
+  }
+
+  @override
+  String telemetry_energyValue(String kilowattHours) {
+    return '$kilowattHours kWh';
+  }
+
+  @override
+  String telemetry_directionValue(String degrees) {
+    return '$degrees°';
+  }
+
+  @override
+  String telemetry_concentrationValue(String ppm) {
+    return '$ppm ppm';
+  }
+
+  @override
+  String telemetry_percentageValue(String percent) {
+    return '$percent%';
+  }
+
+  @override
+  String telemetry_analogValue(String value) {
+    return '$value';
+  }
+
+  @override
+  String get telemetry_autoFetchQuantity => 'Antal förfrågningar';
+
+  @override
+  String get telemetry_error => 'Det gick inte att hämta data';
+
+  @override
   String get neighbors_receivedData => 'Mottagna grannars data';
 
   @override
@@ -4264,4 +4460,135 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get contact_typeUnknown => 'Unknown';
+
+  @override
+  String get map_zoomIn => 'Zooma in';
+
+  @override
+  String get map_zoomOut => 'Zooma ut';
+
+  @override
+  String get map_centerMap => 'Kartöversikt';
+
+  @override
+  String get chrome_bluetoothRequiresChromium =>
+      'Web Bluetooth kräver en Chromium-baserad webbläsare.';
+
+  @override
+  String channels_communityShortId(String id) {
+    return 'ID: $id...';
+  }
+
+  @override
+  String get pathTrace_legendGpsConfirmed => 'GPS-verifierat';
+
+  @override
+  String get pathTrace_legendInferred => 'Antagen position';
+
+  @override
+  String get pathMap_viewSingle => 'Enkel';
+
+  @override
+  String get pathMap_viewCombined => 'Kombinerat';
+
+  @override
+  String get pathMap_play => 'Spela';
+
+  @override
+  String get pathMap_pause => 'Pausa';
+
+  @override
+  String get pathMap_replay => 'Återspela';
+
+  @override
+  String get pathMap_stepBack => 'Föregående hopp';
+
+  @override
+  String get pathMap_stepForward => 'Nästa hopp';
+
+  @override
+  String get pathMap_animationOn => 'Visa paketanimering';
+
+  @override
+  String get pathMap_animationOff => 'Dölj paketanimering';
+
+  @override
+  String pathMap_hopOf(int current, int total) {
+    return 'Hopp $current av $total';
+  }
+
+  @override
+  String pathMap_observedPaths(int count) {
+    return 'Observerade vägar: $count';
+  }
+
+  @override
+  String get pathMap_primary => 'Primär';
+
+  @override
+  String pathMap_alternate(int index) {
+    return 'Alternativ $index';
+  }
+
+  @override
+  String pathMap_hopCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hopp',
+      one: '1 hopp',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String pathMap_gpsCount(int confirmed, int total) {
+    return '$confirmed/$total GPS';
+  }
+
+  @override
+  String get pathMap_legendShared => 'Delat segment';
+
+  @override
+  String get pathMap_legendEstimated => 'Uppskattat segment';
+
+  @override
+  String pathMap_sharedNodeCount(int count) {
+    return 'Används av $count vägar';
+  }
+
+  @override
+  String pathMap_partialAnimation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hopp saknar position — den visade vägen är ofullständig',
+      one: '1 hopp saknar position — den visade vägen är ofullständig',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get pathMap_showAllPaths => 'Visa allt';
+
+  @override
+  String get pathMap_hidePath => 'Dölj väg';
+
+  @override
+  String get pathMap_showPath => 'Visa väg';
+
+  @override
+  String get pathMap_collapsePanel => 'Fäll ihop panel';
+
+  @override
+  String get pathMap_expandPanel => 'Expandera panel';
+
+  @override
+  String get pathMap_noLocation => 'Ingen position';
+
+  @override
+  String get pathMap_followPacket => 'Lås vy till paket';
+
+  @override
+  String get pathMap_unfollowPacket => 'Lås upp vy från paket';
 }

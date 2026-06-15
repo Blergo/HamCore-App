@@ -93,6 +93,24 @@ class AppLocalizationsPl extends AppLocalizations {
   String get common_disable => 'Wyłącz';
 
   @override
+  String get common_undo => 'Wycofaj';
+
+  @override
+  String get messageStatus_sent => 'Wysłane';
+
+  @override
+  String get messageStatus_delivered => 'Dostarczone';
+
+  @override
+  String get messageStatus_pending => 'Wysyłanie';
+
+  @override
+  String get messageStatus_failed => 'Nie udało się wysłać';
+
+  @override
+  String get messageStatus_repeated => 'Usłyszałem to wielokrotnie';
+
+  @override
   String get common_reboot => 'Uruchom ponownie';
 
   @override
@@ -110,6 +128,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String common_percentValue(int percent) {
     return '$percent%';
   }
+
+  @override
+  String get common_autoRefresh => 'Automatyczne odświeżanie';
+
+  @override
+  String get common_interval => 'Interwał';
 
   @override
   String get scanner_title => 'MeshCore – wersja open source';
@@ -297,6 +321,10 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get scanner_enableBluetooth => 'Włącz Bluetooth';
+
+  @override
+  String get scanner_bluetoothWebUnsupported =>
+      'Bluetooth nie jest dostępny w przeglądarce. Połącz się przez USB.';
 
   @override
   String get device_quickSwitch => 'Szybka zmiana';
@@ -803,11 +831,6 @@ class AppLocalizationsPl extends AppLocalizations {
       'Liczba prób ponownego wysłania wiadomości przed oznaczaniem jej jako nieudanej';
 
   @override
-  String path_routeWeight(String weight, String max) {
-    return '$weight/$max';
-  }
-
-  @override
   String get appSettings_battery => 'Bateria';
 
   @override
@@ -1014,6 +1037,15 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get contacts_newGroup => 'Nowa Grupa';
+
+  @override
+  String get contacts_moreOptions => 'Więcej opcji';
+
+  @override
+  String get contacts_searchOpen => 'Wyszukaj kontakty';
+
+  @override
+  String get contacts_searchClose => 'Zaawansowane wyszukiwanie';
 
   @override
   String get contacts_groupName => 'Nazwa grupy';
@@ -1498,35 +1530,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get debugFrame_hexDump => 'Zrzut hex:';
 
   @override
-  String get chat_pathManagement => 'Zarządzanie ścieżkami';
-
-  @override
-  String get chat_ShowAllPaths => 'Pokaż wszystkie ścieżki';
-
-  @override
-  String get chat_routingMode => 'Tryb routingu';
-
-  @override
-  String get chat_autoUseSavedPath => 'Automatyczne (użyj zapisanej ścieżki)';
-
-  @override
-  String get chat_forceFloodMode => 'Wymuś tryb zalewowy';
-
-  @override
-  String get chat_recentAckPaths =>
-      'Ostatnie ścieżki ACK (naciśnij, aby użyć):';
-
-  @override
-  String get chat_pathHistoryFull =>
-      'Historia ścieżek jest pełna. Usuń wpisy, aby dodać nowe.';
-
-  @override
-  String get chat_hopSingular => 'skok';
-
-  @override
-  String get chat_hopPlural => 'skoki';
-
-  @override
   String chat_hopsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -1540,12 +1543,6 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
-  String get chat_successes => 'Sukcesy';
-
-  @override
-  String get chat_score => 'Score';
-
-  @override
   String get chat_removePath => 'Usuń ścieżkę';
 
   @override
@@ -1553,50 +1550,146 @@ class AppLocalizationsPl extends AppLocalizations {
       'Brak historii ścieżek.\nWyślij wiadomość, aby odkryć ścieżki.';
 
   @override
-  String get chat_pathActions => 'Działania ścieżki:';
-
-  @override
-  String get chat_setCustomPath => 'Ustaw ścieżkę niestandardową';
-
-  @override
-  String get chat_setCustomPathSubtitle => 'Ręcznie określ trasę.';
-
-  @override
-  String get chat_clearPath => 'Wyczyść Ścieżkę';
-
-  @override
-  String get chat_clearPathSubtitle =>
-      'Wymuś ponowne wyznaczenie trasy przy następnym wysłaniu';
-
-  @override
   String get chat_pathCleared =>
       'Ścieżka wyczyszczona. Następna wiadomość odnajdzie trasę.';
-
-  @override
-  String get chat_floodModeSubtitle =>
-      'Użyj przełącznika routingu w pasku narzędzi.';
-
-  @override
-  String get chat_floodModeEnabled =>
-      'Tryb zalewowy włączony. Przełącz z powrotem ikoną routingu w pasku aplikacji.';
 
   @override
   String get chat_fullPath => 'Pełna ścieżka';
 
   @override
-  String get chat_pathDetailsNotAvailable =>
-      'Szczegóły ścieżki jeszcze niedostępne. Spróbuj wysłać wiadomość, aby odświeżyć.';
+  String get routing_title => 'Planowanie tras';
 
   @override
-  String chat_pathSetHops(int hopCount, String status) {
-    String _temp0 = intl.Intl.pluralLogic(
-      hopCount,
-      locale: localeName,
-      other: 'hops',
-      one: 'hop',
-    );
-    return 'Ścieżka ustawiona: $hopCount $_temp0 - $status';
+  String get routing_modeAuto => 'Samochód';
+
+  @override
+  String get routing_modeFlood => 'Powódź';
+
+  @override
+  String get routing_modeManual => 'Instrukcja obsługi';
+
+  @override
+  String get routing_modeAutoHint =>
+      'Automatycznie wybiera najpopularniejszą ścieżkę, a w przypadku braku znanej, przechodzi do trybu \"przepływu\".';
+
+  @override
+  String get routing_modeFloodHint =>
+      'Transmisje za pośrednictwem każdego repeatera. Najbardziej niezawodna metoda, ale zużywa więcej czasu transmisji.';
+
+  @override
+  String get routing_modeManualHint =>
+      'Zawsze prowadzi dokładnie po trasie, którą określiłeś.';
+
+  @override
+  String get routing_currentRoute => 'Obecna trasa';
+
+  @override
+  String get routing_directNoHops =>
+      'Bezpośrednio – bez pośrednictwa repeaterów';
+
+  @override
+  String get routing_noPathYet =>
+      'Na razie nie ma żadnej ścieżki. Komunikacja trwa do momentu, gdy zostanie odkryta trasa.';
+
+  @override
+  String get routing_floodBroadcast =>
+      'Transmisja za pośrednictwem każdego urządzenia powielającego';
+
+  @override
+  String get routing_editPath => 'Edytuj ścieżkę';
+
+  @override
+  String get routing_forgetPath => 'Zapomnij o ścieżce';
+
+  @override
+  String get routing_knownPaths => 'Znane trasy';
+
+  @override
+  String get routing_knownPathsHint =>
+      'Wybierz ścieżkę, aby przełączyć się na nią.';
+
+  @override
+  String get routing_inUse => 'W użyciu';
+
+  @override
+  String get routing_qualityStrong => 'Silny pierwszy skok';
+
+  @override
+  String get routing_qualityGood => 'Świetny początek';
+
+  @override
+  String get routing_qualityFair => 'Świetny pierwszy krzak';
+
+  @override
+  String get routing_qualityWorked => 'Zostało dostarczone';
+
+  @override
+  String get routing_qualityFlood => 'Usłyszano dzięki doniesieniom';
+
+  @override
+  String get routing_qualityUntested => 'Nieużywany';
+
+  @override
+  String routing_lastWorked(String when) {
+    return 'pracował $when';
   }
+
+  @override
+  String get routing_neverWorked => 'nigdy nie zostało potwierdzone';
+
+  @override
+  String routing_deliveryCounts(int successes, int failures) {
+    return '$successes delivered, $failures failed';
+  }
+
+  @override
+  String get routing_floodDelivery => 'Dostawa w przypadku powodzi';
+
+  @override
+  String get pathEditor_title => 'Stworzenie ścieżki';
+
+  @override
+  String pathEditor_hopCounter(int count) {
+    return '$count z 64 rodzajów chmielu';
+  }
+
+  @override
+  String get pathEditor_noHops =>
+      'Na razie nie dodano żadnych chmielu. Aby dodać je w odpowiedniej kolejności, kliknij w odpowiednie przyciski poniżej, lub zapisz przepis bez chmielu, aby wysłać go bezpośrednio.';
+
+  @override
+  String get pathEditor_addHops => 'Dodawaj chmiel zgodnie z kolejnością.';
+
+  @override
+  String get pathEditor_searchRepeaters => 'Funkcje powtarzania';
+
+  @override
+  String get pathEditor_advancedHex =>
+      'Zaawansowane: ścieżka w formacie szesnastkowym';
+
+  @override
+  String get pathEditor_hexLabel => 'Prefiksy heksadecymalne';
+
+  @override
+  String get pathEditor_hexHelper =>
+      'Dwa znaki szesnastkowe na każdym kroku, oddzielone przecinkami';
+
+  @override
+  String pathEditor_invalidTokens(String tokens) {
+    return 'Nieprawidłowe: $tokens';
+  }
+
+  @override
+  String get pathEditor_tooManyHops => 'Maksymalnie 64 hopów';
+
+  @override
+  String get pathEditor_usePath => 'Użyj tej ścieżki.';
+
+  @override
+  String get pathEditor_removeHop => 'Usuń dziką psiankę';
+
+  @override
+  String get pathEditor_unknownHop => 'Nieznany repeater';
 
   @override
   String get chat_pathSavedLocally =>
@@ -1672,6 +1765,39 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get map_title => 'Mapa węzłów';
+
+  @override
+  String get map_searchHint => 'Wyszukaj nazwę lub identyfikator węzła';
+
+  @override
+  String get map_activity => 'Aktywność';
+
+  @override
+  String get map_online => 'Online';
+
+  @override
+  String get map_recent => 'Ostatnie';
+
+  @override
+  String get map_stale => 'Nieaktualne';
+
+  @override
+  String get map_visible => 'Widoczny';
+
+  @override
+  String get map_hidden => 'Ukryty';
+
+  @override
+  String get map_centerOnNode => 'Wyśrodkuj na węźle';
+
+  @override
+  String get map_details => 'Szczegóły';
+
+  @override
+  String get map_noGps => 'Brak GPS';
+
+  @override
+  String get map_noResults => 'Brak pasujących węzłów';
 
   @override
   String get map_lineOfSight => 'Linia wzroku';
@@ -2068,66 +2194,11 @@ class AppLocalizationsPl extends AppLocalizations {
   String get common_clear => 'Wyczyść';
 
   @override
-  String path_currentPath(String path) {
-    return 'Aktualna ścieżka: $path';
-  }
-
-  @override
-  String path_usingHopsPath(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'skoków',
-      many: 'skoków',
-      few: 'skoki',
-      one: 'skok',
-    );
-    return 'Użyj ścieżki $count $_temp0.';
-  }
-
-  @override
-  String get path_enterCustomPath => 'Wprowadź własną ścieżkę';
-
-  @override
   String get path_currentPathLabel => 'Aktualna ścieżka';
-
-  @override
-  String get path_hexPrefixInstructions =>
-      'Wprowadź 2-znakowe prefiksy szesnastkowe dla każdego skoku, oddzielone przecinkami.';
-
-  @override
-  String get path_hexPrefixExample =>
-      'A1,F2,3C (każdy węzeł używa pierwszego bajtu swojego klucza publicznego)';
-
-  @override
-  String get path_labelHexPrefixes => 'Ścieżka (prefiksy hex)';
-
-  @override
-  String get path_helperMaxHops =>
-      'Maksymalnie 64 skoki. Każdy prefiks ma 2 znaki szesnastkowe (1 bajt).';
-
-  @override
-  String get path_selectFromContacts => 'Albo wybierz z kontaktów:';
 
   @override
   String get path_noRepeatersFound =>
       'Nie znaleziono przekaźników ani serwerów pokoi.';
-
-  @override
-  String get path_customPathsRequire =>
-      'Dostosowane ścieżki wymagają pośrednich skoków, które mogą przekazywać wiadomości.';
-
-  @override
-  String path_invalidHexPrefixes(String prefixes) {
-    return 'Nieprawidłowe prefiksy szesnastkowe: $prefixes';
-  }
-
-  @override
-  String get path_tooLong =>
-      'Ścieżka jest zbyt długa. Dozwolonych skoków wynosi 64.';
-
-  @override
-  String get path_setPath => 'Ustaw Ścieżkę';
 
   @override
   String get repeater_management => 'Zarządzanie przekaźnikami';
@@ -2192,16 +2263,6 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get repeater_routingMode => 'Tryb routingu';
-
-  @override
-  String get repeater_autoUseSavedPath =>
-      'Automatycznie (użyj zapisanej ścieżki)';
-
-  @override
-  String get repeater_forceFloodMode => 'Wymuś tryb zalewowy';
-
-  @override
-  String get repeater_pathManagement => 'Zarządzanie ścieżkami';
 
   @override
   String get repeater_refresh => 'Odśwież';
@@ -3301,6 +3362,139 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
+  String get telemetry_digitalInputLabel => 'Wejście cyfrowe';
+
+  @override
+  String get telemetry_digitalOutputLabel => 'Wyjście cyfrowe';
+
+  @override
+  String get telemetry_analogInputLabel => 'Wejście analogowe';
+
+  @override
+  String get telemetry_analogOutputLabel => 'Wyjście analogowe';
+
+  @override
+  String get telemetry_genericLabel => 'Czujnik ogólny';
+
+  @override
+  String get telemetry_luminosityLabel => 'Jasność';
+
+  @override
+  String get telemetry_presenceLabel => 'Obecność';
+
+  @override
+  String get telemetry_humidityLabel => 'Wilgotność';
+
+  @override
+  String get telemetry_accelerometerLabel => 'Akcelerometr';
+
+  @override
+  String get telemetry_pressureLabel => 'Ciśnienie';
+
+  @override
+  String get telemetry_altitudeLabel => 'Wysokość';
+
+  @override
+  String get telemetry_frequencyLabel => 'Częstotliwość';
+
+  @override
+  String get telemetry_percentageLabel => 'Procent';
+
+  @override
+  String get telemetry_concentrationLabel => 'Stężenie';
+
+  @override
+  String get telemetry_powerLabel => 'Moc';
+
+  @override
+  String get telemetry_distanceLabel => 'Odległość';
+
+  @override
+  String get telemetry_energyLabel => 'Energia';
+
+  @override
+  String get telemetry_directionLabel => 'Kierunek';
+
+  @override
+  String get telemetry_timeLabel => 'Czas';
+
+  @override
+  String get telemetry_gyrometerLabel => 'Żyrometr';
+
+  @override
+  String get telemetry_colourLabel => 'Kolor';
+
+  @override
+  String get telemetry_gpsLabel => 'GPS';
+
+  @override
+  String get telemetry_switchLabel => 'Przełącznik';
+
+  @override
+  String get telemetry_polylineLabel => 'Polilinia';
+
+  @override
+  String telemetry_altitudeValue(String meters) {
+    return '$meters m';
+  }
+
+  @override
+  String telemetry_frequencyValue(String hertz) {
+    return '$hertz Hz';
+  }
+
+  @override
+  String telemetry_pressureValue(String hpa) {
+    return '$hpa hPa';
+  }
+
+  @override
+  String telemetry_luminosityValue(String lux) {
+    return '$lux lx';
+  }
+
+  @override
+  String telemetry_powerValue(String watts) {
+    return '$watts W';
+  }
+
+  @override
+  String telemetry_distanceValue(String meters) {
+    return '$meters m';
+  }
+
+  @override
+  String telemetry_energyValue(String kilowattHours) {
+    return '$kilowattHours kWh';
+  }
+
+  @override
+  String telemetry_directionValue(String degrees) {
+    return '$degrees°';
+  }
+
+  @override
+  String telemetry_concentrationValue(String ppm) {
+    return '$ppm ppm';
+  }
+
+  @override
+  String telemetry_percentageValue(String percent) {
+    return '$percent%';
+  }
+
+  @override
+  String telemetry_analogValue(String value) {
+    return '$value';
+  }
+
+  @override
+  String get telemetry_autoFetchQuantity => 'Liczba żądań';
+
+  @override
+  String get telemetry_error => 'Nie udało się pobrać danych';
+
+  @override
   String get neighbors_receivedData => 'Otrzymano dane sąsiedztwa';
 
   @override
@@ -4332,4 +4526,142 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get contact_typeUnknown => 'Unknown';
+
+  @override
+  String get map_zoomIn => 'Przybliż';
+
+  @override
+  String get map_zoomOut => 'Przybliż z powrotem';
+
+  @override
+  String get map_centerMap => 'Mapa centrum';
+
+  @override
+  String get chrome_bluetoothRequiresChromium =>
+      'Web Bluetooth wymaga przeglądarki Chromium.';
+
+  @override
+  String channels_communityShortId(String id) {
+    return 'ID: $id...';
+  }
+
+  @override
+  String get pathTrace_legendGpsConfirmed => 'GPS potwierdzone';
+
+  @override
+  String get pathTrace_legendInferred => 'Wywnioskowana pozycja';
+
+  @override
+  String get pathMap_viewSingle => 'Pojedyncza';
+
+  @override
+  String get pathMap_viewCombined => 'Połączone';
+
+  @override
+  String get pathMap_play => 'Odtwórz';
+
+  @override
+  String get pathMap_pause => 'Wstrzymaj';
+
+  @override
+  String get pathMap_replay => 'Odtwórz ponownie';
+
+  @override
+  String get pathMap_stepBack => 'Poprzedni skok';
+
+  @override
+  String get pathMap_stepForward => 'Następny skok';
+
+  @override
+  String get pathMap_animationOn => 'Pokaż animację pakietu';
+
+  @override
+  String get pathMap_animationOff => 'Ukryj animację pakietu';
+
+  @override
+  String pathMap_hopOf(int current, int total) {
+    return 'Skok $current z $total';
+  }
+
+  @override
+  String pathMap_observedPaths(int count) {
+    return 'Obserwowane trasy: $count';
+  }
+
+  @override
+  String get pathMap_primary => 'Główna';
+
+  @override
+  String pathMap_alternate(int index) {
+    return 'Alt. $index';
+  }
+
+  @override
+  String pathMap_hopCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count skoku',
+      many: '$count skoków',
+      few: '$count skoki',
+      one: '1 skok',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String pathMap_gpsCount(int confirmed, int total) {
+    return '$confirmed/$total GPS';
+  }
+
+  @override
+  String get pathMap_legendShared => 'Wspólny segment';
+
+  @override
+  String get pathMap_legendEstimated => 'Szacunkowy segment';
+
+  @override
+  String pathMap_sharedNodeCount(int count) {
+    return 'Wykorzystywane przez $count ścieżek';
+  }
+
+  @override
+  String pathMap_partialAnimation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count skoku nie ma lokalizacji — pokazana ścieżka jest niekompletna',
+      many:
+          '$count skoków nie ma lokalizacji — pokazana ścieżka jest niekompletna',
+      few:
+          '$count skoki nie mają lokalizacji — pokazana ścieżka jest niekompletna',
+      one: '1 skok nie ma lokalizacji — pokazana ścieżka jest niekompletna',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get pathMap_showAllPaths => 'Pokaż wszystkie';
+
+  @override
+  String get pathMap_hidePath => 'Ukryj ścieżkę';
+
+  @override
+  String get pathMap_showPath => 'Wyświetl trasę';
+
+  @override
+  String get pathMap_collapsePanel => 'Zwiń panel';
+
+  @override
+  String get pathMap_expandPanel => 'Rozwiń panel';
+
+  @override
+  String get pathMap_noLocation => 'Brak lokalizacji';
+
+  @override
+  String get pathMap_followPacket => 'Śledź pakiet';
+
+  @override
+  String get pathMap_unfollowPacket => 'Przestań śledzić pakiet';
 }

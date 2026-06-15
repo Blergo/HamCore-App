@@ -93,6 +93,24 @@ class AppLocalizationsUk extends AppLocalizations {
   String get common_disable => 'Вимкнути';
 
   @override
+  String get common_undo => 'Скасувати';
+
+  @override
+  String get messageStatus_sent => 'Надіслано';
+
+  @override
+  String get messageStatus_delivered => 'Доставлено';
+
+  @override
+  String get messageStatus_pending => 'Надсилання';
+
+  @override
+  String get messageStatus_failed => 'Не вдалося надіслати';
+
+  @override
+  String get messageStatus_repeated => 'Почув неодноразово';
+
+  @override
   String get common_reboot => 'Перезавантажити';
 
   @override
@@ -110,6 +128,12 @@ class AppLocalizationsUk extends AppLocalizations {
   String common_percentValue(int percent) {
     return '$percent%';
   }
+
+  @override
+  String get common_autoRefresh => 'Автооновлення';
+
+  @override
+  String get common_interval => 'Інтервал';
 
   @override
   String get scanner_title => 'MeshCore: Відкритий доступ';
@@ -294,6 +318,10 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get scanner_enableBluetooth => 'Увімкніть Bluetooth';
+
+  @override
+  String get scanner_bluetoothWebUnsupported =>
+      'Bluetooth недоступний у браузері. Підключіться через USB.';
 
   @override
   String get device_quickSwitch => 'Швидке перемикання';
@@ -796,11 +824,6 @@ class AppLocalizationsUk extends AppLocalizations {
       'Кількість спроб повторного відправлення повідомлення перед тим, як позначити його як невдале';
 
   @override
-  String path_routeWeight(String weight, String max) {
-    return '$weight/$max';
-  }
-
-  @override
   String get appSettings_battery => 'Батарея';
 
   @override
@@ -1000,6 +1023,15 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get contacts_newGroup => 'Нова група';
+
+  @override
+  String get contacts_moreOptions => 'Більше можливостей';
+
+  @override
+  String get contacts_searchOpen => 'Пошук контактів';
+
+  @override
+  String get contacts_searchClose => 'Закрити пошук';
 
   @override
   String get contacts_groupName => 'Назва групи';
@@ -1481,35 +1513,6 @@ class AppLocalizationsUk extends AppLocalizations {
   String get debugFrame_hexDump => 'Дамп Hex:';
 
   @override
-  String get chat_pathManagement => 'Керування шляхами';
-
-  @override
-  String get chat_ShowAllPaths => 'Показати всі шляхи';
-
-  @override
-  String get chat_routingMode => 'Режим маршрутизації';
-
-  @override
-  String get chat_autoUseSavedPath => 'Авто (використовувати збережений шлях)';
-
-  @override
-  String get chat_forceFloodMode => 'Примусово через всю мережу';
-
-  @override
-  String get chat_recentAckPaths =>
-      'Підтверджені шляхи (натисніть, щоб використати):';
-
-  @override
-  String get chat_pathHistoryFull =>
-      'Історія шляхів заповнена. Видаліть записи, щоб додати нові.';
-
-  @override
-  String get chat_hopSingular => 'Перехід';
-
-  @override
-  String get chat_hopPlural => 'переходів';
-
-  @override
   String chat_hopsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -1523,12 +1526,6 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get chat_successes => 'Успішно';
-
-  @override
-  String get chat_score => 'Оцінка';
-
-  @override
   String get chat_removePath => 'Видалити шлях';
 
   @override
@@ -1536,52 +1533,146 @@ class AppLocalizationsUk extends AppLocalizations {
       'Історія шляхів недоступна.\nНадішліть повідомлення, щоб виявити шляхи.';
 
   @override
-  String get chat_pathActions => 'Дії зі шляхом:';
-
-  @override
-  String get chat_setCustomPath => 'Встановити власний шлях';
-
-  @override
-  String get chat_setCustomPathSubtitle => 'Вказати шлях маршрутизації вручну';
-
-  @override
-  String get chat_clearPath => 'Очистити шлях';
-
-  @override
-  String get chat_clearPathSubtitle =>
-      'Примусово повторити пошук при наступному надсиланні';
-
-  @override
   String get chat_pathCleared =>
       'Шлях очищено. Наступне повідомлення оновить маршрут.';
-
-  @override
-  String get chat_floodModeSubtitle =>
-      'Використовувати перемикач маршрутизації в панелі застосунку';
-
-  @override
-  String get chat_floodModeEnabled =>
-      'Увімкнено режим «через всю мережу». Перемикайте через іконку маршрутизації на панелі інструментів.';
 
   @override
   String get chat_fullPath => 'Повний шлях';
 
   @override
-  String get chat_pathDetailsNotAvailable =>
-      'Деталі шляху ще недоступні. Спробуйте надіслати повідомлення для оновлення.';
+  String get routing_title => 'Маршрутизація';
 
   @override
-  String chat_pathSetHops(int hopCount, String status) {
-    String _temp0 = intl.Intl.pluralLogic(
-      hopCount,
-      locale: localeName,
-      other: 'переходів',
-      many: 'переходів',
-      few: 'переходи',
-      one: 'перехід',
-    );
-    return 'Шлях встановлено: $hopCount $_temp0 - $status';
+  String get routing_modeAuto => 'Автомобіль';
+
+  @override
+  String get routing_modeFlood => 'Повені';
+
+  @override
+  String get routing_modeManual => 'Інструкція';
+
+  @override
+  String get routing_modeAutoHint =>
+      'Автоматично обирає найкращий відомий шлях, та у разі відсутності відомого шляху, використовує алгоритм \"занурення\".';
+
+  @override
+  String get routing_modeFloodHint =>
+      'Передавання через усі ретранслятори. Найбільш надійний спосіб, але потребує більше часу.';
+
+  @override
+  String get routing_modeManualHint =>
+      'Завжди доставляє точно за вказаним вами маршрутом.';
+
+  @override
+  String get routing_currentRoute => 'Поточний маршрут';
+
+  @override
+  String get routing_directNoHops =>
+      'Пряме з\'єднання – без проміжних ретрансляторів';
+
+  @override
+  String get routing_noPathYet =>
+      'Поки що немає жодного шляху. Повідомлення продовжуються надходити, поки не буде знайдено маршрут.';
+
+  @override
+  String get routing_floodBroadcast => 'Поширення через усі ретранслятори';
+
+  @override
+  String get routing_editPath => 'Редагувати шлях';
+
+  @override
+  String get routing_forgetPath => 'Забудь про шлях';
+
+  @override
+  String get routing_knownPaths => 'Відомі маршрути';
+
+  @override
+  String get routing_knownPathsHint =>
+      'Виберіть опцію, щоб переключитися на неї.';
+
+  @override
+  String get routing_inUse => 'У робочому стані';
+
+  @override
+  String get routing_qualityStrong => 'Сильний перший стрибок';
+
+  @override
+  String get routing_qualityGood => 'Чудова перша спроба';
+
+  @override
+  String get routing_qualityFair => 'Перший, але вдалий, крок';
+
+  @override
+  String get routing_qualityWorked => 'Доставлено';
+
+  @override
+  String get routing_qualityFlood => 'Дізнався через новини';
+
+  @override
+  String get routing_qualityUntested => 'Не протестовано';
+
+  @override
+  String routing_lastWorked(String when) {
+    return 'worked $when';
   }
+
+  @override
+  String get routing_neverWorked => 'ніколи не підтверджено';
+
+  @override
+  String routing_deliveryCounts(int successes, int failures) {
+    return '$successes delivered, $failures failed';
+  }
+
+  @override
+  String get routing_floodDelivery => 'Доставка під час повені';
+
+  @override
+  String get pathEditor_title => 'Створити маршрут';
+
+  @override
+  String pathEditor_hopCounter(int count) {
+    return '$count з 64 штук хмелю';
+  }
+
+  @override
+  String get pathEditor_noHops =>
+      'Ще не додано хміль. Натисніть на відповідні кнопки, щоб додати його в потрібному порядку, або збережіть рецепт без хмілю, щоб відправити його безпосередньо.';
+
+  @override
+  String get pathEditor_addHops => 'Додавайте хміль у наступній послідовності.';
+
+  @override
+  String get pathEditor_searchRepeaters => 'Пошук повторювачів';
+
+  @override
+  String get pathEditor_advancedHex =>
+      'Просунутий рівень: пряма шлях у форматі шестнадцяткової системи.';
+
+  @override
+  String get pathEditor_hexLabel =>
+      'Префікси для шестнадцяткової системи числення';
+
+  @override
+  String get pathEditor_hexHelper =>
+      'Два шестизначні символи на кожний крок, розділені комами';
+
+  @override
+  String pathEditor_invalidTokens(String tokens) {
+    return 'Неправильно: $tokens';
+  }
+
+  @override
+  String get pathEditor_tooManyHops => 'Максимум 64 хмелеві колоди';
+
+  @override
+  String get pathEditor_usePath => 'Використовуйте цей шлях';
+
+  @override
+  String get pathEditor_removeHop => 'Видалити хміль';
+
+  @override
+  String get pathEditor_unknownHop => 'Невідомий ретранслятор';
 
   @override
   String get chat_pathSavedLocally =>
@@ -1656,6 +1747,39 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get map_title => 'Карта вузлів';
+
+  @override
+  String get map_searchHint => 'Назва або ID вузла';
+
+  @override
+  String get map_activity => 'Активність';
+
+  @override
+  String get map_online => 'Онлайн';
+
+  @override
+  String get map_recent => 'Нещодавні';
+
+  @override
+  String get map_stale => 'Застаріло';
+
+  @override
+  String get map_visible => 'Видимий';
+
+  @override
+  String get map_hidden => 'Прихований';
+
+  @override
+  String get map_centerOnNode => 'Центрувати на вузлі';
+
+  @override
+  String get map_details => 'Деталі';
+
+  @override
+  String get map_noGps => 'Без GPS';
+
+  @override
+  String get map_noResults => 'Не знайдено відповідних вузлів';
 
   @override
   String get map_lineOfSight => 'Пряма видимість';
@@ -2050,65 +2174,11 @@ class AppLocalizationsUk extends AppLocalizations {
   String get common_clear => 'Очистити';
 
   @override
-  String path_currentPath(String path) {
-    return 'Поточний шлях: $path';
-  }
-
-  @override
-  String path_usingHopsPath(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'переходами',
-      many: 'переходами',
-      few: 'переходами',
-      one: 'переходом',
-    );
-    return 'Використання шляху з $count $_temp0';
-  }
-
-  @override
-  String get path_enterCustomPath => 'Ввести власний шлях';
-
-  @override
   String get path_currentPathLabel => 'Поточний шлях';
-
-  @override
-  String get path_hexPrefixInstructions =>
-      'Введіть 2-символьні hex-префікси для кожного переходу, розділені комами.';
-
-  @override
-  String get path_hexPrefixExample =>
-      'Приклад: A1,F2,3C (кожен вузол використовує перший байт свого відкритого ключа).';
-
-  @override
-  String get path_labelHexPrefixes => 'Hex-префікси';
-
-  @override
-  String get path_helperMaxHops =>
-      'Макс. 64 переходи. Кожен префікс — 2 шістнадцяткові символи (1 байт)';
-
-  @override
-  String get path_selectFromContacts => 'Вибрати з контактів:';
 
   @override
   String get path_noRepeatersFound =>
       'Ретрансляторів або серверів кімнат не знайдено.';
-
-  @override
-  String get path_customPathsRequire =>
-      'Власні шляхи вимагають проміжних вузлів, які можуть передавати повідомлення.';
-
-  @override
-  String path_invalidHexPrefixes(String prefixes) {
-    return 'Некоректні hex-префікси: $prefixes';
-  }
-
-  @override
-  String get path_tooLong => 'Шлях занадто довгий. Максимум 64 переходи.';
-
-  @override
-  String get path_setPath => 'Встановити шлях';
 
   @override
   String get repeater_management => 'Керування ретранслятором';
@@ -2173,16 +2243,6 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get repeater_routingMode => 'Режим маршрутизації';
-
-  @override
-  String get repeater_autoUseSavedPath =>
-      'Авто (використовувати збережений шлях)';
-
-  @override
-  String get repeater_forceFloodMode => 'Примусово через всю мережу';
-
-  @override
-  String get repeater_pathManagement => 'Керування шляхами';
 
   @override
   String get repeater_refresh => 'Оновити';
@@ -3287,6 +3347,139 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
+  String get telemetry_digitalInputLabel => 'Цифровий вхід';
+
+  @override
+  String get telemetry_digitalOutputLabel => 'Цифровий вихід';
+
+  @override
+  String get telemetry_analogInputLabel => 'Аналоговий вхід';
+
+  @override
+  String get telemetry_analogOutputLabel => 'Аналоговий вихід';
+
+  @override
+  String get telemetry_genericLabel => 'Загальний датчик';
+
+  @override
+  String get telemetry_luminosityLabel => 'Освітленість';
+
+  @override
+  String get telemetry_presenceLabel => 'Присутність';
+
+  @override
+  String get telemetry_humidityLabel => 'Вологість';
+
+  @override
+  String get telemetry_accelerometerLabel => 'Акселерометр';
+
+  @override
+  String get telemetry_pressureLabel => 'Тиск';
+
+  @override
+  String get telemetry_altitudeLabel => 'Висота';
+
+  @override
+  String get telemetry_frequencyLabel => 'Частота';
+
+  @override
+  String get telemetry_percentageLabel => 'Відсоток';
+
+  @override
+  String get telemetry_concentrationLabel => 'Концентрація';
+
+  @override
+  String get telemetry_powerLabel => 'Потужність';
+
+  @override
+  String get telemetry_distanceLabel => 'Відстань';
+
+  @override
+  String get telemetry_energyLabel => 'Енергія';
+
+  @override
+  String get telemetry_directionLabel => 'Напрямок';
+
+  @override
+  String get telemetry_timeLabel => 'Час';
+
+  @override
+  String get telemetry_gyrometerLabel => 'Гірометр';
+
+  @override
+  String get telemetry_colourLabel => 'Колір';
+
+  @override
+  String get telemetry_gpsLabel => 'GPS';
+
+  @override
+  String get telemetry_switchLabel => 'Перемикач';
+
+  @override
+  String get telemetry_polylineLabel => 'Полілінія';
+
+  @override
+  String telemetry_altitudeValue(String meters) {
+    return '$meters м';
+  }
+
+  @override
+  String telemetry_frequencyValue(String hertz) {
+    return '$hertz Гц';
+  }
+
+  @override
+  String telemetry_pressureValue(String hpa) {
+    return '$hpa гПа';
+  }
+
+  @override
+  String telemetry_luminosityValue(String lux) {
+    return '$lux лк';
+  }
+
+  @override
+  String telemetry_powerValue(String watts) {
+    return '$watts Вт';
+  }
+
+  @override
+  String telemetry_distanceValue(String meters) {
+    return '$meters м';
+  }
+
+  @override
+  String telemetry_energyValue(String kilowattHours) {
+    return '$kilowattHours кВт⋅год';
+  }
+
+  @override
+  String telemetry_directionValue(String degrees) {
+    return '$degrees°';
+  }
+
+  @override
+  String telemetry_concentrationValue(String ppm) {
+    return '$ppm ppm';
+  }
+
+  @override
+  String telemetry_percentageValue(String percent) {
+    return '$percent%';
+  }
+
+  @override
+  String telemetry_analogValue(String value) {
+    return '$value';
+  }
+
+  @override
+  String get telemetry_autoFetchQuantity => 'Кількість запитів';
+
+  @override
+  String get telemetry_error => 'Не вдалося отримати дані';
+
+  @override
   String get neighbors_receivedData => 'Дані сусідів отримано';
 
   @override
@@ -4327,4 +4520,140 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get contact_typeUnknown => 'Невідомо';
+
+  @override
+  String get map_zoomIn => 'Увійти в режим збільшення';
+
+  @override
+  String get map_zoomOut => 'Видалити зум';
+
+  @override
+  String get map_centerMap => 'Карта центру';
+
+  @override
+  String get chrome_bluetoothRequiresChromium =>
+      'Web Bluetooth вимагає браузера на основі Chromium';
+
+  @override
+  String channels_communityShortId(String id) {
+    return 'ID: $id...';
+  }
+
+  @override
+  String get pathTrace_legendGpsConfirmed => 'GPS підтверджено';
+
+  @override
+  String get pathTrace_legendInferred => 'Висновок щодо положення';
+
+  @override
+  String get pathMap_viewSingle => 'Один';
+
+  @override
+  String get pathMap_viewCombined => 'Об\'єднаний';
+
+  @override
+  String get pathMap_play => 'Відтворити';
+
+  @override
+  String get pathMap_pause => 'Призупинити';
+
+  @override
+  String get pathMap_replay => 'Повтор';
+
+  @override
+  String get pathMap_stepBack => 'Попередній перехід';
+
+  @override
+  String get pathMap_stepForward => 'Наступний перехід';
+
+  @override
+  String get pathMap_animationOn => 'Відобразити анімацію пакета';
+
+  @override
+  String get pathMap_animationOff => 'Приховати анімацію пакета';
+
+  @override
+  String pathMap_hopOf(int current, int total) {
+    return 'Перехід $current з $total';
+  }
+
+  @override
+  String pathMap_observedPaths(int count) {
+    return 'Зафіксовані маршрути: $count';
+  }
+
+  @override
+  String get pathMap_primary => 'Основний';
+
+  @override
+  String pathMap_alternate(int index) {
+    return 'Альт. $index';
+  }
+
+  @override
+  String pathMap_hopCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count переходів',
+      many: '$count переходів',
+      few: '$count переходи',
+      one: '1 перехід',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String pathMap_gpsCount(int confirmed, int total) {
+    return '$confirmed/$total GPS';
+  }
+
+  @override
+  String get pathMap_legendShared => 'Об\'єднаний сегмент';
+
+  @override
+  String get pathMap_legendEstimated => 'Орієнтовний сегмент';
+
+  @override
+  String pathMap_sharedNodeCount(int count) {
+    return 'Використовується $count шляхами';
+  }
+
+  @override
+  String pathMap_partialAnimation(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count переходів не мають геопозиції — показаний шлях є частковим',
+      many: '$count переходів не мають геопозиції — показаний шлях є частковим',
+      few: '$count переходи не мають геопозиції — показаний шлях є частковим',
+      one: '1 перехід не має геопозиції — показаний шлях є частковим',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get pathMap_showAllPaths => 'Показати все';
+
+  @override
+  String get pathMap_hidePath => 'Приховати шлях';
+
+  @override
+  String get pathMap_showPath => 'Показати шлях';
+
+  @override
+  String get pathMap_collapsePanel => 'Згорнути панель';
+
+  @override
+  String get pathMap_expandPanel => 'Розгорнути панель';
+
+  @override
+  String get pathMap_noLocation => 'Без геопозиції';
+
+  @override
+  String get pathMap_followPacket => 'Прив\'язати вигляд до пакету';
+
+  @override
+  String get pathMap_unfollowPacket => 'Відв\'язати вигляд від пакету';
 }
