@@ -11,6 +11,21 @@ import 'package:meshcore_open/services/app_settings_service.dart';
 import 'package:meshcore_open/services/map_tile_cache_service.dart';
 import 'package:meshcore_open/models/contact.dart';
 import 'package:meshcore_open/l10n/app_localizations.dart';
+import 'package:meshcore_open/services/path_history_service.dart';
+import 'package:meshcore_open/services/storage_service.dart';
+import 'package:meshcore_open/models/path_history.dart';
+
+class _FakeStorageService extends StorageService {
+  @override
+  Future<void> savePathHistory(
+    String contactPubKeyHex,
+    ContactPathHistory history,
+  ) async {}
+  @override
+  Future<ContactPathHistory?> loadPathHistory(String contactPubKeyHex) async => null;
+  @override
+  Future<void> clearPathHistory(String contactPubKeyHex) async {}
+}
 
 class _FakeMeshCoreConnector extends MeshCoreConnector {
   final StreamController<Uint8List> _receivedFramesController =
@@ -63,6 +78,9 @@ Widget _buildTestApp({
         create: (_) => AppSettingsService(),
       ),
       Provider<MapTileCacheService>(create: (_) => MapTileCacheService()),
+      ChangeNotifierProvider<PathHistoryService>(
+        create: (_) => PathHistoryService(_FakeStorageService()),
+      ),
     ],
     child: MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -92,8 +110,8 @@ void main() {
     final sentFrame = connector.sentFrames.first;
     expect(sentFrame[0], cmdSendTracePath);
 
-    // Extract the tag sent in the request (bytes 1-4)
-    final tag = sentFrame.sublist(1, 5);
+    // Extract the tag sent in the request (bytes 2-5)
+    final tag = sentFrame.sublist(2, 6);
 
     // Emit respCodeSent (6)
     final respCodeSentFrame = Uint8List(10);
@@ -118,8 +136,8 @@ void main() {
     // Offset 4..7: tag
     // Offset 8..11: auth (0)
     // Offset 12..13: pathBytes [0x12, 0x34]
-    // Offset 14..15: SNR bytes [12, 16] -> to be mapped to signed 8 bit Snr/4
-    final pushTraceFrame = Uint8List(16);
+    // Offset 14..16: SNR bytes [12, 16, 20] -> to be mapped to signed 8 bit Snr/4
+    final pushTraceFrame = Uint8List(17);
     pushTraceFrame[0] = pushCodeTraceData;
     pushTraceFrame[1] = 0; // reserved
     pushTraceFrame[2] = 2; // pathLength
@@ -127,11 +145,12 @@ void main() {
     pushTraceFrame.setRange(4, 8, tag);
     // auth bytes (8..11) = 0
     pushTraceFrame.setRange(12, 14, [0x12, 0x34]); // pathBytes
-    pushTraceFrame.setRange(14, 16, [12, 16]); // SNR bytes
+    pushTraceFrame.setRange(14, 17, [12, 16, 20]); // SNR bytes
 
     connector.emitFrame(pushTraceFrame);
-    // pump multiple times to handle async tasks
-    await tester.pumpAndSettle();
+    for (int i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
 
     // Verify it doesn't show "Path trace not available" or similar
     expect(find.text('Path trace not available.'), findsNothing);
@@ -158,8 +177,8 @@ void main() {
       final sentFrame = connector.sentFrames.first;
       expect(sentFrame[0], cmdSendTracePath);
 
-      // Extract the tag sent in the request (bytes 1-4)
-      final tag = sentFrame.sublist(1, 5);
+      // Extract the tag sent in the request (bytes 2-5)
+      final tag = sentFrame.sublist(2, 6);
 
       // Emit respCodeSent (6)
       final respCodeSentFrame = Uint8List(10);
@@ -194,7 +213,9 @@ void main() {
       pushTraceFrame.setRange(14, 16, [12, 16]); // SNR bytes
 
       connector.emitFrame(pushTraceFrame);
-      await tester.pumpAndSettle();
+      for (int i = 0; i < 5; i++) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
 
       // Verify it parsed correctly (should not show the unavailable message)
       expect(find.text('Path trace not available.'), findsNothing);
@@ -336,7 +357,8 @@ void main() {
 
     expect(connector.sentFrames.length, 1);
     final sentFrame = connector.sentFrames.first;
-    final tag = sentFrame.sublist(1, 5);
+    // Extract the tag sent in the request (bytes 2-5)
+    final tag = sentFrame.sublist(2, 6);
 
     // Emit respCodeSent (6)
     final respCodeSentFrame = Uint8List(10);
@@ -353,19 +375,21 @@ void main() {
 
     // Now emit PUSH_CODE_TRACE_DATA (0x89)
     // Structure:
-    // Offset 2: pathLength (2) -> raw byte length count, mode is 0!
-    // Offset 12..13: pathBytes [0x12, 0x34]
+    // Offset 2: pathLength (1) -> mode 0, hop count 1.
+    // Offset 12..13: pathBytes [0x12, 0x34] (1 hop * 2 bytes/hop)
     final pushTraceFrame = Uint8List(16);
     pushTraceFrame[0] = pushCodeTraceData;
     pushTraceFrame[1] = 0; // reserved
-    pushTraceFrame[2] = 2; // pathLength as raw byte length (2 bytes)
+    pushTraceFrame[2] = 1; // pathLength encoded (mode 0, 1 hop)
     pushTraceFrame[3] = 0; // flag
     pushTraceFrame.setRange(4, 8, tag);
     pushTraceFrame.setRange(12, 14, [0x12, 0x34]); // pathBytes
     pushTraceFrame.setRange(14, 16, [12, 16]); // SNR bytes
 
     connector.emitFrame(pushTraceFrame);
-    await tester.pumpAndSettle();
+    for (int i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
 
     // Verify it parsed correctly (should not show the unavailable message)
     expect(find.text('Path trace not available.'), findsNothing);
