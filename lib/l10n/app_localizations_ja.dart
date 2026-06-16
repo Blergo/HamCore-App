@@ -354,6 +354,45 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settings_radioSettingsUpdated => 'ラジオの設定が更新されました';
 
   @override
+  String get settings_regionSettings => 'Regions';
+
+  @override
+  String get settings_regionSettingsSubtitle => 'Manage stored regions';
+
+  @override
+  String get settings_regionManagement_screenTitle => 'Region Management';
+
+  @override
+  String get settings_regionNameHint => 'Enter region name';
+
+  @override
+  String get settings_regionAddRegion => 'Add region';
+
+  @override
+  String get settings_regionFetchRegions => 'Fetch regions from repeaters';
+
+  @override
+  String get settings_regionFetchRegionsFail => 'No regions were found';
+
+  @override
+  String get settings_regionFetchRegionsAlreadyExists =>
+      'This region has already been added';
+
+  @override
+  String get settings_regionName => 'Region Name';
+
+  @override
+  String get settings_regionDeleted => 'Region deleted';
+
+  @override
+  String get settings_deleteRegion => 'Delete Region';
+
+  @override
+  String settings_deleteRegionConfirm(String region) {
+    return 'Remove \"$region\" from region list?';
+  }
+
+  @override
   String get settings_location => '場所';
 
   @override
@@ -1270,6 +1309,20 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get channels_hashtagHint => '例：#チーム';
+
+  @override
+  String channels_regionSetTo(String region) {
+    return 'Region: $region';
+  }
+
+  @override
+  String get channels_regionNotSet => 'Region: none';
+
+  @override
+  String get channels_regionSelect_Title => 'Select a region';
+
+  @override
+  String get channels_clearRegion => 'Clear region';
 
   @override
   String get chat_noMessages => 'まだメッセージは届いていません';
