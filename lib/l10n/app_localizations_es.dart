@@ -942,6 +942,28 @@ class AppLocalizationsEs extends AppLocalizations {
   String get appSettings_lastWeek => 'La semana pasada';
 
   @override
+  String get appSettings_rasterTileSource => 'Fuente de teselas ráster';
+
+  @override
+  String get appSettings_stadiaEndpoint => 'Punto de acceso de Stadia';
+
+  @override
+  String get appSettings_stadiaApiKey => 'Clave API de Stadia';
+
+  @override
+  String get appSettings_stadiaApiKeyRequired =>
+      'Obligatorio para usar Stadia Maps';
+
+  @override
+  String appSettings_stadiaApiKeyConfigured(String maskedKey) {
+    return 'Configurado: $maskedKey';
+  }
+
+  @override
+  String get appSettings_stadiaApiKeyDialogDescription =>
+      'Introduce tu clave API de Stadia Maps. La aplicación la usa para solicitar teselas ráster.';
+
+  @override
   String get appSettings_offlineMapCache => 'Caché de mapa sin conexión';
 
   @override
@@ -2090,6 +2112,42 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String mapCache_failedDownloads(int count) {
     return 'Descargas fallidas: $count';
+  }
+
+  @override
+  String get mapCache_cachedTilesLabel => 'Cached tiles';
+
+  @override
+  String get mapCache_cachedTileSummaryLabel => 'Cached tile summary';
+
+  @override
+  String mapCache_bulkDownloadDisabledForSource(String source) {
+    return 'Offline bulk downloads are disabled for $source.';
+  }
+
+  @override
+  String mapCache_bulkDownloadDisabledInConfig(String source) {
+    return 'Offline bulk downloads are disabled for $source in this app configuration.';
+  }
+
+  @override
+  String mapCache_summarySource(String source) {
+    return 'Source: $source';
+  }
+
+  @override
+  String mapCache_summaryCachedTilesForSource(int count) {
+    return 'Cached tiles for source: $count';
+  }
+
+  @override
+  String mapCache_summaryCachedInSelection(int count) {
+    return 'Cached in selected area/zoom: $count';
+  }
+
+  @override
+  String mapCache_summaryApproxCacheSize(String size) {
+    return 'Approx cache size: $size';
   }
 
   @override

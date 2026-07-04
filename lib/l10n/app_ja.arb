@@ -340,6 +340,19 @@
   "appSettings_last6Hours": "過去6時間",
   "appSettings_last24Hours": "過去24時間",
   "appSettings_lastWeek": "過去1週間",
+  "appSettings_rasterTileSource": "ラスタタイルのソース",
+  "appSettings_stadiaEndpoint": "Stadia エンドポイント",
+  "appSettings_stadiaApiKey": "Stadia API キー",
+  "appSettings_stadiaApiKeyRequired": "Stadia Maps の利用に必要です",
+  "appSettings_stadiaApiKeyConfigured": "設定済み: {maskedKey}",
+  "@appSettings_stadiaApiKeyConfigured": {
+    "placeholders": {
+      "maskedKey": {
+        "type": "String"
+      }
+    }
+  },
+  "appSettings_stadiaApiKeyDialogDescription": "Stadia Maps の API キーを入力してください。このアプリはラスタタイルの取得に使用します。",
   "appSettings_offlineMapCache": "オフライン地図キャッシュ",
   "appSettings_unitsTitle": "単位",
   "appSettings_unitsMetric": "メートル法 (m / km)",
@@ -969,6 +982,56 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "mapCache_cachedTilesLabel": "Cached tiles",
+  "mapCache_cachedTileSummaryLabel": "Cached tile summary",
+  "mapCache_bulkDownloadDisabledForSource": "Offline bulk downloads are disabled for {source}.",
+  "@mapCache_bulkDownloadDisabledForSource": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "mapCache_bulkDownloadDisabledInConfig": "Offline bulk downloads are disabled for {source} in this app configuration.",
+  "@mapCache_bulkDownloadDisabledInConfig": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "mapCache_summarySource": "Source: {source}",
+  "@mapCache_summarySource": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "mapCache_summaryCachedTilesForSource": "Cached tiles for source: {count}",
+  "@mapCache_summaryCachedTilesForSource": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mapCache_summaryCachedInSelection": "Cached in selected area/zoom: {count}",
+  "@mapCache_summaryCachedInSelection": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mapCache_summaryApproxCacheSize": "Approx cache size: {size}",
+  "@mapCache_summaryApproxCacheSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
       }
     }
   },

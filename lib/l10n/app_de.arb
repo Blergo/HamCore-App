@@ -242,6 +242,19 @@
   "appSettings_last6Hours": "Letzte 6 Stunden",
   "appSettings_last24Hours": "Letzte 24 Stunden",
   "appSettings_lastWeek": "Letzte Woche",
+  "appSettings_rasterTileSource": "Quelle für Rasterkacheln",
+  "appSettings_stadiaEndpoint": "Stadia-Endpunkt",
+  "appSettings_stadiaApiKey": "Stadia-API-Schlüssel",
+  "appSettings_stadiaApiKeyRequired": "Für die Nutzung von Stadia Maps erforderlich",
+  "appSettings_stadiaApiKeyConfigured": "Konfiguriert: {maskedKey}",
+  "@appSettings_stadiaApiKeyConfigured": {
+    "placeholders": {
+      "maskedKey": {
+        "type": "String"
+      }
+    }
+  },
+  "appSettings_stadiaApiKeyDialogDescription": "Geben Sie Ihren Stadia-Maps-API-Schlüssel ein. Die App verwendet ihn für Rasterkachel-Anfragen.",
   "appSettings_offlineMapCache": "Offline-Karten-Cache",
   "appSettings_noAreaSelected": "Kein Bereich ausgewählt",
   "appSettings_areaSelectedZoom": "Bereich ausgewählt (Zoom {minZoom}-{maxZoom})",
@@ -790,6 +803,56 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "mapCache_cachedTilesLabel": "Cached tiles",
+  "mapCache_cachedTileSummaryLabel": "Cached tile summary",
+  "mapCache_bulkDownloadDisabledForSource": "Offline bulk downloads are disabled for {source}.",
+  "@mapCache_bulkDownloadDisabledForSource": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "mapCache_bulkDownloadDisabledInConfig": "Offline bulk downloads are disabled for {source} in this app configuration.",
+  "@mapCache_bulkDownloadDisabledInConfig": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "mapCache_summarySource": "Source: {source}",
+  "@mapCache_summarySource": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "mapCache_summaryCachedTilesForSource": "Cached tiles for source: {count}",
+  "@mapCache_summaryCachedTilesForSource": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mapCache_summaryCachedInSelection": "Cached in selected area/zoom: {count}",
+  "@mapCache_summaryCachedInSelection": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mapCache_summaryApproxCacheSize": "Approx cache size: {size}",
+  "@mapCache_summaryApproxCacheSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
       }
     }
   },

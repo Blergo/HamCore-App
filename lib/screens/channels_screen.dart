@@ -282,8 +282,6 @@ class _ChannelsScreenState extends State<ChannelsScreen>
                           buildDefaultDragHandles: false,
                           itemCount: filteredChannels.length,
                           onReorderItem: (oldIndex, newIndex) {
-                            // onReorderItem already adjusts newIndex after the
-                            // removed item, unlike the deprecated onReorder.
                             final reordered = List<Channel>.from(
                               filteredChannels,
                             );
