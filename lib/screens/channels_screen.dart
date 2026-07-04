@@ -511,10 +511,12 @@ class _ChannelsScreenState extends State<ChannelsScreen>
                         ),
                       ),
                       const SizedBox(width: 6),
-                      StatusChip(
-                        label: 'CH ${channel.index}',
-                        color: MeshPalette.blue,
-                        fontSize: 10,
+                      Text(
+                        'CH ${channel.index}',
+                        style: MeshTheme.mono(
+                          fontSize: 11,
+                          color: scheme.onSurfaceVariant.withValues(alpha: 0.7),
+                        ),
                       ),
                     ],
                   ),
