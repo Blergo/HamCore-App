@@ -507,6 +507,14 @@ class AppLocalizationsDe extends AppLocalizations {
       'Standort in die Ankündigung einschließen.';
 
   @override
+  String get settings_autoZeroHopAdvertOnGpsUpdate =>
+      'Automatische Zero-Hop-Ankündigung bei GPS-Update';
+
+  @override
+  String get settings_autoZeroHopAdvertOnGpsUpdateSubtitle =>
+      'Wenn sich der GPS-Standort ändert, eine Zero-Hop-Ankündigung senden (erfordert Standort in der Ankündigung).';
+
+  @override
   String get settings_multiAck => 'Mehrfach-ACKs';
 
   @override

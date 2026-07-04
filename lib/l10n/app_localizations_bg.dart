@@ -507,6 +507,14 @@ class AppLocalizationsBg extends AppLocalizations {
       'Включи местоположение в обявата';
 
   @override
+  String get settings_autoZeroHopAdvertOnGpsUpdate =>
+      'Автоматична zero-hop обява при GPS обновяване';
+
+  @override
+  String get settings_autoZeroHopAdvertOnGpsUpdateSubtitle =>
+      'Когато GPS местоположението се промени, изпрати zero-hop обява (изисква местоположение в обявата).';
+
+  @override
   String get settings_multiAck => 'Множество ACK';
 
   @override

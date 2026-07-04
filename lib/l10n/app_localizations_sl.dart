@@ -501,6 +501,14 @@ class AppLocalizationsSl extends AppLocalizations {
   String get settings_advertLocationSubtitle => 'Vključi lokacijo v oglas.';
 
   @override
+  String get settings_autoZeroHopAdvertOnGpsUpdate =>
+      'Samodejni zero-hop oglas ob posodobitvi GPS';
+
+  @override
+  String get settings_autoZeroHopAdvertOnGpsUpdateSubtitle =>
+      'Ko se GPS lokacija spremeni, pošlji zero-hop oglas (zahteva lokacijo v oglasu).';
+
+  @override
   String get settings_multiAck => 'Več potrdil';
 
   @override

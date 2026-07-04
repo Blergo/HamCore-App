@@ -95,6 +95,8 @@ class AppSettings {
   final bool notifyOnNewMessage;
   final bool notifyOnNewChannelMessage;
   final bool notifyOnNewAdvert;
+  final bool autoSendZeroHopAdvertOnGpsUpdate;
+  final int gpsIntervalSeconds;
   final bool autoRouteRotationEnabled;
   final double maxRouteWeight;
   final double initialRouteWeight;
@@ -149,6 +151,8 @@ class AppSettings {
     this.notifyOnNewMessage = true,
     this.notifyOnNewChannelMessage = true,
     this.notifyOnNewAdvert = true,
+    this.autoSendZeroHopAdvertOnGpsUpdate = false,
+    this.gpsIntervalSeconds = 900,
     this.autoRouteRotationEnabled = true,
     this.maxRouteWeight = 5.0,
     this.initialRouteWeight = 3.0,
@@ -210,6 +214,9 @@ class AppSettings {
       'notify_on_new_message': notifyOnNewMessage,
       'notify_on_new_channel_message': notifyOnNewChannelMessage,
       'notify_on_new_advert': notifyOnNewAdvert,
+      'auto_send_zero_hop_advert_on_gps_update':
+          autoSendZeroHopAdvertOnGpsUpdate,
+      'gps_interval_seconds': gpsIntervalSeconds,
       'auto_route_rotation_enabled': autoRouteRotationEnabled,
       'max_route_weight': maxRouteWeight,
       'initial_route_weight': initialRouteWeight,
@@ -275,6 +282,10 @@ class AppSettings {
       notifyOnNewChannelMessage:
           json['notify_on_new_channel_message'] as bool? ?? true,
       notifyOnNewAdvert: json['notify_on_new_advert'] as bool? ?? true,
+      autoSendZeroHopAdvertOnGpsUpdate:
+          json['auto_send_zero_hop_advert_on_gps_update'] as bool? ?? false,
+      gpsIntervalSeconds:
+          (json['gps_interval_seconds'] as num?)?.toInt() ?? 900,
       autoRouteRotationEnabled:
           json['auto_route_rotation_enabled'] as bool? ?? true,
       maxRouteWeight: (json['max_route_weight'] as num?)?.toDouble() ?? 5.0,
@@ -383,6 +394,8 @@ class AppSettings {
     bool? notifyOnNewMessage,
     bool? notifyOnNewChannelMessage,
     bool? notifyOnNewAdvert,
+    bool? autoSendZeroHopAdvertOnGpsUpdate,
+    int? gpsIntervalSeconds,
     bool? autoRouteRotationEnabled,
     double? maxRouteWeight,
     double? initialRouteWeight,
@@ -433,6 +446,10 @@ class AppSettings {
       notifyOnNewChannelMessage:
           notifyOnNewChannelMessage ?? this.notifyOnNewChannelMessage,
       notifyOnNewAdvert: notifyOnNewAdvert ?? this.notifyOnNewAdvert,
+      autoSendZeroHopAdvertOnGpsUpdate:
+          autoSendZeroHopAdvertOnGpsUpdate ??
+          this.autoSendZeroHopAdvertOnGpsUpdate,
+      gpsIntervalSeconds: gpsIntervalSeconds ?? this.gpsIntervalSeconds,
       autoRouteRotationEnabled:
           autoRouteRotationEnabled ?? this.autoRouteRotationEnabled,
       maxRouteWeight: maxRouteWeight ?? this.maxRouteWeight,

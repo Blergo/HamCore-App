@@ -2207,6 +2207,8 @@
   "settings_telemetryEnvironmentMode": "Modalità di ambiente di telemetria",
   "settings_advertLocation": "Posizione dell'annuncio",
   "settings_advertLocationSubtitle": "Includi la posizione nell'annuncio",
+  "settings_autoZeroHopAdvertOnGpsUpdate": "Annuncio zero-hop automatico all'aggiornamento GPS",
+  "settings_autoZeroHopAdvertOnGpsUpdateSubtitle": "Quando la posizione GPS cambia, invia un annuncio zero-hop (richiede la posizione nell'annuncio).",
   "settings_privacy": "Impostazioni sulla privacy",
   "settings_denyAll": "Negare tutto",
   "settings_privacySubtitle": "Controlla le informazioni che vengono condivise.",

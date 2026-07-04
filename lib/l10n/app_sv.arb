@@ -100,6 +100,8 @@
   "settings_locationInvalid": "Ogiltig latitud eller longitud.",
   "settings_latitude": "Latitud",
   "settings_longitude": "Längdgrad",
+  "settings_autoZeroHopAdvertOnGpsUpdate": "Automatisk zero-hop-annons vid GPS-uppdatering",
+  "settings_autoZeroHopAdvertOnGpsUpdateSubtitle": "När GPS-positionen ändras, skicka en zero-hop-annons (kräver plats i annonsen).",
   "settings_privacyMode": "Privatläge",
   "settings_privacyModeSubtitle": "Dölj namn/plats i annonser",
   "settings_privacyModeToggle": "Aktivera privatläge för att dölja ditt namn och din plats i annonser.",

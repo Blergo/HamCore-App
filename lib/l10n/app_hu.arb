@@ -161,6 +161,8 @@
   "settings_locationIntervalInvalid": "Az intervallumnak legalább 60 másodpercnek kell lennie, és kevesebbnek kell lennie 86 400 másodpercnél.",
   "settings_latitude": "Szélesség",
   "settings_longitude": "Hosszúság",
+  "settings_autoZeroHopAdvertOnGpsUpdate": "Automatikus zero-hop hirdetés GPS-frissítéskor",
+  "settings_autoZeroHopAdvertOnGpsUpdateSubtitle": "Ha a GPS-helyzet megváltozik, küldjön zero-hop hirdetést (a hirdetésben helymegadás szükséges).",
   "settings_contactSettings": "Kapcsolati beállítások",
   "settings_contactSettingsSubtitle": "A névjegyek hozzáadásának beállításai.",
   "settings_privacyMode": "Adatvédelmi mód",

@@ -77,6 +77,8 @@
   "settings_locationIntervalInvalid": "Интервал должен составлять не менее 60 секунд и не более 86400 секунд.",
   "settings_latitude": "Широта",
   "settings_longitude": "Долгота",
+  "settings_autoZeroHopAdvertOnGpsUpdate": "Авто-объявление без хопов при обновлении GPS",
+  "settings_autoZeroHopAdvertOnGpsUpdateSubtitle": "Когда GPS-местоположение меняется, отправлять объявление без хопов (требуется геопозиция в объявлении).",
   "settings_privacyMode": "Режим конфиденциальности",
   "settings_privacyModeSubtitle": "Скрыть имя/позицию в анонсировании",
   "settings_privacyModeToggle": "Включите режим конфиденциальности, чтобы скрыть свое имя и местоположение в анонсировании.",

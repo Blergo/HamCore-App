@@ -503,6 +503,14 @@ class AppLocalizationsHu extends AppLocalizations {
       'A hirdetésben szerepeljen a helyszín.';
 
   @override
+  String get settings_autoZeroHopAdvertOnGpsUpdate =>
+      'Automatikus zero-hop hirdetés GPS-frissítéskor';
+
+  @override
+  String get settings_autoZeroHopAdvertOnGpsUpdateSubtitle =>
+      'Ha a GPS-helyzet megváltozik, küldjön zero-hop hirdetést (a hirdetésben helymegadás szükséges).';
+
+  @override
   String get settings_multiAck => 'Multi-ACK';
 
   @override

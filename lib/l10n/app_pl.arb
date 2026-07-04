@@ -100,6 +100,8 @@
   "settings_locationInvalid": "Nieprawidłowa szerokość geograficzna lub długość geograficzna.",
   "settings_latitude": "Szerokość",
   "settings_longitude": "Długość",
+  "settings_autoZeroHopAdvertOnGpsUpdate": "Automatyczne ogłoszenie zero-hop przy aktualizacji GPS",
+  "settings_autoZeroHopAdvertOnGpsUpdateSubtitle": "Gdy lokalizacja GPS się zmieni, wyślij ogłoszenie zero-hop (wymaga lokalizacji w ogłoszeniu).",
   "settings_privacyMode": "Tryb prywatności",
   "settings_privacyModeSubtitle": "Ukryj imię/lokalizację w rozgłoszeniach",
   "settings_privacyModeToggle": "Włącz tryb prywatności, aby ukryć swoje imię i lokalizację w rozgłoszeniach.",

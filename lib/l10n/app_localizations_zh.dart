@@ -477,6 +477,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settings_advertLocationSubtitle => '在广告中包含位置';
 
   @override
+  String get settings_autoZeroHopAdvertOnGpsUpdate => 'GPS 更新时自动发送零跳广告';
+
+  @override
+  String get settings_autoZeroHopAdvertOnGpsUpdateSubtitle =>
+      '当 GPS 位置变化时，发送零跳广告（需要在广告中包含位置）。';
+
+  @override
   String get settings_multiAck => '多重ACK';
 
   @override

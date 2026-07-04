@@ -483,6 +483,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settings_advertLocationSubtitle => '広告に場所を記載してください。';
 
   @override
+  String get settings_autoZeroHopAdvertOnGpsUpdate => 'GPS更新時にゼロホップ広告を自動送信';
+
+  @override
+  String get settings_autoZeroHopAdvertOnGpsUpdateSubtitle =>
+      'GPS位置が変化したときにゼロホップ広告を送信します（広告への位置情報の含有が必要）。';
+
+  @override
   String get settings_multiAck => 'マルチ ACK';
 
   @override

@@ -484,6 +484,14 @@ class AppLocalizationsKo extends AppLocalizations {
   String get settings_advertLocationSubtitle => '광고에 위치 정보를 포함하세요.';
 
   @override
+  String get settings_autoZeroHopAdvertOnGpsUpdate =>
+      'GPS 업데이트 시 제로 홉 광고 자동 전송';
+
+  @override
+  String get settings_autoZeroHopAdvertOnGpsUpdateSubtitle =>
+      'GPS 위치가 변경되면 제로 홉 광고를 전송합니다(광고에 위치 포함 필요).';
+
+  @override
   String get settings_multiAck => '다중 ACK';
 
   @override
