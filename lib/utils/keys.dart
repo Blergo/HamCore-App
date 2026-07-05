@@ -6,7 +6,7 @@ import 'package:cryptography/cryptography.dart';
 
 Uint8List randomBytes(int length) {
   final random = Random.secure();
-  final bytes = Uint8List(32);
+  final bytes = Uint8List(length);
   for (int i = 0; i < length; i++) {
     bytes[i] = random.nextInt(256);
   }
