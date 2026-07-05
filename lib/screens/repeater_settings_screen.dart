@@ -216,6 +216,10 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
     _txDelayController.dispose();
     _directTxDelayController.dispose();
     _intThreshController.dispose();
+    _prvKeyController.dispose();
+    _pubKeyController.dispose();
+    _prvKeyPrefixController.dispose();
+    _stopSearchingForKeyPair = true;
     super.dispose();
   }
 
@@ -1032,7 +1036,7 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
 
   void _searchForKeyPair() async {
     if (_stopSearchingForKeyPair) {
-      setState(() => _searchingForKeyPair = false);
+      if (mounted) setState(() => _searchingForKeyPair = false);
       return;
     }
     final String prefix = _prvKeyPrefixController.text.trim();
