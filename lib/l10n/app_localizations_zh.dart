@@ -2559,6 +2559,41 @@ class AppLocalizationsZh extends AppLocalizations {
       '用于编码此复用器的 ID 的字节数，在“洪流路径/环检测”标签中使用。 0=1 字节（256 个 ID，最多 64 个跳跃），1=2 字节（65K 个 ID，最多 32 个跳跃），2=3 字节（16M 个 ID，最多 21 个跳跃）。 v1.13 及更早版本的固件会使用多字节路径——只有在您的网络升级到 v1.14 或更高版本后才会生效。';
 
   @override
+  String get repeater_keySettings => 'Change Identity Keys';
+
+  @override
+  String get repeater_keySettingsSubtitle =>
+      'Change the public/private keypair';
+
+  @override
+  String get repeater_prvKey => 'Private key';
+
+  @override
+  String get repeater_prvKeyHelper =>
+      'A new private key for the repeater, a 128-character hex string.';
+
+  @override
+  String get repeater_generatePrvKey => 'Generate a random keypair';
+
+  @override
+  String get repeater_stopGeneratingPrvKey => 'Interrupt search for keypair';
+
+  @override
+  String get repeater_pubKey => 'Public key';
+
+  @override
+  String get repeater_pubKeyHelper =>
+      'This is the public key that goes with the generated private key. You can\'t set this directly.';
+
+  @override
+  String get repeater_pubKeyPrefix => 'Desired prefix';
+
+  @override
+  String repeater_pubKeyPrefixHelper(int tries) {
+    return 'Find a public key that starts with these hex digits. Expected tries needed: $tries.';
+  }
+
+  @override
   String get repeater_txDelay => '洪水（德克萨斯州）延误';
 
   @override

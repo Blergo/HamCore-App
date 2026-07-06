@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:meshcore_open/storage/channel_message_store.dart';
+import 'package:meshcore_open/utils/keys.dart';
 import 'package:meshcore_open/utils/platform_info.dart';
 import 'package:meshcore_open/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
@@ -938,11 +938,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
                                   );
                                   return;
                                 }
-                                final random = Random.secure();
-                                final psk = Uint8List(16);
-                                for (int i = 0; i < 16; i++) {
-                                  psk[i] = random.nextInt(256);
-                                }
+                                final psk = randomBytes(16);
                                 Navigator.pop(sheetContext);
                                 await connector.setChannel(
                                   nextIndex,
@@ -1571,11 +1567,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
                           icon: const Icon(Icons.casino),
                           tooltip: sheetContext.l10n.channels_generateRandomPsk,
                           onPressed: () {
-                            final random = Random.secure();
-                            final bytes = Uint8List(16);
-                            for (int i = 0; i < 16; i++) {
-                              bytes[i] = random.nextInt(256);
-                            }
+                            final bytes = randomBytes(16);
                             pskController.text = Channel.formatPskHex(bytes);
                           },
                         ),

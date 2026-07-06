@@ -2684,6 +2684,41 @@ class AppLocalizationsSl extends AppLocalizations {
       'Biti, ki so bila uporabljena za kodiranje ID-ja tega releja v oznakah za zaznavanje pot/kroga, imajo naslednje velikosti: 0=1 bit (256 ID-jev, do 64 skokov), 1=2 biti (65.000 ID-jev, do 32 skokov), 2=3 biti (16 milijonov ID-jev, do 21 skokov). V različicah 1.13 in starejših se ustvarjajo večbitne poti – vendar se to zgodi šele, ko je omrežje vklopljeno v različicah 1.14 in kasnejših.';
 
   @override
+  String get repeater_keySettings => 'Change Identity Keys';
+
+  @override
+  String get repeater_keySettingsSubtitle =>
+      'Change the public/private keypair';
+
+  @override
+  String get repeater_prvKey => 'Private key';
+
+  @override
+  String get repeater_prvKeyHelper =>
+      'A new private key for the repeater, a 128-character hex string.';
+
+  @override
+  String get repeater_generatePrvKey => 'Generate a random keypair';
+
+  @override
+  String get repeater_stopGeneratingPrvKey => 'Interrupt search for keypair';
+
+  @override
+  String get repeater_pubKey => 'Public key';
+
+  @override
+  String get repeater_pubKeyHelper =>
+      'This is the public key that goes with the generated private key. You can\'t set this directly.';
+
+  @override
+  String get repeater_pubKeyPrefix => 'Desired prefix';
+
+  @override
+  String repeater_pubKeyPrefixHelper(int tries) {
+    return 'Find a public key that starts with these hex digits. Expected tries needed: $tries.';
+  }
+
+  @override
   String get repeater_txDelay => 'Zatemnitevanje zaradi poplav v Texasu';
 
   @override

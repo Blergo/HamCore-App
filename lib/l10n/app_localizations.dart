@@ -4844,6 +4844,66 @@ abstract class AppLocalizations {
   /// **'Bytes used to encode this repeater\'s ID in flood path/loop-detect tags. 0=1 byte (256 IDs, up to 64 hops), 1=2 bytes (65K IDs, up to 32 hops), 2=3 bytes (16M IDs, up to 21 hops). v1.13 and older firmware drops multi-byte paths — only raise once your network is on v1.14+.'**
   String get repeater_pathHashModeHelper;
 
+  /// No description provided for @repeater_keySettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Identity Keys'**
+  String get repeater_keySettings;
+
+  /// No description provided for @repeater_keySettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change the public/private keypair'**
+  String get repeater_keySettingsSubtitle;
+
+  /// No description provided for @repeater_prvKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Private key'**
+  String get repeater_prvKey;
+
+  /// No description provided for @repeater_prvKeyHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'A new private key for the repeater, a 128-character hex string.'**
+  String get repeater_prvKeyHelper;
+
+  /// No description provided for @repeater_generatePrvKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate a random keypair'**
+  String get repeater_generatePrvKey;
+
+  /// No description provided for @repeater_stopGeneratingPrvKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Interrupt search for keypair'**
+  String get repeater_stopGeneratingPrvKey;
+
+  /// No description provided for @repeater_pubKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Public key'**
+  String get repeater_pubKey;
+
+  /// No description provided for @repeater_pubKeyHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'This is the public key that goes with the generated private key. You can\'t set this directly.'**
+  String get repeater_pubKeyHelper;
+
+  /// No description provided for @repeater_pubKeyPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Desired prefix'**
+  String get repeater_pubKeyPrefix;
+
+  /// No description provided for @repeater_pubKeyPrefixHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a public key that starts with these hex digits. Expected tries needed: {tries}.'**
+  String repeater_pubKeyPrefixHelper(int tries);
+
   /// No description provided for @repeater_txDelay.
   ///
   /// In en, this message translates to:
@@ -5615,7 +5675,7 @@ abstract class AppLocalizations {
   /// No description provided for @repeater_cliHelpSetPrvKey.
   ///
   /// In en, this message translates to:
-  /// **'(Serial only) Replaces the device identity private key. Reboot required to apply. Generates a new public key.'**
+  /// **'Replaces the device identity private key. Reboot required to apply. Generates a new public key.'**
   String get repeater_cliHelpSetPrvKey;
 
   /// No description provided for @repeater_cliHelpSetRadioRxGain.

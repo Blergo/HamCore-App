@@ -2590,6 +2590,41 @@ class AppLocalizationsKo extends AppLocalizations {
       '이 리피터의 ID를 플러드 경로/루프 감지 태그에 인코딩하는 데 사용되는 바이트 수: 0=1 바이트 (256개의 ID, 최대 64개의 홉), 1=2 바이트 (65,000개의 ID, 최대 32개의 홉), 2=3 바이트 (16백만 개의 ID, 최대 21개의 홉). v1.13 및 이전 버전의 펌웨어는 다중 바이트 경로를 지원하지 않으며, 네트워크가 v1.14 이상으로 업그레이드되면 한 번만 감지합니다.';
 
   @override
+  String get repeater_keySettings => 'Change Identity Keys';
+
+  @override
+  String get repeater_keySettingsSubtitle =>
+      'Change the public/private keypair';
+
+  @override
+  String get repeater_prvKey => 'Private key';
+
+  @override
+  String get repeater_prvKeyHelper =>
+      'A new private key for the repeater, a 128-character hex string.';
+
+  @override
+  String get repeater_generatePrvKey => 'Generate a random keypair';
+
+  @override
+  String get repeater_stopGeneratingPrvKey => 'Interrupt search for keypair';
+
+  @override
+  String get repeater_pubKey => 'Public key';
+
+  @override
+  String get repeater_pubKeyHelper =>
+      'This is the public key that goes with the generated private key. You can\'t set this directly.';
+
+  @override
+  String get repeater_pubKeyPrefix => 'Desired prefix';
+
+  @override
+  String repeater_pubKeyPrefixHelper(int tries) {
+    return 'Find a public key that starts with these hex digits. Expected tries needed: $tries.';
+  }
+
+  @override
   String get repeater_txDelay => '플러드 TX 지연';
 
   @override
