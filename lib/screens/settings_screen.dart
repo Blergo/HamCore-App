@@ -468,8 +468,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ? () => pushCompanionRadioStatsScreen(context)
               : null,
         ),
+        const Divider(height: 1, indent: 16),
+        _tappableTile(
+          context,
+          icon: Icons.route_outlined,
+          title: l10n.repeater_pathHashMode,
+          subtitle: _pathHashModeSubtitle(context, connector.pathHashByteWidth),
+          onTap: connector.isConnected
+              ? () => _editPathHashMode(context, connector)
+              : null,
+        ),
       ],
     );
+  }
+
+  String _pathHashModeSubtitle(BuildContext context, int pathHashByteWidth) {
+    final l10n = context.l10n;
+    return switch (pathHashByteWidth.clamp(1, 4).toInt()) {
+      1 => l10n.repeater_pathHashModeOption0,
+      2 => l10n.repeater_pathHashModeOption1,
+      3 => l10n.repeater_pathHashModeOption2,
+      _ => l10n.repeater_pathHashModeOption3,
+    };
   }
 
   Widget _buildLocationCardContent(
@@ -757,6 +777,87 @@ class _SettingsScreenState extends State<SettingsScreen> {
     showDialog(
       context: context,
       builder: (context) => _RadioSettingsDialog(connector: connector),
+    );
+  }
+
+  void _editPathHashMode(BuildContext context, MeshCoreConnector connector) {
+    final l10n = context.l10n;
+    var selectedMode = (connector.pathHashByteWidth - 1).clamp(0, 3).toInt();
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: Text(l10n.repeater_pathHashMode),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DropdownButtonFormField<int>(
+                initialValue: selectedMode,
+                decoration: InputDecoration(
+                  labelText: l10n.repeater_pathHashMode,
+                  border: const OutlineInputBorder(),
+                ),
+                items: [
+                  DropdownMenuItem(
+                    value: 0,
+                    child: Text(l10n.repeater_pathHashModeOption0),
+                  ),
+                  DropdownMenuItem(
+                    value: 1,
+                    child: Text(l10n.repeater_pathHashModeOption1),
+                  ),
+                  DropdownMenuItem(
+                    value: 2,
+                    child: Text(l10n.repeater_pathHashModeOption2),
+                  ),
+                  DropdownMenuItem(
+                    value: 3,
+                    child: Text(l10n.repeater_pathHashModeOption3),
+                  ),
+                ],
+                onChanged: (value) {
+                  if (value == null) return;
+                  setDialogState(() => selectedMode = value);
+                },
+              ),
+              const SizedBox(height: 12),
+              Text(
+                l10n.repeater_pathHashModeHelper,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text(l10n.common_cancel),
+            ),
+            FilledButton(
+              onPressed: () async {
+                Navigator.pop(dialogContext);
+                try {
+                  await connector.setPathHashMode(selectedMode);
+                  await connector.refreshDeviceInfo();
+                  if (!context.mounted) return;
+                  showDismissibleSnackBar(
+                    context,
+                    content: Text(l10n.repeater_settingsSaved),
+                  );
+                } catch (e) {
+                  if (!context.mounted) return;
+                  showDismissibleSnackBar(
+                    context,
+                    content: Text(l10n.settings_error(e.toString())),
+                  );
+                }
+              },
+              child: Text(l10n.common_save),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

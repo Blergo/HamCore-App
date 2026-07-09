@@ -16,6 +16,7 @@ import '../helpers/chat_scroll_controller.dart';
 import '../connector/meshcore_protocol.dart';
 import '../helpers/cyr2lat.dart';
 import '../helpers/gif_helper.dart';
+import '../helpers/path_helper.dart';
 import '../helpers/reaction_helper.dart';
 import '../helpers/snack_bar_builder.dart';
 import '../l10n/l10n.dart';
@@ -530,6 +531,14 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
         : (message.pathVariants.isNotEmpty
               ? message.pathVariants.first
               : Uint8List(0));
+    final displayPathHashWidth =
+        message.pathHashWidth ??
+        context.read<MeshCoreConnector>().pathHashByteWidth;
+    final displayHopCount = _displayHopCount(
+      displayPath,
+      displayPathHashWidth,
+      message.pathLength,
+    );
 
     // Bubble colors — outgoing uses MeshPalette.me / meBorder / meInk.
     final bubbleColor = isOutgoing
@@ -684,15 +693,16 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                               children: [
                                 RouteChip(
                                   isDirect: (message.pathLength ?? -1) >= 0,
-                                  hops: (message.pathLength ?? -1) >= 0
-                                      ? message.pathLength
-                                      : null,
+                                  hops: displayHopCount,
                                 ),
                                 const SizedBox(width: 4),
                                 Flexible(
                                   child: Text(
                                     context.l10n.channels_via(
-                                      _formatPathPrefixes(displayPath),
+                                      _formatPathPrefixes(
+                                      displayPath,
+                                      displayPathHashWidth,
+                                    ),
                                     ),
                                     style: MeshTheme.mono(
                                       fontSize: 9.5 * textScale,
@@ -1578,13 +1588,21 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     );
   }
 
-  String _formatPathPrefixes(Uint8List pathBytes) {
-    // Join with a comma + zero-width space (not ", ") so paths render as
-    // "5B,56,65" with no visible gap, while still giving long paths soft-wrap
-    // break points that keep them confined to the message bubble.
-    return pathBytes
-        .map((b) => b.toRadixString(16).padLeft(2, '0').toUpperCase())
-        .join(',​');
+  String _formatPathPrefixes(Uint8List pathBytes, int pathHashByteWidth) {
+    return PathHelper.splitPathBytes(
+      pathBytes,
+      pathHashByteWidth,
+    ).map(PathHelper.formatHopHex).join(',');
+  }
+
+  int? _displayHopCount(
+    Uint8List pathBytes,
+    int pathHashByteWidth,
+    int? fallbackPathLength,
+  ) {
+    if ((fallbackPathLength ?? -1) < 0) return null;
+    if (pathBytes.isEmpty) return fallbackPathLength;
+    return PathHelper.splitPathBytes(pathBytes, pathHashByteWidth).length;
   }
 
   Future<void> openRegionSelectDialog(Channel channel) async {

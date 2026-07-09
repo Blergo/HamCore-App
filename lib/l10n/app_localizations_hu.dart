@@ -737,6 +737,18 @@ class AppLocalizationsHu extends AppLocalizations {
   String get appSettings_languageUk => 'Українська';
 
   @override
+  String get repeater_pathHashModeOption0 => '0 - 1 byte';
+
+  @override
+  String get repeater_pathHashModeOption1 => '1 - 2 bytes';
+
+  @override
+  String get repeater_pathHashModeOption2 => '2 - 3 bytes';
+
+  @override
+  String get repeater_pathHashModeOption3 => '3 - 4 bytes';
+
+  @override
   String get appSettings_enableMessageTracing => 'Üzenetkövetés engedélyezése';
 
   @override

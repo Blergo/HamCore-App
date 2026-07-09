@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:meshcore_open/helpers/path_helper.dart';
 import 'package:meshcore_open/screens/path_trace_map.dart';
 import 'package:meshcore_open/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../connector/meshcore_connector.dart';
-import '../l10n/l10n.dart';
 import '../connector/meshcore_protocol.dart';
+import '../l10n/l10n.dart';
 import '../models/app_settings.dart';
 import '../models/channel.dart';
 import '../models/contact.dart';
@@ -78,6 +79,7 @@ class _MapScreenState extends State<MapScreen> {
   bool _hasInitializedMap = false;
   bool _removedMarkersLoaded = false;
   final List<int> _pathTrace = [];
+  final List<int> _pathTraceHopWidths = [];
   final List<Contact> _pathTraceContacts = [];
   final List<LatLng> _points = [];
   final List<Polyline> _polylines = [];
@@ -426,17 +428,20 @@ class _MapScreenState extends State<MapScreen> {
 
         // Compute guessed locations with caching
         final maxRangeKm = _estimateLoRaRangeKm(connector);
+        final pathHashByteWidth = connector.pathHashByteWidth
+            .clamp(1, 4)
+            .toInt();
         final filteredKeys = guessCandidates
             .map((c) => '${c.publicKeyHex}:${c.path.join("-")}')
             .join(',');
         final anchorKeys = allContactsWithLocation
             .map(
               (c) =>
-                  '${c.publicKeyHex}:${c.latitude}:${c.longitude}:${c.path.isNotEmpty ? c.path.last : ""}',
+                  '${c.publicKeyHex}:${c.latitude}:${c.longitude}:${PathHelper.formatHopHex(c.path.isNotEmpty ? c.path.sublist(max(0, c.path.length - pathHashByteWidth)) : const [])}',
             )
             .join(',');
         final cacheKey =
-            '$filteredKeys|$anchorKeys|$pathHistoryVersion:${connector.currentFreqHz}:${connector.currentSf}:${connector.currentBwHz}:${connector.currentTxPower}:${settings.mapShowGuessedLocations}';
+            '$filteredKeys|$anchorKeys|$pathHistoryVersion:$pathHashByteWidth:${connector.currentFreqHz}:${connector.currentSf}:${connector.currentBwHz}:${connector.currentTxPower}:${settings.mapShowGuessedLocations}';
         if (cacheKey != _guessedLocationsCacheKey) {
           _guessedLocationsCacheKey = cacheKey;
           _cachedGuessedLocations = settings.mapShowGuessedLocations
@@ -445,6 +450,7 @@ class _MapScreenState extends State<MapScreen> {
                   allContactsWithLocation,
                   pathHistory,
                   maxRangeKm,
+                  pathHashByteWidth,
                 )
               : [];
         }
@@ -1006,23 +1012,19 @@ class _MapScreenState extends State<MapScreen> {
     List<Contact> withLocation,
     PathHistoryService pathHistory,
     double? maxRangeKm,
+    int pathHashByteWidth,
   ) {
-    // Index known-location repeaters by their 1-byte hash.
-    // null value = two repeaters share the same hash byte (ambiguous collision).
-    final repeaterByHash = <int, Contact?>{};
-
-    for (final c in withLocation) {
-      if (c.type == advTypeRepeater) {
-        if (repeaterByHash.containsKey(c.publicKey[0])) {
-          repeaterByHash[c.publicKey[0]] =
-              null; // collision: can't disambiguate
-        } else {
-          repeaterByHash[c.publicKey[0]] = c;
-        }
-      }
-    }
-
     final result = <_GuessedLocation>[];
+    final hopWidth = pathHashByteWidth.clamp(1, 4).toInt();
+    final anchorsByPrefix = <String, List<Contact>>{};
+    for (final repeater in withLocation) {
+      if (repeater.type != advTypeRepeater) continue;
+      if (repeater.publicKey.length < hopWidth) continue;
+      final prefix = PathHelper.formatHopHex(
+        repeater.publicKey.sublist(0, hopWidth),
+      );
+      anchorsByPrefix.putIfAbsent(prefix, () => []).add(repeater);
+    }
 
     for (final contact in allContacts) {
       if (contact.hasLocation) continue;
@@ -1036,21 +1038,23 @@ class _MapScreenState extends State<MapScreen> {
 
       // Collect the contact-side (last-hop) repeater from every known path.
       // path = [device-side hop, ..., contact-side hop]
-      // Only path.last is actually within radio range of the contact — using
-      // earlier bytes would anchor against our own side of the network.
+      // Only the last hop chunk is actually within radio range of the contact.
       final pathSets = <List<int>>[
         contact.path.toList(),
         ...pathHistory
             .getRecentPaths(contact.publicKeyHex)
             .map((r) => r.pathBytes),
       ];
-      final lastHopBytes = <int>{};
       for (final pathBytes in pathSets) {
         if (pathBytes.isEmpty) continue;
-        final lastHop = pathBytes.last;
-        lastHopBytes.add(lastHop);
-        final r = repeaterByHash[lastHop];
-        if (r != null) anchorSet.add(LatLng(r.latitude!, r.longitude!));
+        final lastHop = pathBytes.sublist(max(0, pathBytes.length - hopWidth));
+        if (lastHop.isEmpty) continue;
+
+        final repeaters = anchorsByPrefix[PathHelper.formatHopHex(lastHop)];
+        if (repeaters != null && repeaters.isNotEmpty) {
+          final repeater = repeaters.first;
+          anchorSet.add(LatLng(repeater.latitude!, repeater.longitude!));
+        }
       }
 
       // Filter anchors that are geometrically inconsistent with radio range.
@@ -1325,12 +1329,20 @@ class _MapScreenState extends State<MapScreen> {
 
     // Key-prefix overlaps are a visual highlight only: flag the repeaters/rooms
     // whose first key byte collides with another repeater/room on the map.
-    final overlapPrefixes = <int>{};
+    final overlapPrefixes = <String>{};
     if (overlapsMode) {
-      final counts = <int, int>{};
+      final hopWidth = context
+          .read<MeshCoreConnector>()
+          .pathHashByteWidth
+          .clamp(1, pubKeySize)
+          .toInt();
+      final counts = <String, int>{};
       for (final contact in contacts) {
-        if (contact.type == advTypeRepeater || contact.type == advTypeRoom) {
-          final prefix = contact.publicKey.first;
+        if ((contact.type == advTypeRepeater || contact.type == advTypeRoom) &&
+            contact.publicKey.length >= hopWidth) {
+          final prefix = PathHelper.formatHopHex(
+            contact.publicKey.sublist(0, hopWidth),
+          );
           counts[prefix] = (counts[prefix] ?? 0) + 1;
         }
       }
@@ -1338,10 +1350,20 @@ class _MapScreenState extends State<MapScreen> {
         if (count > 1) overlapPrefixes.add(prefix);
       });
     }
+    final overlapHopWidth = context
+        .read<MeshCoreConnector>()
+        .pathHashByteWidth
+        .clamp(1, pubKeySize)
+        .toInt();
     bool isOverlap(Contact contact) =>
         overlapsMode &&
         (contact.type == advTypeRepeater || contact.type == advTypeRoom) &&
-        overlapPrefixes.contains(contact.publicKey.first);
+        contact.publicKey.length >= overlapHopWidth &&
+        overlapPrefixes.contains(
+          PathHelper.formatHopHex(
+            contact.publicKey.sublist(0, overlapHopWidth),
+          ),
+        );
 
     void addNode(Contact contact, {bool dot = false}) {
       final overlap = isOverlap(contact);
@@ -2385,7 +2407,10 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                   _miniMeta(
                     context.l10n.map_path,
-                    contact.pathLabel(context.l10n),
+                    contact.pathLabel(
+                      context.l10n,
+                      pathHashByteWidth: connector.pathHashByteWidth,
+                    ),
                   ),
                   _miniMeta('ID', contact.publicKeyHex.substring(0, 12)),
                   if (pos != null)
@@ -2789,7 +2814,10 @@ class _MapScreenState extends State<MapScreen> {
                     children: [
                       _buildInfoRow(
                         context.l10n.map_path,
-                        contact.pathLabel(context.l10n),
+                        contact.pathLabel(
+                          context.l10n,
+                          pathHashByteWidth: connector.pathHashByteWidth,
+                        ),
                       ),
                       if (contact.hasLocation)
                         _buildInfoRow(
@@ -3535,10 +3563,23 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void _addToPath(BuildContext context, Contact contact, {LatLng? position}) {
+    final connector = context.read<MeshCoreConnector>();
+    final hopWidth = min(
+      connector.pathHashByteWidth.clamp(1, pubKeySize),
+      contact.publicKey.length,
+    ).toInt();
+    final hopPrefix = contact.publicKey.sublist(0, hopWidth);
+    for (final existingHop in PathHelper.splitPathBytes(
+      _pathTrace,
+      connector.pathHashByteWidth,
+    )) {
+      if (listEquals(existingHop, hopPrefix)) {
+        return;
+      }
+    }
     setState(() {
-      _pathTrace.add(
-        contact.publicKey[0],
-      ); // Add first 16 bytes of public key to path trace
+      _pathTrace.addAll(hopPrefix); // Add the hop-width pubkey prefix.
+      _pathTraceHopWidths.add(hopWidth);
       _pathTraceContacts.add(
         contact.copyWith(
           latitude: position?.latitude ?? contact.latitude,
@@ -3553,6 +3594,7 @@ class _MapScreenState extends State<MapScreen> {
     setState(() {
       _isBuildingPathTrace = true;
       _pathTrace.clear();
+      _pathTraceHopWidths.clear();
       _pathTraceContacts.clear();
       _points.clear();
       _polylines.clear();
@@ -3562,8 +3604,19 @@ class _MapScreenState extends State<MapScreen> {
 
   void _removePath() {
     setState(() {
+      final recordedHopWidth = _pathTraceHopWidths.isNotEmpty
+          ? _pathTraceHopWidths.removeLast()
+          : context.read<MeshCoreConnector>().pathHashByteWidth.clamp(
+              1,
+              pubKeySize,
+            );
+      final hopByteCount = min(recordedHopWidth, _pathTrace.length).toInt();
       _pathTraceContacts.removeLast();
-      _pathTrace.removeLast(); // Remove last node from path trace
+      // A path trace hop can be wider than one byte; remove the full hash prefix.
+      _pathTrace.removeRange(
+        _pathTrace.length - hopByteCount,
+        _pathTrace.length,
+      );
       _points.removeLast(); // Remove last point from points list
       _polylines.clear(); // Clear polylines
     });
@@ -3624,9 +3677,10 @@ class _MapScreenState extends State<MapScreen> {
                     ),
                   ),
                 SelectableText(
-                  _pathTrace
-                      .map((b) => b.toRadixString(16).padLeft(2, '0'))
-                      .join(','),
+                  PathHelper.splitPathBytes(
+                    _pathTrace,
+                    context.read<MeshCoreConnector>().pathHashByteWidth,
+                  ).map(PathHelper.formatHopHex).join(','),
                   style: MeshTheme.mono(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -3651,6 +3705,7 @@ class _MapScreenState extends State<MapScreen> {
                               builder: (context) => PathTraceMapScreen(
                                 title: l10n.contacts_pathTrace,
                                 path: Uint8List.fromList(_pathTrace),
+                                flipPathAround: false,
                                 pathHashByteWidth: hashW,
                                 pathContacts: _pathTraceContacts,
                               ),
@@ -3673,6 +3728,10 @@ class _MapScreenState extends State<MapScreen> {
                                 title: l10n.contacts_pathTrace,
                                 path: Uint8List.fromList(_pathTrace),
                                 flipPathAround: true,
+                                pathHashByteWidth: context
+                                    .read<MeshCoreConnector>()
+                                    .pathHashByteWidth,
+                                pathContacts: _pathTraceContacts,
                               ),
                             ),
                           );
@@ -3695,6 +3754,7 @@ class _MapScreenState extends State<MapScreen> {
                           setState(() {
                             _isBuildingPathTrace = false;
                             _pathTrace.clear();
+                            _pathTraceHopWidths.clear();
                             _points.clear();
                             _polylines.clear();
                           });
