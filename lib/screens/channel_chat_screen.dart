@@ -1579,11 +1579,12 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   }
 
   String _formatPathPrefixes(Uint8List pathBytes) {
-    // Join with ", " (not bare ",") so long paths have soft-wrap break points
-    // and stay confined to the message bubble instead of overflowing right.
+    // Join with a comma + zero-width space (not ", ") so paths render as
+    // "5B,56,65" with no visible gap, while still giving long paths soft-wrap
+    // break points that keep them confined to the message bubble.
     return pathBytes
         .map((b) => b.toRadixString(16).padLeft(2, '0').toUpperCase())
-        .join(', ');
+        .join(',​');
   }
 
   Future<void> openRegionSelectDialog(Channel channel) async {
