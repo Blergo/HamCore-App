@@ -578,10 +578,10 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
             mainAxisAlignment: isOutgoing
                 ? MainAxisAlignment.end
                 : MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (!isOutgoing) ...[
-                _buildAvatar(message.senderName),
+                _buildAvatar(message.senderName, textScale),
                 const SizedBox(width: 6),
               ],
               Flexible(
@@ -619,10 +619,10 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                                 : EdgeInsets.zero,
                             child: Text(
                               message.senderName,
-                              style: MeshTheme.mono(
-                                fontSize: 11,
+                              style: TextStyle(
+                                fontSize: 13 * textScale,
                                 fontWeight: FontWeight.w700,
-                                color: _colorForName(message.senderName),
+                                color: textColor,
                               ),
                             ),
                           ),
@@ -1047,8 +1047,11 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     );
   }
 
-  Widget _buildAvatar(String senderName) {
-    return AvatarCircle(name: senderName, size: 32);
+  Widget _buildAvatar(String senderName, double textScale) {
+    return AvatarCircle(
+      name: senderName,
+      size: (32 * textScale).clamp(28.0, 56.0),
+    );
   }
 
   Widget _buildReplyBanner(double textScale) {
@@ -1212,7 +1215,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                             hintText: context.l10n.chat_typeMessage,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
-                                MeshRadii.pill,
+                                MeshRadii.md,
                               ),
                               borderSide: BorderSide(
                                 color: scheme.outlineVariant,
@@ -1220,7 +1223,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
-                                MeshRadii.pill,
+                                MeshRadii.md,
                               ),
                               borderSide: BorderSide(
                                 color: scheme.outlineVariant,
@@ -1228,7 +1231,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
-                                MeshRadii.pill,
+                                MeshRadii.md,
                               ),
                               borderSide: BorderSide(
                                 color: scheme.primary,
@@ -1600,23 +1603,6 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     if ((fallbackPathLength ?? -1) < 0) return null;
     if (pathBytes.isEmpty) return fallbackPathLength;
     return PathHelper.splitPathBytes(pathBytes, pathHashByteWidth).length;
-  }
-
-  /// Deterministic name-to-hue mapping consistent with [AvatarCircle].
-  Color _colorForName(String name) {
-    const hues = [
-      MeshPalette.blue,
-      MeshPalette.magenta,
-      MeshPalette.signal,
-      MeshPalette.warn,
-      Color(0xFF8FA8F0),
-      Color(0xFF6FD9CE),
-    ];
-    var h = 0;
-    for (final c in name.codeUnits) {
-      h = (h * 31 + c) & 0x7fffffff;
-    }
-    return hues[h % hues.length];
   }
 
   Future<void> openRegionSelectDialog(Channel channel) async {

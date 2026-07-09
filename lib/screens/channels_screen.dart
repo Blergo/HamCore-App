@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:meshcore_open/storage/channel_message_store.dart';
+import 'package:meshcore_open/utils/keys.dart';
 import 'package:meshcore_open/utils/platform_info.dart';
 import 'package:meshcore_open/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +27,7 @@ import '../widgets/qr_code_display.dart';
 import '../widgets/quick_switch_bar.dart';
 import '../widgets/sync_progress_overlay.dart';
 import '../widgets/unread_badge.dart';
+import '../helpers/gif_helper.dart';
 import '../helpers/snack_bar_builder.dart';
 import 'channel_chat_screen.dart';
 import 'community_qr_scanner_screen.dart';
@@ -410,7 +411,11 @@ class _ChannelsScreenState extends State<ChannelsScreen>
     // Last message preview
     final messages = connector.getChannelMessages(channel);
     final lastMessage = messages.isNotEmpty ? messages.last : null;
-    final lastPreview = lastMessage?.text ?? '';
+    final lastMessageText = lastMessage?.text ?? '';
+    final lastPreview = lastMessageText.isNotEmpty &&
+            GifHelper.parseGif(lastMessageText) != null
+        ? context.l10n.chat_receivedGif
+        : lastMessageText;
     final lastTime = lastMessage?.timestamp;
 
     final channelLabel = channel.name.isEmpty
@@ -453,7 +458,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
               )
             : null,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Leading avatar with optional community badge
             Stack(
@@ -511,10 +516,12 @@ class _ChannelsScreenState extends State<ChannelsScreen>
                         ),
                       ),
                       const SizedBox(width: 6),
-                      StatusChip(
-                        label: 'CH ${channel.index}',
-                        color: MeshPalette.blue,
-                        fontSize: 10,
+                      Text(
+                        'CH ${channel.index}',
+                        style: MeshTheme.mono(
+                          fontSize: 11,
+                          color: scheme.onSurfaceVariant.withValues(alpha: 0.7),
+                        ),
                       ),
                     ],
                   ),
@@ -579,10 +586,13 @@ class _ChannelsScreenState extends State<ChannelsScreen>
               const SizedBox(width: 4),
               ReorderableDragStartListener(
                 index: dragIndex,
+                // Top-aligned with the "CH n" / time line. Bottom padding keeps
+                // a comfortable drag target without pushing the icon down.
                 child: Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
                   child: Icon(
                     Icons.drag_handle,
+                    size: 18,
                     color: scheme.onSurfaceVariant,
                   ),
                 ),
@@ -936,11 +946,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
                                   );
                                   return;
                                 }
-                                final random = Random.secure();
-                                final psk = Uint8List(16);
-                                for (int i = 0; i < 16; i++) {
-                                  psk[i] = random.nextInt(256);
-                                }
+                                final psk = randomBytes(16);
                                 Navigator.pop(sheetContext);
                                 await connector.setChannel(
                                   nextIndex,
@@ -1569,11 +1575,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
                           icon: const Icon(Icons.casino),
                           tooltip: sheetContext.l10n.channels_generateRandomPsk,
                           onPressed: () {
-                            final random = Random.secure();
-                            final bytes = Uint8List(16);
-                            for (int i = 0; i < 16; i++) {
-                              bytes[i] = random.nextInt(256);
-                            }
+                            final bytes = randomBytes(16);
                             pskController.text = Channel.formatPskHex(bytes);
                           },
                         ),

@@ -23,7 +23,6 @@ import '../theme/mesh_theme.dart';
 import '../widgets/adaptive_app_bar_title.dart';
 import '../widgets/mesh_ui.dart';
 import '../widgets/path_map_ui.dart';
-import '../widgets/themed_map_tile_layer.dart';
 
 class ChannelMessagePathScreen extends StatelessWidget {
   final ChannelMessage message;
@@ -1014,7 +1013,7 @@ class _ChannelMessagePathMapScreenState
                     },
                   ),
                   children: [
-                    ThemedMapTileLayer(tileCache: tileCache),
+                    tileCache.buildTileLayer(context),
                     AnimatedBuilder(
                       animation: _playback,
                       builder: (context, _) {
