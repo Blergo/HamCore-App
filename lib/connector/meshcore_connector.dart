@@ -127,6 +127,12 @@ class MeshCoreConnector extends ChangeNotifier {
   // Message windowing to limit memory usage
   static const int _messageWindowSize = 200;
 
+  // Cap on discovered (non-contact) nodes retained in memory. Adverts arrive
+  // continuously from the whole mesh, so without a bound this list grows for
+  // as long as the app stays connected. When full, the stalest node (oldest
+  // lastSeen) is evicted to make room for a newly heard one.
+  static const int _maxDiscoveredContacts = 500;
+
   MeshCoreConnectionState _state = MeshCoreConnectionState.disconnected;
   BluetoothDevice? _device;
   BluetoothCharacteristic? _rxCharacteristic;
@@ -1034,6 +1040,13 @@ class MeshCoreConnector extends ChangeNotifier {
 
   Future<void> _loadDiscoveredContactCache() async {
     final cached = await _discoveryContactStore.loadContacts();
+    // Trim a previously-saved oversized list down to the freshest entries so a
+    // device that grew unbounded before the cap existed recovers on load.
+    if (cached.length > _maxDiscoveredContacts) {
+      cached.sort((a, b) => b.lastSeen.compareTo(a.lastSeen));
+      cached.removeRange(_maxDiscoveredContacts, cached.length);
+      unawaited(_discoveryContactStore.saveContacts(cached));
+    }
     _discoveredContacts
       ..clear()
       ..addAll(cached);
@@ -6887,6 +6900,10 @@ class MeshCoreConnector extends ChangeNotifier {
       isActive: addActive,
       flags: 0,
     );
+
+    if (_discoveredContacts.length >= _maxDiscoveredContacts) {
+      _evictStalestDiscoveredContact();
+    }
     _discoveredContacts.add(disContact);
 
     unawaited(_persistDiscoveredContacts());
@@ -6902,6 +6919,19 @@ class MeshCoreConnector extends ChangeNotifier {
         );
       }
     }
+  }
+
+  void _evictStalestDiscoveredContact() {
+    if (_discoveredContacts.isEmpty) return;
+    var stalestIndex = 0;
+    for (int i = 1; i < _discoveredContacts.length; i++) {
+      if (_discoveredContacts[i].lastSeen.isBefore(
+        _discoveredContacts[stalestIndex].lastSeen,
+      )) {
+        stalestIndex = i;
+      }
+    }
+    _discoveredContacts.removeAt(stalestIndex);
   }
 
   void removeAllDiscoveredContacts() {
