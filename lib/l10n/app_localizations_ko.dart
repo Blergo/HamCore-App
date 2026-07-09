@@ -1399,6 +1399,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get chat_sendGif => 'GIF 보내기';
 
   @override
+  String get chat_receivedGif => 'Received a GIF';
+
+  @override
   String get chat_reply => '답변';
 
   @override

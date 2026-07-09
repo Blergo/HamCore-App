@@ -1461,6 +1461,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get chat_sendGif => 'GIF küldése';
 
   @override
+  String get chat_receivedGif => 'Received a GIF';
+
+  @override
   String get chat_reply => 'Válasz';
 
   @override

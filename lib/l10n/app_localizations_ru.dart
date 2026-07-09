@@ -1466,6 +1466,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get chat_sendGif => 'Отправить GIF';
 
   @override
+  String get chat_receivedGif => 'Received a GIF';
+
+  @override
   String get chat_reply => 'Ответить';
 
   @override

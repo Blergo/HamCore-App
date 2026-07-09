@@ -27,6 +27,7 @@ import '../widgets/qr_code_display.dart';
 import '../widgets/quick_switch_bar.dart';
 import '../widgets/sync_progress_overlay.dart';
 import '../widgets/unread_badge.dart';
+import '../helpers/gif_helper.dart';
 import '../helpers/snack_bar_builder.dart';
 import 'channel_chat_screen.dart';
 import 'community_qr_scanner_screen.dart';
@@ -410,7 +411,11 @@ class _ChannelsScreenState extends State<ChannelsScreen>
     // Last message preview
     final messages = connector.getChannelMessages(channel);
     final lastMessage = messages.isNotEmpty ? messages.last : null;
-    final lastPreview = lastMessage?.text ?? '';
+    final lastMessageText = lastMessage?.text ?? '';
+    final lastPreview = lastMessageText.isNotEmpty &&
+            GifHelper.parseGif(lastMessageText) != null
+        ? context.l10n.chat_receivedGif
+        : lastMessageText;
     final lastTime = lastMessage?.timestamp;
 
     final channelLabel = channel.name.isEmpty
@@ -453,7 +458,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
               )
             : null,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Leading avatar with optional community badge
             Stack(
@@ -581,10 +586,13 @@ class _ChannelsScreenState extends State<ChannelsScreen>
               const SizedBox(width: 4),
               ReorderableDragStartListener(
                 index: dragIndex,
+                // Top-aligned with the "CH n" / time line. Bottom padding keeps
+                // a comfortable drag target without pushing the icon down.
                 child: Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
                   child: Icon(
                     Icons.drag_handle,
+                    size: 18,
                     color: scheme.onSurfaceVariant,
                   ),
                 ),

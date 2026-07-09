@@ -1469,6 +1469,9 @@ class AppLocalizationsBg extends AppLocalizations {
   String get chat_sendGif => 'Изпрати GIF';
 
   @override
+  String get chat_receivedGif => 'Received a GIF';
+
+  @override
   String get chat_reply => 'Отговори';
 
   @override
@@ -2706,7 +2709,6 @@ class AppLocalizationsBg extends AppLocalizations {
       'Байтовете, използвани за кодиране на идентификатора на този повторител в таговете за откриване на потоци/цикли, са: 0=1 байт (256 идентификатора, до 64 скока), 1=2 байта (65 000 идентификатора, до 32 скока), 2=3 байта (16 милиона идентификатора, до 21 скока). Версиите 1.13 и по-старите фърмуери използват многобайтови пътища - само след като мрежата е актуализирана до версия 1.14 или по-нова.';
 
   @override
-  String get repeater_txDelay => 'Забавяне на Flood TX';
   String get repeater_keySettings => 'Change Identity Keys';
 
   @override
@@ -2742,6 +2744,7 @@ class AppLocalizationsBg extends AppLocalizations {
   }
 
   @override
+  String get repeater_txDelay => 'Забавяне на Flood TX';
 
   @override
   String get repeater_txDelayHelper =>

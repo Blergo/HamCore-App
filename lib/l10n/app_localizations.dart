@@ -2692,6 +2692,12 @@ abstract class AppLocalizations {
   /// **'Send GIF'**
   String get chat_sendGif;
 
+  /// No description provided for @chat_receivedGif.
+  ///
+  /// In en, this message translates to:
+  /// **'Received a GIF'**
+  String get chat_receivedGif;
+
   /// No description provided for @chat_reply.
   ///
   /// In en, this message translates to:
