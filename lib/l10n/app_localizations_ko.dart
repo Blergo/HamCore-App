@@ -596,6 +596,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get settings_infoChannelCount => '채널 수';
 
   @override
+  String get settings_infoHardware => 'Hardware';
+
+  @override
+  String get settings_infoFirmware => 'Firmware';
+
+  @override
   String get settings_presets => '프리셋';
 
   @override

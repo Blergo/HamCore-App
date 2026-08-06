@@ -588,6 +588,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settings_infoChannelCount => '频道数量';
 
   @override
+  String get settings_infoHardware => 'Hardware';
+
+  @override
+  String get settings_infoFirmware => 'Firmware';
+
+  @override
   String get settings_presets => '预设';
 
   @override
