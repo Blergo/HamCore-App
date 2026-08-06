@@ -1726,6 +1726,12 @@ abstract class AppLocalizations {
   /// **'LiPo (3.0-4.2V)'**
   String get appSettings_batteryLipo;
 
+  /// No description provided for @appSettings_batteryLipoHv.
+  ///
+  /// In en, this message translates to:
+  /// **'LiPo HV (3.0-4.35V)'**
+  String get appSettings_batteryLipoHv;
+
   /// No description provided for @appSettings_mapDisplay.
   ///
   /// In en, this message translates to:

@@ -883,6 +883,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appSettings_batteryLipo => 'LiPo (3.0-4.2V)';
 
   @override
+  String get appSettings_batteryLipoHv => 'LiPo HV (3.0-4.35V)';
+
+  @override
   String get appSettings_mapDisplay => 'Map Display';
 
   @override
