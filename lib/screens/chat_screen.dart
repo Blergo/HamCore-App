@@ -7,6 +7,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/app_logger.dart';
 import '../utils/platform_info.dart';
 
 import '../connector/meshcore_connector.dart';
@@ -1270,6 +1271,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final senderName = liveContact.type == advTypeRoom
         ? senderContact.name
         : null;
+    appLogger.info('Sending reaction using senderName: $senderName');
     final hash = ReactionHelper.computeReactionHash(
       timestampSecs,
       senderName,
@@ -1643,7 +1645,7 @@ class _MessageBubble extends StatelessWidget {
       runSpacing: 6,
       children: message.reactions.entries.map((entry) {
         final emoji = entry.key;
-        final count = entry.value;
+        final count = entry.value.length;
         final status = message.reactionStatuses[emoji];
         final isPending =
             status == MessageStatus.pending || status == MessageStatus.sent;

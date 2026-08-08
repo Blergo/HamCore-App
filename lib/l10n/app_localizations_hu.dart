@@ -1485,6 +1485,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get chat_me => 'Nekem';
 
   @override
+  String get reaction_report => 'Emoji Reactions';
+
+  @override
   String get emojiCategorySmileys => 'Hangulatjelek';
 
   @override

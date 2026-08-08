@@ -1423,6 +1423,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get chat_me => '나';
 
   @override
+  String get reaction_report => 'Emoji Reactions';
+
+  @override
   String get emojiCategorySmileys => '이모티콘';
 
   @override

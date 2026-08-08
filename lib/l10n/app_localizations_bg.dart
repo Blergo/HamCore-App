@@ -1493,6 +1493,9 @@ class AppLocalizationsBg extends AppLocalizations {
   String get chat_me => 'Аз';
 
   @override
+  String get reaction_report => 'Emoji Reactions';
+
+  @override
   String get emojiCategorySmileys => 'Емотикони';
 
   @override

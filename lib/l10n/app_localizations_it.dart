@@ -1491,6 +1491,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get chat_me => 'Io';
 
   @override
+  String get reaction_report => 'Emoji Reactions';
+
+  @override
   String get emojiCategorySmileys => 'Emoji';
 
   @override
