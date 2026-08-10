@@ -3114,6 +3114,7 @@ class MeshCoreConnector extends ChangeNotifier {
 
       // No check for duplicates. If you want to do it again to resend, you can.
       final String reactionID = reactionInfo.identifier();
+      _processedContactReactions.putIfAbsent(contact.publicKeyHex, () => {});
       _processedContactReactions[contact.publicKeyHex]!.add(reactionID);
 
       // Apply reaction locally with pending status

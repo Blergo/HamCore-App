@@ -199,7 +199,7 @@ class ChannelMessageStore {
               key,
               (value is int)
                   ? List<String?>.filled(value, null)
-                  : value as List<String?>,
+                  : List<String?>.from(value),
             ),
           ) ??
           {},
