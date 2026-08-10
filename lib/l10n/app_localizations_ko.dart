@@ -854,6 +854,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get appSettings_batteryLipo => '리튬 폴리머 (3.0-4.2V)';
 
   @override
+  String get appSettings_batteryLipoHv => 'LiPo HV (3.0-4.35V)';
+
+  @override
   String get appSettings_mapDisplay => '지도 표시';
 
   @override

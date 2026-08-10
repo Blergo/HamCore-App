@@ -838,6 +838,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get appSettings_batteryLipo => '锂聚合物电池 (3.0-4.2V)';
 
   @override
+  String get appSettings_batteryLipoHv => 'LiPo HV (3.0-4.35V)';
+
+  @override
   String get appSettings_mapDisplay => '地图显示';
 
   @override
