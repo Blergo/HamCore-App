@@ -271,6 +271,8 @@ class MeshCoreConnector extends ChangeNotifier {
   bool _batteryRequested = false;
   bool _awaitingSelfInfo = false;
   bool _hasReceivedDeviceInfo = false;
+  String? _manufacturerName;
+  String? _firmwareVersionString;
   // Initial sync is serialized for predictable progress. Firmware exposes one
   // FIFO queued-message stream, so direct/room frames are buffered until after
   // contacts are known.
@@ -459,6 +461,8 @@ class MeshCoreConnector extends ChangeNotifier {
   Uint8List? get selfPublicKey => _selfPublicKey;
   String get selfPublicKeyHex => pubKeyToHex(_selfPublicKey ?? Uint8List(0));
   String? get selfName => _selfName;
+  String? get manufacturerName => _manufacturerName;
+  String? get firmwareVersionString => _firmwareVersionString;
   double? get selfLatitude => _selfLatitude;
   double? get selfLongitude => _selfLongitude;
   List<DirectRepeater> get directRepeaters => _directRepeaters;
@@ -4459,6 +4463,20 @@ class MeshCoreConnector extends ChangeNotifier {
       _hasReceivedDeviceInfo = true;
     }
     _firmwareVerCode = frame[1];
+
+    // Manufacturer/model name (bytes 20..59) and firmware version (60..79)
+    String? readCString(int start, int maxLen) {
+      if (frame.length < start + maxLen) return null;
+      final bytes = frame.sublist(start, start + maxLen);
+      final end = bytes.indexOf(0);
+      final s = String.fromCharCodes(
+        end >= 0 ? bytes.sublist(0, end) : bytes,
+      ).trim();
+      return s.isEmpty ? null : s;
+    }
+
+    _manufacturerName = readCString(20, 40);
+    _firmwareVersionString = readCString(60, 20);
 
     // Parse client_repeat from firmware v9+ (byte 80)
     if (frame.length >= 81) {
