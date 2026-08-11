@@ -6,8 +6,8 @@ import 'package:meshcore_open/services/image_chunk_transport.dart';
 import 'package:meshcore_open/widgets/image_send_codec_binding.dart';
 
 Uint8List payloadOf(int length, {int seed = 7}) => Uint8List.fromList(
-      List<int>.generate(length, (i) => (i * 37 + seed * 11) & 0xFF),
-    );
+  List<int>.generate(length, (i) => (i * 37 + seed * 11) & 0xFF),
+);
 
 const ImageStreamMetadata stdMeta = ImageStreamMetadata(
   rate: ImageCodecRatePoint.standard,
@@ -447,7 +447,9 @@ void main() {
       );
       expect(r.pendingCount, 1);
 
-      final expired = r.evictExpired(now: start.add(const Duration(minutes: 2)));
+      final expired = r.evictExpired(
+        now: start.add(const Duration(minutes: 2)),
+      );
       expect(expired.length, 1);
       expect(expired.single.total, 3);
       expect(expired.single.receivedDataChunks, 2);
@@ -690,7 +692,17 @@ void main() {
 
     test('RESP_CODE_CHANNEL_DATA_RECV parses, snr is signed', () {
       final frame = Uint8List.fromList(<int>[
-        0x1B, 0xF8, 0, 0, 3, 0xFF, 0x1C, 0xAE, 2, 0x42, 0x43,
+        0x1B,
+        0xF8,
+        0,
+        0,
+        3,
+        0xFF,
+        0x1C,
+        0xAE,
+        2,
+        0x42,
+        0x43,
       ]);
       final parsed = parseChannelDataFrame(frame)!;
       expect(parsed.snrRaw, -8);
@@ -704,7 +716,15 @@ void main() {
 
     test('a flooded frame exposes hop count and hash width', () {
       final frame = Uint8List.fromList(<int>[
-        0x1B, 0x04, 0, 0, 0, 0x43, 0x1C, 0xAE, 0,
+        0x1B,
+        0x04,
+        0,
+        0,
+        0,
+        0x43,
+        0x1C,
+        0xAE,
+        0,
       ]);
       final parsed = parseChannelDataFrame(frame)!;
       expect(parsed.arrivedByFlood, isTrue);
@@ -729,50 +749,53 @@ void main() {
       );
     });
 
-    test('transport sends chunks strictly sequentially and reassembles', () async {
-      final sent = <Uint8List>[];
-      var inFlight = 0;
-      var maxInFlight = 0;
-      final received = <ImageReassemblyResult>[];
-      final rxWithCallback = ImageReassembler(
-        selfPrefix: senderB,
-        onImage: received.add,
-      );
+    test(
+      'transport sends chunks strictly sequentially and reassembles',
+      () async {
+        final sent = <Uint8List>[];
+        var inFlight = 0;
+        var maxInFlight = 0;
+        final received = <ImageReassemblyResult>[];
+        final rxWithCallback = ImageReassembler(
+          selfPrefix: senderB,
+          onImage: received.add,
+        );
 
-      final tx = ImageChunkTransport(
-        senderPrefix: senderA,
-        reassembler: rxWithCallback,
-        idAllocator: ImageIdAllocator(seed: 60),
-        send: (blob, channelIndex) async {
-          inFlight++;
-          maxInFlight = maxInFlight > inFlight ? maxInFlight : inFlight;
-          await Future<void>.delayed(const Duration(milliseconds: 1));
-          sent.add(blob);
-          inFlight--;
-        },
-      );
+        final tx = ImageChunkTransport(
+          senderPrefix: senderA,
+          reassembler: rxWithCallback,
+          idAllocator: ImageIdAllocator(seed: 60),
+          send: (blob, channelIndex) async {
+            inFlight++;
+            maxInFlight = maxInFlight > inFlight ? maxInFlight : inFlight;
+            await Future<void>.delayed(const Duration(milliseconds: 1));
+            sent.add(blob);
+            inFlight--;
+          },
+        );
 
-      final payload = payloadOf(460, seed: 9);
-      final set = await tx.sendImage(
-        payload: payload,
-        metadata: highMeta,
-        channelIndex: 1,
-      );
-      expect(set.imgId, 60);
-      expect(sent.length, 4);
-      expect(maxInFlight, 1);
+        final payload = payloadOf(460, seed: 9);
+        final set = await tx.sendImage(
+          payload: payload,
+          metadata: highMeta,
+          channelIndex: 1,
+        );
+        expect(set.imgId, 60);
+        expect(sent.length, 4);
+        expect(maxInFlight, 1);
 
-      // Loop the blobs back through the receive path as real frames.
-      for (final blob in sent) {
-        final frame = BytesBuilder()
-          ..add(<int>[0x1B, 0x10, 0, 0, 1, 0xFF, 0x1C, 0xAE, blob.length])
-          ..add(blob);
-        tx.handleFrame(frame.toBytes());
-      }
-      expect(received.length, 1);
-      expect(received.single.data, payload);
-      expect(received.single.key.channelIndex, 1);
-    });
+        // Loop the blobs back through the receive path as real frames.
+        for (final blob in sent) {
+          final frame = BytesBuilder()
+            ..add(<int>[0x1B, 0x10, 0, 0, 1, 0xFF, 0x1C, 0xAE, blob.length])
+            ..add(blob);
+          tx.handleFrame(frame.toBytes());
+        }
+        expect(received.length, 1);
+        expect(received.single.data, payload);
+        expect(received.single.key.channelIndex, 1);
+      },
+    );
 
     test('handleFrame ignores other data types and other frames', () {
       final rx = ImageReassembler();
@@ -805,7 +828,14 @@ void main() {
       final a = tx.sendImage(payload: payloadOf(300), metadata: stdMeta);
       final b = tx.sendImage(payload: payloadOf(300), metadata: stdMeta);
       await Future.wait(<Future<ImageChunkSet>>[a, b]);
-      expect(order, <String>['100:0', '100:1', '100:2', '101:0', '101:1', '101:2']);
+      expect(order, <String>[
+        '100:0',
+        '100:1',
+        '100:2',
+        '101:0',
+        '101:1',
+        '101:2',
+      ]);
     });
   });
 
@@ -818,10 +848,7 @@ void main() {
     test('a new image reusing a just-completed img_id is not swallowed', () {
       final delivered = <ImageReassemblyResult>[];
       final failed = <ImageReassemblyFailure>[];
-      final r = ImageReassembler(
-        onImage: delivered.add,
-        onFailed: failed.add,
-      );
+      final r = ImageReassembler(onImage: delivered.add, onFailed: failed.add);
 
       final first = buildImageChunks(
         payload: payloadOf(200, seed: 1),
@@ -870,38 +897,40 @@ void main() {
     // PROBE B/C: a flipped bit in the parity length byte used to yield a
     // silently TRUNCATED image reported as `completed`. Only the last data
     // chunk may be short.
-    test('corrupt parity length is rejected rather than silently truncating',
-        () {
-      for (final payloadLen in [300, 400]) {
-        final set = buildImageChunks(
-          payload: payloadOf(payloadLen, seed: 3),
-          metadata: stdMeta,
-          senderPrefix: senderA,
-          imgId: 7,
-        );
-        final data = set.blobs.sublist(0, set.dataChunkCount);
-        final parity = Uint8List.fromList(set.blobs.last);
-        // Corrupt the len_xor byte (first body byte, just after the header).
-        parity[kImageChunkHeaderBytes] ^= 0x02;
+    test(
+      'corrupt parity length is rejected rather than silently truncating',
+      () {
+        for (final payloadLen in [300, 400]) {
+          final set = buildImageChunks(
+            payload: payloadOf(payloadLen, seed: 3),
+            metadata: stdMeta,
+            senderPrefix: senderA,
+            imgId: 7,
+          );
+          final data = set.blobs.sublist(0, set.dataChunkCount);
+          final parity = Uint8List.fromList(set.blobs.last);
+          // Corrupt the len_xor byte (first body byte, just after the header).
+          parity[kImageChunkHeaderBytes] ^= 0x02;
 
-        final delivered = <ImageReassemblyResult>[];
-        final r = ImageReassembler(onImage: delivered.add);
-        // Drop a NON-FINAL chunk (index 1 of >=3, else index 0) and supply
-        // the corrupted parity.
-        final dropIndex = data.length >= 3 ? 1 : 0;
-        final kept = <Uint8List>[
-          for (var i = 0; i < data.length; i++)
-            if (i != dropIndex) data[i],
-          parity,
-        ];
-        feed(r, kept);
-        expect(
-          delivered,
-          isEmpty,
-          reason: 'payload $payloadLen: truncated recovery must not complete',
-        );
-      }
-    });
+          final delivered = <ImageReassemblyResult>[];
+          final r = ImageReassembler(onImage: delivered.add);
+          // Drop a NON-FINAL chunk (index 1 of >=3, else index 0) and supply
+          // the corrupted parity.
+          final dropIndex = data.length >= 3 ? 1 : 0;
+          final kept = <Uint8List>[
+            for (var i = 0; i < data.length; i++)
+              if (i != dropIndex) data[i],
+            parity,
+          ];
+          feed(r, kept);
+          expect(
+            delivered,
+            isEmpty,
+            reason: 'payload $payloadLen: truncated recovery must not complete',
+          );
+        }
+      },
+    );
 
     test('parity still recovers a genuinely lost non-final chunk', () {
       final payload = payloadOf(400, seed: 5);
@@ -927,17 +956,16 @@ void main() {
     });
   });
 
-
   group('completed-image map is capped', () {
     /// A lone parity chunk of a `total == 1` image completes that image by
     /// itself — one packet, one remembered entry. That is the amplification the
     /// cap exists to bound.
     List<Uint8List> loneParity(int imgId) => buildImageChunks(
-          payload: payloadOf(20, seed: imgId),
-          metadata: stdMeta,
-          senderPrefix: senderA,
-          imgId: imgId,
-        ).blobs;
+      payload: payloadOf(20, seed: imgId),
+      metadata: stdMeta,
+      senderPrefix: senderA,
+      imgId: imgId,
+    ).blobs;
 
     test('one packet per img_id can complete an image (the attack)', () {
       final r = ImageReassembler();
@@ -947,23 +975,26 @@ void main() {
       expect(r.pendingCount, 0);
     });
 
-    test('the map never exceeds maxCompletedStreams and evicts oldest first',
-        () {
-      final start = DateTime(2026, 3, 3);
-      final r = ImageReassembler(maxCompletedStreams: 3);
-      for (var i = 0; i < 20; i++) {
-        r.addChunk(
-          loneParity(100 + i)[1],
-          now: start.add(Duration(seconds: i)),
-        );
-        expect(r.completedCount, lessThanOrEqualTo(3));
-      }
-      expect(r.completedCount, 3);
-      expect(
-        r.completedKeys.map((k) => k.imgId).toList()..sort(),
-        <int>[117, 118, 119],
-      );
-    });
+    test(
+      'the map never exceeds maxCompletedStreams and evicts oldest first',
+      () {
+        final start = DateTime(2026, 3, 3);
+        final r = ImageReassembler(maxCompletedStreams: 3);
+        for (var i = 0; i < 20; i++) {
+          r.addChunk(
+            loneParity(100 + i)[1],
+            now: start.add(Duration(seconds: i)),
+          );
+          expect(r.completedCount, lessThanOrEqualTo(3));
+        }
+        expect(r.completedCount, 3);
+        expect(r.completedKeys.map((k) => k.imgId).toList()..sort(), <int>[
+          117,
+          118,
+          119,
+        ]);
+      },
+    );
 
     test('default cap matches the pending cap', () {
       final start = DateTime(2026, 3, 4);
@@ -1010,10 +1041,14 @@ void main() {
       // conflated, ft32 would go on air as 4.
       expect(AeicRatePoint.values.length, 5);
       expect(AeicRatePoint.ft32.wireValue, 4);
-      expect(aeicRatePointForUi(ImageCodecRatePoint.standard),
-          AeicRatePoint.ft32);
-      expect(imageRateWireCode(ImageCodecRatePoint.standard),
-          kImageRateWireStandard);
+      expect(
+        aeicRatePointForUi(ImageCodecRatePoint.standard),
+        AeicRatePoint.ft32,
+      );
+      expect(
+        imageRateWireCode(ImageCodecRatePoint.standard),
+        kImageRateWireStandard,
+      );
       expect(kImageRateWireStandard, 0);
       expect(kImageRateWireHigh, 1);
       expect(
@@ -1057,7 +1092,10 @@ void main() {
 
       final delivered = <ImageReassemblyResult>[];
       final failures = <ImageReassemblyFailure>[];
-      final r = ImageReassembler(onImage: delivered.add, onFailed: failures.add);
+      final r = ImageReassembler(
+        onImage: delivered.add,
+        onFailed: failures.add,
+      );
       expect(r.addChunk(bad).status, ImageChunkStatus.accepted);
       final done = r.addChunk(set.blobs[1]);
       expect(done.status, ImageChunkStatus.unsupportedFormat);
@@ -1093,7 +1131,6 @@ void main() {
         ImageChunkStatus.unsupportedFormat,
       );
     });
-
   });
 
   group('metadata byte: aspect ratio', () {

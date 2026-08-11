@@ -240,8 +240,7 @@ class AppSettings {
   }) : batteryChemistryByDeviceId = batteryChemistryByDeviceId ?? {},
        batteryChemistryByRepeaterId = batteryChemistryByRepeaterId ?? {},
        mutedChannels = mutedChannels ?? {},
-       imageCodecDownloadedModels =
-           imageCodecDownloadedModels ?? const [],
+       imageCodecDownloadedModels = imageCodecDownloadedModels ?? const [],
        translationDownloadedModels = translationDownloadedModels ?? const [],
        cyr2latProfiles =
            cyr2latProfiles ??

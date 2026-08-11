@@ -168,8 +168,10 @@ class _ImageSendPreviewSheetState extends State<ImageSendPreviewSheet> {
       _failed = false;
     });
     try {
-      final bytes =
-          await widget.codec.encode(widget.imageBytes, kImageSendRatePoint);
+      final bytes = await widget.codec.encode(
+        widget.imageBytes,
+        kImageSendRatePoint,
+      );
       if (!mounted) return bytes;
       setState(() {
         _encoded = bytes;
@@ -333,14 +335,14 @@ class _ImageSendPreviewSheetState extends State<ImageSendPreviewSheet> {
   }
 
   Widget _grabHandle(ColorScheme colors) => Container(
-        width: 36,
-        height: 4,
-        margin: const EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          color: colors.onSurfaceVariant.withValues(alpha: 0.4),
-          borderRadius: BorderRadius.circular(2),
-        ),
-      );
+    width: 36,
+    height: 4,
+    margin: const EdgeInsets.symmetric(vertical: 12),
+    decoration: BoxDecoration(
+      color: colors.onSurfaceVariant.withValues(alpha: 0.4),
+      borderRadius: BorderRadius.circular(2),
+    ),
+  );
 
   /// The square render. [BoxFit.fill] on a 1:1 box is exactly the 512x512
   /// centre crop the codec will take, so what is shown is what is sent.
@@ -389,11 +391,7 @@ class _ImageSendPreviewSheetState extends State<ImageSendPreviewSheet> {
     );
   }
 
-  Widget _sizeRow(
-    ThemeData theme,
-    ColorScheme colors,
-    _RateEstimate estimate,
-  ) {
+  Widget _sizeRow(ThemeData theme, ColorScheme colors, _RateEstimate estimate) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -406,7 +404,11 @@ class _ImageSendPreviewSheetState extends State<ImageSendPreviewSheet> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Icon(Icons.arrow_forward, size: 18, color: colors.onSurfaceVariant),
+          child: Icon(
+            Icons.arrow_forward,
+            size: 18,
+            color: colors.onSurfaceVariant,
+          ),
         ),
         _sizeChip(
           theme,
@@ -489,11 +491,8 @@ class _ImageSendPreviewSheetState extends State<ImageSendPreviewSheet> {
     );
   }
 
-  Widget _statDivider(ColorScheme colors) => Container(
-        width: 1,
-        height: 44,
-        color: colors.outlineVariant,
-      );
+  Widget _statDivider(ColorScheme colors) =>
+      Container(width: 1, height: 44, color: colors.outlineVariant);
 
   Widget _stat(
     ThemeData theme,
@@ -575,9 +574,7 @@ class _ImageSendPreviewSheetState extends State<ImageSendPreviewSheet> {
             background: colors.tertiaryContainer,
             foreground: colors.onTertiaryContainer,
             title: localizations.imageSend_longSendTitle,
-            body: localizations.imageSend_longSendBody(
-              _formatDuration(worst),
-            ),
+            body: localizations.imageSend_longSendBody(_formatDuration(worst)),
           ),
         );
       }
@@ -699,8 +696,9 @@ class _ImageSendPreviewSheetState extends State<ImageSendPreviewSheet> {
         children: [
           Expanded(
             child: OutlinedButton(
-              onPressed:
-                  _sending ? null : () => Navigator.of(context).maybePop(),
+              onPressed: _sending
+                  ? null
+                  : () => Navigator.of(context).maybePop(),
               child: Text(localizations.imageSend_cancel),
             ),
           ),

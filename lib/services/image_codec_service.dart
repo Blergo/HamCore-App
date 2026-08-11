@@ -285,7 +285,10 @@ class ImageCodecService extends ChangeNotifier implements ImageSendCodec {
     final spec = _specForId(model.id);
     final directory = _directoryOf(model.localPath);
 
-    String? pathFor(ImageCodecAssetRole role, bool Function(String) looksRight) {
+    String? pathFor(
+      ImageCodecAssetRole role,
+      bool Function(String) looksRight,
+    ) {
       // 1. What the installer recorded this file AS. Exact, and the only source
       //    that can tell the two entropy graphs apart.
       final recorded = model.fileNameForRole(role);
@@ -430,7 +433,8 @@ class ImageCodecService extends ChangeNotifier implements ImageSendCodec {
           assetFileNames: present,
           assetRoles: {
             for (final asset in spec.assets)
-              if (onDisk.containsKey(asset.fileName)) asset.fileName: asset.role,
+              if (onDisk.containsKey(asset.fileName))
+                asset.fileName: asset.role,
           },
           bundleVersion: complete ? kImageCodecBundleVersion : 0,
         ),
@@ -669,9 +673,7 @@ class ImageCodecService extends ChangeNotifier implements ImageSendCodec {
           // The only place the role of each downloaded file is known for
           // certain. Recorded now so nothing downstream has to infer it from a
           // filename — see [ImageCodecModelRecord.assetRoles].
-          assetRoles: {
-            for (final asset in assets) asset.fileName: asset.role,
-          },
+          assetRoles: {for (final asset in assets) asset.fileName: asset.role},
           bundleVersion: bundleVersion,
         );
         final updated = [

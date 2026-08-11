@@ -96,8 +96,9 @@ Future<void> _pumpBubble(
 }
 
 void main() {
-  testWidgets('decoded incoming bubble carries the R6 badge and caption',
-      (tester) async {
+  testWidgets('decoded incoming bubble carries the R6 badge and caption', (
+    tester,
+  ) async {
     final blobs = InMemoryReceivedImageBlobStore();
     final store = ReceivedImageStore(blobs: blobs);
     final png = base64Decode(_png1x1);
@@ -161,7 +162,6 @@ void main() {
     expect(find.textContaining('Fine detail is generated'), findsOneWidget);
   });
 
-
   testWidgets('receiving state shows the packet count', (tester) async {
     final store = ReceivedImageStore(decoder: null);
     final reassembler = ImageReassembler(selfPrefix: 0xbeef);
@@ -193,21 +193,23 @@ void main() {
   });
 
   testWidgets(
-      'awaiting card shows the bitstream size, the packet count and the '
-      'tap-to-process affordance', (tester) async {
-    final store = await _awaitingStore(bytes: 156, packets: 2);
-    final entry = store.entryFor('await1')!;
-    expect(entry.state, ReceivedImageState.reassembled);
-    expect(entry.needsManualDecode, isTrue);
+    'awaiting card shows the bitstream size, the packet count and the '
+    'tap-to-process affordance',
+    (tester) async {
+      final store = await _awaitingStore(bytes: 156, packets: 2);
+      final entry = store.entryFor('await1')!;
+      expect(entry.state, ReceivedImageState.reassembled);
+      expect(entry.needsManualDecode, isTrue);
 
-    await _pumpBubble(tester, store);
+      await _pumpBubble(tester, store);
 
-    expect(find.text('156 bytes · 2 packets'), findsOneWidget);
-    expect(find.text('Tap to process'), findsOneWidget);
-    // A placeholder is never dressed up as a picture.
-    expect(find.text('AI-reconstructed'), findsNothing);
-    expect(find.byType(Image), findsNothing);
-  });
+      expect(find.text('156 bytes · 2 packets'), findsOneWidget);
+      expect(find.text('Tap to process'), findsOneWidget);
+      // A placeholder is never dressed up as a picture.
+      expect(find.text('AI-reconstructed'), findsNothing);
+      expect(find.byType(Image), findsNothing);
+    },
+  );
 
   testWidgets('awaiting card honours injected strings', (tester) async {
     final store = await _awaitingStore(bytes: 209, packets: 3);
@@ -338,8 +340,9 @@ void main() {
     expect(decoder.decodeCalls, 1);
   });
 
-  testWidgets('every non-decoded state renders a legible label',
-      (tester) async {
+  testWidgets('every non-decoded state renders a legible label', (
+    tester,
+  ) async {
     const cases = <String, String>{
       'failedIncomplete': 'Image incomplete — 1 of 3 packets arrived',
       'failedCorrupt': 'Image could not be reconstructed',
@@ -413,8 +416,9 @@ void main() {
     expect(find.textContaining('Fine detail is generated'), findsOneWidget);
   });
 
-  testWidgets('the caption quotes the real bitstream size, not a nominal one',
-      (tester) async {
+  testWidgets('the caption quotes the real bitstream size, not a nominal one', (
+    tester,
+  ) async {
     // It used to hardcode "~156 bytes" under every image, so a 209-byte image
     // and a 110-byte one both claimed 156. The label's whole purpose is
     // honesty about what was actually transmitted.
@@ -448,15 +452,22 @@ void main() {
       await _pumpBubble(tester, store, streamId: id);
       await tester.pump();
 
-      expect(find.textContaining('$bytes bytes'), findsOneWidget,
-          reason: 'caption must quote $bytes');
-      expect(find.textContaining('156 bytes'), findsNothing,
-          reason: 'no nominal size may leak into the caption');
+      expect(
+        find.textContaining('$bytes bytes'),
+        findsOneWidget,
+        reason: 'caption must quote $bytes',
+      );
+      expect(
+        find.textContaining('156 bytes'),
+        findsNothing,
+        reason: 'no nominal size may leak into the caption',
+      );
     }
   });
 
-  testWidgets('the R6 caption is never truncated in a narrow bubble',
-      (tester) async {
+  testWidgets('the R6 caption is never truncated in a narrow bubble', (
+    tester,
+  ) async {
     // It used to be maxLines: 2 and clipped mid-sentence — the rendered text
     // read "Details are invented. Not a", cutting off exactly where the
     // warning was. A half-shown warning is worse than none.

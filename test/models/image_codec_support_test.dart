@@ -114,7 +114,10 @@ void main() {
       // existing role would hand ORT the wrong graph.
       final restored = ImageCodecModelRecord.fromJson(<String, dynamic>{
         'asset_file_names': ['a.onnx', 'b.bin'],
-        'asset_roles': {'a.onnx': 'somethingFromTheFuture', 'b.bin': 'cdfTables'},
+        'asset_roles': {
+          'a.onnx': 'somethingFromTheFuture',
+          'b.bin': 'cdfTables',
+        },
       });
       expect(restored.assetRoles.keys, ['b.bin']);
       expect(restored.fileNameForRole(ImageCodecAssetRole.cdfTables), 'b.bin');
@@ -357,8 +360,10 @@ void main() {
       for (final asset in preset.assets) {
         expect(asset.fileName, isNot(contains('novae')));
       }
-      expect(preset.assetFor(ImageCodecAssetRole.decoderWeights).sizeBytes,
-          872896480);
+      expect(
+        preset.assetFor(ImageCodecAssetRole.decoderWeights).sizeBytes,
+        872896480,
+      );
     });
 
     test('carries all five roles exactly once', () {
@@ -400,8 +405,7 @@ void main() {
       expect(reordered.fileName, preset.fileName);
     });
 
-    test('the entropy graph and the tables are the ones that were validated',
-        () {
+    test('the entropy graph and the tables are the ones that were validated', () {
       final preset = imageCodecPresetModels.single;
       final entropy = preset.assetFor(ImageCodecAssetRole.entropyGraph);
       // op17 fp32: byte-identical bitstreams on 26/26 images. Not op20, not int8.
@@ -429,10 +433,7 @@ void main() {
         ],
       );
       expect(decoderOnly.isComplete, isFalse);
-      expect(
-        decoderOnly.maybeAssetFor(ImageCodecAssetRole.cdfTables),
-        isNull,
-      );
+      expect(decoderOnly.maybeAssetFor(ImageCodecAssetRole.cdfTables), isNull);
       expect(
         () => decoderOnly.assetFor(ImageCodecAssetRole.cdfTables),
         throwsStateError,
@@ -483,17 +484,19 @@ void main() {
   });
 
   group('exceptions', () {
-    test('an incomplete install is NOT the same failure as a missing build',
-        () {
-      // Both are ImageCodecUnimplemented, but only one has a remedy the user
-      // can act on, and the UI branches on exactly that difference.
-      const incomplete = ImageCodecBundleIncomplete();
-      const missing = ImageCodecEntropyPathMissing();
-      expect(incomplete, isA<ImageCodecUnimplemented>());
-      expect(missing, isA<ImageCodecUnimplemented>());
-      expect(incomplete, isNot(isA<ImageCodecEntropyPathMissing>()));
-      expect(incomplete.toString(), contains('re-download'));
-    });
+    test(
+      'an incomplete install is NOT the same failure as a missing build',
+      () {
+        // Both are ImageCodecUnimplemented, but only one has a remedy the user
+        // can act on, and the UI branches on exactly that difference.
+        const incomplete = ImageCodecBundleIncomplete();
+        const missing = ImageCodecEntropyPathMissing();
+        expect(incomplete, isA<ImageCodecUnimplemented>());
+        expect(missing, isA<ImageCodecUnimplemented>());
+        expect(incomplete, isNot(isA<ImageCodecEntropyPathMissing>()));
+        expect(incomplete.toString(), contains('re-download'));
+      },
+    );
   });
 
   group('parseImageCodecStatus', () {

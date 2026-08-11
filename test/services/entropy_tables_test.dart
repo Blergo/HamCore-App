@@ -116,7 +116,8 @@ void main() {
   });
 
   test('rejects trailing garbage', () {
-    final Uint8List extra = Uint8List(raw.length + 1)..setRange(0, raw.length, raw);
+    final Uint8List extra = Uint8List(raw.length + 1)
+      ..setRange(0, raw.length, raw);
     expect(
       () => EntropyTables.parse(extra),
       throwsA(isA<EntropyTableFormatException>()),

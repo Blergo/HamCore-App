@@ -300,9 +300,15 @@ class OnnxImageCodecBackend implements ImageCodecBackend {
     // The path must be the `.onnx` graph, with its `.onnx.data`
     // external-weights sibling present in the same directory under exactly the
     // filename the graph records. See `ImageCodecModelSpec`.
-    final session = await _runtime.createSession(_requireBundle().decoderGraphPath);
+    final session = await _runtime.createSession(
+      _requireBundle().decoderGraphPath,
+    );
     _decoder = session;
-    _inputName = _pick(session.inputNames, kImageCodecDecoderInputName, 'input');
+    _inputName = _pick(
+      session.inputNames,
+      kImageCodecDecoderInputName,
+      'input',
+    );
     _outputName = _pick(
       session.outputNames,
       kImageCodecDecoderOutputName,
@@ -735,9 +741,10 @@ class OnnxAeicEntropyNetwork implements AeicEntropyNetwork {
         Float32List(kBaseElements),
         kBaseShape,
       ),
-      kStageInput: await OrtValue.fromList(Int32List.fromList(<int>[
-        kHyperStage,
-      ]), <int>[1]),
+      kStageInput: await OrtValue.fromList(
+        Int32List.fromList(<int>[kHyperStage]),
+        <int>[1],
+      ),
     });
     try {
       return await _floats(result, kBase0Output);
@@ -766,9 +773,10 @@ class OnnxAeicEntropyNetwork implements AeicEntropyNetwork {
     final result = await _run(session, <String, OrtValue>{
       kZqInput: await OrtValue.fromList(Float32List(kZqElements), kZqShape),
       kBaseInput: await OrtValue.fromList(base, kBaseShape),
-      kStageInput: await OrtValue.fromList(Int32List.fromList(<int>[
-        stage,
-      ]), <int>[1]),
+      kStageInput: await OrtValue.fromList(
+        Int32List.fromList(<int>[stage]),
+        <int>[1],
+      ),
     });
     try {
       // Already masked by the graph. `AeicEntropyCodec` masks again, which is

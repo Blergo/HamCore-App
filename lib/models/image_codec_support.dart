@@ -464,8 +464,7 @@ class ImageCodecModelSpec {
   ///
   /// Defined by role, not by position. Kept under the old name so the settings
   /// screen and [imageCodecModelFriendlyName] keep working.
-  ImageCodecModelAsset get graph =>
-      assetFor(ImageCodecAssetRole.decoderGraph);
+  ImageCodecModelAsset get graph => assetFor(ImageCodecAssetRole.decoderGraph);
 
   String get fileName => graph.fileName;
 

@@ -59,7 +59,10 @@ class _FakeDecoder implements ReceivedImageDecoder {
     }
   }
 
-  Future<ImageCodecResult?> _run(AeicRatePoint ratePoint, int resolution) async {
+  Future<ImageCodecResult?> _run(
+    AeicRatePoint ratePoint,
+    int resolution,
+  ) async {
     if (delay > Duration.zero) await Future<void>.delayed(delay);
     switch (mode) {
       case 'null':
@@ -149,7 +152,11 @@ void main() {
         imgId: 7,
         firstSeen: DateTime.fromMillisecondsSinceEpoch(0x693F21 * 1000),
       );
-      expect(id, '1a2b07' '00693f21');
+      expect(
+        id,
+        '1a2b07'
+        '00693f21',
+      );
       expect(id.length, 14);
       expect(ReceivedImageRef.parse(ReceivedImageRef.encode(id)), id);
     });
@@ -161,8 +168,10 @@ void main() {
       expect(ReceivedImageRef.parse('aeic:1:1A2B0700693F21'), isNull);
       expect(ReceivedImageRef.parse('aeic:2:1a2b0700693f21'), isNull);
       expect(ReceivedImageRef.parse('@[Bob] hi'), isNull);
-      expect(ReceivedImageRef.parse('  aeic:1:1a2b0700693f21 '),
-          '1a2b0700693f21');
+      expect(
+        ReceivedImageRef.parse('  aeic:1:1a2b0700693f21 '),
+        '1a2b0700693f21',
+      );
     });
   });
 
@@ -184,8 +193,11 @@ void main() {
       expect(entry!.state, ReceivedImageState.reassembled);
       expect(entry.rate, AeicRatePoint.ft32);
       expect(entry.metadataAssumed, isFalse);
-      expect(h.blobs.hasBitstream(entry.streamId), isTrue,
-          reason: 'bitstream must be written before the state changes');
+      expect(
+        h.blobs.hasBitstream(entry.streamId),
+        isTrue,
+        reason: 'bitstream must be written before the state changes',
+      );
 
       await h.store.settle();
       final decoded = h.store.entryFor(entry.streamId)!;
@@ -218,8 +230,11 @@ void main() {
         h.reassembler.addChunk(set.blobs[1], channelIndex: 3),
         channelIndex: 3,
       );
-      expect(second!.streamId, first.streamId,
-          reason: 'the sentinel must not change as chunks arrive');
+      expect(
+        second!.streamId,
+        first.streamId,
+        reason: 'the sentinel must not change as chunks arrive',
+      );
       expect(second.state, ReceivedImageState.reassembled);
       await h.store.settle();
       expect(
@@ -300,8 +315,10 @@ void main() {
       expect(entry!.state, ReceivedImageState.reassembled);
       expect(entry.recoveredWithParity, isTrue);
       await h.store.settle();
-      expect(h.store.entryFor(entry.streamId)!.state,
-          ReceivedImageState.decoded);
+      expect(
+        h.store.entryFor(entry.streamId)!.state,
+        ReceivedImageState.decoded,
+      );
     });
 
     test('loopback and malformed blobs create nothing', () async {
@@ -574,37 +591,42 @@ void main() {
   });
 
   group('eviction', () {
-    test('byte budget drops the oldest PNG first and keeps the bitstream',
-        () async {
-      final decoder = _FakeDecoder(
-        png: Uint8List.fromList(List<int>.filled(1000, 3)),
-      );
-      final h = _build(decoder: decoder, maxBytes: 2500);
-      final ids = <String>[];
-      for (var i = 0; i < 3; i++) {
-        final entry = await _completeOne(h, imgId: 40 + i, seed: i);
-        await h.store.settle();
-        ids.add(entry.streamId);
-        h.advance(const Duration(seconds: 5));
-      }
-      // 3 x 1000 B PNG > 2500 B, so the oldest PNG must have gone.
-      expect(h.store.entryFor(ids[0])!.state, ReceivedImageState.evicted);
-      expect(h.store.entryFor(ids[0])!.pngStored, isFalse);
-      expect(h.blobs.hasPng(ids[0]), isFalse);
-      expect(h.blobs.hasBitstream(ids[0]), isTrue,
-          reason: 'a ~156 B bitstream is cheap; keep it so we can re-decode');
-      expect(h.store.entryFor(ids[0])!.canRetryDecode, isTrue);
-      expect(h.store.entryFor(ids[2])!.state, ReceivedImageState.decoded);
-      expect(h.store.totalBytes, lessThanOrEqualTo(2500));
+    test(
+      'byte budget drops the oldest PNG first and keeps the bitstream',
+      () async {
+        final decoder = _FakeDecoder(
+          png: Uint8List.fromList(List<int>.filled(1000, 3)),
+        );
+        final h = _build(decoder: decoder, maxBytes: 2500);
+        final ids = <String>[];
+        for (var i = 0; i < 3; i++) {
+          final entry = await _completeOne(h, imgId: 40 + i, seed: i);
+          await h.store.settle();
+          ids.add(entry.streamId);
+          h.advance(const Duration(seconds: 5));
+        }
+        // 3 x 1000 B PNG > 2500 B, so the oldest PNG must have gone.
+        expect(h.store.entryFor(ids[0])!.state, ReceivedImageState.evicted);
+        expect(h.store.entryFor(ids[0])!.pngStored, isFalse);
+        expect(h.blobs.hasPng(ids[0]), isFalse);
+        expect(
+          h.blobs.hasBitstream(ids[0]),
+          isTrue,
+          reason: 'a ~156 B bitstream is cheap; keep it so we can re-decode',
+        );
+        expect(h.store.entryFor(ids[0])!.canRetryDecode, isTrue);
+        expect(h.store.entryFor(ids[2])!.state, ReceivedImageState.decoded);
+        expect(h.store.totalBytes, lessThanOrEqualTo(2500));
 
-      // "Decode again" works off the surviving bitstream, and the image we just
-      // decoded is never the budget's own victim (that would thrash forever).
-      await h.store.requestDecode(ids[0]);
-      await h.store.settle();
-      expect(h.store.entryFor(ids[0])!.state, ReceivedImageState.decoded);
-      expect(h.store.entryFor(ids[1])!.state, ReceivedImageState.evicted);
-      expect(h.store.totalBytes, lessThanOrEqualTo(2500));
-    });
+        // "Decode again" works off the surviving bitstream, and the image we just
+        // decoded is never the budget's own victim (that would thrash forever).
+        await h.store.requestDecode(ids[0]);
+        await h.store.settle();
+        expect(h.store.entryFor(ids[0])!.state, ReceivedImageState.decoded);
+        expect(h.store.entryFor(ids[1])!.state, ReceivedImageState.evicted);
+        expect(h.store.totalBytes, lessThanOrEqualTo(2500));
+      },
+    );
 
     test('image-count budget evicts oldest first', () async {
       final h = _build(maxImages: 2);
@@ -625,8 +647,10 @@ void main() {
       final h = _build(maxAge: const Duration(minutes: 10));
       final entry = await _completeOne(h);
       await h.store.settle();
-      expect(h.store.entryFor(entry.streamId)!.state,
-          ReceivedImageState.decoded);
+      expect(
+        h.store.entryFor(entry.streamId)!.state,
+        ReceivedImageState.decoded,
+      );
       h.advance(const Duration(minutes: 11));
       final evicted = await h.store.evictToBudget();
       expect(evicted, contains(entry.streamId));
@@ -762,8 +786,11 @@ void main() {
       expect(entry.state, ReceivedImageState.reassembled);
       expect(entry.needsManualDecode, isTrue);
       expect(h.store.decodeQueue, isEmpty);
-      expect(h.decoder.calls, 0,
-          reason: 'a radio packet must never start a 2.16 GiB decode by itself');
+      expect(
+        h.decoder.calls,
+        0,
+        reason: 'a radio packet must never start a 2.16 GiB decode by itself',
+      );
       // Everything the placeholder card needs is already on the entry.
       expect(entry.senderPrefix, kSender);
       expect(entry.bitstreamByteCount, greaterThan(0));
@@ -779,28 +806,30 @@ void main() {
       expect(h.decoder.calls, 1);
     });
 
-    test('a finished model download does not decode the whole backlog',
-        () async {
-      final decoder = _FakeDecoder(
-        availability: ImageCodecAvailability.disabled,
-      );
-      final h = _build(decoder: decoder, processAutomatically: false);
-      final ids = <String>[];
-      for (var i = 0; i < 4; i++) {
-        ids.add((await _completeOne(h, imgId: 80 + i, seed: i)).streamId);
-        h.advance(const Duration(seconds: 2));
-      }
-      // The model lands.
-      decoder.availability = ImageCodecAvailability.ready;
-      h.store.notifyDecoderChanged();
-      await h.store.settle();
-      expect(decoder.calls, 0);
-      expect(h.store.decodeQueue, isEmpty);
-      for (final id in ids) {
-        expect(h.store.entryFor(id)!.state, ReceivedImageState.reassembled);
-        expect(h.store.entryFor(id)!.needsManualDecode, isTrue);
-      }
-    });
+    test(
+      'a finished model download does not decode the whole backlog',
+      () async {
+        final decoder = _FakeDecoder(
+          availability: ImageCodecAvailability.disabled,
+        );
+        final h = _build(decoder: decoder, processAutomatically: false);
+        final ids = <String>[];
+        for (var i = 0; i < 4; i++) {
+          ids.add((await _completeOne(h, imgId: 80 + i, seed: i)).streamId);
+          h.advance(const Duration(seconds: 2));
+        }
+        // The model lands.
+        decoder.availability = ImageCodecAvailability.ready;
+        h.store.notifyDecoderChanged();
+        await h.store.settle();
+        expect(decoder.calls, 0);
+        expect(h.store.decodeQueue, isEmpty);
+        for (final id in ids) {
+          expect(h.store.entryFor(id)!.state, ReceivedImageState.reassembled);
+          expect(h.store.entryFor(id)!.needsManualDecode, isTrue);
+        }
+      },
+    );
 
     test('turning the setting on affects future arrivals only', () async {
       final h = _build(processAutomatically: false);
@@ -810,15 +839,21 @@ void main() {
       h.store.processAutomatically = true;
       await h.store.settle();
       expect(h.decoder.calls, 0, reason: 'no retro-decode of the backlog');
-      expect(h.store.entryFor(parked.streamId)!.state,
-          ReceivedImageState.reassembled);
+      expect(
+        h.store.entryFor(parked.streamId)!.state,
+        ReceivedImageState.reassembled,
+      );
 
       final fresh = await _completeOne(h, imgId: 91, seed: 5);
       await h.store.settle();
-      expect(h.store.entryFor(fresh.streamId)!.state,
-          ReceivedImageState.decoded);
-      expect(h.store.entryFor(parked.streamId)!.state,
-          ReceivedImageState.reassembled);
+      expect(
+        h.store.entryFor(fresh.streamId)!.state,
+        ReceivedImageState.decoded,
+      );
+      expect(
+        h.store.entryFor(parked.streamId)!.state,
+        ReceivedImageState.reassembled,
+      );
     });
 
     test('a reassembled entry restored from disk is always tappable', () async {
@@ -849,10 +884,7 @@ void main() {
       h.decoder.availability = ImageCodecAvailability.disabled;
       expect(h.store.decoderAvailability, ImageCodecAvailability.disabled);
       final noDecoder = ReceivedImageStore(decoder: null);
-      expect(
-        noDecoder.decoderAvailability,
-        ImageCodecAvailability.unavailable,
-      );
+      expect(noDecoder.decoderAvailability, ImageCodecAvailability.unavailable);
       noDecoder.dispose();
     });
   });
@@ -874,8 +906,11 @@ void main() {
       await h.store.settle();
 
       expect(decoder.calls, 10);
-      expect(decoder.maxConcurrent, 1,
-          reason: 'two concurrent decodes is ~4.3 GiB and an OOM kill');
+      expect(
+        decoder.maxConcurrent,
+        1,
+        reason: 'two concurrent decodes is ~4.3 GiB and an OOM kill',
+      );
       for (final id in ids) {
         expect(h.store.entryFor(id)!.state, ReceivedImageState.decoded);
       }
@@ -895,33 +930,35 @@ void main() {
   });
 
   group('deletion hooks', () {
-    test('deleteImagesForChannel reclaims every image of one conversation',
-        () async {
-      final h = _build();
-      final a = await _completeOne(h, imgId: 130);
-      h.advance(const Duration(seconds: 2));
-      final b = await _completeOne(h, imgId: 131, seed: 1);
-      await h.store.settle();
-      // A third image on another channel must survive.
-      final other = await h.store.registerOutgoing(
-        channelIndex: 9,
-        senderPrefix: kSelf,
-        imgId: 5,
-        previewPng: Uint8List.fromList(List<int>.filled(32, 2)),
-        rate: AeicRatePoint.ft32,
-        chunkCount: 1,
-      );
+    test(
+      'deleteImagesForChannel reclaims every image of one conversation',
+      () async {
+        final h = _build();
+        final a = await _completeOne(h, imgId: 130);
+        h.advance(const Duration(seconds: 2));
+        final b = await _completeOne(h, imgId: 131, seed: 1);
+        await h.store.settle();
+        // A third image on another channel must survive.
+        final other = await h.store.registerOutgoing(
+          channelIndex: 9,
+          senderPrefix: kSelf,
+          imgId: 5,
+          previewPng: Uint8List.fromList(List<int>.filled(32, 2)),
+          rate: AeicRatePoint.ft32,
+          chunkCount: 1,
+        );
 
-      final removed = await h.store.deleteImagesForChannel(3);
-      expect(removed, containsAll(<String>[a.streamId, b.streamId]));
-      expect(h.store.entryFor(a.streamId), isNull);
-      expect(h.store.entryFor(b.streamId), isNull);
-      expect(h.blobs.hasPng(a.streamId), isFalse);
-      expect(h.blobs.hasBitstream(a.streamId), isFalse);
-      expect(h.blobs.hasSidecar(a.streamId), isFalse);
-      expect(h.store.entryFor(other.streamId), isNotNull);
-      expect(h.store.totalBytes, other.storedBytes);
-    });
+        final removed = await h.store.deleteImagesForChannel(3);
+        expect(removed, containsAll(<String>[a.streamId, b.streamId]));
+        expect(h.store.entryFor(a.streamId), isNull);
+        expect(h.store.entryFor(b.streamId), isNull);
+        expect(h.blobs.hasPng(a.streamId), isFalse);
+        expect(h.blobs.hasBitstream(a.streamId), isFalse);
+        expect(h.blobs.hasSidecar(a.streamId), isFalse);
+        expect(h.store.entryFor(other.streamId), isNotNull);
+        expect(h.store.totalBytes, other.storedBytes);
+      },
+    );
 
     test('deleteImageForSentinel takes the message text', () async {
       final h = _build();
@@ -950,9 +987,8 @@ void main() {
       }
     });
 
-    FileReceivedImageBlobStore newStore() => FileReceivedImageBlobStore(
-      baseDirectory: () async => tempDir,
-    );
+    FileReceivedImageBlobStore newStore() =>
+        FileReceivedImageBlobStore(baseDirectory: () async => tempDir);
 
     test('round-trips bytes and sidecars through real files', () async {
       final blobs = newStore();
@@ -964,7 +1000,9 @@ void main() {
       expect(await blobs.readPng('1a2b0700693f21'), _payload(4096, 3));
       expect(await blobs.bitstreamSize('1a2b0700693f21'), 155);
       expect(await blobs.pngSize('1a2b0700693f21'), 4096);
-      expect(await blobs.readSidecars(), {'1a2b0700693f21': '{"streamId":"x"}'});
+      expect(await blobs.readSidecars(), {
+        '1a2b0700693f21': '{"streamId":"x"}',
+      });
       expect(blobs.pngPath('1a2b0700693f21'), endsWith('1a2b0700693f21.png'));
       expect(File(blobs.pngPath('1a2b0700693f21')!).existsSync(), isTrue);
 
@@ -1044,8 +1082,10 @@ void main() {
         at: now,
       );
       await store.settle();
-      expect(store.entryFor(entry!.streamId)!.state,
-          ReceivedImageState.decoded);
+      expect(
+        store.entryFor(entry!.streamId)!.state,
+        ReceivedImageState.decoded,
+      );
       store.dispose();
 
       final reborn = ReceivedImageStore(
@@ -1055,8 +1095,11 @@ void main() {
       );
       await reborn.load();
       final loaded = reborn.entryFor(entry.streamId);
-      expect(loaded, isNotNull,
-          reason: 'the whole point: images outlive the process');
+      expect(
+        loaded,
+        isNotNull,
+        reason: 'the whole point: images outlive the process',
+      );
       expect(loaded!.state, ReceivedImageState.decoded);
       expect(loaded.pngStored, isTrue);
       expect(loaded.pngBytes, isNull, reason: 'pixels are read lazily');
@@ -1098,33 +1141,35 @@ void main() {
     });
   });
 
-  test('listeners fire for the message list and for the single bubble',
-      () async {
-    final h = _build();
-    var storeNotifications = 0;
-    h.store.addListener(() => storeNotifications++);
-    final set = buildImageChunks(
-      payload: _payload(kImageChunkFirstCapacity + 1),
-      metadata: const ImageStreamMetadata(rate: ImageCodecRatePoint.standard),
-      senderPrefix: kSender,
-      imgId: 77,
-    );
-    final first = await h.store.handleOutcome(
-      h.reassembler.addChunk(set.blobs[0], channelIndex: 3),
-      channelIndex: 3,
-    );
-    final listenable = h.store.listenableFor(first!.streamId);
-    var bubbleNotifications = 0;
-    listenable.addListener(() => bubbleNotifications++);
-    await h.store.handleOutcome(
-      h.reassembler.addChunk(set.blobs[1], channelIndex: 3),
-      channelIndex: 3,
-    );
-    await h.store.settle();
-    expect(storeNotifications, greaterThan(1));
-    expect(bubbleNotifications, greaterThan(1));
-    expect(listenable.value!.state, ReceivedImageState.decoded);
-  });
+  test(
+    'listeners fire for the message list and for the single bubble',
+    () async {
+      final h = _build();
+      var storeNotifications = 0;
+      h.store.addListener(() => storeNotifications++);
+      final set = buildImageChunks(
+        payload: _payload(kImageChunkFirstCapacity + 1),
+        metadata: const ImageStreamMetadata(rate: ImageCodecRatePoint.standard),
+        senderPrefix: kSender,
+        imgId: 77,
+      );
+      final first = await h.store.handleOutcome(
+        h.reassembler.addChunk(set.blobs[0], channelIndex: 3),
+        channelIndex: 3,
+      );
+      final listenable = h.store.listenableFor(first!.streamId);
+      var bubbleNotifications = 0;
+      listenable.addListener(() => bubbleNotifications++);
+      await h.store.handleOutcome(
+        h.reassembler.addChunk(set.blobs[1], channelIndex: 3),
+        channelIndex: 3,
+      );
+      await h.store.settle();
+      expect(storeNotifications, greaterThan(1));
+      expect(bubbleNotifications, greaterThan(1));
+      expect(listenable.value!.state, ReceivedImageState.decoded);
+    },
+  );
 }
 
 /// Delivers a whole single-chunk image and returns its entry (state

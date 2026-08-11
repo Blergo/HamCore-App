@@ -16,21 +16,19 @@ import 'package:meshcore_open/services/image_codec_session_io.dart';
 /// needs to rebuild a bundle that can decode.
 void main() {
   ImageCodecBundle fiveAssetBundle() => const ImageCodecBundle(
-        decoderGraphPath: '/models/aeic_decoder_qdq_conv_pct.onnx',
-        entropyGraphPath: '/models/aeic_entropy_side_fp32_op17.onnx',
-        entropyDecodeGraphPath: '/models/aeic_entropy_decode_fp32_op17.onnx',
-        tablesPath: '/models/aeic_cdf_ft32.bin',
-        ratePoint: AeicRatePoint.ft32,
-      );
+    decoderGraphPath: '/models/aeic_decoder_qdq_conv_pct.onnx',
+    entropyGraphPath: '/models/aeic_entropy_side_fp32_op17.onnx',
+    entropyDecodeGraphPath: '/models/aeic_entropy_decode_fp32_op17.onnx',
+    tablesPath: '/models/aeic_cdf_ft32.bin',
+    ratePoint: AeicRatePoint.ft32,
+  );
 
   group('codec worker boot payload', () {
     test('a five-asset bundle survives the round trip and can still decode', () {
       final sent = fiveAssetBundle();
       expect(sent.supportsDecode, isTrue, reason: 'precondition');
 
-      final rebuilt = debugBundleFromBootPayload(
-        debugBootPayloadFor(sent),
-      );
+      final rebuilt = debugBundleFromBootPayload(debugBootPayloadFor(sent));
 
       expect(rebuilt.decoderGraphPath, sent.decoderGraphPath);
       expect(rebuilt.entropyGraphPath, sent.entropyGraphPath);
@@ -56,20 +54,22 @@ void main() {
       expect(payload[6], '/models/aeic_entropy_decode_fp32_op17.onnx');
     });
 
-    test('a send-only bundle rebuilds as send-only rather than half-decoding',
-        () {
-      const sendOnly = ImageCodecBundle(
-        decoderGraphPath: '/models/decoder.onnx',
-        entropyGraphPath: '/models/entropy.onnx',
-        tablesPath: '/models/tables.bin',
-        ratePoint: AeicRatePoint.ft32,
-      );
-      final rebuilt = debugBundleFromBootPayload(
-        debugBootPayloadFor(sendOnly),
-      );
-      expect(rebuilt.entropyDecodeGraphPath, isNull);
-      expect(rebuilt.supportsDecode, isFalse);
-    });
+    test(
+      'a send-only bundle rebuilds as send-only rather than half-decoding',
+      () {
+        const sendOnly = ImageCodecBundle(
+          decoderGraphPath: '/models/decoder.onnx',
+          entropyGraphPath: '/models/entropy.onnx',
+          tablesPath: '/models/tables.bin',
+          ratePoint: AeicRatePoint.ft32,
+        );
+        final rebuilt = debugBundleFromBootPayload(
+          debugBootPayloadFor(sendOnly),
+        );
+        expect(rebuilt.entropyDecodeGraphPath, isNull);
+        expect(rebuilt.supportsDecode, isFalse);
+      },
+    );
 
     test('a short payload does not crash the worker', () {
       // An older sender, or a truncated message, must degrade to "cannot

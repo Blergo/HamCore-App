@@ -250,10 +250,7 @@ void main() {
       expect(await graph.readAsBytes(), small);
       expect(await weights.length(), large.length);
       expect(_sha256(await weights.readAsBytes()), _sha256(large));
-      expect(
-        await File('${tempDir.path}/entropy.onnx').readAsBytes(),
-        entropy,
-      );
+      expect(await File('${tempDir.path}/entropy.onnx').readAsBytes(), entropy);
       // Two different entropy exports land side by side; neither may overwrite
       // or be mistaken for the other.
       expect(

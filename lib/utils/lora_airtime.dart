@@ -109,8 +109,10 @@ Duration loraTimeOnAir({
   final numerator = 8 * pl - 4 * sf + 28 + 16 * (crc ? 1 : 0) - 20 * ih;
   final denominator = 4 * (sf - 2 * de);
 
-  final payloadSymbols =
-      math.max((numerator / denominator).ceil() * codingRate, 0);
+  final payloadSymbols = math.max(
+    (numerator / denominator).ceil() * codingRate,
+    0,
+  );
 
   final preambleMs = (preambleSymbols + 4.25) * tsymMs;
   final payloadMs = (8 + payloadSymbols) * tsymMs;
@@ -178,10 +180,10 @@ const double kImageSendChunkGapAirtimeFactor = 1.0;
 /// The pacing gap left after transmitting a packet whose airtime is
 /// [packetAirtime], before the next chunk is queued.
 Duration imageSendChunkGap(Duration packetAirtime) => Duration(
-      microseconds: kImageSendChunkGapBase.inMicroseconds +
-          (packetAirtime.inMicroseconds * kImageSendChunkGapAirtimeFactor)
-              .round(),
-    );
+  microseconds:
+      kImageSendChunkGapBase.inMicroseconds +
+      (packetAirtime.inMicroseconds * kImageSendChunkGapAirtimeFactor).round(),
+);
 
 /// Result of estimating an image (or any chunked payload) send.
 ///
@@ -248,13 +250,13 @@ class SendEstimate {
 
   @override
   int get hashCode => Object.hash(
-        chunkCount,
-        totalBytes,
-        perPacketAirtime,
-        totalAirtime,
-        pacedWallClock,
-        includesParity,
-      );
+    chunkCount,
+    totalBytes,
+    perPacketAirtime,
+    totalAirtime,
+    pacedWallClock,
+    includesParity,
+  );
 }
 
 /// Number of data chunks needed for [payloadBytes], excluding parity.
@@ -276,8 +278,7 @@ List<int> imageChunkPayloadSizes(int payloadBytes) {
   final sizes = <int>[];
   var remaining = payloadBytes;
   for (var i = 0; i < count; i++) {
-    final capacity =
-        i == 0 ? kImageChunkFirstCapacity : kImageChunkCapacity;
+    final capacity = i == 0 ? kImageChunkFirstCapacity : kImageChunkCapacity;
     final take = remaining < capacity ? remaining : capacity;
     sizes.add(take);
     remaining -= take;
@@ -376,11 +377,11 @@ SendEstimate estimateSendFromRadioParams({
   // Safe to force: areLoRaParamsValid() above proved all three are non-null
   // and in range.
   Duration airtimeFor(int bytes) => loraTimeOnAir(
-        payloadBytes: bytes,
-        spreadingFactor: spreadingFactor!,
-        bandwidthHz: bandwidthHz!,
-        codingRate: cr!,
-      );
+    payloadBytes: bytes,
+    spreadingFactor: spreadingFactor!,
+    bandwidthHz: bandwidthHz!,
+    codingRate: cr!,
+  );
 
   // Airtime of a maximally-filled chunk packet, i.e. the cost of one "typical"
   // packet in the stream. A full blob is the whole kImageChunkBlobBytes.

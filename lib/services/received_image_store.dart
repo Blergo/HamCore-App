@@ -74,7 +74,8 @@ class ReceivedImageRef {
   static String encode(String streamId) => '$scheme$streamId';
 
   /// Returns the stream id, or null when [text] is not an image sentinel.
-  static String? parse(String text) => _pattern.firstMatch(text.trim())?.group(1);
+  static String? parse(String text) =>
+      _pattern.firstMatch(text.trim())?.group(1);
 
   /// `%04x%02x%08x` — 4 hex sender prefix, 2 hex img id, 8 hex epoch seconds.
   ///
@@ -391,7 +392,8 @@ abstract class ReceivedImageBlobStore {
       (await readBitstream(streamId))?.length;
 
   /// Byte length of the stored PNG, or null when there is none.
-  Future<int?> pngSize(String streamId) async => (await readPng(streamId))?.length;
+  Future<int?> pngSize(String streamId) async =>
+      (await readPng(streamId))?.length;
 
   /// Sidecar write must be atomic (tmp + rename) so a kill cannot leave a
   /// half-written record that `readSidecars` then discards.
@@ -574,7 +576,8 @@ class ReceivedImageStore extends ChangeNotifier {
 
   final DateTime Function() _clock;
 
-  final Map<String, ReceivedImageEntry> _entries = <String, ReceivedImageEntry>{};
+  final Map<String, ReceivedImageEntry> _entries =
+      <String, ReceivedImageEntry>{};
   final Map<ImageStreamKey, String> _byKey = <ImageStreamKey, String>{};
   final Map<String, ValueNotifier<ReceivedImageEntry?>> _listenables =
       <String, ValueNotifier<ReceivedImageEntry?>>{};
@@ -636,8 +639,7 @@ class ReceivedImageStore extends ChangeNotifier {
   int get totalBytes =>
       _entries.values.fold<int>(0, (sum, e) => sum + e.storedBytes);
 
-  int get storedImageCount =>
-      _entries.values.where((e) => e.pngStored).length;
+  int get storedImageCount => _entries.values.where((e) => e.pngStored).length;
 
   /// Stream ids waiting for an automatic decode, oldest request first.
   List<String> get decodeQueue => List<String>.unmodifiable(_queue);
@@ -1271,7 +1273,9 @@ class ReceivedImageStore extends ChangeNotifier {
     if (!entry.pngStored) return null;
     final bytes = await blobs.readPng(streamId);
     if (bytes == null) {
-      await _store(entry.copyWith(state: ReceivedImageState.evicted, pngStored: false));
+      await _store(
+        entry.copyWith(state: ReceivedImageState.evicted, pngStored: false),
+      );
       return null;
     }
     await _store(entry.copyWith(pngBytes: bytes, pngByteCount: bytes.length));

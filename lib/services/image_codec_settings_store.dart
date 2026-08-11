@@ -61,7 +61,10 @@ class PrefsImageCodecSettingsStore implements ImageCodecSettingsStore {
     _preferences = preferences;
     _loaded = true;
     try {
-      await PrefsManager.instance.setString(_key, jsonEncode(preferences.toJson()));
+      await PrefsManager.instance.setString(
+        _key,
+        jsonEncode(preferences.toJson()),
+      );
     } catch (error) {
       appLogger.warn('Image codec settings save failed: $error');
     }

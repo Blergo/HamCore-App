@@ -4,7 +4,9 @@ import '../models/image_codec_support.dart';
 
 class ImageCodecFileStore {
   Future<String> modelDirectoryPath() async {
-    throw UnsupportedError('Local codec model storage is not supported on web.');
+    throw UnsupportedError(
+      'Local codec model storage is not supported on web.',
+    );
   }
 
   Future<List<ImageCodecModelRecord>> scanDownloadedModels() async {
@@ -19,15 +21,21 @@ class ImageCodecFileStore {
     required String fileName,
     required Stream<List<int>> chunks,
   }) async {
-    throw UnsupportedError('Local codec model storage is not supported on web.');
+    throw UnsupportedError(
+      'Local codec model storage is not supported on web.',
+    );
   }
 
   Future<String> chunkFilePath(String fileName, int index) async {
-    throw UnsupportedError('Local codec model storage is not supported on web.');
+    throw UnsupportedError(
+      'Local codec model storage is not supported on web.',
+    );
   }
 
   Future<String> modelFilePath(String fileName) async {
-    throw UnsupportedError('Local codec model storage is not supported on web.');
+    throw UnsupportedError(
+      'Local codec model storage is not supported on web.',
+    );
   }
 
   Future<void> deletePartialDownloads(String fileName) async {}
@@ -38,11 +46,15 @@ class ImageCodecFileStore {
     required String path,
     required Stream<List<int>> chunks,
   }) async {
-    throw UnsupportedError('Local codec model storage is not supported on web.');
+    throw UnsupportedError(
+      'Local codec model storage is not supported on web.',
+    );
   }
 
   Future<String> sha256OfFile(String path) async {
-    throw UnsupportedError('Local codec model storage is not supported on web.');
+    throw UnsupportedError(
+      'Local codec model storage is not supported on web.',
+    );
   }
 
   Future<Uint8List> readFileBytes(String path) async {
@@ -53,7 +65,9 @@ class ImageCodecFileStore {
     required String fileName,
     required List<String> chunkPaths,
   }) async {
-    throw UnsupportedError('Local codec model storage is not supported on web.');
+    throw UnsupportedError(
+      'Local codec model storage is not supported on web.',
+    );
   }
 }
 

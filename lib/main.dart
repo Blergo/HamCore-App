@@ -345,8 +345,7 @@ class MeshCoreApp extends StatefulWidget {
 /// packets" until some unrelated image arrived.
 const Duration _kImageSweepInterval = Duration(seconds: 5);
 
-class _MeshCoreAppState extends State<MeshCoreApp>
-    with WidgetsBindingObserver {
+class _MeshCoreAppState extends State<MeshCoreApp> with WidgetsBindingObserver {
   Timer? _imageSweepTimer;
 
   @override
@@ -369,9 +368,7 @@ class _MeshCoreAppState extends State<MeshCoreApp>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    widget.receivedImageStore.setForeground(
-      state == AppLifecycleState.resumed,
-    );
+    widget.receivedImageStore.setForeground(state == AppLifecycleState.resumed);
     // ~2.7 GiB resident in a backgrounded app is a low-memory-killer kill, so
     // unlike the translation stack the graph is dropped on background rather
     // than held until the radio disconnects.

@@ -111,6 +111,7 @@ String _defaultAwaiting(int bytes, int packets) =>
 /// Text of the R6 label. Private and const: not injectable, not localisable
 /// yet, and never empty.
 const String _kSyntheticBadge = 'AI-reconstructed';
+
 /// The caption is built from the ACTUAL bitstream size, never a nominal one:
 /// quoting a fixed "~156 bytes" under an image that took 209 is its own small
 /// dishonesty, in a label whose whole job is honesty.
@@ -238,11 +239,7 @@ class _ReceivedImageMessageState extends State<ReceivedImageMessage> {
         if (png == null) {
           return _box(
             context,
-            _progressBody(
-              context,
-              progress: null,
-              label: _s.decoding,
-            ),
+            _progressBody(context, progress: null, label: _s.decoding),
           );
         }
         return _decodedBody(context, entry, png);
@@ -313,7 +310,10 @@ class _ReceivedImageMessageState extends State<ReceivedImageMessage> {
             label: _s.corrupt,
             isError: true,
             action: entry.canRetryDecode
-                ? _ActionSpec(_s.retry, () => store.requestDecode(entry.streamId))
+                ? _ActionSpec(
+                    _s.retry,
+                    () => store.requestDecode(entry.streamId),
+                  )
                 : null,
           ),
         );
@@ -620,7 +620,10 @@ class _ReceivedImageViewer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(backgroundColor: Colors.black, foregroundColor: Colors.white),
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+      ),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,

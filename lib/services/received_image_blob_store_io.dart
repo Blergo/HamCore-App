@@ -85,7 +85,9 @@ class FileReceivedImageBlobStore implements ReceivedImageBlobStore {
 
   Future<String> _resolve() async {
     final base = await _baseDirectory();
-    final dir = Directory('${base.path}${Platform.pathSeparator}$directoryName');
+    final dir = Directory(
+      '${base.path}${Platform.pathSeparator}$directoryName',
+    );
     if (!dir.existsSync()) {
       await dir.create(recursive: true);
     }
@@ -112,7 +114,11 @@ class FileReceivedImageBlobStore implements ReceivedImageBlobStore {
     }
   }
 
-  Future<void> _write(String streamId, String extension, Uint8List bytes) async {
+  Future<void> _write(
+    String streamId,
+    String extension,
+    Uint8List bytes,
+  ) async {
     try {
       final path = await _pathFor(streamId, extension);
       if (path == null) {
@@ -121,7 +127,9 @@ class FileReceivedImageBlobStore implements ReceivedImageBlobStore {
       }
       await File(path).writeAsBytes(bytes, flush: true);
     } catch (error) {
-      debugPrint('received_image_blob_store: write $streamId$extension: $error');
+      debugPrint(
+        'received_image_blob_store: write $streamId$extension: $error',
+      );
     }
   }
 
@@ -132,7 +140,9 @@ class FileReceivedImageBlobStore implements ReceivedImageBlobStore {
       final file = File(path);
       if (file.existsSync()) await file.delete();
     } catch (error) {
-      debugPrint('received_image_blob_store: delete $streamId$extension: $error');
+      debugPrint(
+        'received_image_blob_store: delete $streamId$extension: $error',
+      );
     }
   }
 

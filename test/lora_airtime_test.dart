@@ -12,14 +12,13 @@ RadioSettings _radio({
   LoRaSpreadingFactor sf = LoRaSpreadingFactor.sf10,
   LoRaBandwidth bw = LoRaBandwidth.bw250,
   LoRaCodingRate cr = LoRaCodingRate.cr4_5,
-}) =>
-    RadioSettings(
-      frequencyMHz: 869.525,
-      bandwidth: bw,
-      spreadingFactor: sf,
-      codingRate: cr,
-      txPowerDbm: 22,
-    );
+}) => RadioSettings(
+  frequencyMHz: 869.525,
+  bandwidth: bw,
+  spreadingFactor: sf,
+  codingRate: cr,
+  txPowerDbm: 22,
+);
 
 void main() {
   group('loraTimeOnAir reference values (255-byte packet)', () {
@@ -86,16 +85,18 @@ void main() {
   group('airtime monotonicity / sanity', () {
     test('longer payload never takes less airtime', () {
       Duration at(int pl) => loraTimeOnAir(
-            payloadBytes: pl,
-            spreadingFactor: 10,
-            bandwidthHz: 250000,
-            codingRate: 5,
-          );
+        payloadBytes: pl,
+        spreadingFactor: 10,
+        bandwidthHz: 250000,
+        codingRate: 5,
+      );
       var previous = at(0);
       for (var pl = 1; pl <= 255; pl++) {
         final current = at(pl);
-        expect(current.inMicroseconds,
-            greaterThanOrEqualTo(previous.inMicroseconds));
+        expect(
+          current.inMicroseconds,
+          greaterThanOrEqualTo(previous.inMicroseconds),
+        );
         previous = current;
       }
     });
@@ -147,10 +148,7 @@ void main() {
       // the estimator drifting away from the chunker.
       expect(imageChunkCount(110), 1);
       expect(imageChunkCount(209), 2);
-      expect(
-        imageChunkCount(156),
-        156 <= kImageChunkFirstCapacity ? 1 : 2,
-      );
+      expect(imageChunkCount(156), 156 <= kImageChunkFirstCapacity ? 1 : 2);
       for (final pl in [110, 156, 209]) {
         expect(imageChunkCount(pl), inInclusiveRange(1, 2));
       }
@@ -192,14 +190,19 @@ void main() {
     test('parity adds exactly one packet', () {
       final radio = _radio();
       for (final pl in [110, 209, 288, 409]) {
-        final without =
-            estimateSend(payloadBytes: pl, radio: radio, parity: false);
+        final without = estimateSend(
+          payloadBytes: pl,
+          radio: radio,
+          parity: false,
+        );
         final with_ = estimateSend(payloadBytes: pl, radio: radio);
         expect(with_.chunkCount, without.chunkCount + 1);
         expect(without.includesParity, isFalse);
         expect(with_.includesParity, isTrue);
-        expect(with_.totalAirtime!.inMicroseconds,
-            greaterThan(without.totalAirtime!.inMicroseconds));
+        expect(
+          with_.totalAirtime!.inMicroseconds,
+          greaterThan(without.totalAirtime!.inMicroseconds),
+        );
       }
     });
 
@@ -254,15 +257,19 @@ void main() {
     });
 
     test('total bytes account for chunk headers and metadata', () {
-      final est =
-          estimateSend(payloadBytes: 209, radio: _radio(), parity: false);
+      final est = estimateSend(
+        payloadBytes: 209,
+        radio: _radio(),
+        parity: false,
+      );
       // A data blob is header + body (chunk 0's body opens with the metadata
       // byte). Only the PARITY blob carries the length byte, and it is always a
       // full kImageChunkBlobBytes because the XOR body is zero-padded.
       final sizes = imageChunkPayloadSizes(209);
       var expected = 0;
       for (var i = 0; i < sizes.length; i++) {
-        expected += kImageChunkHeaderBytes +
+        expected +=
+            kImageChunkHeaderBytes +
             (i == 0 ? kImageChunkZeroMetadataBytes : 0) +
             sizes[i];
       }
@@ -285,7 +292,8 @@ void main() {
       var expected = 0;
       for (var i = 0; i < sizes.length; i++) {
         expected += loraTimeOnAir(
-          payloadBytes: kImageChunkHeaderBytes +
+          payloadBytes:
+              kImageChunkHeaderBytes +
               (i == 0 ? kImageChunkZeroMetadataBytes : 0) +
               sizes[i],
           spreadingFactor: 9,
@@ -320,8 +328,11 @@ void main() {
 
   group('paced wall clock', () {
     test('single-packet send has no pacing gap', () {
-      final est =
-          estimateSend(payloadBytes: 110, radio: _radio(), parity: false);
+      final est = estimateSend(
+        payloadBytes: 110,
+        radio: _radio(),
+        parity: false,
+      );
       expect(est.chunkCount, 1);
       expect(est.pacedWallClock, est.totalAirtime);
     });
@@ -369,7 +380,8 @@ void main() {
       expect(
         imageSendChunkGap(toa),
         Duration(
-          microseconds: kImageSendChunkGapBase.inMicroseconds +
+          microseconds:
+              kImageSendChunkGapBase.inMicroseconds +
               (toa.inMicroseconds * kImageSendChunkGapAirtimeFactor).round(),
         ),
       );
@@ -446,7 +458,11 @@ void main() {
           bandwidthHz: 250000,
           codingRate: 5,
         );
-        expect(est.totalAirtime, isNull, reason: 'sf=$sf must not produce airtime');
+        expect(
+          est.totalAirtime,
+          isNull,
+          reason: 'sf=$sf must not produce airtime',
+        );
       }
     });
 
@@ -462,9 +478,30 @@ void main() {
     });
 
     test('areLoRaParamsValid accepts the boundary values', () {
-      expect(areLoRaParamsValid(spreadingFactor: 5, bandwidthHz: 7800, codingRate: 5), isTrue);
-      expect(areLoRaParamsValid(spreadingFactor: 12, bandwidthHz: 500000, codingRate: 8), isTrue);
-      expect(areLoRaParamsValid(spreadingFactor: null, bandwidthHz: 250000, codingRate: 5), isFalse);
+      expect(
+        areLoRaParamsValid(
+          spreadingFactor: 5,
+          bandwidthHz: 7800,
+          codingRate: 5,
+        ),
+        isTrue,
+      );
+      expect(
+        areLoRaParamsValid(
+          spreadingFactor: 12,
+          bandwidthHz: 500000,
+          codingRate: 8,
+        ),
+        isTrue,
+      );
+      expect(
+        areLoRaParamsValid(
+          spreadingFactor: null,
+          bandwidthHz: 250000,
+          codingRate: 5,
+        ),
+        isFalse,
+      );
     });
   });
 

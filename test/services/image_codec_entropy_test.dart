@@ -40,25 +40,281 @@ class _Golden {
   ];
 
   static const List<List<int>> symbols = <List<int>>[
-    <int>[-1, -1, -2, 4, 0, 0, 6, -3, 2, 1, 1, -1, -5, 1, 0, 0, -1, -1, -2, 4,
-      0, 0, 5, -3, 2, 1, 1, -1, -5, 1, 0, 0],
-    <int>[-1, -1, 4, 4, 0, 0, 0, 5, 2, 1, -1, -1, 3, -5, 1, 0, -1, -2, 4, 4,
-      0, 0, 0, 5, 1, 1, -1, -1, 3, -5, 1, 0],
-    <int>[-1, -2, -2, 4, 1, 0, 0, 5, 2, 0, -1, -1, 3, -5, 1, 0, -1, -2, -2, 4,
-      0, 0, 0, 5, 2, -1, -1, -1, 3, -5, 1, 0],
-    <int>[-1, -1, -2, -2, 0, 0, 5, -3, 2, 1, -1, -1, -5, -5, 0, 0, -1, -1, -2,
-      -2, 0, 0, 5, -3, 2, 1, -1, -1, -5, 1, 0, 0],
+    <int>[
+      -1,
+      -1,
+      -2,
+      4,
+      0,
+      0,
+      6,
+      -3,
+      2,
+      1,
+      1,
+      -1,
+      -5,
+      1,
+      0,
+      0,
+      -1,
+      -1,
+      -2,
+      4,
+      0,
+      0,
+      5,
+      -3,
+      2,
+      1,
+      1,
+      -1,
+      -5,
+      1,
+      0,
+      0,
+    ],
+    <int>[
+      -1,
+      -1,
+      4,
+      4,
+      0,
+      0,
+      0,
+      5,
+      2,
+      1,
+      -1,
+      -1,
+      3,
+      -5,
+      1,
+      0,
+      -1,
+      -2,
+      4,
+      4,
+      0,
+      0,
+      0,
+      5,
+      1,
+      1,
+      -1,
+      -1,
+      3,
+      -5,
+      1,
+      0,
+    ],
+    <int>[
+      -1,
+      -2,
+      -2,
+      4,
+      1,
+      0,
+      0,
+      5,
+      2,
+      0,
+      -1,
+      -1,
+      3,
+      -5,
+      1,
+      0,
+      -1,
+      -2,
+      -2,
+      4,
+      0,
+      0,
+      0,
+      5,
+      2,
+      -1,
+      -1,
+      -1,
+      3,
+      -5,
+      1,
+      0,
+    ],
+    <int>[
+      -1,
+      -1,
+      -2,
+      -2,
+      0,
+      0,
+      5,
+      -3,
+      2,
+      1,
+      -1,
+      -1,
+      -5,
+      -5,
+      0,
+      0,
+      -1,
+      -1,
+      -2,
+      -2,
+      0,
+      0,
+      5,
+      -3,
+      2,
+      1,
+      -1,
+      -1,
+      -5,
+      1,
+      0,
+      0,
+    ],
   ];
 
   static const List<List<int>> indexes = <List<int>>[
-    <int>[-1, 6, -1, 8, 12, 15, 13, 16, 0, 9, 3, 10, 13, 16, 14, 17, 0, 9, 3,
-      10, 13, 16, 14, 17, 5, 11, 7, 12, 15, 17, 15, 18],
-    <int>[14, 11, 15, 12, 7, 0, 8, 2, 15, 13, 16, 14, 9, 4, 11, 6, 15, 13, 16,
-      14, 10, 4, 11, 6, 16, 14, 17, 15, 11, 7, 12, 9],
-    <int>[11, 14, 12, 15, -1, 8, 0, 9, 12, 16, 13, 16, 2, 10, 5, 11, 13, 16,
-      13, 16, 3, 10, 5, 11, 14, 17, 15, 17, 7, 12, 8, 13],
-    <int>[5, -1, 7, 0, 15, 12, 15, 13, 8, 1, 10, 4, 16, 14, 16, 14, 8, 2, 10,
-      4, 16, 14, 16, 14, 11, 6, 12, 8, 17, 15, 17, 16],
+    <int>[
+      -1,
+      6,
+      -1,
+      8,
+      12,
+      15,
+      13,
+      16,
+      0,
+      9,
+      3,
+      10,
+      13,
+      16,
+      14,
+      17,
+      0,
+      9,
+      3,
+      10,
+      13,
+      16,
+      14,
+      17,
+      5,
+      11,
+      7,
+      12,
+      15,
+      17,
+      15,
+      18,
+    ],
+    <int>[
+      14,
+      11,
+      15,
+      12,
+      7,
+      0,
+      8,
+      2,
+      15,
+      13,
+      16,
+      14,
+      9,
+      4,
+      11,
+      6,
+      15,
+      13,
+      16,
+      14,
+      10,
+      4,
+      11,
+      6,
+      16,
+      14,
+      17,
+      15,
+      11,
+      7,
+      12,
+      9,
+    ],
+    <int>[
+      11,
+      14,
+      12,
+      15,
+      -1,
+      8,
+      0,
+      9,
+      12,
+      16,
+      13,
+      16,
+      2,
+      10,
+      5,
+      11,
+      13,
+      16,
+      13,
+      16,
+      3,
+      10,
+      5,
+      11,
+      14,
+      17,
+      15,
+      17,
+      7,
+      12,
+      8,
+      13,
+    ],
+    <int>[
+      5,
+      -1,
+      7,
+      0,
+      15,
+      12,
+      15,
+      13,
+      8,
+      1,
+      10,
+      4,
+      16,
+      14,
+      16,
+      14,
+      8,
+      2,
+      10,
+      4,
+      16,
+      14,
+      16,
+      14,
+      11,
+      6,
+      12,
+      8,
+      17,
+      15,
+      17,
+      16,
+    ],
   ];
 
   // --- full case: C = 256, H = W = 16 (the shipping geometry) ---
@@ -113,7 +369,21 @@ class _Golden {
     10000.0,
   ];
   static const List<int> probeIndexes = <int>[
-    -1, -1, -1, -1, 0, 0, 0, 12, 17, 23, 34, 51, 62, 63, 63,
+    -1,
+    -1,
+    -1,
+    -1,
+    0,
+    0,
+    0,
+    12,
+    17,
+    23,
+    34,
+    51,
+    62,
+    63,
+    63,
   ];
 }
 
@@ -220,10 +490,7 @@ void main() {
       final geometry = AeicEntropyGeometry.forResolution(512);
       final masks = AeicMaskSet(geometry);
       for (var stage = 0; stage < 4; stage++) {
-        final live = masks
-            .maskTensor(stage)
-            .where((v) => v == 1.0)
-            .length;
+        final live = masks.maskTensor(stage).where((v) => v == 1.0).length;
         expect(live, geometry.symbolsPerStage);
       }
     });
@@ -401,34 +668,37 @@ void main() {
   });
 
   group('AeicEntropyCodec', () {
-    test('encode pushes z, y0, y1, y2, y3 in that order and no other', () async {
-      final geometry = AeicEntropyGeometry.forResolution(512);
-      final network = _FakeNetwork(geometry);
-      final coders = _RecordingCoders();
-      final codec = AeicEntropyCodec(
-        geometry: geometry,
-        network: network,
-        coders: coders,
-      );
-      final progress = <double>[];
-      final stream = await codec.encode(
-        Uint8List(512 * 512 * 3),
-        onProgress: progress.add,
-      );
+    test(
+      'encode pushes z, y0, y1, y2, y3 in that order and no other',
+      () async {
+        final geometry = AeicEntropyGeometry.forResolution(512);
+        final network = _FakeNetwork(geometry);
+        final coders = _RecordingCoders();
+        final codec = AeicEntropyCodec(
+          geometry: geometry,
+          network: network,
+          coders: coders,
+        );
+        final progress = <double>[];
+        final stream = await codec.encode(
+          Uint8List(512 * 512 * 3),
+          onProgress: progress.add,
+        );
 
-      expect(coders.encoder.groups, <int>[
-        kAeicZCdfGroup,
-        kAeicYCdfGroup,
-        kAeicYCdfGroup,
-        kAeicYCdfGroup,
-        kAeicYCdfGroup,
-      ]);
-      expect(coders.encoder.lengths, <int>[2048, 16384, 16384, 16384, 16384]);
-      expect(stream, isNotEmpty);
-      expect(progress.last, 1.0);
-      // The image really was normalized before the graph saw it: 0 -> -1.
-      expect(network.lastInput!.first, -1.0);
-    });
+        expect(coders.encoder.groups, <int>[
+          kAeicZCdfGroup,
+          kAeicYCdfGroup,
+          kAeicYCdfGroup,
+          kAeicYCdfGroup,
+          kAeicYCdfGroup,
+        ]);
+        expect(coders.encoder.lengths, <int>[2048, 16384, 16384, 16384, 16384]);
+        expect(stream, isNotEmpty);
+        expect(progress.last, 1.0);
+        // The image really was normalized before the graph saw it: 0 -> -1.
+        expect(network.lastInput!.first, -1.0);
+      },
+    );
 
     test('encode refuses a graph that returns the wrong z size', () async {
       final geometry = AeicEntropyGeometry.forResolution(512);
@@ -697,7 +967,8 @@ class _FakeNetwork implements AeicEntropyNetwork {
       ],
       scales: <Float32List>[
         for (var i = 0; i < 4; i++)
-          Float32List(geometry.yElements)..fillRange(0, geometry.yElements, 1.0),
+          Float32List(geometry.yElements)
+            ..fillRange(0, geometry.yElements, 1.0),
       ],
     );
   }

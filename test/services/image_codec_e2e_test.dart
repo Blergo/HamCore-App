@@ -121,45 +121,49 @@ void main() {
         }
       });
 
-      test('ENCODE: Dart bitstream is byte-identical to the C++ bitstream',
-          () async {
-        final _ReplayNetwork network = _ReplayNetwork(r);
-        final AeicEntropyCodec codec = AeicEntropyCodec(
-          geometry: geometry,
-          network: network,
-          coders: coders,
-        );
-        final Uint8List got = await codec.encode(
-          Uint8List(geometry.resolution * geometry.resolution * 3),
-        );
-        expect(network.encodeCalls, 1);
-        _expectSameBytes(got, r.u8('enc/bitstream'), name);
-        expect(
-          sha256.convert(got).toString(),
-          r.meta['bitstream_sha256'],
-          reason: '$name: bitstream sha256',
-        );
-      });
+      test(
+        'ENCODE: Dart bitstream is byte-identical to the C++ bitstream',
+        () async {
+          final _ReplayNetwork network = _ReplayNetwork(r);
+          final AeicEntropyCodec codec = AeicEntropyCodec(
+            geometry: geometry,
+            network: network,
+            coders: coders,
+          );
+          final Uint8List got = await codec.encode(
+            Uint8List(geometry.resolution * geometry.resolution * 3),
+          );
+          expect(network.encodeCalls, 1);
+          _expectSameBytes(got, r.u8('enc/bitstream'), name);
+          expect(
+            sha256.convert(got).toString(),
+            r.meta['bitstream_sha256'],
+            reason: '$name: bitstream sha256',
+          );
+        },
+      );
 
-      test('DECODE: y_hat from the C++ bitstream is exactly the recorded y_hat',
-          () async {
-        final _ReplayNetwork network = _ReplayNetwork(r);
-        final AeicEntropyCodec codec = AeicEntropyCodec(
-          geometry: geometry,
-          network: network,
-          coders: coders,
-        );
-        final Float32List got = await codec.decodeToLatent(
-          r.u8('enc/bitstream'),
-        );
-        expect(network.hyperCalls, 1);
-        expect(network.stageCalls, <int>[0, 1, 2, 3]);
-        _expectSameFloats(got, r.f32('dec/y_hat'), '$name: y_hat');
-        // The recording asserts the decoder's latent equals the encoder's; if
-        // that holds in Python it must hold here too.
-        expect(r.meta['decoded_y_hat_equals_encoder_y_hat'], isTrue);
-        _expectSameFloats(got, r.f32('enc/y_hat'), '$name: y_hat vs encoder');
-      });
+      test(
+        'DECODE: y_hat from the C++ bitstream is exactly the recorded y_hat',
+        () async {
+          final _ReplayNetwork network = _ReplayNetwork(r);
+          final AeicEntropyCodec codec = AeicEntropyCodec(
+            geometry: geometry,
+            network: network,
+            coders: coders,
+          );
+          final Float32List got = await codec.decodeToLatent(
+            r.u8('enc/bitstream'),
+          );
+          expect(network.hyperCalls, 1);
+          expect(network.stageCalls, <int>[0, 1, 2, 3]);
+          _expectSameFloats(got, r.f32('dec/y_hat'), '$name: y_hat');
+          // The recording asserts the decoder's latent equals the encoder's; if
+          // that holds in Python it must hold here too.
+          expect(r.meta['decoded_y_hat_equals_encoder_y_hat'], isTrue);
+          _expectSameFloats(got, r.f32('enc/y_hat'), '$name: y_hat vs encoder');
+        },
+      );
 
       test('a single flipped bitstream byte does not still pass', () async {
         // Byte 3 is the first payload byte of sub-stream 0 (1-byte flag +
@@ -185,7 +189,8 @@ void main() {
         expect(
           _sameFloats(got, r.f32('dec/y_hat')),
           isFalse,
-          reason: '$name: corrupting the stream changed nothing — the '
+          reason:
+              '$name: corrupting the stream changed nothing — the '
               'comparison is vacuous',
         );
       });
@@ -253,7 +258,8 @@ class _ReplayNetwork implements AeicEntropyNetwork {
         'stage $stage input base',
       );
     }
-    final Map<String, dynamic> outputs = call['outputs'] as Map<String, dynamic>;
+    final Map<String, dynamic> outputs =
+        call['outputs'] as Map<String, dynamic>;
     return AeicStageParams(
       meansSupp: r.f32(outputs['means'] as String),
       scalesSupp: r.f32(outputs['scales'] as String),
@@ -265,12 +271,11 @@ class _ReplayNetwork implements AeicEntropyNetwork {
 /// 32-byte header, an 8-byte-aligned tensor blob, then a UTF-8 JSON index.
 class _Recording {
   _Recording(this.index, this.bytes)
-      : _entries = <String, Map<String, dynamic>>{
-          for (final Map<String, dynamic> e
-              in (index['entries'] as List<dynamic>)
-                  .cast<Map<String, dynamic>>())
-            e['name'] as String: e,
-        };
+    : _entries = <String, Map<String, dynamic>>{
+        for (final Map<String, dynamic> e
+            in (index['entries'] as List<dynamic>).cast<Map<String, dynamic>>())
+          e['name'] as String: e,
+      };
 
   final Map<String, dynamic> index;
   final Uint8List bytes;
@@ -291,7 +296,9 @@ class _Recording {
     final int indexLength = bd.getUint32(24, Endian.little);
     final Map<String, dynamic> index =
         jsonDecode(
-              utf8.decode(bytes.sublist(indexOffset, indexOffset + indexLength)),
+              utf8.decode(
+                bytes.sublist(indexOffset, indexOffset + indexLength),
+              ),
             )
             as Map<String, dynamic>;
     return _Recording(index, bytes);

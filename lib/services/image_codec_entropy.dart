@@ -239,9 +239,8 @@ class AeicMaskSet {
       for (var y = 0; y < geometry.yHeight; y++) {
         for (var x = 0; x < w; x++) {
           final group = liveGroupAt(stage, y, x);
-          out[(group * cq + c) * plane + y * w + x] = squeezed[c * plane +
-              y * w +
-              x];
+          out[(group * cq + c) * plane + y * w + x] =
+              squeezed[c * plane + y * w + x];
         }
       }
     }
@@ -272,7 +271,11 @@ class AeicMaskSet {
   ///
   /// `stageLatent` must already be masked (it is the output of [unsqueeze]), so
   /// this is a select, not an add — which is what keeps it exact in float32.
-  Float32List mergeContext(Float32List base, Float32List stageLatent, int stage) {
+  Float32List mergeContext(
+    Float32List base,
+    Float32List stageLatent,
+    int stage,
+  ) {
     final out = Float32List.fromList(base);
     final plane = geometry.yHeight * geometry.yWidth;
     final cq = geometry.squeezedChannels;

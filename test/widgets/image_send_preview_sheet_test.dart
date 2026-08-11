@@ -83,8 +83,9 @@ List<String> _texts(WidgetTester tester) => tester
     .toList();
 
 void main() {
-  testWidgets('renders with a fake codec and shows the image preview',
-      (tester) async {
+  testWidgets('renders with a fake codec and shows the image preview', (
+    tester,
+  ) async {
     await _openSheet(tester, radio: _knownRadio);
 
     expect(find.byType(ImageSendPreviewSheet), findsOneWidget);
@@ -94,8 +95,9 @@ void main() {
     expect(send.onPressed, isNotNull);
   });
 
-  testWidgets('shows the packet count for the encoded ft32 payload',
-      (tester) async {
+  testWidgets('shows the packet count for the encoded ft32 payload', (
+    tester,
+  ) async {
     await _openSheet(tester, radio: _knownRadio);
 
     // FakeImageSendCodec emits the measured ft32 mean (156 B) -> one data chunk,
@@ -110,8 +112,9 @@ void main() {
     expect(_texts(tester), contains('${expected.chunkCount}'));
   });
 
-  testWidgets('shows a concrete airtime when the radio settings are known',
-      (tester) async {
+  testWidgets('shows a concrete airtime when the radio settings are known', (
+    tester,
+  ) async {
     await _openSheet(tester, radio: _knownRadio);
 
     final texts = _texts(tester);
@@ -128,8 +131,9 @@ void main() {
     );
   });
 
-  testWidgets('headline time is the paced wall clock, not raw airtime',
-      (tester) async {
+  testWidgets('headline time is the paced wall clock, not raw airtime', (
+    tester,
+  ) async {
     await _openSheet(tester, radio: _knownRadio);
 
     final expected = estimateSendFromRadioParams(
@@ -154,8 +158,9 @@ void main() {
     expect(texts, isNot(contains('${seconds(expected.totalAirtime!)} s')));
   });
 
-  testWidgets('renders "unknown" airtime when the radio params are absent',
-      (tester) async {
+  testWidgets('renders "unknown" airtime when the radio params are absent', (
+    tester,
+  ) async {
     await _openSheet(tester, radio: _unknownRadio);
 
     final texts = _texts(tester);
@@ -223,8 +228,9 @@ void main() {
     expect(find.byType(ImageSendPreviewSheet), findsNothing);
   });
 
-  testWidgets('confirming returns the payload, packet count and both times',
-      (tester) async {
+  testWidgets('confirming returns the payload, packet count and both times', (
+    tester,
+  ) async {
     ImageSendPreviewResult? result;
 
     await tester.pumpWidget(
@@ -270,8 +276,9 @@ void main() {
     );
   });
 
-  testWidgets('a codec that is still downloading cannot be sent from',
-      (tester) async {
+  testWidgets('a codec that is still downloading cannot be sent from', (
+    tester,
+  ) async {
     await _openSheet(
       tester,
       radio: _knownRadio,
@@ -289,7 +296,8 @@ void main() {
 
   testWidgets('an unavailable codec explains itself with unavailableReason, '
       'not the generic string', (tester) async {
-    const reason = 'This build ships the image decoder only. Encoding and '
+    const reason =
+        'This build ships the image decoder only. Encoding and '
         'decoding a bitstream also needs the entropy-side graph and the rANS '
         'coder, which are not included yet.';
     await _openSheet(

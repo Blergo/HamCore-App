@@ -384,7 +384,8 @@ class ImageChunkHeader {
   bool get isParity => index == total;
 
   @override
-  String toString() => 'ImageChunkHeader(sender: 0x'
+  String toString() =>
+      'ImageChunkHeader(sender: 0x'
       '${senderPrefix.toRadixString(16).padLeft(4, '0')}, img: $imgId, '
       'idx: $index/$total${isParity ? ' parity' : ''})';
 }
@@ -549,7 +550,7 @@ class ImageIdAllocator {
   int _next;
 
   ImageIdAllocator({int? seed, math.Random? random})
-      : _next = seed ?? (random ?? math.Random()).nextInt(256);
+    : _next = seed ?? (random ?? math.Random()).nextInt(256);
 
   int next() {
     final id = _next & 0xFF;
@@ -585,7 +586,8 @@ class ImageStreamKey {
   int get hashCode => Object.hash(senderPrefix, imgId, channelIndex);
 
   @override
-  String toString() => 'ImageStreamKey(0x'
+  String toString() =>
+      'ImageStreamKey(0x'
       '${senderPrefix.toRadixString(16).padLeft(4, '0')}/$imgId@$channelIndex)';
 }
 
@@ -625,7 +627,6 @@ enum ImageReassemblyFailureReason {
   /// Evicted to keep the pending map inside its size cap.
   overflow,
 
-
   /// Reassembled but the metadata byte was undecodable
   /// ([ImageChunkStatus.unsupportedFormat]).
   unsupportedFormat,
@@ -646,7 +647,6 @@ class ImageReassemblyResult {
 
   /// Number of data chunks in the image.
   final int chunkCount;
-
 
   const ImageReassemblyResult({
     required this.key,
@@ -688,7 +688,8 @@ class ImageReassemblyFailure {
       reason == ImageReassemblyFailureReason.unsupportedFormat;
 
   @override
-  String toString() => 'ImageReassemblyFailure($key, '
+  String toString() =>
+      'ImageReassemblyFailure($key, '
       '$receivedDataChunks/$total, parity: $hadParity, ${reason.name})';
 }
 
@@ -966,11 +967,7 @@ class ImageReassembler {
           ),
         );
       }
-      return ImageChunkOutcome(
-        finish.status,
-        header: header,
-        result: result,
-      );
+      return ImageChunkOutcome(finish.status, header: header, result: result);
     }
     return ImageChunkOutcome(
       conflicted ? ImageChunkStatus.conflicting : ImageChunkStatus.accepted,
@@ -1061,8 +1058,10 @@ class ImageReassembler {
     if (!entry.isRecoverable) return null;
 
     // Exactly one data chunk missing and we hold parity: rebuild it.
-    final missing =
-        List<int>.generate(entry.total, (i) => i).firstWhere((i) => !entry.bodies.containsKey(i));
+    final missing = List<int>.generate(
+      entry.total,
+      (i) => i,
+    ).firstWhere((i) => !entry.bodies.containsKey(i));
     final parity = entry.parityBody!;
     var lengthXor = parity[0] & 0xFF;
     final xor = Uint8List(kImageChunkBodyBytes);
@@ -1134,8 +1133,8 @@ class _FinishOutcome {
   const _FinishOutcome.failed(this.status, this.reason) : result = null;
 
   const _FinishOutcome.delivered(ImageReassemblyResult this.result)
-      : status = ImageChunkStatus.completed,
-        reason = null;
+    : status = ImageChunkStatus.completed,
+      reason = null;
 }
 
 bool _sameBytes(Uint8List a, Uint8List b) {
@@ -1232,10 +1231,8 @@ ParsedChannelData? parseChannelDataFrame(Uint8List frame) {
 ///
 /// Implemented by the connector-facing adapter; kept as a typedef so the
 /// transport itself never imports the connector (and stays testable).
-typedef ChannelBlobSender = Future<void> Function(
-  Uint8List blob,
-  int channelIndex,
-);
+typedef ChannelBlobSender =
+    Future<void> Function(Uint8List blob, int channelIndex);
 
 /// Progress report while an image is going out.
 class ImageSendProgress {

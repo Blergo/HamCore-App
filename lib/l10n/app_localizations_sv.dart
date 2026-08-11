@@ -366,42 +366,42 @@ class AppLocalizationsSv extends AppLocalizations {
       'Radioinställningarna har uppdaterats';
 
   @override
-  String get settings_regionSettings => 'Regions';
+  String get settings_regionSettings => 'Regioner';
 
   @override
-  String get settings_regionSettingsSubtitle => 'Manage stored regions';
+  String get settings_regionSettingsSubtitle => 'Hämtade regioner';
 
   @override
-  String get settings_regionManagement_screenTitle => 'Region Management';
+  String get settings_regionManagement_screenTitle => 'Regionförvaltning';
 
   @override
-  String get settings_regionNameHint => 'Enter region name';
+  String get settings_regionNameHint => 'Enter regionnamn';
 
   @override
-  String get settings_regionAddRegion => 'Add region';
+  String get settings_regionAddRegion => 'Lag till region';
 
   @override
-  String get settings_regionFetchRegions => 'Fetch regions from repeaters';
+  String get settings_regionFetchRegions => 'Hämtar regioner från repeater';
 
   @override
-  String get settings_regionFetchRegionsFail => 'No regions were found';
+  String get settings_regionFetchRegionsFail => 'Ingen region hittades';
 
   @override
   String get settings_regionFetchRegionsAlreadyExists =>
-      'This region has already been added';
+      'Denna region har redan lagt till';
 
   @override
-  String get settings_regionName => 'Region Name';
+  String get settings_regionName => 'Regionnavn';
 
   @override
-  String get settings_regionDeleted => 'Region deleted';
+  String get settings_regionDeleted => 'Regionens kallt offentlig';
 
   @override
-  String get settings_deleteRegion => 'Delete Region';
+  String get settings_deleteRegion => 'Förhålla regio';
 
   @override
   String settings_deleteRegionConfirm(String region) {
-    return 'Remove \"$region\" from region list?';
+    return 'Fjärna \"$region\" ur regionlistan?';
   }
 
   @override
@@ -617,7 +617,7 @@ class AppLocalizationsSv extends AppLocalizations {
   String get settings_infoHardware => 'Hardware';
 
   @override
-  String get settings_infoFirmware => 'Firmware';
+  String get settings_infoFirmware => 'Föredata';
 
   @override
   String get settings_presets => 'Fördefinierade inställningar';
@@ -738,13 +738,13 @@ class AppLocalizationsSv extends AppLocalizations {
   String get repeater_pathHashModeOption0 => '0 - 1 byte';
 
   @override
-  String get repeater_pathHashModeOption1 => '1 - 2 bytes';
+  String get repeater_pathHashModeOption1 => '1 - 2 byte';
 
   @override
-  String get repeater_pathHashModeOption2 => '2 - 3 bytes';
+  String get repeater_pathHashModeOption2 => '2 - 3 byte';
 
   @override
-  String get repeater_pathHashModeOption3 => '3 - 4 bytes';
+  String get repeater_pathHashModeOption3 => '3 - 4 byte';
 
   @override
   String get appSettings_enableMessageTracing => 'Aktivera meddelandespårning';
@@ -889,7 +889,7 @@ class AppLocalizationsSv extends AppLocalizations {
   String get appSettings_batteryLipo => 'LiPo (3,0-4,2V)';
 
   @override
-  String get appSettings_batteryLipoHv => 'LiPo HV (3.0-4.35V)';
+  String get appSettings_batteryLipoHv => 'LiPo HV (3,0-4,35 V)';
 
   @override
   String get appSettings_mapDisplay => 'Kartvisning';
@@ -1402,13 +1402,13 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
-  String get channels_regionNotSet => 'Region: none';
+  String get channels_regionNotSet => 'Region: ingen';
 
   @override
-  String get channels_regionSelect_Title => 'Select a region';
+  String get channels_regionSelect_Title => 'Välj en region';
 
   @override
-  String get channels_clearRegion => 'Clear region';
+  String get channels_clearRegion => 'klar region';
 
   @override
   String get chat_noMessages => 'Inga meddelanden ännu';
@@ -1468,13 +1468,13 @@ class AppLocalizationsSv extends AppLocalizations {
   String get chat_sendGif => 'Skicka GIF';
 
   @override
-  String get chat_sendImage => 'Send image';
+  String get chat_sendImage => 'Send vagnbild';
 
   @override
-  String get chat_imagePickFailed => 'Couldn\'t open that image';
+  String get chat_imagePickFailed => 'Kunde inte öppna det bildet';
 
   @override
-  String get chat_receivedGif => 'Received a GIF';
+  String get chat_receivedGif => 'Mottagit en GIF';
 
   @override
   String get chat_reply => 'Svara';
@@ -2702,38 +2702,38 @@ class AppLocalizationsSv extends AppLocalizations {
       'Byte som används för att koda denna repeaters ID i taggar för flood-väg/loopdetektering. 0=1 byte (256 ID:n, upp till 64 hopp), 1=2 byte (65 000 ID:n, upp till 32 hopp), 2=3 byte (16 miljoner ID:n, upp till 21 hopp). Firmware före v1.14 använde alltid 1-byte-vägar; v1.14 och nyare kan konfigureras för 2- eller 3-byte-vägar.';
 
   @override
-  String get repeater_keySettings => 'Change Identity Keys';
+  String get repeater_keySettings => 'Ändra identitetsnyckel';
 
   @override
   String get repeater_keySettingsSubtitle =>
-      'Change the public/private keypair';
+      'Vänd nya offentliga/privata nyckelpar';
 
   @override
-  String get repeater_prvKey => 'Private key';
+  String get repeater_prvKey => 'Privat nyckel';
 
   @override
   String get repeater_prvKeyHelper =>
-      'A new private key for the repeater, a 128-character hex string.';
+      'En ny privat nyckel för repeatern, en hexsträng med 128 tecken.';
 
   @override
-  String get repeater_generatePrvKey => 'Generate a random keypair';
+  String get repeater_generatePrvKey => 'Generera en kära nyckelpaar';
 
   @override
-  String get repeater_stopGeneratingPrvKey => 'Interrupt search for keypair';
+  String get repeater_stopGeneratingPrvKey => 'Avbröka sökande efter nyckelpa';
 
   @override
-  String get repeater_pubKey => 'Public key';
+  String get repeater_pubKey => 'Öffentlig nyckel';
 
   @override
   String get repeater_pubKeyHelper =>
-      'This is the public key that goes with the generated private key. You can\'t set this directly.';
+      'Detta är den offentliga nyckeln som tillhör genererad privaten nyckel. Du kan inte setta den direkt.';
 
   @override
-  String get repeater_pubKeyPrefix => 'Desired prefix';
+  String get repeater_pubKeyPrefix => 'Önskad prefix';
 
   @override
   String repeater_pubKeyPrefixHelper(int tries) {
-    return 'Find a public key that starts with these hex digits. Expected tries needed: $tries.';
+    return 'Hitta en offentlig nyckel som börjar med dessa hexadecimala siffror. Förväntad antal försök: $tries.';
   }
 
   @override
@@ -4480,41 +4480,42 @@ class AppLocalizationsSv extends AppLocalizations {
   String get translation_title => 'Översättning';
 
   @override
-  String get imageMessages_enableTitle => 'Enable image messages';
+  String get imageMessages_enableTitle => 'Bildermeddelanden';
 
   @override
   String get imageMessages_enableSubtitle =>
-      'Send images over the mesh. Requires a one-time image model download.';
+      'Send bilder över mönstret. Det kräver en enkelt bildmodellhämtning.';
 
   @override
-  String get imageMessages_modelSectionTitle => 'Image model';
+  String get imageMessages_modelSectionTitle => 'Bildmodell';
 
   @override
   String get imageMessages_downloadModel => 'Download';
 
   @override
-  String get imageMessages_cancelDownload => 'Cancel';
+  String get imageMessages_cancelDownload => 'Avbud';
 
   @override
-  String get imageMessages_removeModel => 'Remove model';
+  String get imageMessages_removeModel => 'Förhåll dig från modellen';
 
   @override
-  String get imageMessages_modelReady => 'Ready';
+  String get imageMessages_modelReady => 'Färdig';
 
   @override
   String get imageMessages_modelNotPublished =>
-      'Not published yet — this build cannot download it.';
+      'Ingen publikerad än — denna byggnads kan inte laddas ner av det.';
 
   @override
   String get imageMessages_downloadFailed =>
-      'The image model could not be downloaded.';
+      'Bildmodellen kunde inte laddas ner.';
 
   @override
-  String get imageMessages_autoProcessTitle => 'Process images automatically';
+  String get imageMessages_autoProcessTitle =>
+      'Automatiska bilder automatiserar';
 
   @override
   String get imageMessages_autoProcessSubtitle =>
-      'Reconstruct every image as soon as it arrives. Uses about 2 GB of memory for a second each time; leave off to reconstruct with a tap instead.';
+      'Rekonstruera varje bild så snart den ankommer. Använder cirka 2 GB minne varje gång; låt det omför att rekonstruera genom ett tap.';
 
   @override
   String get translation_enableTitle => 'Aktivera översättning';
@@ -4802,43 +4803,44 @@ class AppLocalizationsSv extends AppLocalizations {
   String get pathMap_unfollowPacket => 'Lås upp vy från paket';
 
   @override
-  String get imageSend_title => 'Send image';
+  String get imageSend_title => 'Send vagnbild';
 
   @override
   String get imageSend_cropNote =>
-      'Resized to 512 × 512 · aspect ratio not preserved';
+      'Reserverat till 512 × 512 · förhållandet mellan storlek inte bevarat';
 
   @override
-  String get imageSend_originalSize => 'Original';
+  String get imageSend_originalSize =>
+      'Ovanstående text (engelska)\n\nTranslation (svenskt):';
 
   @override
-  String get imageSend_onAirSize => 'On air';
+  String get imageSend_onAirSize => 'Underför hjärnan';
 
   @override
-  String get imageSend_quality => 'Quality';
+  String get imageSend_quality => 'Kvalitet';
 
   @override
   String get imageSend_qualityStandard => 'Standard';
 
   @override
-  String get imageSend_qualityHigh => 'High';
+  String get imageSend_qualityHigh => 'Hög';
 
   @override
-  String get imageSend_packetsLabel => 'Packets';
+  String get imageSend_packetsLabel => 'Paket';
 
   @override
-  String get imageSend_airtimeLabel => 'Time on air';
+  String get imageSend_airtimeLabel => 'Tid i övrighet';
 
   @override
-  String get imageSend_sizeLabel => 'Payload';
+  String get imageSend_sizeLabel => 'Ladning';
 
   @override
   String imageSend_packetsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'packets',
-      one: 'packet',
+      other: 'paket',
+      one: 'paket',
     );
     return '$count $_temp0';
   }
@@ -4852,149 +4854,149 @@ class AppLocalizationsSv extends AppLocalizations {
   String get imageSend_unknownValue => '—';
 
   @override
-  String get imageSend_radioUnknownTitle => 'Radio settings unknown';
+  String get imageSend_radioUnknownTitle => 'Radioindikatorer inte kända';
 
   @override
   String get imageSend_radioUnknownBody =>
-      'Connect to a device so the time on air can be calculated.';
+      'Förkoppna till ett enhet så kan tiden på air beräknas.';
 
   @override
-  String get imageSend_longSendTitle => 'Long transmission';
+  String get imageSend_longSendTitle => 'Långförsending';
 
   @override
   String imageSend_longSendBody(String duration) {
-    return 'This will hold the channel for about $duration.';
+    return 'Detta kommer att bevara kanalen roughly $duration.';
   }
 
   @override
   String get imageSend_floodNote =>
-      'Flood routing: every repeater in range retransmits each packet, so the channel stays busy longer than this.';
+      'Flodledning: varje repeater i ramen retransmitterar varje paket, så kan kanalen vara på arbete långare än den här tiden.';
 
   @override
-  String get imageSend_parityTitle => 'Add recovery packet';
+  String get imageSend_parityTitle => 'Omedlningspaket';
 
   @override
   String get imageSend_paritySubtitle =>
-      'One extra packet. Group messages are not acknowledged, so this lets the receiver rebuild the image if a single packet is lost.';
+      'En ytterligare paket. Gruppmeddelanden inte akceras, så den här tar hänsyn till att mottar kan återuppbygga bilden om ett enkelt paket förlorats.';
 
   @override
-  String get imageSend_send => 'Send';
+  String get imageSend_send => 'Sänd';
 
   @override
-  String get imageSend_cancel => 'Cancel';
+  String get imageSend_cancel => 'Avbud';
 
   @override
-  String get imageSend_encodeFailed => 'This image could not be encoded.';
+  String get imageSend_encodeFailed => 'Denna bild kan inte kodas.';
 
   @override
   String get imageSend_codecDownloading =>
-      'The image model is still downloading.';
+      'Bildmodellen downloads fortfarande.';
 
   @override
   String get imageSend_codecUnavailable =>
-      'Image sending is not available on this device.';
+      'Bildsendning är inte tillgänglig på detta enhet.';
 
   @override
   String get imageSend_codecDisabled =>
-      'Image messages are turned off in settings.';
+      'Bildmeddelanden är offna i inställningarna.';
 
   @override
   String get imageSend_deviceUnsupported =>
-      'This radio cannot send image packets. Connect a device running companion firmware 13 or newer.';
+      'Denna radi kan inte senda bildpaket. Använd ett äventyrsgerät med companionsystemfirmware 13 eller nyare.';
 
   @override
   String get imageSend_directMessagesUnsupported =>
-      'Images travel as group data, so they can only be sent to a channel — not in a direct message.';
+      'Bilder senders som gruppod, så de kan endast skickas till ett kanal – inte i en direkt meddelning.';
 
   @override
   String get imageSend_tooLarge =>
-      'That image encoded to more packets than the mesh format allows.';
+      'Bilden kodades till mer paket än meshformaten tillåter.';
 
   @override
   String imageSend_sentConfirmation(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'packets',
-      one: 'packet',
+      other: 'paket',
+      one: 'paket',
     );
-    return 'Image sent as $count $_temp0.';
+    return 'Bilden skickades som $count $_temp0.';
   }
 
   @override
   String imageSend_sendFailed(String error) {
-    return 'The image could not be sent: $error';
+    return 'Bilden kunde inte skickas: $error';
   }
 
   @override
   String imageSend_sendingProgress(int sent, int total) {
-    return 'Sending image — packet $sent of $total';
+    return 'Bild sendning — paket $sent av $total';
   }
 
   @override
   String receivedImage_senderPrefix(String prefix) {
-    return 'Node $prefix';
+    return 'Nod $prefix';
   }
 
   @override
   String receivedImage_incoming(int received, int total) {
-    return '$received of $total packets';
+    return 'VANTA $received av $total paket';
   }
 
   @override
-  String get receivedImage_queued => 'Waiting to decode';
+  String get receivedImage_queued => 'Att väta att decodera';
 
   @override
-  String get receivedImage_tapToDecode => 'Tap to decode';
+  String get receivedImage_tapToDecode => 'Tap för att decodera';
 
   @override
-  String get receivedImage_decoding => 'Reconstructing… about 1 s';
+  String get receivedImage_decoding => 'Rekonstruktion… om 1 sekund';
 
   @override
   String receivedImage_incomplete(int received, int total) {
-    return 'Image incomplete — $received of $total packets arrived';
+    return 'Bilden är okomplett — $received av $total paket har ankomit';
   }
 
   @override
-  String get receivedImage_corrupt => 'Image could not be reconstructed';
+  String get receivedImage_corrupt => 'Bilden kunde inte rekonstrueras';
 
   @override
   String get receivedImage_decoderMissing =>
-      'Image received — image decoding is off';
+      'Bild mottagen — bilddekoderingen är avbrott';
 
   @override
-  String get receivedImage_evicted => 'Image no longer stored';
+  String get receivedImage_evicted => 'Bild inte lagrad längre';
 
   @override
-  String get receivedImage_retry => 'Try again';
+  String get receivedImage_retry => 'Omförs igen';
 
   @override
-  String get receivedImage_decodeAgain => 'Decode again';
+  String get receivedImage_decodeAgain => 'Kodera igen';
 
   @override
-  String get receivedImage_openSettings => 'Set up';
+  String get receivedImage_openSettings => 'Skapa en uppställning';
 
   @override
-  String get receivedImage_tapToProcess => 'Tap to process';
+  String get receivedImage_tapToProcess => 'Tap för att behandla';
 
   @override
   String receivedImage_awaiting(int bytes, int packets) {
     String _temp0 = intl.Intl.pluralLogic(
       packets,
       locale: localeName,
-      other: 'packets',
-      one: 'packet',
+      other: 'paket',
+      one: 'paket',
     );
-    return '$bytes bytes · $packets $_temp0';
+    return '$bytes byte · $packets $_temp0';
   }
 
   @override
   String imageSend_secondsValue(String seconds) {
-    return '$seconds s';
+    return '$seconds sekunder';
   }
 
   @override
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
-    return '$minutes m $seconds s';
+    return '$minutes min $seconds s';
   }
 }

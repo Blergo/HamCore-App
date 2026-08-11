@@ -20,8 +20,8 @@ void main() {
   final Map<String, dynamic> manifest =
       jsonDecode(File('${goldenDir.path}/manifest.json').readAsStringSync())
           as Map<String, dynamic>;
-  final List<Map<String, dynamic>> images = (manifest['images'] as List<dynamic>)
-      .cast<Map<String, dynamic>>();
+  final List<Map<String, dynamic>> images =
+      (manifest['images'] as List<dynamic>).cast<Map<String, dynamic>>();
   final List<Map<String, dynamic>> synthetic =
       (manifest['synthetic'] as List<dynamic>).cast<Map<String, dynamic>>();
 

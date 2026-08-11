@@ -418,13 +418,15 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                   // sources are merged here in timestamp order and the list
                   // below indexes rows, not messages.
                   final rows = <_ChannelChatRow>[
-                    for (final message in messages) _ChannelChatRow(message: message),
+                    for (final message in messages)
+                      _ChannelChatRow(message: message),
                     ...imageRows,
                   ]..sort((a, b) => a.timestamp.compareTo(b.timestamp));
 
                   // Reverse rows so newest appear at bottom with reverse: true
                   final reversedRows = rows.reversed.toList();
-                  final itemCount = reversedRows.length + (_isLoadingOlder ? 1 : 0);
+                  final itemCount =
+                      reversedRows.length + (_isLoadingOlder ? 1 : 0);
 
                   // Prune stale keys (deleted/cleared messages) to avoid
                   // unbounded growth.
@@ -500,7 +502,10 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                                   final message = row.message;
                                   final bubble = message != null
                                       ? _buildMessageBubble(message, textScale)
-                                      : _buildImageBubble(row.image!, textScale);
+                                      : _buildImageBubble(
+                                          row.image!,
+                                          textScale,
+                                        );
                                   if (isUnreadAnchor) {
                                     return Column(
                                       mainAxisSize: MainAxisSize.min,
@@ -1193,9 +1198,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
         parity: result.includeParity,
       );
     } on ArgumentError {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.imageSend_tooLarge)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.imageSend_tooLarge)));
       return;
     }
 
@@ -1206,7 +1209,8 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     final perPacket = total == null
         ? Duration.zero
         : Duration(
-            microseconds: total.inMicroseconds ~/
+            microseconds:
+                total.inMicroseconds ~/
                 (result.packetCount == 0 ? 1 : result.packetCount),
           );
 
@@ -1411,9 +1415,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
             child: Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: isOutgoing
-                    ? MeshPalette.me
-                    : scheme.surfaceContainerLow,
+                color: isOutgoing ? MeshPalette.me : scheme.surfaceContainerLow,
                 borderRadius: BorderRadius.circular(MeshRadii.lg),
                 border: Border.all(
                   color: isOutgoing
@@ -1427,7 +1429,11 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                 children: [
                   if (!isOutgoing)
                     Padding(
-                      padding: const EdgeInsets.only(left: 8, top: 4, bottom: 4),
+                      padding: const EdgeInsets.only(
+                        left: 8,
+                        top: 4,
+                        bottom: 4,
+                      ),
                       child: Text(
                         _imageSenderLabel(entry),
                         style: TextStyle(
@@ -1454,7 +1460,11 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 8, right: 8, bottom: 4),
+                    padding: const EdgeInsets.only(
+                      left: 8,
+                      right: 8,
+                      bottom: 4,
+                    ),
                     child: Text(
                       _formatTime(context, entry.firstSeen),
                       style: MeshTheme.mono(
@@ -1482,7 +1492,8 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   String _imageSenderLabel(ReceivedImageEntry entry) {
     final hex = entry.senderPrefix.toRadixString(16).padLeft(4, '0');
     final connector = context.read<MeshCoreConnector>();
-    if (entry.isOutgoing) return connector.selfName ?? context.l10n.receivedImage_senderPrefix(hex);
+    if (entry.isOutgoing)
+      return connector.selfName ?? context.l10n.receivedImage_senderPrefix(hex);
     final matches = connector.contacts
         .where((c) => c.publicKeyHex.toLowerCase().startsWith(hex))
         .toList();
