@@ -740,8 +740,9 @@
       }
     }
   },
+  "chat_selectSendAction": "Select send action",
   "chat_sendGif": "Send GIF",
-  "chat_sendImage": "Send image",
+  "chat_sendImageLora": "Send image via meshcore",
   "chat_imagePickFailed": "Couldn't open that image",
   "@chat_imagePickFailed": {
     "description": "Shown when picking or reading a photo to send fails"
