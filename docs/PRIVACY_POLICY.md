@@ -51,7 +51,7 @@ Required by Android for BLE scanning on Android 11 and below. MeshCore Open does
 ### Internet Permission
 - **INTERNET**
 
-Used for features that access third-party internet services, including map tiles, Line-of-Sight elevation lookups, and optional GIF search.
+Used for features that access third-party internet services, including map tiles, Line-of-Sight elevation lookups, optional model downloads, and optional GIF search.
 
 ### Notification Permission
 - **POST_NOTIFICATIONS** (Android 13+)
@@ -76,6 +76,13 @@ When you use the Line-of-Sight (LOS) analysis feature, the App sends latitude an
 Open-Meteo uses these coordinates to return terrain elevation data needed for the LOS calculation. The request also exposes your device's IP address to Open-Meteo as part of normal internet communication.
 
 LOS elevation lookups are only made when the LOS feature is used. See [Open-Meteo's Terms and Privacy information](https://open-meteo.com/en/terms) for more information.
+
+### Model Downloads (Hugging Face)
+The App can download optional translation models and the optional neural image-codec model bundle from Hugging Face when you choose to install or update those models in Settings.
+
+When a model download is requested, the App sends standard HTTP requests for the selected model files to `huggingface.co`. Your device's IP address is visible to Hugging Face as part of normal internet communication. The App does not upload your messages, contacts, mesh location data, or other locally stored content to Hugging Face as part of these model downloads.
+
+Model-download requests are only made when you choose to download or update a model. See [Hugging Face's Privacy Policy](https://huggingface.co/privacy) for more information.
 
 ### GIF Search (Giphy)
 The App includes a GIF picker feature powered by Giphy. When you use the GIF search feature:
@@ -111,4 +118,4 @@ If you have questions about this Privacy Policy or the App's privacy practices, 
 
 ---
 
-**Summary**: MeshCore Open does not use the phone's GPS for location, does not include analytics, and does not collect personal information for the developer. Some optional features communicate with third-party services, including map tile providers, Open-Meteo for LOS elevation lookups, and Giphy for GIF search.
+**Summary**: MeshCore Open does not use the phone's GPS for location, does not include analytics, and does not collect personal information for the developer. Some optional features communicate with third-party services, including map tile providers, Open-Meteo for LOS elevation lookups, Hugging Face for model downloads, and Giphy for GIF search.
