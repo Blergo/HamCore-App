@@ -41,7 +41,6 @@ import '../widgets/emoji_picker.dart';
 import '../widgets/gif_message.dart';
 import '../widgets/jump_to_bottom_button.dart';
 import '../widgets/gif_picker.dart';
-import '../widgets/image_send_button.dart';
 import '../widgets/image_send_codec_binding.dart';
 import '../widgets/image_send_preview_sheet.dart';
 import '../widgets/message_translation_button.dart';
@@ -525,7 +524,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                 },
               ),
             ),
-            _buildMessageComposer(),
+            _buildInputBar(),
           ],
         ),
       ),
@@ -1141,10 +1140,9 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
 
   /// Whether the image codec model is currently downloading.
   ///
-  /// The image button must stay hidden while the model downloads: an encode
-  /// cannot start until the weights are on disk, and the preview sheet would
-  /// have nothing to show but a spinner.
-  bool get _imageCodecDownloading {
+  /// This must be read while [context] is building; popup item builders run
+  /// from an overlay and cannot listen to a provider.
+  bool _isImageCodecDownloading(BuildContext context) {
     try {
       return context.watch<ImageCodecService>().isDownloading;
     } on ProviderNotFoundException {
@@ -1554,8 +1552,9 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   String _imageSenderLabel(ReceivedImageEntry entry) {
     final hex = entry.senderPrefix.toRadixString(16).padLeft(4, '0');
     final connector = context.read<MeshCoreConnector>();
-    if (entry.isOutgoing)
+    if (entry.isOutgoing) {
       return connector.selfName ?? context.l10n.receivedImage_senderPrefix(hex);
+    }
     final matches = connector.contacts
         .where((c) => c.publicKeyHex.toLowerCase().startsWith(hex))
         .toList();
@@ -1664,58 +1663,90 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     );
   }
 
-  Widget _buildMessageComposer() {
+  Widget _buildInputBar() {
     final connector = context.watch<MeshCoreConnector>();
     final maxBytes = maxChannelMessageBytes(connector.selfName);
     final settings = context.watch<AppSettingsService>().settings;
+    final imageCodecDownloading = _isImageCodecDownloading(context);
+    final showImageAction =
+        settings.imageMessagesEnabled && !imageCodecDownloading;
     final scheme = Theme.of(context).colorScheme;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (_replyingToMessage != null)
-          Builder(
-            builder: (context) {
-              final textScale = context.select<ChatTextScaleService, double>(
-                (service) => service.scale,
-              );
-              return _buildReplyBanner(textScale);
-            },
-          ),
-        if (_imageSendTotal > 0) _buildImageSendProgress(scheme),
-        Container(
-          decoration: BoxDecoration(
-            color: scheme.surface,
-            border: Border(
-              top: BorderSide(color: scheme.outlineVariant, width: 1),
-            ),
-          ),
-          child: SafeArea(
-            child: Padding(
+    return Container(
+      decoration: BoxDecoration(
+        color: scheme.surface,
+        border: Border(top: BorderSide(color: scheme.outlineVariant, width: 1)),
+      ),
+      child: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (_replyingToMessage != null)
+              Builder(
+                builder: (context) {
+                  final textScale = context
+                      .select<ChatTextScaleService, double>(
+                        (service) => service.scale,
+                      );
+                  return _buildReplyBanner(textScale);
+                },
+              ),
+            if (_imageSendTotal > 0) _buildImageSendProgress(scheme),
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.gif_box),
-                    onPressed: () => _showGifPicker(context),
-                    tooltip: context.l10n.chat_sendGif,
+                  PopupMenuButton<String>(
+                    icon: const Icon(Icons.add_circle_outline),
+                    position: PopupMenuPosition.over,
+                    offset: Offset(0, showImageAction ? -112 : -64),
+                    tooltip: context.l10n.chat_selectSendAction,
+                    onSelected: (action) {
+                      switch (action) {
+                        case 'gif':
+                          _showGifPicker(context);
+                          break;
+                        case 'meshcore-image':
+                          _showImageSendPreview();
+                          break;
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: 'gif',
+                        child: Row(
+                          children: [
+                            const Icon(Icons.gif_box),
+                            const SizedBox(width: 12),
+                            Text(context.l10n.chat_sendGif),
+                          ],
+                        ),
+                      ),
+                      if (showImageAction)
+                        PopupMenuItem(
+                          value: 'meshcore-image',
+                          // Gated on the codec, not just the setting. The preview
+                          // sheet explains why a send is impossible, but a fully
+                          // live button in a build that cannot encode invites the
+                          // tap that produces that explanation.
+                          enabled:
+                              _imageCodec?.availability ==
+                              ImageCodecAvailability.ready,
+                          child: Row(
+                            children: [
+                              const Icon(Icons.image_outlined),
+                              const SizedBox(width: 12),
+                              Text(context.l10n.chat_sendImageLora),
+                            ],
+                          ),
+                        ),
+                    ],
                   ),
                   if (settings.translationEnabled)
                     MessageTranslationButton(
                       enabled: settings.composerTranslationEnabled,
                       languageCode: settings.translationTargetLanguageCode,
                       onPressed: _showTranslationOptions,
-                    ),
-                  if (settings.imageMessagesEnabled && !_imageCodecDownloading)
-                    ImageSendButton(
-                      // Gated on the codec, not just the setting. The preview
-                      // sheet explains why a send is impossible, but a fully
-                      // live button in a build that cannot encode invites the
-                      // tap that produces that explanation.
-                      enabled:
-                          _imageCodec?.availability ==
-                          ImageCodecAvailability.ready,
-                      onPressed: () => _showImageSendPreview(),
                     ),
                   Expanded(
                     child: ValueListenableBuilder<TextEditingValue>(
@@ -1848,9 +1879,9 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                 ],
               ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 

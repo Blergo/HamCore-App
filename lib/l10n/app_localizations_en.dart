@@ -1457,10 +1457,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get chat_selectSendAction => 'Select send action';
+
+  @override
   String get chat_sendGif => 'Send GIF';
 
   @override
-  String get chat_sendImage => 'Send image';
+  String get chat_sendImageLora => 'Send image via meshcore';
 
   @override
   String get chat_imagePickFailed => 'Couldn\'t open that image';

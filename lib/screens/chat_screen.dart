@@ -478,10 +478,26 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(
-                icon: const Icon(Icons.gif_box),
-                onPressed: () => _showGifPicker(context),
-                tooltip: context.l10n.chat_sendGif,
+              PopupMenuButton<String>(
+                icon: const Icon(Icons.add_circle_outline),
+                position: PopupMenuPosition.over,
+                offset: const Offset(0, -64),
+                tooltip: context.l10n.chat_selectSendAction,
+                onSelected: (action) {
+                  if (action == 'gif') _showGifPicker(context);
+                },
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 'gif',
+                    child: Row(
+                      children: [
+                        const Icon(Icons.gif_box),
+                        const SizedBox(width: 12),
+                        Text(context.l10n.chat_sendGif),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               if (settings.translationEnabled)
                 MessageTranslationButton(
