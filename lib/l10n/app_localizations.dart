@@ -2770,6 +2770,12 @@ abstract class AppLocalizations {
   /// **'Me'**
   String get chat_me;
 
+  /// No description provided for @reaction_report.
+  ///
+  /// In en, this message translates to:
+  /// **'Emoji Reactions'**
+  String get reaction_report;
+
   /// No description provided for @emojiCategorySmileys.
   ///
   /// In en, this message translates to:
