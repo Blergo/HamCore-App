@@ -2,16 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:meshcore_open/screens/path_trace_map.dart';
-import 'package:meshcore_open/services/notification_service.dart';
-import 'package:meshcore_open/utils/app_logger.dart';
-import 'package:meshcore_open/utils/platform_info.dart';
-import 'package:meshcore_open/widgets/app_bar.dart';
+import 'package:hamcore/screens/path_trace_map.dart';
+import 'package:hamcore/services/notification_service.dart';
+import 'package:hamcore/utils/app_logger.dart';
+import 'package:hamcore/utils/platform_info.dart';
+import 'package:hamcore/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
 
-import '../connector/meshcore_connector.dart';
+import '../connector/hamcore_connector.dart';
 import '../l10n/l10n.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_protocol.dart';
 import '../models/contact.dart';
 import '../l10n/contact_localization.dart';
 import '../models/contact_group.dart';
@@ -56,7 +56,7 @@ class _ContactsScreenState extends State<ContactsScreen>
     with DisconnectNavigationMixin {
   final TextEditingController _searchController = TextEditingController();
   final ContactGroupStore _groupStore = ContactGroupStore();
-  MeshCoreConnector? _scopeSyncConnector;
+  HamCoreConnector? _scopeSyncConnector;
   List<ContactGroup> _groups = [];
   String _loadedGroupScopeKeyHex = '';
   Timer? _searchDebounce;
@@ -77,7 +77,7 @@ class _ContactsScreenState extends State<ContactsScreen>
   }
 
   void _clearAdvertNotifications() {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final contactIds = connector.contacts.map((c) => c.publicKeyHex).toList();
     NotificationService().clearAdvertNotifications(contactIds);
   }
@@ -85,7 +85,7 @@ class _ContactsScreenState extends State<ContactsScreen>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     if (!identical(_scopeSyncConnector, connector)) {
       _scopeSyncConnector?.removeListener(_handleConnectorScopeChange);
       _scopeSyncConnector = connector;
@@ -110,7 +110,7 @@ class _ContactsScreenState extends State<ContactsScreen>
   }
 
   Future<void> _loadGroups() async {
-    final selfPublicKeyHex = context.read<MeshCoreConnector>().selfPublicKeyHex;
+    final selfPublicKeyHex = context.read<HamCoreConnector>().selfPublicKeyHex;
     if (selfPublicKeyHex.isEmpty) {
       return;
     }
@@ -125,7 +125,7 @@ class _ContactsScreenState extends State<ContactsScreen>
   }
 
   Future<void> _saveGroups() async {
-    final selfPublicKeyHex = context.read<MeshCoreConnector>().selfPublicKeyHex;
+    final selfPublicKeyHex = context.read<HamCoreConnector>().selfPublicKeyHex;
     if (selfPublicKeyHex.isEmpty) {
       return;
     }
@@ -133,11 +133,11 @@ class _ContactsScreenState extends State<ContactsScreen>
     await _groupStore.saveGroups(_groups);
   }
 
-  bool _hasGroupStoreScope(MeshCoreConnector connector) {
+  bool _hasGroupStoreScope(HamCoreConnector connector) {
     return connector.selfPublicKeyHex.isNotEmpty;
   }
 
-  void _syncGroupScopeIfNeeded(MeshCoreConnector connector) {
+  void _syncGroupScopeIfNeeded(HamCoreConnector connector) {
     final selfPublicKeyHex = connector.selfPublicKeyHex;
     if (selfPublicKeyHex.isEmpty ||
         selfPublicKeyHex == _loadedGroupScopeKeyHex) {
@@ -162,7 +162,7 @@ class _ContactsScreenState extends State<ContactsScreen>
   }
 
   void _setupFrameListener() {
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     // Listen for incoming text messages from the repeater
     _frameSubscription = connector.receivedFrames.listen((frame) {
       if (frame.isEmpty) return;
@@ -184,7 +184,7 @@ class _ContactsScreenState extends State<ContactsScreen>
             return;
           }
           final hexString = pubKeyToHex(advertPacket);
-          Clipboard.setData(ClipboardData(text: "meshcore://$hexString"));
+          Clipboard.setData(ClipboardData(text: "hamcore://$hexString"));
         }
 
         // Generic OK/ERR acks carry no command correlation, so consume only
@@ -244,7 +244,7 @@ class _ContactsScreenState extends State<ContactsScreen>
   }
 
   Future<void> _contactExport(Uint8List pubKey) async {
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     final exportContactFrame = buildExportContactFrame(pubKey);
     _pendingOperations.add(ContactOperationType.export);
     try {
@@ -261,7 +261,7 @@ class _ContactsScreenState extends State<ContactsScreen>
   }
 
   Future<void> _contactZeroHop(Uint8List pubKey) async {
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     final exportContactZeroHopFrame = buildZeroHopContact(pubKey);
     _pendingOperations.add(ContactOperationType.zeroHopShare);
     try {
@@ -281,7 +281,7 @@ class _ContactsScreenState extends State<ContactsScreen>
   }
 
   Future<void> _contactImport() async {
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     final clipboardData = await Clipboard.getData('text/plain');
     if (clipboardData == null || clipboardData.text == null) {
       if (mounted) {
@@ -293,7 +293,7 @@ class _ContactsScreenState extends State<ContactsScreen>
       return;
     }
     final text = clipboardData.text!.trim();
-    if (!text.startsWith('meshcore://')) {
+    if (!text.startsWith('hamcore://')) {
       if (mounted) {
         showDismissibleSnackBar(
           context,
@@ -302,7 +302,7 @@ class _ContactsScreenState extends State<ContactsScreen>
       }
       return;
     }
-    final hexString = text.substring('meshcore://'.length);
+    final hexString = text.substring('hamcore://'.length);
     final Uint8List importContactFrame;
     try {
       final bytes = hex2Uint8List(hexString);
@@ -332,7 +332,7 @@ class _ContactsScreenState extends State<ContactsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
 
     // Auto-navigate back to scanner if disconnected
     if (!checkConnectionAndNavigate(connector)) {
@@ -510,7 +510,7 @@ class _ContactsScreenState extends State<ContactsScreen>
 
   Future<void> _disconnect(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) async {
     await showDisconnectDialog(context, connector);
   }
@@ -567,7 +567,7 @@ class _ContactsScreenState extends State<ContactsScreen>
 
   Widget _buildGroupButton(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     UiViewStateService viewState,
     List<Contact> contacts,
     List<ContactGroup> sortedGroups,
@@ -686,7 +686,7 @@ class _ContactsScreenState extends State<ContactsScreen>
     );
   }
 
-  Widget _buildContactsBody(BuildContext context, MeshCoreConnector connector) {
+  Widget _buildContactsBody(BuildContext context, HamCoreConnector connector) {
     final viewState = context.watch<UiViewStateService>();
     final contacts = connector.contacts;
     final waitingForInitialContacts =
@@ -933,7 +933,7 @@ class _ContactsScreenState extends State<ContactsScreen>
 
   List<Contact> _filterAndSortContacts(
     List<Contact> contacts,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     UiViewStateService viewState,
   ) {
     var filtered = contacts.where((contact) {
@@ -1032,7 +1032,7 @@ class _ContactsScreenState extends State<ContactsScreen>
     } else if (contact.type == advTypeRoom) {
       _showRoomLogin(context, contact, RoomLoginDestination.chat);
     } else {
-      final connector = context.read<MeshCoreConnector>();
+      final connector = context.read<HamCoreConnector>();
       final unread = connector.getUnreadCountForContactKey(
         contact.publicKeyHex,
       );
@@ -1097,7 +1097,7 @@ class _ContactsScreenState extends State<ContactsScreen>
       builder: (context) => RoomLoginDialog(
         room: room,
         onLogin: (password, isAdmin) {
-          final connector = context.read<MeshCoreConnector>();
+          final connector = context.read<HamCoreConnector>();
           final unread = connector.getUnreadCountForContactKey(
             room.publicKeyHex,
           );
@@ -1121,7 +1121,7 @@ class _ContactsScreenState extends State<ContactsScreen>
   }
 
   void _confirmDeleteGroup(BuildContext context, ContactGroup group) {
-    if (!_hasGroupStoreScope(context.read<MeshCoreConnector>())) {
+    if (!_hasGroupStoreScope(context.read<HamCoreConnector>())) {
       _showGroupsUnavailableMessage(context);
       return;
     }
@@ -1159,7 +1159,7 @@ class _ContactsScreenState extends State<ContactsScreen>
     List<Contact> contacts, {
     ContactGroup? group,
   }) {
-    if (!_hasGroupStoreScope(context.read<MeshCoreConnector>())) {
+    if (!_hasGroupStoreScope(context.read<HamCoreConnector>())) {
       _showGroupsUnavailableMessage(context);
       return;
     }
@@ -1341,7 +1341,7 @@ class _ContactsScreenState extends State<ContactsScreen>
 
   void _showContactOptions(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Contact contact,
   ) {
     final isRepeater = contact.type == advTypeRepeater;
@@ -1365,7 +1365,7 @@ class _ContactsScreenState extends State<ContactsScreen>
                 onTap: () {
                   Navigator.pop(sheetContext);
                   final hw = context
-                      .read<MeshCoreConnector>()
+                      .read<HamCoreConnector>()
                       .pathHashByteWidth;
                   Navigator.push(
                     context,
@@ -1398,7 +1398,7 @@ class _ContactsScreenState extends State<ContactsScreen>
                 onTap: () {
                   Navigator.pop(sheetContext);
                   final hw = context
-                      .read<MeshCoreConnector>()
+                      .read<HamCoreConnector>()
                       .pathHashByteWidth;
                   Navigator.push(
                     context,
@@ -1446,7 +1446,7 @@ class _ContactsScreenState extends State<ContactsScreen>
                   onTap: () {
                     Navigator.pop(sheetContext);
                     final hw = context
-                        .read<MeshCoreConnector>()
+                        .read<HamCoreConnector>()
                         .pathHashByteWidth;
                     Navigator.push(
                       context,
@@ -1532,7 +1532,7 @@ class _ContactsScreenState extends State<ContactsScreen>
 
   void _confirmDelete(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Contact contact,
   ) {
     showDialog(

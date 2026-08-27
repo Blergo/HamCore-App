@@ -133,7 +133,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'MeshCore Open'**
+  /// **'HamCore'**
   String get appTitle;
 
   /// No description provided for @nav_contacts.
@@ -379,7 +379,7 @@ abstract class AppLocalizations {
   /// No description provided for @scanner_title.
   ///
   /// In en, this message translates to:
-  /// **'MeshCore Open'**
+  /// **'HamCore'**
   String get scanner_title;
 
   /// No description provided for @connectionChoiceUsbLabel.
@@ -481,7 +481,7 @@ abstract class AppLocalizations {
   /// No description provided for @usbScreenSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Choose a detected serial device and connect directly to your MeshCore node.'**
+  /// **'Choose a detected serial device and connect directly to your HamCore node.'**
   String get usbScreenSubtitle;
 
   /// No description provided for @usbScreenStatus.
@@ -637,13 +637,13 @@ abstract class AppLocalizations {
   /// No description provided for @scanner_searchingDevices.
   ///
   /// In en, this message translates to:
-  /// **'Searching for MeshCore devices...'**
+  /// **'Searching for HamCore devices...'**
   String get scanner_searchingDevices;
 
   /// No description provided for @scanner_tapToScan.
   ///
   /// In en, this message translates to:
-  /// **'Tap Scan to find MeshCore devices'**
+  /// **'Tap Scan to find HamCore devices'**
   String get scanner_tapToScan;
 
   /// No description provided for @scanner_connectionFailed.
@@ -706,11 +706,11 @@ abstract class AppLocalizations {
   /// **'Quick switch'**
   String get device_quickSwitch;
 
-  /// No description provided for @device_meshcore.
+  /// No description provided for @device_hamcore.
   ///
   /// In en, this message translates to:
-  /// **'MeshCore'**
-  String get device_meshcore;
+  /// **'HamCore'**
+  String get device_hamcore;
 
   /// No description provided for @settings_title.
   ///
@@ -1129,7 +1129,7 @@ abstract class AppLocalizations {
   /// No description provided for @settings_rebootDeviceSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Restart the MeshCore device'**
+  /// **'Restart the HamCore device'**
   String get settings_rebootDeviceSubtitle;
 
   /// No description provided for @settings_rebootDeviceConfirm.
@@ -1177,19 +1177,19 @@ abstract class AppLocalizations {
   /// No description provided for @settings_aboutVersion.
   ///
   /// In en, this message translates to:
-  /// **'MeshCore Open v{version}'**
+  /// **'HamCore v{version}'**
   String settings_aboutVersion(String version);
 
   /// No description provided for @settings_aboutLegalese.
   ///
   /// In en, this message translates to:
-  /// **'2026 MeshCore Open Source Project'**
+  /// **'2026 HamCore Source Project'**
   String get settings_aboutLegalese;
 
   /// No description provided for @settings_aboutDescription.
   ///
   /// In en, this message translates to:
-  /// **'An open-source Flutter client for MeshCore LoRa mesh networking devices.'**
+  /// **'An open-source Flutter client for HamCore LoRa mesh networking devices.'**
   String get settings_aboutDescription;
 
   /// No description provided for @settings_aboutOpenMeteoAttribution.
@@ -2743,7 +2743,7 @@ abstract class AppLocalizations {
   /// No description provided for @chat_sendImageLora.
   ///
   /// In en, this message translates to:
-  /// **'Send image via meshcore'**
+  /// **'Send image via hamcore'**
   String get chat_sendImageLora;
 
   /// Shown when picking or reading a photo to send fails
@@ -7393,7 +7393,7 @@ abstract class AppLocalizations {
   /// No description provided for @notification_activityTitle.
   ///
   /// In en, this message translates to:
-  /// **'MeshCore Activity'**
+  /// **'HamCore Activity'**
   String get notification_activityTitle;
 
   /// No description provided for @notification_messagesCount.
@@ -7507,13 +7507,13 @@ abstract class AppLocalizations {
   /// No description provided for @settings_gpxExportShareText.
   ///
   /// In en, this message translates to:
-  /// **'Map data exported from meshcore-open'**
+  /// **'Map data exported from hamcore'**
   String get settings_gpxExportShareText;
 
   /// No description provided for @settings_gpxExportShareSubject.
   ///
   /// In en, this message translates to:
-  /// **'meshcore-open GPX map data export'**
+  /// **'hamcore GPX map data export'**
   String get settings_gpxExportShareSubject;
 
   /// No description provided for @snrIndicator_nearByRepeaters.
@@ -8065,7 +8065,7 @@ abstract class AppLocalizations {
   /// No description provided for @background_serviceTitle.
   ///
   /// In en, this message translates to:
-  /// **'MeshCore running'**
+  /// **'HamCore running'**
   String get background_serviceTitle;
 
   /// No description provided for @background_serviceText.

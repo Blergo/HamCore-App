@@ -9,7 +9,7 @@ class AppLocalizationsPt extends AppLocalizations {
   AppLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
-  String get appTitle => 'MeshCore Open';
+  String get appTitle => 'HamCore';
 
   @override
   String get nav_contacts => 'Contactos';
@@ -136,7 +136,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get common_interval => 'Intervalo';
 
   @override
-  String get scanner_title => 'MeshCore: Versão aberta';
+  String get scanner_title => 'HamCore: Versão aberta';
 
   @override
   String get connectionChoiceUsbLabel => 'USB';
@@ -194,7 +194,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get usbScreenSubtitle =>
-      'Selecione um dispositivo serial detectado e conecte-o diretamente ao seu nó MeshCore.';
+      'Selecione um dispositivo serial detectado e conecte-o diretamente ao seu nó HamCore.';
 
   @override
   String get usbScreenStatus => 'Selecione um dispositivo USB';
@@ -286,11 +286,11 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get scanner_searchingDevices => 'Procurando dispositivos MeshCore...';
+  String get scanner_searchingDevices => 'Procurando dispositivos HamCore...';
 
   @override
   String get scanner_tapToScan =>
-      'Toque em \"Escanear\" para encontrar dispositivos MeshCore';
+      'Toque em \"Escanear\" para encontrar dispositivos HamCore';
 
   @override
   String scanner_connectionFailed(String error) {
@@ -328,7 +328,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get device_quickSwitch => 'Mudar rapidamente';
 
   @override
-  String get device_meshcore => 'MeshCore';
+  String get device_hamcore => 'HamCore';
 
   @override
   String get settings_title => 'Configurações';
@@ -562,7 +562,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settings_rebootDeviceSubtitle =>
-      'Reiniciar o dispositivo MeshCore';
+      'Reiniciar o dispositivo HamCore';
 
   @override
   String get settings_rebootDeviceConfirm =>
@@ -590,15 +590,15 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String settings_aboutVersion(String version) {
-    return 'MeshCore Open v$version';
+    return 'HamCore v$version';
   }
 
   @override
-  String get settings_aboutLegalese => 'Projeto MeshCore de Código Aberto 2024';
+  String get settings_aboutLegalese => 'Projeto HamCore de Código Aberto 2024';
 
   @override
   String get settings_aboutDescription =>
-      'Um cliente Flutter de código aberto para dispositivos de rede mesh LoRa Core da MeshCore.';
+      'Um cliente Flutter de código aberto para dispositivos de rede mesh LoRa Core da HamCore.';
 
   @override
   String get settings_aboutOpenMeteoAttribution =>
@@ -1490,7 +1490,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get chat_sendGif => 'Enviar GIF';
 
   @override
-  String get chat_sendImageLora => 'Enviar imagem via MeshCore';
+  String get chat_sendImageLora => 'Enviar imagem via HamCore';
 
   @override
   String get chat_imagePickFailed => 'Não consegui abrir essa imagem';
@@ -4267,7 +4267,7 @@ class AppLocalizationsPt extends AppLocalizations {
       'Cópia do anúncio para a Área de Transferência falhou.';
 
   @override
-  String get notification_activityTitle => 'Atividade MeshCore';
+  String get notification_activityTitle => 'Atividade HamCore';
 
   @override
   String notification_messagesCount(int count) {
@@ -4357,11 +4357,11 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settings_gpxExportShareText =>
-      'Dados do mapa exportados do meshcore-open';
+      'Dados do mapa exportados do hamcore';
 
   @override
   String get settings_gpxExportShareSubject =>
-      'meshcore-open exportação de dados de mapa GPX';
+      'hamcore exportação de dados de mapa GPX';
 
   @override
   String get snrIndicator_nearByRepeaters => 'Repetidores Próximos';
@@ -4689,7 +4689,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get translation_systemLanguage => 'Idioma do sistema';
 
   @override
-  String get background_serviceTitle => 'MeshCore running';
+  String get background_serviceTitle => 'HamCore running';
 
   @override
   String get background_serviceText => 'Keeping BLE connected';

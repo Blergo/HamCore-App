@@ -1,5 +1,5 @@
 {
-  description = "MeshCore Flutter Application";
+  description = "HamCore Flutter Application";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -41,7 +41,7 @@
           ];
 
           shellHook = ''
-            echo "MeshCore Flutter Development Environment"
+            echo "HamCore Flutter Development Environment"
             export PKG_CONFIG_PATH="${pkgs.gtk3}/lib/pkgconfig:${pkgs.glib}/lib/pkgconfig:${pkgs.sysprof}/lib/pkgconfig:$PKG_CONFIG_PATH"
             export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath [pkgs.gtk3 pkgs.glib pkgs.sysprof pkgs.libdatrie]}:$LD_LIBRARY_PATH"
             export CMAKE_INSTALL_PREFIX="$PWD/build/bundle"

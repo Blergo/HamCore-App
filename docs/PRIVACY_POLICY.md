@@ -1,16 +1,16 @@
-# Privacy Policy for MeshCore Open
+# Privacy Policy for HamCore
 
 **Last Updated:** August 23, 2026
 
 ## Introduction
 
-MeshCore Open ("the App") is an open-source Flutter application for communicating with MeshCore LoRa mesh networking devices. This Privacy Policy explains how the App handles your information.
+HamCore ("the App") is an open-source Flutter application for communicating with HamCore LoRa mesh networking devices. This Privacy Policy explains how the App handles your information.
 
 ## Data Collection
 
 ### Data We Do NOT Collect
 
-MeshCore Open does **not**:
+HamCore does **not**:
 - Collect personal information for the developer
 - Track your usage or behavior
 - Use analytics services
@@ -31,7 +31,7 @@ The App stores the following data **locally on your device**:
 - **Debug Logs**: Optional BLE and app debug logs (if enabled by user)
 - **Cached Map Tiles**: Offline map data for the mapping feature
 
-This locally stored data is not transmitted to the MeshCore Open developer. Some features may send specific data to third-party services as described in the Third-Party Services section.
+This locally stored data is not transmitted to the HamCore developer. Some features may send specific data to third-party services as described in the Third-Party Services section.
 
 ## Permissions
 
@@ -41,12 +41,12 @@ The App requires certain device permissions to function:
 - **BLUETOOTH, BLUETOOTH_ADMIN** (Android 11 and below)
 - **BLUETOOTH_SCAN, BLUETOOTH_CONNECT, BLUETOOTH_ADVERTISE** (Android 12+)
 
-These permissions are used solely to discover and communicate with MeshCore hardware devices via Bluetooth Low Energy (BLE).
+These permissions are used solely to discover and communicate with HamCore hardware devices via Bluetooth Low Energy (BLE).
 
 ### Location Permission
 - **ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION**
 
-Required by Android for BLE scanning on Android 11 and below. MeshCore Open does not use the phone's GPS to determine your location. Location data shown in the App comes from MeshCore devices and mesh advertisements. Location data may also be optionally shared over the mesh network if you choose to enable location sharing features.
+Required by Android for BLE scanning on Android 11 and below. HamCore does not use the phone's GPS to determine your location. Location data shown in the App comes from HamCore devices and mesh advertisements. Location data may also be optionally shared over the mesh network if you choose to enable location sharing features.
 
 ### Internet Permission
 - **INTERNET**
@@ -61,7 +61,7 @@ Used to display notifications for incoming messages when the app is in the backg
 ### Background Service Permissions
 - **FOREGROUND_SERVICE, FOREGROUND_SERVICE_CONNECTED_DEVICE, WAKE_LOCK**
 
-Used to maintain BLE connection with your MeshCore device while the app is in the background.
+Used to maintain BLE connection with your HamCore device while the app is in the background.
 
 ## Third-Party Services
 
@@ -71,7 +71,7 @@ The App uses OpenStreetMap and, when selected in settings, Stadia Maps tile serv
 See [OpenStreetMap's Privacy Policy](https://wiki.osmfoundation.org/wiki/Privacy_Policy) and [Stadia Maps' Privacy Policy](https://stadiamaps.com/privacy/) for more information.
 
 ### Line-of-Sight Elevation Lookups (Open-Meteo)
-When you use the Line-of-Sight (LOS) analysis feature, the App sends latitude and longitude coordinates for points along the selected radio path to the Open-Meteo Elevation API. These coordinates come from MeshCore node positions or locations selected in the map, not from the phone's GPS.
+When you use the Line-of-Sight (LOS) analysis feature, the App sends latitude and longitude coordinates for points along the selected radio path to the Open-Meteo Elevation API. These coordinates come from HamCore node positions or locations selected in the map, not from the phone's GPS.
 
 Open-Meteo uses these coordinates to return terrain elevation data needed for the LOS calculation. The request also exposes your device's IP address to Open-Meteo as part of normal internet communication.
 
@@ -94,7 +94,7 @@ GIF search is optional and only activated when you choose to use it. See [Giphy'
 
 ## Mesh Network Communications
 
-Messages sent through the MeshCore mesh network are transmitted over radio frequencies to other mesh devices. The App itself does not control or monitor these communications beyond facilitating the connection between your mobile device and your MeshCore hardware.
+Messages sent through the HamCore mesh network are transmitted over radio frequencies to other mesh devices. The App itself does not control or monitor these communications beyond facilitating the connection between your mobile device and your HamCore hardware.
 
 ## Data Security
 
@@ -106,7 +106,7 @@ The App does not knowingly collect any personal information from children under 
 
 ## Open Source
 
-MeshCore Open is open-source software. You can review the complete source code to verify these privacy practices at [the project repository].
+HamCore is open-source software. You can review the complete source code to verify these privacy practices at [the project repository].
 
 ## Changes to This Policy
 
@@ -118,4 +118,4 @@ If you have questions about this Privacy Policy or the App's privacy practices, 
 
 ---
 
-**Summary**: MeshCore Open does not use the phone's GPS for location, does not include analytics, and does not collect personal information for the developer. Some optional features communicate with third-party services, including map tile providers, Open-Meteo for LOS elevation lookups, Hugging Face for model downloads, and Giphy for GIF search.
+**Summary**: HamCore does not use the phone's GPS for location, does not include analytics, and does not collect personal information for the developer. Some optional features communicate with third-party services, including map tile providers, Open-Meteo for LOS elevation lookups, Hugging Face for model downloads, and Giphy for GIF search.

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import '../l10n/l10n.dart';
 import '../services/ble_debug_log_service.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_protocol.dart';
 import '../theme/mesh_theme.dart';
 import '../widgets/adaptive_app_bar_title.dart';
 import '../helpers/snack_bar_builder.dart';

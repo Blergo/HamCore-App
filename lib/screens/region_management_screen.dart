@@ -3,13 +3,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:meshcore_open/connector/meshcore_connector.dart';
-import 'package:meshcore_open/connector/meshcore_protocol.dart';
-import 'package:meshcore_open/l10n/l10n.dart';
-import 'package:meshcore_open/models/contact.dart';
-import 'package:meshcore_open/storage/region_store.dart';
-import 'package:meshcore_open/theme/mesh_theme.dart';
-import 'package:meshcore_open/widgets/mesh_ui.dart';
+import 'package:hamcore/connector/hamcore_connector.dart';
+import 'package:hamcore/connector/hamcore_protocol.dart';
+import 'package:hamcore/l10n/l10n.dart';
+import 'package:hamcore/models/contact.dart';
+import 'package:hamcore/storage/region_store.dart';
+import 'package:hamcore/theme/mesh_theme.dart';
+import 'package:hamcore/widgets/mesh_ui.dart';
 import 'package:provider/provider.dart';
 
 Future<void> pushRegionManagementScreen(BuildContext context) {
@@ -38,7 +38,7 @@ class _RegionManagementScreenState extends State<RegionManagementScreen> {
   @override
   void initState() {
     super.initState();
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     _regionStore.setPublicKeyHex = connector.selfPublicKeyHex;
     _loadRegions();
   }
@@ -254,7 +254,7 @@ class _RegionManagementScreenState extends State<RegionManagementScreen> {
   }
 
   Future<Set<Region>> _fetchRegionsFromRepeaters() async {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final repeaters = await _discoverNearbyRepeaters(connector);
     final regions = <Region>{};
 
@@ -267,7 +267,7 @@ class _RegionManagementScreenState extends State<RegionManagementScreen> {
   }
 
   Future<List<Contact>> _discoverNearbyRepeaters(
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) async {
     final repeaters = connector.contacts
         .where((contact) => contact.type == advTypeRepeater)
@@ -330,7 +330,7 @@ class _RegionManagementScreenState extends State<RegionManagementScreen> {
   }
 
   Future<Set<Region>> _requestRegionsFromRepeater(
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Contact repeater,
   ) async {
     StreamSubscription<Uint8List>? subscription;
@@ -431,7 +431,7 @@ class _RegionManagementScreenState extends State<RegionManagementScreen> {
   }
 
   Future<void> _restoreRepeaterPath(
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Contact repeater,
     int originalPathLength,
     Uint8List originalPath,
@@ -501,7 +501,7 @@ class _RegionManagementScreenState extends State<RegionManagementScreen> {
           ),
           TextButton(
             onPressed: () async {
-              final connector = context.read<MeshCoreConnector>();
+              final connector = context.read<HamCoreConnector>();
               Navigator.pop(dialogContext);
               await _regionStore.removeRegion(region);
               // Deleting a region clears it from any channels that used it;

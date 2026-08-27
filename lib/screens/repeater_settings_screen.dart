@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../l10n/l10n.dart';
 import '../models/contact.dart';
-import '../connector/meshcore_connector.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_connector.dart';
+import '../connector/hamcore_protocol.dart';
 import '../services/repeater_command_service.dart';
 import '../services/storage_service.dart';
 import '../theme/mesh_theme.dart';
@@ -56,7 +56,7 @@ enum _SettingField {
 enum _SaveOutcome { ok, rebootNeeded, error }
 
 // Firmware reply taxonomy for `set ...` / `password ...` commands
-// (see MeshCore CommonCLI.cpp): success replies always start with "OK"
+// (see HamCore CommonCLI.cpp): success replies always start with "OK"
 // (any case) or "password now:"; reboot-required successes contain the word
 // "reboot" (e.g. "OK - reboot to apply", "OK, reboot to apply! New pubkey:...");
 // some replies are parenthesized like "(OK - stats reset)". Anything else
@@ -195,7 +195,7 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
   @override
   void initState() {
     super.initState();
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     _commandService = RepeaterCommandService(connector);
     _setupMessageListener();
     _loadSettings();
@@ -224,7 +224,7 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
   }
 
   void _setupMessageListener() {
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
 
     // Listen for incoming text messages from the repeater
     _frameSubscription = connector.receivedFrames.listen((frame) {
@@ -249,7 +249,7 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
 
   int _resolveRepeaterIndex = -1;
 
-  Contact _resolveRepeater(MeshCoreConnector connector) {
+  Contact _resolveRepeater(HamCoreConnector connector) {
     if (_resolveRepeaterIndex >= 0 &&
         _resolveRepeaterIndex < connector.contacts.length &&
         connector.contacts[_resolveRepeaterIndex].publicKeyHex ==
@@ -451,7 +451,7 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
     setState(() => setRefreshing(true));
 
     var successCount = 0;
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     final repeater = _resolveRepeater(connector);
     for (final command in commands) {
       try {
@@ -667,7 +667,7 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
   /// firmware's reply via snackbar. Not part of the dirty-field save flow.
   Future<void> _runAction(String command, String label) async {
     if (_commandService == null) return;
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     final repeater = _resolveRepeater(connector);
     final l10n = context.l10n;
     setState(() => _runningAction = true);
@@ -726,7 +726,7 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
 
   Future<void> _saveSettings() async {
     if (_commandService == null) return;
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     final repeater = _resolveRepeater(connector);
 
     setState(() {
@@ -1080,7 +1080,7 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     final repeater = _resolveRepeater(connector);
     final isFloodMode = repeater.pathOverride == -1;
 
@@ -2223,7 +2223,7 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
 
   Future<void> _sendDangerCommand(String command) async {
     final l10n = context.l10n;
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     final repeater = _resolveRepeater(connector);
 
     if (command == 'erase') {

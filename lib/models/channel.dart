@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart' as crypto;
 
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_protocol.dart';
 import 'community.dart';
 
 enum ChannelType { public, private, hashtag, communityPublic, communityHashtag }

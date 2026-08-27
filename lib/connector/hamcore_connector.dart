@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:crypto/crypto.dart' as crypto;
-import 'package:meshcore_open/storage/region_store.dart';
+import 'package:hamcore/storage/region_store.dart';
 import 'package:pointycastle/export.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -41,8 +41,8 @@ import '../services/background_service.dart';
 import '../services/timeout_prediction_service.dart';
 import '../services/translation_service.dart';
 import '../services/notification_service.dart';
-import 'meshcore_connector_usb.dart';
-import 'meshcore_connector_tcp.dart';
+import 'hamcore_connector_usb.dart';
+import 'hamcore_connector_tcp.dart';
 import '../storage/channel_message_store.dart';
 import '../storage/channel_order_store.dart';
 import '../storage/channel_settings_store.dart';
@@ -56,8 +56,8 @@ import '../storage/unread_store.dart';
 import '../utils/app_logger.dart';
 import '../utils/battery_utils.dart';
 import '../utils/platform_info.dart';
-import 'meshcore_uuids.dart';
-import 'meshcore_protocol.dart';
+import 'hamcore_uuids.dart';
+import 'hamcore_protocol.dart';
 
 class DirectRepeater {
   static const int maxAgeMinutes = 30; // Max age for direct repeater info
@@ -130,7 +130,7 @@ class DirectRepeater {
   }
 }
 
-enum MeshCoreConnectionState {
+enum HamCoreConnectionState {
   disconnected,
   scanning,
   connecting,
@@ -138,7 +138,7 @@ enum MeshCoreConnectionState {
   disconnecting,
 }
 
-enum MeshCoreTransportType { bluetooth, usb, tcp }
+enum HamCoreTransportType { bluetooth, usb, tcp }
 
 class RepeaterBatterySnapshot {
   final int millivolts;
@@ -152,14 +152,14 @@ class RepeaterBatterySnapshot {
   });
 }
 
-class MeshCoreRadioStateSnapshot {
+class HamCoreRadioStateSnapshot {
   final int freqHz;
   final int bwHz;
   final int sf;
   final int cr;
   final int txPowerDbm;
 
-  const MeshCoreRadioStateSnapshot({
+  const HamCoreRadioStateSnapshot({
     required this.freqHz,
     required this.bwHz,
     required this.sf,
@@ -168,7 +168,7 @@ class MeshCoreRadioStateSnapshot {
   });
 }
 
-class MeshCoreConnector extends ChangeNotifier {
+class HamCoreConnector extends ChangeNotifier {
   // Message windowing to limit memory usage
   static const int _messageWindowSize = 200;
 
@@ -178,7 +178,7 @@ class MeshCoreConnector extends ChangeNotifier {
   // lastSeen) is evicted to make room for a newly heard one.
   static const int _maxDiscoveredContacts = 500;
 
-  MeshCoreConnectionState _state = MeshCoreConnectionState.disconnected;
+  HamCoreConnectionState _state = HamCoreConnectionState.disconnected;
   BluetoothDevice? _device;
   BluetoothCharacteristic? _rxCharacteristic;
   BluetoothCharacteristic? _txCharacteristic;
@@ -188,12 +188,12 @@ class MeshCoreConnector extends ChangeNotifier {
   String? _lastDeviceId;
   String? _lastDeviceDisplayName;
   bool _manualDisconnect = false;
-  final MeshCoreUsbManager _usbManager = MeshCoreUsbManager();
+  final HamCoreUsbManager _usbManager = HamCoreUsbManager();
   final LinuxBlePairingService _linuxBlePairingService =
       LinuxBlePairingService();
   StreamSubscription<Uint8List>? _usbFrameSubscription;
-  final MeshCoreTcpConnector _tcpConnector = MeshCoreTcpConnector();
-  MeshCoreTransportType _activeTransport = MeshCoreTransportType.bluetooth;
+  final HamCoreTcpConnector _tcpConnector = HamCoreTcpConnector();
+  HamCoreTransportType _activeTransport = HamCoreTransportType.bluetooth;
 
   final List<ScanResult> _scanResults = [];
   final List<ScanResult> _linuxSystemScanResults = [];
@@ -242,7 +242,7 @@ class MeshCoreConnector extends ChangeNotifier {
   int? _currentSf;
   int? _currentCr;
   bool? _clientRepeat;
-  MeshCoreRadioStateSnapshot? _rememberedNonRepeatRadioState;
+  HamCoreRadioStateSnapshot? _rememberedNonRepeatRadioState;
   int? _firmwareVerCode;
   int _pathHashByteWidth = 1;
   CompanionRadioStats? _latestRadioStats;
@@ -397,7 +397,7 @@ class MeshCoreConnector extends ChangeNotifier {
   int _storageTotalKb = -1;
 
   // Getters
-  MeshCoreConnectionState get state => _state;
+  HamCoreConnectionState get state => _state;
   BluetoothDevice? get device => _device;
   String? get deviceId => _deviceId;
   String get deviceIdLabel => _deviceId ?? 'Unknown';
@@ -416,18 +416,18 @@ class MeshCoreConnector extends ChangeNotifier {
     return null;
   }
 
-  MeshCoreTransportType get activeTransport => _activeTransport;
+  HamCoreTransportType get activeTransport => _activeTransport;
   String? get activeUsbPort => _usbManager.activePortKey;
   String? get activeUsbPortDisplayLabel => _usbManager.activePortDisplayLabel;
   bool get isUsbTransportConnected =>
-      _state == MeshCoreConnectionState.connected &&
-      _activeTransport == MeshCoreTransportType.usb;
+      _state == HamCoreConnectionState.connected &&
+      _activeTransport == HamCoreTransportType.usb;
   bool get isAutoReconnectScheduled =>
       _shouldAutoReconnect && (_reconnectTimer?.isActive ?? false);
   String? get activeTcpEndpoint => _tcpConnector.activeEndpoint;
   bool get isTcpTransportConnected =>
-      _state == MeshCoreConnectionState.connected &&
-      _activeTransport == MeshCoreTransportType.tcp;
+      _state == HamCoreConnectionState.connected &&
+      _activeTransport == HamCoreTransportType.tcp;
 
   String get deviceDisplayName {
     if (_selfName != null && _selfName!.isNotEmpty) {
@@ -476,7 +476,7 @@ class MeshCoreConnector extends ChangeNotifier {
   }
 
   List<Channel> get channels => List.unmodifiable(_channels);
-  bool get isConnected => _state == MeshCoreConnectionState.connected;
+  bool get isConnected => _state == HamCoreConnectionState.connected;
   bool get isLoadingContacts => _isLoadingContacts;
   bool get hasLoadedContacts => _hasLoadedContacts;
   bool get isLoadingChannels => _isLoadingChannels;
@@ -514,7 +514,7 @@ class MeshCoreConnector extends ChangeNotifier {
   int? get currentBwHz => _currentBwHz;
   int? get currentSf => _currentSf;
   int? get currentCr => _currentCr;
-  MeshCoreRadioStateSnapshot? get rememberedNonRepeatRadioState =>
+  HamCoreRadioStateSnapshot? get rememberedNonRepeatRadioState =>
       _rememberedNonRepeatRadioState;
   bool? get autoAddUsers => _autoAddUsers;
   bool? get autoAddRepeaters => _autoAddRepeaters;
@@ -538,7 +538,7 @@ class MeshCoreConnector extends ChangeNotifier {
     return _repeaterLoginClocks[prefix];
   }
 
-  void rememberNonRepeatRadioState(MeshCoreRadioStateSnapshot snapshot) {
+  void rememberNonRepeatRadioState(HamCoreRadioStateSnapshot snapshot) {
     _rememberedNonRepeatRadioState = snapshot;
   }
 
@@ -1510,13 +1510,13 @@ class MeshCoreConnector extends ChangeNotifier {
   Future<void> startScan({
     Duration timeout = const Duration(seconds: 10),
   }) async {
-    if (_state == MeshCoreConnectionState.scanning) return;
+    if (_state == HamCoreConnectionState.scanning) return;
 
     // A BLE scan must never disturb an active (or in-progress) non-BLE
     // connection. The connection state enum is shared across transports, so
     // entering the `scanning` state while connected over TCP/USB would clobber
     // the live `connected` state and later reset it to `disconnected`.
-    if (_state != MeshCoreConnectionState.disconnected ||
+    if (_state != HamCoreConnectionState.disconnected ||
         _tcpConnector.isConnected ||
         _usbManager.isConnected) {
       _appDebugLogService?.warn(
@@ -1529,7 +1529,7 @@ class MeshCoreConnector extends ChangeNotifier {
 
     _scanResults.clear();
     _linuxSystemScanResults.clear();
-    _setState(MeshCoreConnectionState.scanning);
+    _setState(HamCoreConnectionState.scanning);
 
     // Ensure any previous scan is fully stopped. Guard with isScanningNow to
     // avoid triggering stale native callbacks when no scan is active.
@@ -1557,7 +1557,7 @@ class MeshCoreConnector extends ChangeNotifier {
             .timeout(
               const Duration(seconds: 5),
               onTimeout: () {
-                _setState(MeshCoreConnectionState.disconnected);
+                _setState(HamCoreConnectionState.disconnected);
                 throw Exception('Bluetooth adapter not available');
               },
             );
@@ -1581,16 +1581,16 @@ class MeshCoreConnector extends ChangeNotifier {
 
     try {
       // Filter by the Nordic UART Service UUID rather than by advertised
-      // name. All MeshCore-compatible firmware (ESP32 + nRF52) advertises this
+      // name. All HamCore-compatible firmware (ESP32 + nRF52) advertises this
       // service UUID, so this matches every device regardless of the name it
       // chooses to advertise (e.g. community forks like the M5 Cardputer that
-      // do not use a "MeshCore-" name prefix). This mirrors how the official
+      // do not use a "HamCore-" name prefix). This mirrors how the official
       // app discovers devices. Note: on Android `withKeywords` cannot be
       // combined with any other filter, which is why name keywords are not
       // used here.
       await FlutterBluePlus.startScan(
-        withServices: [Guid(MeshCoreUuids.service)],
-        webOptionalServices: [Guid(MeshCoreUuids.service)],
+        withServices: [Guid(HamCoreUuids.service)],
+        webOptionalServices: [Guid(HamCoreUuids.service)],
         timeout: timeout,
         androidScanMode: AndroidScanMode.lowLatency,
       );
@@ -1610,7 +1610,7 @@ class MeshCoreConnector extends ChangeNotifier {
     _isScanningSubscription = FlutterBluePlus.isScanning.skip(1).listen((
       scanning,
     ) {
-      if (!scanning && _state == MeshCoreConnectionState.scanning) {
+      if (!scanning && _state == HamCoreConnectionState.scanning) {
         unawaited(stopScan());
       }
     });
@@ -1619,7 +1619,7 @@ class MeshCoreConnector extends ChangeNotifier {
   Future<void> _loadLinuxSystemDevicesForScan() async {
     try {
       final systemDevices = await FlutterBluePlus.systemDevices([
-        Guid(MeshCoreUuids.service),
+        Guid(HamCoreUuids.service),
       ]);
       // systemDevices is already filtered by the NUS service UUID above, so no
       // additional name-prefix filtering is applied here. This keeps Linux
@@ -1637,7 +1637,7 @@ class MeshCoreConnector extends ChangeNotifier {
                 connectable: true,
                 manufacturerData: const <int, List<int>>{},
                 serviceData: const <Guid, List<int>>{},
-                serviceUuids: <Guid>[Guid(MeshCoreUuids.service)],
+                serviceUuids: <Guid>[Guid(HamCoreUuids.service)],
               ),
               rssi: 0,
               timeStamp: DateTime.now(),
@@ -1690,13 +1690,13 @@ class MeshCoreConnector extends ChangeNotifier {
     await _isScanningSubscription?.cancel();
     _isScanningSubscription = null;
 
-    if (_state == MeshCoreConnectionState.scanning) {
+    if (_state == HamCoreConnectionState.scanning) {
       // Restore to `connected` if a non-BLE transport is still live, so a stray
       // scan can never tear down the reported connection state. Normally there
       // is no live transport here and we fall through to `disconnected`.
       final restored = (_tcpConnector.isConnected || _usbManager.isConnected)
-          ? MeshCoreConnectionState.connected
-          : MeshCoreConnectionState.disconnected;
+          ? HamCoreConnectionState.connected
+          : HamCoreConnectionState.disconnected;
       _setState(restored);
     }
   }
@@ -1715,8 +1715,8 @@ class MeshCoreConnector extends ChangeNotifier {
     required String portName,
     int baudRate = 115200,
   }) async {
-    if (_state == MeshCoreConnectionState.connecting ||
-        _state == MeshCoreConnectionState.connected) {
+    if (_state == HamCoreConnectionState.connecting ||
+        _state == HamCoreConnectionState.connected) {
       _appDebugLogService?.warn(
         'connectUsb ignored: already $_state',
         tag: 'USB',
@@ -1733,8 +1733,8 @@ class MeshCoreConnector extends ChangeNotifier {
     _cancelReconnectTimer();
     _manualDisconnect = false;
     _resetConnectionHandshakeState();
-    _activeTransport = MeshCoreTransportType.usb;
-    _setState(MeshCoreConnectionState.connecting);
+    _activeTransport = HamCoreTransportType.usb;
+    _setState(HamCoreConnectionState.connecting);
 
     try {
       await _usbFrameSubscription?.cancel();
@@ -1776,7 +1776,7 @@ class MeshCoreConnector extends ChangeNotifier {
         },
       );
 
-      _setState(MeshCoreConnectionState.connected);
+      _setState(HamCoreConnectionState.connected);
       _pendingInitialChannelSync = true;
       _pendingInitialQueuedMessageSync = true;
       _pendingInitialContactsSync = true;
@@ -1815,8 +1815,8 @@ class MeshCoreConnector extends ChangeNotifier {
   }
 
   Future<void> connectTcp({required String host, required int port}) async {
-    if (_state == MeshCoreConnectionState.connecting ||
-        _state == MeshCoreConnectionState.connected) {
+    if (_state == HamCoreConnectionState.connecting ||
+        _state == HamCoreConnectionState.connected) {
       _appDebugLogService?.warn(
         'connectTcp ignored: already $_state',
         tag: 'TCP',
@@ -1830,8 +1830,8 @@ class MeshCoreConnector extends ChangeNotifier {
     _cancelReconnectTimer();
     _manualDisconnect = false;
     _resetConnectionHandshakeState();
-    _activeTransport = MeshCoreTransportType.tcp;
-    _setState(MeshCoreConnectionState.connecting);
+    _activeTransport = HamCoreTransportType.tcp;
+    _setState(HamCoreConnectionState.connecting);
 
     try {
       Future<void> handleTcpConnectAbort({required String message}) async {
@@ -1852,8 +1852,8 @@ class MeshCoreConnector extends ChangeNotifier {
       await _tcpConnector.cancelFrameSubscription();
       await _tcpConnector.connect(host: host, port: port);
       final isTcpConnectCancelled =
-          _activeTransport != MeshCoreTransportType.tcp ||
-          _state != MeshCoreConnectionState.connecting ||
+          _activeTransport != HamCoreTransportType.tcp ||
+          _state != HamCoreConnectionState.connecting ||
           !_tcpConnector.isConnected;
       if (isTcpConnectCancelled) {
         await handleTcpConnectAbort(
@@ -1866,8 +1866,8 @@ class MeshCoreConnector extends ChangeNotifier {
 
       await Future<void>.delayed(const Duration(milliseconds: 200));
       final isTcpConnectCancelledAfterDelay =
-          _activeTransport != MeshCoreTransportType.tcp ||
-          _state != MeshCoreConnectionState.connecting ||
+          _activeTransport != HamCoreTransportType.tcp ||
+          _state != HamCoreConnectionState.connecting ||
           !_tcpConnector.isConnected;
       if (isTcpConnectCancelledAfterDelay) {
         await handleTcpConnectAbort(
@@ -1888,7 +1888,7 @@ class MeshCoreConnector extends ChangeNotifier {
         },
       );
 
-      _setState(MeshCoreConnectionState.connected);
+      _setState(HamCoreConnectionState.connected);
       _pendingInitialChannelSync = true;
       _pendingInitialQueuedMessageSync = true;
       _pendingInitialContactsSync = true;
@@ -1934,23 +1934,23 @@ class MeshCoreConnector extends ChangeNotifier {
   @visibleForTesting
   static bool shouldIgnoreLateTcpConnectError({
     required bool manualDisconnect,
-    required MeshCoreConnectionState state,
-    required MeshCoreTransportType activeTransport,
+    required HamCoreConnectionState state,
+    required HamCoreTransportType activeTransport,
     required bool tcpManagerConnected,
   }) {
     return manualDisconnect &&
-        (state == MeshCoreConnectionState.disconnected ||
-            state == MeshCoreConnectionState.disconnecting) &&
-        (activeTransport != MeshCoreTransportType.tcp || !tcpManagerConnected);
+        (state == HamCoreConnectionState.disconnected ||
+            state == HamCoreConnectionState.disconnecting) &&
+        (activeTransport != HamCoreTransportType.tcp || !tcpManagerConnected);
   }
 
   @visibleForTesting
   static bool shouldResetStateAfterTcpConnectAbort({
-    required MeshCoreConnectionState state,
-    required MeshCoreTransportType activeTransport,
+    required HamCoreConnectionState state,
+    required HamCoreTransportType activeTransport,
   }) {
-    return state == MeshCoreConnectionState.connecting &&
-        activeTransport == MeshCoreTransportType.tcp;
+    return state == HamCoreConnectionState.connecting &&
+        activeTransport == HamCoreTransportType.tcp;
   }
 
   /// Fast (non-timeout) connect failures are usually a stale link left over
@@ -1969,15 +1969,15 @@ class MeshCoreConnector extends ChangeNotifier {
     String? displayName,
     Future<String?> Function()? linuxPairingPinProvider,
   }) async {
-    if (_state == MeshCoreConnectionState.connecting ||
-        _state == MeshCoreConnectionState.connected) {
+    if (_state == HamCoreConnectionState.connecting ||
+        _state == HamCoreConnectionState.connected) {
       return;
     }
 
-    _activeTransport = MeshCoreTransportType.bluetooth;
+    _activeTransport = HamCoreTransportType.bluetooth;
 
     await stopScan();
-    _setState(MeshCoreConnectionState.connecting);
+    _setState(HamCoreConnectionState.connecting);
     _device = device;
     _deviceId = device.remoteId.toString();
     if (displayName != null && displayName.trim().isNotEmpty) {
@@ -2255,27 +2255,27 @@ class MeshCoreConnector extends ChangeNotifier {
 
       BluetoothService? uartService;
       for (var service in services) {
-        if (service.uuid.toString().toLowerCase() == MeshCoreUuids.service) {
+        if (service.uuid.toString().toLowerCase() == HamCoreUuids.service) {
           uartService = service;
           break;
         }
       }
 
       if (uartService == null) {
-        throw Exception("MeshCore UART service not found");
+        throw Exception("HamCore UART service not found");
       }
 
       for (var characteristic in uartService.characteristics) {
         String uuid = characteristic.uuid.toString().toLowerCase();
-        if (uuid == MeshCoreUuids.rxCharacteristic) {
+        if (uuid == HamCoreUuids.rxCharacteristic) {
           _rxCharacteristic = characteristic;
-        } else if (uuid == MeshCoreUuids.txCharacteristic) {
+        } else if (uuid == HamCoreUuids.txCharacteristic) {
           _txCharacteristic = characteristic;
         }
       }
 
       if (_rxCharacteristic == null || _txCharacteristic == null) {
-        throw Exception("MeshCore characteristics not found");
+        throw Exception("HamCore characteristics not found");
       }
 
       if (PlatformInfo.isWeb) {
@@ -2328,7 +2328,7 @@ class MeshCoreConnector extends ChangeNotifier {
         _handleFrame,
       );
 
-      _setState(MeshCoreConnectionState.connected);
+      _setState(HamCoreConnectionState.connected);
       if (_shouldGateInitialChannelSync) {
         _hasReceivedDeviceInfo = false;
         _pendingInitialChannelSync = true;
@@ -2586,7 +2586,7 @@ class MeshCoreConnector extends ChangeNotifier {
   Future<void> _startBleInitialSync() async {
     if (_bleInitialSyncStarted ||
         !isConnected ||
-        _activeTransport != MeshCoreTransportType.bluetooth) {
+        _activeTransport != HamCoreTransportType.bluetooth) {
       return;
     }
     _bleInitialSyncStarted = true;
@@ -2662,12 +2662,12 @@ class MeshCoreConnector extends ChangeNotifier {
   bool get _shouldAutoReconnect =>
       !_manualDisconnect &&
       _lastDeviceId != null &&
-      _activeTransport == MeshCoreTransportType.bluetooth;
+      _activeTransport == HamCoreTransportType.bluetooth;
 
   bool get _shouldGateInitialChannelSync =>
-      _activeTransport == MeshCoreTransportType.usb ||
-      _activeTransport == MeshCoreTransportType.tcp ||
-      (_activeTransport == MeshCoreTransportType.bluetooth &&
+      _activeTransport == HamCoreTransportType.usb ||
+      _activeTransport == HamCoreTransportType.tcp ||
+      (_activeTransport == HamCoreTransportType.bluetooth &&
           PlatformInfo.isWeb);
 
   void _cancelReconnectTimer() {
@@ -2690,8 +2690,8 @@ class MeshCoreConnector extends ChangeNotifier {
     final delayMs = _nextReconnectDelayMs();
     _reconnectTimer = Timer(Duration(milliseconds: delayMs), () async {
       if (!_shouldAutoReconnect) return;
-      if (_state == MeshCoreConnectionState.connecting ||
-          _state == MeshCoreConnectionState.connected) {
+      if (_state == HamCoreConnectionState.connecting ||
+          _state == HamCoreConnectionState.connected) {
         return;
       }
 
@@ -2714,12 +2714,12 @@ class MeshCoreConnector extends ChangeNotifier {
     bool manual = true,
     bool skipBleDeviceDisconnect = false,
   }) async {
-    if (_state == MeshCoreConnectionState.disconnecting) return;
+    if (_state == HamCoreConnectionState.disconnecting) return;
     final transportAtDisconnect = _activeTransport;
     final transportLabel = switch (transportAtDisconnect) {
-      MeshCoreTransportType.bluetooth => 'BLE',
-      MeshCoreTransportType.usb => 'USB',
-      MeshCoreTransportType.tcp => 'TCP',
+      HamCoreTransportType.bluetooth => 'BLE',
+      HamCoreTransportType.usb => 'USB',
+      HamCoreTransportType.tcp => 'TCP',
     };
 
     _appDebugLogService?.info(
@@ -2734,7 +2734,7 @@ class MeshCoreConnector extends ChangeNotifier {
     } else {
       _manualDisconnect = false;
     }
-    _setState(MeshCoreConnectionState.disconnecting);
+    _setState(HamCoreConnectionState.disconnecting);
     _stopBatteryPolling();
     _stopRadioStatsPolling();
 
@@ -2815,14 +2815,14 @@ class MeshCoreConnector extends ChangeNotifier {
     _pendingGenericAckQueue.clear();
     _reactionSendQueueSequence = 0;
 
-    _activeTransport = MeshCoreTransportType.bluetooth;
+    _activeTransport = HamCoreTransportType.bluetooth;
 
-    _setState(MeshCoreConnectionState.disconnected);
+    _setState(HamCoreConnectionState.disconnected);
     _appDebugLogService?.info(
       'Disconnect complete transport=$transportLabel manual=$manual',
       tag: 'Connection',
     );
-    if (!manual && transportAtDisconnect == MeshCoreTransportType.bluetooth) {
+    if (!manual && transportAtDisconnect == HamCoreTransportType.bluetooth) {
       _scheduleReconnect();
     }
   }
@@ -2834,7 +2834,7 @@ class MeshCoreConnector extends ChangeNotifier {
     bool waitForGenericAck = false,
   }) async {
     if (!isConnected) {
-      throw Exception("Not connected to a MeshCore device");
+      throw Exception("Not connected to a HamCore device");
     }
     _bleDebugLogService?.logFrame(data, outgoing: true);
 
@@ -2846,24 +2846,24 @@ class MeshCoreConnector extends ChangeNotifier {
     );
 
     try {
-      if (_activeTransport == MeshCoreTransportType.usb) {
+      if (_activeTransport == HamCoreTransportType.usb) {
         await _usbManager.write(data);
         // Brief pause so the device firmware can process each frame before the
         // next arrives. Without this, rapid-fire frames over USB can cause the
         // device to miss responses (especially on reconnect).
         await Future<void>.delayed(const Duration(milliseconds: 10));
-      } else if (_activeTransport == MeshCoreTransportType.tcp) {
+      } else if (_activeTransport == HamCoreTransportType.tcp) {
         await _tcpConnector.write(data);
       } else {
         if (_rxCharacteristic == null) {
-          throw Exception("MeshCore RX characteristic not available");
+          throw Exception("HamCore RX characteristic not available");
         }
         // Prefer write without response when supported; fall back to write with response.
         final properties = _rxCharacteristic!.properties;
         final canWriteWithoutResponse = properties.writeWithoutResponse;
         final canWriteWithResponse = properties.write;
         if (!canWriteWithoutResponse && !canWriteWithResponse) {
-          throw Exception("MeshCore RX characteristic does not support write");
+          throw Exception("HamCore RX characteristic does not support write");
         }
         await _rxCharacteristic!.write(
           data.toList(),
@@ -3011,14 +3011,14 @@ class MeshCoreConnector extends ChangeNotifier {
   Future<void> refreshDeviceInfo() async {
     if (!isConnected) return;
     if (PlatformInfo.isWeb &&
-        _activeTransport == MeshCoreTransportType.bluetooth &&
+        _activeTransport == HamCoreTransportType.bluetooth &&
         _webInitialHandshakeRequestSent &&
         _selfPublicKey == null) {
       return;
     }
     _awaitingSelfInfo = true;
     if (PlatformInfo.isWeb &&
-        _activeTransport == MeshCoreTransportType.bluetooth &&
+        _activeTransport == HamCoreTransportType.bluetooth &&
         _selfPublicKey == null) {
       _webInitialHandshakeRequestSent = true;
     }
@@ -3034,14 +3034,14 @@ class MeshCoreConnector extends ChangeNotifier {
   Future<void> _requestDeviceInfo() async {
     if (!isConnected || _awaitingSelfInfo) return;
     if (PlatformInfo.isWeb &&
-        _activeTransport == MeshCoreTransportType.bluetooth &&
+        _activeTransport == HamCoreTransportType.bluetooth &&
         _webInitialHandshakeRequestSent &&
         _selfPublicKey == null) {
       return;
     }
     _awaitingSelfInfo = true;
     if (PlatformInfo.isWeb &&
-        _activeTransport == MeshCoreTransportType.bluetooth &&
+        _activeTransport == HamCoreTransportType.bluetooth &&
         _selfPublicKey == null) {
       _webInitialHandshakeRequestSent = true;
     }
@@ -3056,7 +3056,7 @@ class MeshCoreConnector extends ChangeNotifier {
   void _scheduleSelfInfoRetry() {
     _selfInfoRetryTimer?.cancel();
     if (PlatformInfo.isWeb &&
-        _activeTransport == MeshCoreTransportType.bluetooth) {
+        _activeTransport == HamCoreTransportType.bluetooth) {
       var attempts = 0;
       const maxAttempts = 3;
       _selfInfoRetryTimer = Timer.periodic(const Duration(seconds: 10), (
@@ -3244,7 +3244,7 @@ class MeshCoreConnector extends ChangeNotifier {
       );
       // USB writes return instantly (no BLE flow control), so give the firmware
       // time to persist the path change before subsequent commands.
-      if (_activeTransport == MeshCoreTransportType.usb) {
+      if (_activeTransport == HamCoreTransportType.usb) {
         await Future<void>.delayed(const Duration(milliseconds: 100));
       }
       final idx = _contacts.indexWhere(
@@ -3874,7 +3874,7 @@ class MeshCoreConnector extends ChangeNotifier {
       if (!isConnected) return;
 
       await sendFrame(buildResetPathFrame(contact.publicKey));
-      if (_activeTransport == MeshCoreTransportType.usb) {
+      if (_activeTransport == HamCoreTransportType.usb) {
         await Future<void>.delayed(const Duration(milliseconds: 100));
       }
       final existingIndex = _contacts.indexWhere(
@@ -4337,7 +4337,7 @@ class MeshCoreConnector extends ChangeNotifier {
         notifyListeners();
         unawaited(_persistContacts());
         if (PlatformInfo.isWeb &&
-            _activeTransport == MeshCoreTransportType.bluetooth &&
+            _activeTransport == HamCoreTransportType.bluetooth &&
             _isSyncingChannels &&
             !_channelSyncInFlight) {
           unawaited(_requestNextChannel());
@@ -4572,7 +4572,7 @@ class MeshCoreConnector extends ChangeNotifier {
     }
 
     final selfName = _selfName?.trim();
-    if (_activeTransport == MeshCoreTransportType.usb &&
+    if (_activeTransport == HamCoreTransportType.usb &&
         selfName != null &&
         selfName.isNotEmpty) {
       _usbManager.updateConnectedLabel(selfName);
@@ -6759,7 +6759,7 @@ class MeshCoreConnector extends ChangeNotifier {
     _pendingGenericAckQueue.clear();
     _reactionSendQueueSequence = 0;
 
-    _setState(MeshCoreConnectionState.disconnected);
+    _setState(HamCoreConnectionState.disconnected);
     _scheduleReconnect();
   }
 
@@ -6850,7 +6850,7 @@ class MeshCoreConnector extends ChangeNotifier {
     }
   }
 
-  void _setState(MeshCoreConnectionState newState) {
+  void _setState(HamCoreConnectionState newState) {
     if (_state != newState) {
       _state = newState;
       notifyListeners();

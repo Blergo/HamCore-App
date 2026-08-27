@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../connector/meshcore_connector.dart';
+import '../connector/hamcore_connector.dart';
 import '../l10n/l10n.dart';
 import '../utils/lora_airtime.dart';
 import 'image_send_codec_binding.dart';
@@ -53,7 +53,7 @@ class ImageSendPreviewResult {
 /// on-disk size, shown against the transmitted size.
 ///
 /// [radio] overrides the live radio parameters; when omitted they are read from
-/// the [MeshCoreConnector] in the widget tree. Pass it explicitly to preview
+/// the [HamCoreConnector] in the widget tree. Pass it explicitly to preview
 /// this sheet without a connector.
 ///
 /// There is no quality/rate argument: ft32 ([kImageSendRatePoint]) is the only
@@ -191,7 +191,7 @@ class _ImageSendPreviewSheetState extends State<ImageSendPreviewSheet> {
   ImageSendRadio _radioParams(BuildContext context) {
     final override = widget.radio;
     if (override != null) return override;
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     return ImageSendRadio(
       spreadingFactor: connector.currentSf,
       bandwidthHz: connector.currentBwHz,

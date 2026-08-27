@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// MeshCore palette — high-contrast slate surfaces with sky-blue accents.
+/// HamCore palette — high-contrast slate surfaces with sky-blue accents.
 class MeshPalette {
   MeshPalette._();
 

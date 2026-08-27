@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_protocol.dart';
 import '../models/contact.dart';
 
 class PathHelper {

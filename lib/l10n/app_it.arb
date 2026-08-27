@@ -8,7 +8,7 @@
     }
   },
   "@@locale": "it",
-  "appTitle": "MeshCore Open",
+  "appTitle": "HamCore",
   "nav_contacts": "Contatti",
   "nav_channels": "Canali",
   "nav_map": "Mappa",
@@ -54,7 +54,7 @@
       }
     }
   },
-  "scanner_title": "MeshCore Open",
+  "scanner_title": "HamCore",
   "scanner_scanning": "Scansione in corso per i dispositivi...",
   "scanner_connecting": "Connessione...",
   "scanner_disconnecting": "Disconnessione...",
@@ -67,8 +67,8 @@
       }
     }
   },
-  "scanner_searchingDevices": "Ricerca dispositivi MeshCore...",
-  "scanner_tapToScan": "Tocca Scansiona per trovare i dispositivi MeshCore",
+  "scanner_searchingDevices": "Ricerca dispositivi HamCore...",
+  "scanner_tapToScan": "Tocca Scansiona per trovare i dispositivi HamCore",
   "scanner_connectionFailed": "Connessione fallita: {error}",
   "@scanner_connectionFailed": {
     "placeholders": {
@@ -80,7 +80,7 @@
   "scanner_stop": "Ferma",
   "scanner_scan": "Scansiona",
   "device_quickSwitch": "Passa rapidamente",
-  "device_meshcore": "MeshCore",
+  "device_hamcore": "HamCore",
   "settings_title": "Impostazioni",
   "settings_deviceInfo": "Informazioni dispositivo",
   "settings_appSettings": "Impostazioni App",
@@ -117,7 +117,7 @@
   "settings_refreshContacts": "Aggiorna contatti",
   "settings_refreshContactsSubtitle": "Ricarica l'elenco dei contatti dal dispositivo",
   "settings_rebootDevice": "Riavvia dispositivo",
-  "settings_rebootDeviceSubtitle": "Riavvia il dispositivo MeshCore",
+  "settings_rebootDeviceSubtitle": "Riavvia il dispositivo HamCore",
   "settings_rebootDeviceConfirm": "Sei sicuro di voler riavviare il dispositivo? Sarai disconnesso.",
   "settings_debug": "Risoluzione dei problemi",
   "settings_bleDebugLog": "Registro di debug BLE",
@@ -125,7 +125,7 @@
   "settings_appDebugLog": "Log di Debug dell'App",
   "settings_appDebugLogSubtitle": "Messaggi di debug dell'applicazione",
   "settings_about": "Informazioni",
-  "settings_aboutVersion": "MeshCore Open v{version}",
+  "settings_aboutVersion": "HamCore v{version}",
   "@settings_aboutVersion": {
     "placeholders": {
       "version": {
@@ -133,8 +133,8 @@
       }
     }
   },
-  "settings_aboutLegalese": "2026 Progetto open source MeshCore",
-  "settings_aboutDescription": "Un client Flutter open source per i dispositivi MeshCore di rete mesh LoRa.",
+  "settings_aboutLegalese": "2026 Progetto open source HamCore",
+  "settings_aboutDescription": "Un client Flutter open source per i dispositivi HamCore di rete mesh LoRa.",
   "settings_infoName": "Nome",
   "settings_infoId": "ID",
   "settings_infoStatus": "Stato",
@@ -1912,7 +1912,7 @@
   "contacts_ShareContactZeroHop": "Condividi contatto tramite annuncio",
   "contacts_zeroHopContactAdvertFailed": "Invio del contatto non riuscito.",
   "contacts_contactAdvertCopied": "Annuncio copiato negli Appunti.",
-  "notification_activityTitle": "Attività MeshCore",
+  "notification_activityTitle": "Attività HamCore",
   "notification_messagesCount": "{count} {count, plural, =1{messaggio} other{messaggi}}",
   "@notification_messagesCount": {
     "placeholders": {
@@ -1959,8 +1959,8 @@
   "settings_gpxExportChat": "Posizioni dei compagni",
   "settings_gpxExportRepeatersRoom": "Posizioni del server ripetitore e della stanza",
   "settings_gpxExportAllContacts": "Tutte le posizioni dei contatti",
-  "settings_gpxExportShareText": "Dati mappa esportati da meshcore-open",
-  "settings_gpxExportShareSubject": "meshcore-open esportazione dati mappa GPX",
+  "settings_gpxExportShareText": "Dati mappa esportati da hamcore",
+  "settings_gpxExportShareSubject": "hamcore esportazione dati mappa GPX",
   "pathTrace_someHopsNoLocation": "Uno o più hop non hanno una posizione!",
   "map_removeLast": "Rimuovi ultimo",
   "map_pathTraceCancelled": "Tracciamento del percorso annullato.",
@@ -2149,7 +2149,7 @@
   "map_guessedLocation": "Posizione stimata",
   "map_showGuessedLocations": "Mostra le posizioni stimate dei nodi",
   "connectionChoiceBluetoothLabel": "Bluetooth",
-  "usbScreenSubtitle": "Seleziona il dispositivo seriale rilevato e connettilo direttamente al tuo nodo MeshCore.",
+  "usbScreenSubtitle": "Seleziona il dispositivo seriale rilevato e connettilo direttamente al tuo nodo HamCore.",
   "connectionChoiceUsbLabel": "USB",
   "usbScreenTitle": "Connessione tramite USB",
   "usbScreenStatus": "Seleziona un dispositivo USB",
@@ -2462,7 +2462,7 @@
   "repeater_cliHelpStatsRadio": "(Solo per serie TV) Visualizza statistiche relative alla trasmissione radiofonica.",
   "repeater_cliHelpStatsCore": "(Solo per serie) Visualizza le statistiche del firmware di base.",
   "common_done": "Fatto",
-  "background_serviceTitle": "MeshCore running",
+  "background_serviceTitle": "HamCore running",
   "background_serviceText": "Keeping BLE connected",
   "appSettings_translationModelDeleted": "Deleted {name}",
   "@appSettings_translationModelDeleted": {
@@ -2891,7 +2891,7 @@
   "channels_regionNotSet": "Regione: nessuna",
   "channels_regionSelect_Title": "Scegli una regione",
   "channels_clearRegion": "Zona chiara",
-  "chat_sendImageLora": "Invia immagine tramite MeshCore",
+  "chat_sendImageLora": "Invia immagine tramite HamCore",
   "chat_imagePickFailed": "Non sono riuscito ad aprire quell'immagine",
   "chat_receivedGif": "Ricevuto un GIF",
   "repeater_keySettings": "Cambia le Chiavi di Identità",

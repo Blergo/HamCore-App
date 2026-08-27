@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meshcore_open/connector/meshcore_connector.dart';
-import 'package:meshcore_open/widgets/battery_indicator.dart';
+import 'package:hamcore/connector/hamcore_connector.dart';
+import 'package:hamcore/widgets/battery_indicator.dart';
 import 'package:provider/provider.dart';
 
 import 'radio_stats_entry.dart';
@@ -25,7 +25,7 @@ class AppBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     final selfName = connector.selfName;
 
     return LayoutBuilder(

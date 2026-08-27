@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// A centered empty state display with icon, title, and optional subtitle/action.
 /// Features a tinted icon circle, fade+slide entrance animation, and clear
-/// typography hierarchy using the MeshCore design system.
+/// typography hierarchy using the HamCore design system.
 class EmptyState extends StatefulWidget {
   final IconData icon;
   final String title;

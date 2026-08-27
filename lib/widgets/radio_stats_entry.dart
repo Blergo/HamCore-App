@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:meshcore_open/connector/meshcore_connector.dart';
-import 'package:meshcore_open/models/companion_radio_stats.dart';
-import 'package:meshcore_open/l10n/l10n.dart';
-import 'package:meshcore_open/screens/companion_radio_stats_screen.dart';
+import 'package:hamcore/connector/hamcore_connector.dart';
+import 'package:hamcore/models/companion_radio_stats.dart';
+import 'package:hamcore/l10n/l10n.dart';
+import 'package:hamcore/screens/companion_radio_stats_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../theme/mesh_theme.dart';
@@ -29,12 +29,12 @@ class RadioStatsIconButton extends StatefulWidget {
 }
 
 class _RadioStatsIconButtonState extends State<RadioStatsIconButton> {
-  MeshCoreConnector? _connector;
+  HamCoreConnector? _connector;
 
   @override
   void initState() {
     super.initState();
-    final c = context.read<MeshCoreConnector>();
+    final c = context.read<HamCoreConnector>();
     _connector = c;
     c.acquireRadioStatsPolling();
   }
@@ -47,14 +47,14 @@ class _RadioStatsIconButtonState extends State<RadioStatsIconButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Selector<MeshCoreConnector, ({bool connected, bool supported})>(
+    return Selector<HamCoreConnector, ({bool connected, bool supported})>(
       selector: (_, c) =>
           (connected: c.isConnected, supported: c.supportsCompanionRadioStats),
       builder: (context, state, _) {
         if (!state.connected || !state.supported) {
           return const SizedBox.shrink();
         }
-        final connector = context.read<MeshCoreConnector>();
+        final connector = context.read<HamCoreConnector>();
         return ValueListenableBuilder<CompanionRadioStats?>(
           valueListenable: connector.radioStatsNotifier,
           builder: (context, _, child) {

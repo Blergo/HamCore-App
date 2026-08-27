@@ -2,32 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
-import 'package:meshcore_open/connector/meshcore_connector.dart';
-import 'package:meshcore_open/l10n/app_localizations.dart';
-import 'package:meshcore_open/screens/scanner_screen.dart';
-import 'package:meshcore_open/screens/tcp_screen.dart';
-import 'package:meshcore_open/services/app_settings_service.dart';
+import 'package:hamcore/connector/hamcore_connector.dart';
+import 'package:hamcore/l10n/app_localizations.dart';
+import 'package:hamcore/screens/scanner_screen.dart';
+import 'package:hamcore/screens/tcp_screen.dart';
+import 'package:hamcore/services/app_settings_service.dart';
 
-class _FakeMeshCoreConnector extends MeshCoreConnector {
-  _FakeMeshCoreConnector();
+class _FakeHamCoreConnector extends HamCoreConnector {
+  _FakeHamCoreConnector();
 
-  MeshCoreConnectionState initialState = MeshCoreConnectionState.disconnected;
-  MeshCoreTransportType initialTransport = MeshCoreTransportType.bluetooth;
+  HamCoreConnectionState initialState = HamCoreConnectionState.disconnected;
+  HamCoreTransportType initialTransport = HamCoreTransportType.bluetooth;
   String? initialEndpoint;
   int connectTcpCalls = 0;
   String? lastHost;
   int? lastPort;
 
   @override
-  MeshCoreConnectionState get state => initialState;
+  HamCoreConnectionState get state => initialState;
 
   @override
-  MeshCoreTransportType get activeTransport => initialTransport;
+  HamCoreTransportType get activeTransport => initialTransport;
 
   @override
   bool get isTcpTransportConnected =>
-      initialState == MeshCoreConnectionState.connected &&
-      initialTransport == MeshCoreTransportType.tcp;
+      initialState == HamCoreConnectionState.connected &&
+      initialTransport == HamCoreTransportType.tcp;
 
   @override
   String? get activeTcpEndpoint => initialEndpoint;
@@ -41,13 +41,13 @@ class _FakeMeshCoreConnector extends MeshCoreConnector {
 }
 
 Widget _buildTestApp({
-  required MeshCoreConnector connector,
+  required HamCoreConnector connector,
   required Widget child,
   Locale? locale,
 }) {
   return MultiProvider(
     providers: [
-      ChangeNotifierProvider<MeshCoreConnector>.value(value: connector),
+      ChangeNotifierProvider<HamCoreConnector>.value(value: connector),
       ChangeNotifierProvider<AppSettingsService>(
         create: (_) => AppSettingsService(),
       ),
@@ -63,7 +63,7 @@ Widget _buildTestApp({
 
 void main() {
   testWidgets('TcpScreen uses localized TCP copy', (tester) async {
-    final connector = _FakeMeshCoreConnector();
+    final connector = _FakeHamCoreConnector();
 
     await tester.pumpWidget(
       _buildTestApp(
@@ -84,7 +84,7 @@ void main() {
   });
 
   testWidgets('TcpScreen validation errors are localized', (tester) async {
-    final connector = _FakeMeshCoreConnector();
+    final connector = _FakeHamCoreConnector();
 
     await tester.pumpWidget(
       _buildTestApp(
@@ -116,7 +116,7 @@ void main() {
   testWidgets('TCP Bluetooth action returns to existing scanner route', (
     tester,
   ) async {
-    final connector = _FakeMeshCoreConnector();
+    final connector = _FakeHamCoreConnector();
 
     await tester.pumpWidget(
       _buildTestApp(connector: connector, child: const ScannerScreen()),
@@ -146,8 +146,8 @@ void main() {
   testWidgets('TcpScreen disables connect button while connector is scanning', (
     tester,
   ) async {
-    final connector = _FakeMeshCoreConnector()
-      ..initialState = MeshCoreConnectionState.scanning;
+    final connector = _FakeHamCoreConnector()
+      ..initialState = HamCoreConnectionState.scanning;
 
     await tester.pumpWidget(
       _buildTestApp(
@@ -171,10 +171,10 @@ void main() {
     await tester.binding.setSurfaceSize(const Size(320, 700));
     addTearDown(() => tester.binding.setSurfaceSize(null));
 
-    final connector = _FakeMeshCoreConnector()
-      ..initialState = MeshCoreConnectionState.connected
-      ..initialTransport = MeshCoreTransportType.tcp
-      ..initialEndpoint = 'meshcore-room-server-very-long-hostname.local:5000';
+    final connector = _FakeHamCoreConnector()
+      ..initialState = HamCoreConnectionState.connected
+      ..initialTransport = HamCoreTransportType.tcp
+      ..initialEndpoint = 'hamcore-room-server-very-long-hostname.local:5000';
 
     await tester.pumpWidget(
       _buildTestApp(

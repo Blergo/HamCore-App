@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:meshcore_open/connector/meshcore_connector.dart';
-import 'package:meshcore_open/models/companion_radio_stats.dart';
-import 'package:meshcore_open/l10n/l10n.dart';
-import 'package:meshcore_open/theme/mesh_theme.dart';
-import 'package:meshcore_open/widgets/mesh_ui.dart';
+import 'package:hamcore/connector/hamcore_connector.dart';
+import 'package:hamcore/models/companion_radio_stats.dart';
+import 'package:hamcore/l10n/l10n.dart';
+import 'package:hamcore/theme/mesh_theme.dart';
+import 'package:hamcore/widgets/mesh_ui.dart';
 import 'package:provider/provider.dart';
 
 class CompanionRadioStatsScreen extends StatefulWidget {
@@ -17,13 +17,13 @@ class CompanionRadioStatsScreen extends StatefulWidget {
 class _CompanionRadioStatsScreenState extends State<CompanionRadioStatsScreen> {
   final List<double> _noiseHistory = [];
   static const int _maxSamples = 120;
-  MeshCoreConnector? _connector;
+  HamCoreConnector? _connector;
   DateTime? _lastChartSampleAt;
 
   @override
   void initState() {
     super.initState();
-    final c = context.read<MeshCoreConnector>();
+    final c = context.read<HamCoreConnector>();
     _connector = c;
     c.acquireRadioStatsPolling();
     c.setPollingInterval(1);
@@ -78,7 +78,7 @@ class _CompanionRadioStatsScreenState extends State<CompanionRadioStatsScreen> {
         title: Text(l10n.radioStats_screenTitle),
         centerTitle: true,
       ),
-      body: Selector<MeshCoreConnector, ({bool connected, bool supported})>(
+      body: Selector<HamCoreConnector, ({bool connected, bool supported})>(
         selector: (_, c) => (
           connected: c.isConnected,
           supported: c.supportsCompanionRadioStats,
@@ -98,7 +98,7 @@ class _CompanionRadioStatsScreenState extends State<CompanionRadioStatsScreen> {
               ),
             );
           }
-          final connector = context.read<MeshCoreConnector>();
+          final connector = context.read<HamCoreConnector>();
           final scheme = Theme.of(context).colorScheme;
           final tt = Theme.of(context).textTheme;
 

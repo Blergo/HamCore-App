@@ -1,6 +1,6 @@
-# MeshCore Open - Flutter Client
+# HamCore - Flutter Client
 
-Open-source Flutter client for MeshCore LoRa mesh networking devices. Connects to MeshCore-compatible radios over **BLE, TCP, or USB serial** and provides direct/channel chat, contact and channel management, on-map node tracking, repeater administration, and on-device message translation.
+Open-source Flutter client for HamCore LoRa mesh networking devices. Connects to HamCore-compatible radios over **BLE, TCP, or USB serial** and provides direct/channel chat, contact and channel management, on-map node tracking, repeater administration, and on-device message translation.
 
 ## Build Commands
 
@@ -33,11 +33,11 @@ Open-source Flutter client for MeshCore LoRa mesh networking devices. Connects t
 lib/
 ├── main.dart        # Entry point: MultiProvider wiring, locale + theme, initial route
 ├── connector/       # Unified BLE/TCP/USB transport layer
-│   ├── meshcore_connector.dart       # Central state holder + ChangeNotifier (all transports)
-│   ├── meshcore_connector_tcp.dart   # TCP transport helper
-│   ├── meshcore_connector_usb.dart   # USB serial transport helper
-│   ├── meshcore_protocol.dart        # Frame size + version constants
-│   └── meshcore_uuids.dart           # Nordic UART UUIDs + scan name prefixes
+│   ├── hamcore_connector.dart       # Central state holder + ChangeNotifier (all transports)
+│   ├── hamcore_connector_tcp.dart   # TCP transport helper
+│   ├── hamcore_connector_usb.dart   # USB serial transport helper
+│   ├── hamcore_protocol.dart        # Frame size + version constants
+│   └── hamcore_uuids.dart           # Nordic UART UUIDs + scan name prefixes
 ├── models/          # Plain data classes (Contact, Channel, Message, Community, …)
 ├── services/        # ChangeNotifier services + IO services (retry, translation, ML, …)
 ├── storage/         # SharedPreferences-backed stores, scoped per device key
@@ -58,8 +58,8 @@ All screens are fully implemented (no remaining placeholders).
 | Screen | Purpose |
 |---|---|
 | `scanner_screen.dart` | BLE device scan and connect — main entry point |
-| `tcp_screen.dart` | Connect to a MeshCore device over TCP/IP |
-| `usb_screen.dart` | Connect to a MeshCore device over USB serial |
+| `tcp_screen.dart` | Connect to a HamCore device over TCP/IP |
+| `usb_screen.dart` | Connect to a HamCore device over USB serial |
 | `discovery_screen.dart` | Browse all discovered (non-contact) mesh nodes |
 | `chrome_required_screen.dart` | Web gate for non-Chrome browsers (BLE unavailable) |
 
@@ -112,7 +112,7 @@ All screens are fully implemented (no remaining placeholders).
 
 | Provider | Role |
 |---|---|
-| `MeshCoreConnector` | Active transport (BLE/TCP/USB), connection state, frame I/O |
+| `HamCoreConnector` | Active transport (BLE/TCP/USB), connection state, frame I/O |
 | `MessageRetryService` | ACK tracking and retry scheduling with backoff |
 | `PathHistoryService` | Per-contact routing history (LRU cache, 50 contacts) |
 | `AppSettingsService` | App preferences (theme, units, locale, notifications) |
@@ -154,11 +154,11 @@ GGUF translation models are stored as files (not SharedPreferences) via `transla
 
 ## Transports
 
-`MeshCoreConnector` unifies all three transports under one `ChangeNotifier`. There is **no shared base class** — selection is via the `MeshCoreTransportType { bluetooth, usb, tcp }` enum, and BLE/TCP/USB share the same connection-state enum, send/receive API, and frame protocol.
+`HamCoreConnector` unifies all three transports under one `ChangeNotifier`. There is **no shared base class** — selection is via the `HamCoreTransportType { bluetooth, usb, tcp }` enum, and BLE/TCP/USB share the same connection-state enum, send/receive API, and frame protocol.
 
 ### Connection State
 ```dart
-enum MeshCoreConnectionState {
+enum HamCoreConnectionState {
   disconnected,
   scanning,
   connecting,
@@ -168,29 +168,29 @@ enum MeshCoreConnectionState {
 ```
 
 ### Frame I/O (all transports)
-- **Send**: `MeshCoreConnector.sendFrame(Uint8List data, {String? channelSendQueueId, bool expectsGenericAck})`
+- **Send**: `HamCoreConnector.sendFrame(Uint8List data, {String? channelSendQueueId, bool expectsGenericAck})`
 - **Receive**: `Stream<Uint8List> get receivedFrames`
-- **Protocol constants** (`meshcore_protocol.dart`): `maxFrameSize = 172`, `maxTextPayloadBytes = 160`, `appProtocolVersion = 4`
+- **Protocol constants** (`hamcore_protocol.dart`): `maxFrameSize = 172`, `maxTextPayloadBytes = 160`, `appProtocolVersion = 4`
 
 ### BLE — Nordic UART Service (NUS)
 - **Service UUID**: `6e400001-b5a3-f393-e0a9-e50e24dcca9e`
 - **RX Characteristic** (write to device): `6e400002-b5a3-f393-e0a9-e50e24dcca9e`
 - **TX Characteristic** (notify from device): `6e400003-b5a3-f393-e0a9-e50e24dcca9e`
-- **Discovery**: scans for devices whose name starts with `MeshCore-`, `Whisper-`, `WisCore-`, `Seeed`, `Lilygo`, `HT-`, or `LowMesh_MC_` (filters on both `platformName` and `advertisementData.advName`)
+- **Discovery**: scans for devices advertising the Nordic UART Service UUID (so community forks with non-standard names are still found); `HamCoreUuids.deviceNamePrefixes` (`HamCore-`) is kept for reference/display, not as a scan filter
 - **Linux**: `linux_ble_pairing_service.dart` falls back to `bluetoothctl` when BlueZ agent prompts fail
 
 ### TCP
 - Manual host/port entry, persisted via `AppSettingsService` (`tcpServerAddress`, `tcpServerPort`)
 - UI hint: `192.168.40.10` / port `5000`
 - Disabled on web (`PlatformInfo.isWeb`)
-- API: `MeshCoreConnector.connectTcp(host: ..., port: ...)`
+- API: `HamCoreConnector.connectTcp(host: ..., port: ...)`
 
 ### USB Serial (flserial)
 - Default baud rate: `115200`
-- Port enumeration: `MeshCoreConnector.listUsbPorts()`
+- Port enumeration: `HamCoreConnector.listUsbPorts()`
 - COBS-framed packets via `usb_serial_frame_codec.dart`
 - macOS device-name resolution via `ioreg` (`utils/macos_usb_device_names.dart`)
-- API: `MeshCoreConnector.connectUsb(portName: ..., baudRate: 115200)`
+- API: `HamCoreConnector.connectUsb(portName: ..., baudRate: 115200)`
 
 ## Dependencies
 
@@ -285,7 +285,7 @@ App version: `9.5.0+13` — Dart SDK constraint: `^3.9.2`
 
 `flutter_foreground_task` registers a `ForegroundService` with `foregroundServiceType="connectedDevice"` and `stopWithTask="false"`.
 
-**Build config (`android/app/build.gradle.kts`)**: `applicationId = com.meshcore.meshcore_open`, NDK `29.0.14206865`, Java 8 core-library desugaring (`desugar_jdk_libs:2.1.4`), release signing via `key.properties` (debug fallback).
+**Build config (`android/app/build.gradle.kts`)**: `applicationId = com.hamcore.hamcore`, NDK `29.0.14206865`, Java 8 core-library desugaring (`desugar_jdk_libs:2.1.4`), release signing via `key.properties` (debug fallback).
 
 ### iOS (`ios/Runner/Info.plist`)
 - `NSBluetoothAlwaysUsageDescription`, `NSBluetoothPeripheralUsageDescription`
@@ -325,9 +325,9 @@ PWA scaffold present but boilerplate (`manifest.json` and `index.html` are unmod
 | File | Purpose |
 |------|---------|
 | `lib/main.dart` | App configuration, MultiProvider setup, theme, locale, initial route |
-| `lib/connector/meshcore_connector.dart` | Unified BLE/TCP/USB transport state holder |
-| `lib/connector/meshcore_protocol.dart` | Frame size limits and protocol version |
-| `lib/connector/meshcore_uuids.dart` | NUS UUIDs and BLE scan name prefixes |
+| `lib/connector/hamcore_connector.dart` | Unified BLE/TCP/USB transport state holder |
+| `lib/connector/hamcore_protocol.dart` | Frame size limits and protocol version |
+| `lib/connector/hamcore_uuids.dart` | NUS UUIDs and BLE scan name prefixes |
 | `lib/services/app_settings_service.dart` | App-wide settings (`AppSettings` JSON in SharedPreferences) |
 | `lib/services/storage_service.dart` | Path history + delivery observation persistence |
 | `lib/services/message_retry_service.dart` | ACK tracking + retry scheduling |

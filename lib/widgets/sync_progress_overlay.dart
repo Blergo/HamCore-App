@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../connector/meshcore_connector.dart';
+import '../connector/hamcore_connector.dart';
 
 class SyncProgressAppBarBottom extends StatelessWidget
     implements PreferredSizeWidget {
@@ -14,7 +14,7 @@ class SyncProgressAppBarBottom extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MeshCoreConnector>(
+    return Consumer<HamCoreConnector>(
       builder: (context, connector, _) {
         final state = _SyncProgressState.fromConnector(connector);
         if (state == null) return const SizedBox(height: height);
@@ -39,7 +39,7 @@ class _SyncProgressState {
 
   const _SyncProgressState({required this.value, required this.color});
 
-  static _SyncProgressState? fromConnector(MeshCoreConnector connector) {
+  static _SyncProgressState? fromConnector(HamCoreConnector connector) {
     if (connector.isLoadingContacts) {
       return _SyncProgressState(
         value: connector.contactSyncProgress,

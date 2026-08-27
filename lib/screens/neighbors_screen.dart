@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:meshcore_open/utils/app_logger.dart';
+import 'package:hamcore/utils/app_logger.dart';
 import 'package:provider/provider.dart';
 import '../l10n/l10n.dart';
 import '../models/contact.dart';
 import '../models/path_selection.dart';
-import '../connector/meshcore_connector.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_connector.dart';
+import '../connector/hamcore_protocol.dart';
 import '../services/repeater_command_service.dart';
 import '../theme/mesh_theme.dart';
 import '../widgets/empty_state.dart';
@@ -49,7 +49,7 @@ class _NeighborsScreenState extends State<NeighborsScreen> {
 
   int _resolveRepeaterIndex = -1;
 
-  Contact _resolveRepeater(MeshCoreConnector connector) {
+  Contact _resolveRepeater(HamCoreConnector connector) {
     if (_resolveRepeaterIndex >= 0 &&
         _resolveRepeaterIndex < connector.contacts.length &&
         connector.contacts[_resolveRepeaterIndex].publicKeyHex ==
@@ -68,7 +68,7 @@ class _NeighborsScreenState extends State<NeighborsScreen> {
   @override
   void initState() {
     super.initState();
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     _commandService = RepeaterCommandService(connector);
     _setupMessageListener();
     _loadNeighbors();
@@ -76,7 +76,7 @@ class _NeighborsScreenState extends State<NeighborsScreen> {
   }
 
   void _setupMessageListener() {
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
 
     // Listen for incoming text messages from the repeater
     _frameSubscription = connector.receivedFrames.listen((frame) {
@@ -143,7 +143,7 @@ class _NeighborsScreenState extends State<NeighborsScreen> {
     }
   }
 
-  void _handleNeighborsResponse(MeshCoreConnector connector, Uint8List frame) {
+  void _handleNeighborsResponse(HamCoreConnector connector, Uint8List frame) {
     final buffer = BufferReader(frame);
     final contacts = connector.allContactsUnfiltered;
     try {
@@ -191,7 +191,7 @@ class _NeighborsScreenState extends State<NeighborsScreen> {
       _isLoaded = false;
     });
     try {
-      final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+      final connector = Provider.of<HamCoreConnector>(context, listen: false);
       final repeater = _resolveRepeater(connector);
       final selection = await connector.preparePathForContactSend(repeater);
       _pendingStatusSelection = selection;
@@ -252,7 +252,7 @@ class _NeighborsScreenState extends State<NeighborsScreen> {
   void _recordStatusResult(bool success) {
     final selection = _pendingStatusSelection;
     if (selection == null) return;
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     final repeater = _resolveRepeater(connector);
     connector.recordRepeaterPathResult(repeater, selection, success, null);
     _pendingStatusSelection = null;
@@ -269,7 +269,7 @@ class _NeighborsScreenState extends State<NeighborsScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     final repeater = _resolveRepeater(connector);
     final isFloodMode = repeater.pathOverride == -1;
 
@@ -339,7 +339,7 @@ class _NeighborsScreenState extends State<NeighborsScreen> {
     );
   }
 
-  Widget _buildNeighborsList(MeshCoreConnector connector) {
+  Widget _buildNeighborsList(HamCoreConnector connector) {
     final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

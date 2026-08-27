@@ -1,3 +1,7 @@
+# Disabled: HamCore doesn't need the web app deployed right now, just Android/iOS builds.
+# To re-enable web deploys to Cloudflare Workers, rename this file back to
+# deploy.yml (also requires CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID repo secrets).
+
 name: Deploy to Cloudflare Workers
 
 on:
@@ -11,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:

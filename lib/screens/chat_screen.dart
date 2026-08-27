@@ -10,8 +10,8 @@ import 'package:provider/provider.dart';
 import '../utils/app_logger.dart';
 import '../utils/platform_info.dart';
 
-import '../connector/meshcore_connector.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_connector.dart';
+import '../connector/hamcore_protocol.dart';
 import '../helpers/cyr2lat.dart';
 import '../helpers/path_helper.dart';
 import '../helpers/reaction_helper.dart';
@@ -52,7 +52,7 @@ import 'telemetry_screen.dart';
 // flag to flip: the AEIC wire format is `CMD_SEND_CHANNEL_DATA` (62) /
 // GRP_DATA 0x06, which addresses a channel index rather than a contact key,
 // and the companion protocol has no direct-message equivalent (there is no
-// CMD_SEND_DATA — see `meshcore_protocol.dart`). Sending a private photo on
+// CMD_SEND_DATA — see `hamcore_protocol.dart`). Sending a private photo on
 // channel 0 to reach one contact would broadcast it to everyone on that
 // channel. Channel chats keep the feature; see `channel_chat_screen.dart`.
 
@@ -76,7 +76,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final _textFieldFocusNode = FocusNode();
   final GlobalKey _unreadScrollKey = GlobalKey();
   bool _isLoadingOlder = false;
-  MeshCoreConnector? _connector;
+  HamCoreConnector? _connector;
   Message? _pendingUnreadScrollTarget;
   String? _unreadDividerMessageId;
   DateTime? _lastTextSendAt;
@@ -89,7 +89,7 @@ class _ChatScreenState extends State<ChatScreen> {
     _scrollController.showJumpToBottom.addListener(_clearDividerAtBottom);
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      final connector = context.read<MeshCoreConnector>();
+      final connector = context.read<HamCoreConnector>();
       final settings = context.read<AppSettingsService>().settings;
       final keyHex = widget.contact.publicKeyHex;
       final unread = widget.initialUnreadCount;
@@ -162,7 +162,7 @@ class _ChatScreenState extends State<ChatScreen> {
     if (_isLoadingOlder) return;
     setState(() => _isLoadingOlder = true);
 
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     await connector.loadOlderMessages(widget.contact.publicKeyHex);
 
     if (mounted) {
@@ -185,7 +185,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Consumer2<PathHistoryService, MeshCoreConnector>(
+        title: Consumer2<PathHistoryService, HamCoreConnector>(
           builder: (context, pathService, connector, _) {
             final contact = _resolveContact(connector);
             final unreadCount = connector.getUnreadCountForContactKey(
@@ -229,7 +229,7 @@ class _ChatScreenState extends State<ChatScreen> {
         bottom: const SyncProgressAppBarBottom(),
         actions: [
           const RadioStatsIconButton(),
-          Consumer<MeshCoreConnector>(
+          Consumer<HamCoreConnector>(
             builder: (context, connector, _) {
               final contact = _resolveContact(connector);
 
@@ -321,7 +321,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ],
       ),
-      body: Consumer<MeshCoreConnector>(
+      body: Consumer<HamCoreConnector>(
         builder: (context, connector, child) {
           final messages = connector.getMessages(widget.contact);
           return Column(
@@ -349,14 +349,14 @@ class _ChatScreenState extends State<ChatScreen> {
       icon: Icons.chat_bubble_outline,
       title: context.l10n.chat_noMessages,
       subtitle: context.l10n.chat_sendMessageTo(
-        _resolveContact(context.read<MeshCoreConnector>()).name,
+        _resolveContact(context.read<HamCoreConnector>()).name,
       ),
     );
   }
 
   Widget _buildMessageList(
     List<Message> messages,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     // Reverse messages so newest appear at bottom with reverse: true
     final reversedMessages = messages.reversed.toList();
@@ -452,7 +452,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _markAsUnread(Message message) {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final messages = connector.getMessages(widget.contact);
     var count = 0;
     var found = false;
@@ -463,7 +463,7 @@ class _ChatScreenState extends State<ChatScreen> {
     connector.setContactUnreadCount(widget.contact.publicKeyHex, count);
   }
 
-  Widget _buildInputBar(MeshCoreConnector connector) {
+  Widget _buildInputBar(HamCoreConnector connector) {
     final maxBytes = maxContactMessageBytes();
     final scheme = Theme.of(context).colorScheme;
     final settings = context.watch<AppSettingsService>().settings;
@@ -664,7 +664,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Future<void> _sendMessage(MeshCoreConnector connector) async {
+  Future<void> _sendMessage(HamCoreConnector connector) async {
     final text = _textController.text.trim();
     if (text.isEmpty) return;
 
@@ -746,7 +746,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future<void> _confirmClearChat(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -774,7 +774,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   int _resolveContactIndex = -1;
 
-  Contact _resolveContact(MeshCoreConnector connector) {
+  Contact _resolveContact(HamCoreConnector connector) {
     if (_resolveContactIndex >= 0 &&
         _resolveContactIndex < connector.contacts.length &&
         connector.contacts[_resolveContactIndex].publicKeyHex ==
@@ -791,7 +791,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Contact? _resolveContactFrom4Bytes(
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Uint8List key4Bytes,
   ) {
     // Match against saved contacts first, then nodes only seen via discovery —
@@ -805,7 +805,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   String _currentPathLabel(Contact contact) {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
 
     // Check if user has set a path override
     if (contact.pathOverride != null) {
@@ -837,7 +837,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _showContactInfo(BuildContext context) {
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     final contact = _resolveContact(connector);
     showDialog(
       context: context,
@@ -883,7 +883,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _showContactSettings(BuildContext context) {
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     final appSettingsService = Provider.of<AppSettingsService>(
       context,
       listen: false,
@@ -1087,7 +1087,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _openChat(BuildContext context, Contact contact) {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final unread = connector.getUnreadCountForContactKey(contact.publicKeyHex);
     connector.markContactRead(contact.publicKeyHex);
     Navigator.push(
@@ -1100,7 +1100,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _openMessagePath(Message message, Contact contact) {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final fourByteHex = message.fourByteRoomContactKey
         .map((b) => b.toRadixString(16).padLeft(2, '0'))
         .join()
@@ -1190,7 +1190,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 onTap: () {
                   Navigator.pop(sheetContext);
                   unawaited(
-                    context.read<MeshCoreConnector>().translateContactMessage(
+                    context.read<HamCoreConnector>().translateContactMessage(
                       widget.contact.publicKeyHex,
                       message,
                       manualTranslation: true,
@@ -1216,7 +1216,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   _retryMessage(message);
                 },
               ),
-            if (_resolveContact(context.read<MeshCoreConnector>()).type ==
+            if (_resolveContact(context.read<HamCoreConnector>()).type ==
                 advTypeRoom)
               ListTile(
                 leading: const Icon(Icons.chat),
@@ -1257,7 +1257,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> _deleteMessage(Message message) async {
-    await context.read<MeshCoreConnector>().deleteMessage(message);
+    await context.read<HamCoreConnector>().deleteMessage(message);
     if (!mounted) return;
     showDismissibleSnackBar(
       context,
@@ -1266,7 +1266,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _retryMessage(Message message) {
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     connector.resendMessage(_resolveContact(connector), message);
     showDismissibleSnackBar(
       context,
@@ -1287,7 +1287,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _sendReaction(Message message, Contact senderContact, String emoji) {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final emojiIndex = ReactionHelper.emojiToIndex(emoji);
     if (emojiIndex == null) return; // Unknown emoji, skip
     final timestampSecs = message.timestamp.millisecondsSinceEpoch ~/ 1000;
@@ -1614,7 +1614,7 @@ class _MessageBubble extends StatelessWidget {
           constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
           onPressed: () async {
             final selfName =
-                context.read<MeshCoreConnector>().selfName ??
+                context.read<HamCoreConnector>().selfName ??
                 context.l10n.chat_me;
             final fromName = message.isOutgoing ? selfName : senderName;
             final key = buildSharedMarkerKey(

@@ -8,8 +8,8 @@ import '../models/contact.dart';
 import '../models/path_selection.dart';
 import '../models/app_settings.dart';
 import '../storage/prefs_manager.dart';
-import '../connector/meshcore_connector.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_connector.dart';
+import '../connector/hamcore_protocol.dart';
 import '../services/app_settings_service.dart';
 import '../services/repeater_command_service.dart';
 import '../utils/app_logger.dart';
@@ -65,7 +65,7 @@ class _TelemetryScreenState extends State<TelemetryScreen> {
 
   int _resolveContactIndex = -1;
 
-  Contact _resolveContact(MeshCoreConnector connector) {
+  Contact _resolveContact(HamCoreConnector connector) {
     if (_resolveContactIndex >= 0 &&
         _resolveContactIndex < connector.contacts.length &&
         connector.contacts[_resolveContactIndex].publicKeyHex ==
@@ -84,7 +84,7 @@ class _TelemetryScreenState extends State<TelemetryScreen> {
   @override
   void initState() {
     super.initState();
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     _commandService = RepeaterCommandService(connector);
     _loadAutoRefreshSettings();
     _setupMessageListener();
@@ -93,7 +93,7 @@ class _TelemetryScreenState extends State<TelemetryScreen> {
   }
 
   void _setupMessageListener() {
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
 
     // Listen for incoming text messages from the repeater
     _frameSubscription = connector.receivedFrames.listen((frame) {
@@ -159,7 +159,7 @@ class _TelemetryScreenState extends State<TelemetryScreen> {
     final parsedTelemetry = CayenneLpp.parseByChannel(frame);
     final batteryMv = _extractTelemetryBatteryMillivolts(parsedTelemetry);
     if (batteryMv != null) {
-      final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+      final connector = Provider.of<HamCoreConnector>(context, listen: false);
       connector.updateRepeaterBatterySnapshot(
         widget.contact.publicKeyHex,
         batteryMv,
@@ -203,7 +203,7 @@ class _TelemetryScreenState extends State<TelemetryScreen> {
       _activeTelemetryRequestIsAutoRefresh = isAutoRefresh;
     });
     try {
-      final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+      final connector = Provider.of<HamCoreConnector>(context, listen: false);
       final selection = await connector.preparePathForContactSend(
         _resolveContact(connector),
       );
@@ -296,7 +296,7 @@ class _TelemetryScreenState extends State<TelemetryScreen> {
   void _recordTelemetryResult(bool success) {
     final selection = _pendingStatusSelection;
     if (selection == null) return;
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     connector.recordRepeaterPathResult(
       widget.contact,
       selection,
@@ -322,7 +322,7 @@ class _TelemetryScreenState extends State<TelemetryScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     final settings = context.watch<AppSettingsService>().settings;
     final isImperialUnits = settings.unitSystem == UnitSystem.imperial;
     final contact = connector.contacts.firstWhere(
@@ -935,7 +935,7 @@ class _TelemetryScreenState extends State<TelemetryScreen> {
 
   String _batteryText(double? telemetryVolts) {
     final l10n = context.l10n;
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     final batteryMv =
         connector.getRepeaterBatteryMillivolts(widget.contact.publicKeyHex) ??
         (telemetryVolts == null ? null : (telemetryVolts * 1000).round());

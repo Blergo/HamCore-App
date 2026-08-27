@@ -1,8 +1,8 @@
-# MeshCore BLE Protocol Documentation
+# HamCore BLE Protocol Documentation
 
 ## Overview
 
-The MeshCore BLE protocol implements a binary frame-based communication system using Nordic UART Service (NUS) for low-level transport. The protocol supports mesh networking operations including contact management, text messaging, channel communication, and device configuration.
+The HamCore BLE protocol implements a binary frame-based communication system using Nordic UART Service (NUS) for low-level transport. The protocol supports mesh networking operations including contact management, text messaging, channel communication, and device configuration.
 
 ## BLE Transport Layer
 
@@ -21,12 +21,8 @@ The MeshCore BLE protocol implements a binary frame-based communication system u
 
 ### Connection Flow
 
-1. **Scan** for devices with known name prefixes (defined in `MeshCoreUuids.deviceNamePrefixes`):
-    - `MeshCore-`
-    - `Whisper-`
-    - `WisCore-`
-    - `HT-`
-    - `LowMesh_MC_`
+1. **Scan** for devices advertising the Nordic UART Service UUID (known name prefix for reference, defined in `HamCoreUuids.deviceNamePrefixes`):
+    - `HamCore-`
 2. **Connect** with 15-second timeout
 3. **Request MTU** of 185 bytes (falls back to default if unsupported)
 4. **Discover services** and locate NUS characteristics
@@ -189,8 +185,8 @@ Registers the application with the device.
 
 **Example**:
 ```dart
-buildAppStartFrame(appName: 'MeshCoreOpen', appVersion: 1)
-// [0x01][0x01][0x00 x6]["MeshCoreOpen"][0x00]
+buildAppStartFrame(appName: 'HamCore', appVersion: 1)
+// [0x01][0x01][0x00 x6]["HamCore"][0x00]
 ```
 
 ### CMD_SEND_TXT_MSG (0x02)
@@ -965,7 +961,7 @@ String hex = pubKey.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
 ### Connection States
 
 ```dart
-enum MeshCoreConnectionState {
+enum HamCoreConnectionState {
   disconnected,  // Not connected
   scanning,      // BLE scan in progress
   connecting,    // Connection attempt in progress
@@ -1015,7 +1011,7 @@ All frame handlers validate:
 ### Send Failures
 
 **Exceptions**:
-- Not connected: `throw Exception("Not connected to a MeshCore device")`
+- Not connected: `throw Exception("Not connected to a HamCore device")`
 - No write support: `throw Exception("RX characteristic does not support write")`
 
 **Retries**: Write operations use platform-level retries (BLE stack).
@@ -1063,7 +1059,7 @@ const int appProtocolVersion = 3;  // Current protocol version
 
 ### Thread Safety
 
-`MeshCoreConnector` uses Flutter's `ChangeNotifier`:
+`HamCoreConnector` uses Flutter's `ChangeNotifier`:
 - All state changes trigger `notifyListeners()`
 - BLE callbacks run on main isolate
 - No explicit locking required (single-threaded)

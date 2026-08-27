@@ -8,7 +8,7 @@
     }
   },
   "@@locale": "sl",
-  "appTitle": "MeshCore Open",
+  "appTitle": "HamCore",
   "nav_contacts": "Stiki",
   "nav_channels": "Kanali",
   "nav_map": "Karta",
@@ -54,7 +54,7 @@
       }
     }
   },
-  "scanner_title": "MeshCore – Odprto",
+  "scanner_title": "HamCore – Odprto",
   "scanner_scanning": "Skeniram za naprave...",
   "scanner_connecting": "Povezujem se...",
   "scanner_disconnecting": "Odklapljam se...",
@@ -67,8 +67,8 @@
       }
     }
   },
-  "scanner_searchingDevices": "Iskanje naprav MeshCore...",
-  "scanner_tapToScan": "Nagneš na skeniranje za najdene naprave MeshCore.",
+  "scanner_searchingDevices": "Iskanje naprav HamCore...",
+  "scanner_tapToScan": "Nagneš na skeniranje za najdene naprave HamCore.",
   "scanner_connectionFailed": "Pošlo je z povezavo: {error}",
   "@scanner_connectionFailed": {
     "placeholders": {
@@ -80,7 +80,7 @@
   "scanner_stop": "Prekliči",
   "scanner_scan": "Skeniraj",
   "device_quickSwitch": "Hitro preklop",
-  "device_meshcore": "MeshCore",
+  "device_hamcore": "HamCore",
   "settings_title": "Nastavitve",
   "settings_deviceInfo": "Informacije o napravei",
   "settings_appSettings": "Nastavitve aplikacije",
@@ -119,7 +119,7 @@
   "settings_refreshContacts": "Ponovno obišči kontakte",
   "settings_refreshContactsSubtitle": "Ponovno naloži seznam stikov v napravi",
   "settings_rebootDevice": "Ponovni zagon naprave",
-  "settings_rebootDeviceSubtitle": "Ponovno zaženi MeshCore napravo",
+  "settings_rebootDeviceSubtitle": "Ponovno zaženi HamCore napravo",
   "settings_rebootDeviceConfirm": "Ste prepričani, da želite ponovno zagnati napravo? Povezava bo prekinjena.",
   "settings_debug": "Odpravljanje napak",
   "settings_bleDebugLog": "BLE debug log (razhroščevanje)",
@@ -127,7 +127,7 @@
   "settings_appDebugLog": "Logi aplikacije",
   "settings_appDebugLogSubtitle": "Debug sporočila aplikacije",
   "settings_about": "Oglejte si",
-  "settings_aboutVersion": "MeshCore, različ {version}",
+  "settings_aboutVersion": "HamCore, različ {version}",
   "@settings_aboutVersion": {
     "placeholders": {
       "version": {
@@ -135,8 +135,8 @@
       }
     }
   },
-  "settings_aboutLegalese": "Odprtokodni projekt MeshCore 2024",
-  "settings_aboutDescription": "Odprtokodni Flutter klient za naprave za LoRa omrežje MeshCore.",
+  "settings_aboutLegalese": "Odprtokodni projekt HamCore 2024",
+  "settings_aboutDescription": "Odprtokodni Flutter klient za naprave za LoRa omrežje HamCore.",
   "settings_infoName": "Ime",
   "settings_infoId": "ID",
   "settings_infoStatus": "Stanje",
@@ -1770,7 +1770,7 @@
   "contacts_contactAdvertCopyFailed": "Kopiranje oglasa v odložišče je spodletelo.",
   "contacts_ShareContactZeroHop": "Deliti kontakt prek oglasa",
   "contacts_ShareContact": "Kopiraj stik v Odložišče",
-  "notification_activityTitle": "Aktivnost MeshCore",
+  "notification_activityTitle": "Aktivnost HamCore",
   "notification_messagesCount": "{count} {count, plural, =1{sporočilo} =2{sporočili} few{sporočila} other{sporočil}}",
   "notification_channelMessagesCount": "{count} {count, plural, =1{sporočilo kanala} =2{sporočili kanala} few{sporočila kanala} other{sporočil kanala}}",
   "notification_newNodesCount": "{count} {count, plural, =1{novo vozlišče} =2{novi vozlišči} few{nova vozlišča} other{novih vozlišč}}",
@@ -1787,10 +1787,10 @@
   "settings_gpxExportContactsSubtitle": "Izvozi spremljevalce z lokacijo v datoteko GPX.",
   "settings_gpxExportAllSubtitle": "Izvozi vse kontakte z lokacijo v datoteko GPX.",
   "settings_gpxExportSuccess": "Uspešno izvoz GPX datoteke.",
-  "settings_gpxExportShareText": "Podatki kart izvoženi iz meshcore-open",
+  "settings_gpxExportShareText": "Podatki kart izvoženi iz hamcore",
   "settings_gpxExportNoContacts": "Ni stikov za izvoz.",
   "settings_gpxExportNotAvailable": "Ni podprto na vašem napravi/operacijskem sistemu",
-  "settings_gpxExportShareSubject": "meshcore-open izvoz podatkov GPX karte",
+  "settings_gpxExportShareSubject": "hamcore izvoz podatkov GPX karte",
   "pathTrace_someHopsNoLocation": "Ena ali več hmelju manjka lokacija!",
   "map_tapToAdd": "Pritisnite na vozlišča, da jih dodate poti.",
   "map_removeLast": "Odstrani Zadnji",
@@ -2024,7 +2024,7 @@
   "map_guessedLocation": "Predpostavljena lokacija",
   "map_showGuessedLocations": "Pokaži lokacije domnevnih not.",
   "usbScreenTitle": "Povežite preko USB",
-  "usbScreenSubtitle": "Izberite zaznano serijsko napravo in se neposredno povežite z vašo MeshCore napravo.",
+  "usbScreenSubtitle": "Izberite zaznano serijsko napravo in se neposredno povežite z vašo HamCore napravo.",
   "connectionChoiceBluetoothLabel": "Bluetooth",
   "connectionChoiceUsbLabel": "USB",
   "usbScreenStatus": "Izberite USB naprave",
@@ -2334,7 +2334,7 @@
   "repeater_cliHelpStatsRadio": "(Samo za serije) Prikazuje statistične podatke o radiju.",
   "repeater_cliHelpStatsCore": "(Samo za serijske naprave) Prikazuje osnovne statistične podatke.",
   "common_done": "Done",
-  "background_serviceTitle": "MeshCore running",
+  "background_serviceTitle": "HamCore running",
   "background_serviceText": "Keeping BLE connected",
   "appSettings_translationModelDeleted": "Deleted {name}",
   "@appSettings_translationModelDeleted": {
@@ -2757,7 +2757,7 @@
   "channels_regionNotSet": "Region: brak",
   "channels_regionSelect_Title": "Vablajte region",
   "channels_clearRegion": "Jasna regija",
-  "chat_sendImageLora": "Pošlji sliko prek MeshCore",
+  "chat_sendImageLora": "Pošlji sliko prek HamCore",
   "chat_imagePickFailed": "Nispeval sem tega ta slik",
   "chat_receivedGif": "Otrvljen GIF",
   "repeater_keySettings": "Zmeničke ključe identitete",

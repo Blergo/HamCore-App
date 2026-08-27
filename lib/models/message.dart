@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_protocol.dart';
 import '../helpers/reaction_helper.dart';
 import 'translation_support.dart';
 

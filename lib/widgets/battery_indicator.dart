@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../connector/meshcore_connector.dart';
+import '../connector/hamcore_connector.dart';
 import '../theme/mesh_theme.dart';
 
 class BatteryUi {
@@ -28,7 +28,7 @@ BatteryUi batteryUiForPercent(int? percent) {
 }
 
 class BatteryIndicator extends StatefulWidget {
-  final MeshCoreConnector connector;
+  final HamCoreConnector connector;
 
   const BatteryIndicator({super.key, required this.connector});
 

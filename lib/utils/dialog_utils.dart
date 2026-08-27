@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../connector/meshcore_connector.dart';
+import '../connector/hamcore_connector.dart';
 import '../l10n/l10n.dart';
 import 'app_logger.dart';
 
@@ -7,7 +7,7 @@ import 'app_logger.dart';
 /// Returns true if user confirmed and disconnect completed, false otherwise.
 Future<bool> showDisconnectDialog(
   BuildContext context,
-  MeshCoreConnector connector,
+  HamCoreConnector connector,
 ) async {
   final l10n = context.l10n;
   final confirmed = await showDialog<bool>(

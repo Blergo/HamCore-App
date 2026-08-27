@@ -3,19 +3,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
-import 'package:meshcore_open/connector/meshcore_connector.dart';
-import 'package:meshcore_open/l10n/app_localizations.dart';
-import 'package:meshcore_open/screens/scanner_screen.dart';
-import 'package:meshcore_open/screens/usb_screen.dart';
-import 'package:meshcore_open/utils/platform_info.dart';
+import 'package:hamcore/connector/hamcore_connector.dart';
+import 'package:hamcore/l10n/app_localizations.dart';
+import 'package:hamcore/screens/scanner_screen.dart';
+import 'package:hamcore/screens/usb_screen.dart';
+import 'package:hamcore/utils/platform_info.dart';
 
-class _FakeMeshCoreConnector extends MeshCoreConnector {
-  _FakeMeshCoreConnector({
-    this.initialState = MeshCoreConnectionState.disconnected,
+class _FakeHamCoreConnector extends HamCoreConnector {
+  _FakeHamCoreConnector({
+    this.initialState = HamCoreConnectionState.disconnected,
     List<String>? ports,
   }) : _ports = ports ?? <String>[];
 
-  final MeshCoreConnectionState initialState;
+  final HamCoreConnectionState initialState;
   final List<String> _ports;
 
   String? requestPortLabel;
@@ -29,10 +29,10 @@ class _FakeMeshCoreConnector extends MeshCoreConnector {
   Future<void> Function({required String portName})? connectUsbImpl;
 
   @override
-  MeshCoreConnectionState get state => initialState;
+  HamCoreConnectionState get state => initialState;
 
   @override
-  MeshCoreTransportType get activeTransport => MeshCoreTransportType.usb;
+  HamCoreTransportType get activeTransport => HamCoreTransportType.usb;
 
   @override
   String? get activeUsbPort => fakeActiveUsbPort;
@@ -76,10 +76,10 @@ class _FakeMeshCoreConnector extends MeshCoreConnector {
 }
 
 Widget _buildTestApp({
-  required MeshCoreConnector connector,
+  required HamCoreConnector connector,
   required Widget child,
 }) {
-  return ChangeNotifierProvider<MeshCoreConnector>.value(
+  return ChangeNotifierProvider<HamCoreConnector>.value(
     value: connector,
     child: MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -93,7 +93,7 @@ void main() {
   testWidgets('UsbScreen passes localized chooser label to connector', (
     tester,
   ) async {
-    final connector = _FakeMeshCoreConnector();
+    final connector = _FakeHamCoreConnector();
 
     await tester.pumpWidget(
       _buildTestApp(connector: connector, child: const UsbScreen()),
@@ -106,8 +106,8 @@ void main() {
   testWidgets(
     'UsbScreen does not call connectUsb when connector is not disconnected',
     (tester) async {
-      final connector = _FakeMeshCoreConnector(
-        initialState: MeshCoreConnectionState.connected,
+      final connector = _FakeHamCoreConnector(
+        initialState: HamCoreConnectionState.connected,
         ports: <String>['COM6 - USB Serial Device (COM6)'],
       );
 
@@ -131,7 +131,7 @@ void main() {
   testWidgets('UsbScreen sends raw port name when tapping Connect', (
     tester,
   ) async {
-    final connector = _FakeMeshCoreConnector(
+    final connector = _FakeHamCoreConnector(
       ports: <String>['COM6 - USB Serial Device (COM6)'],
     );
 
@@ -150,7 +150,7 @@ void main() {
   testWidgets('ScannerScreen USB action reflects platform support', (
     tester,
   ) async {
-    final connector = _FakeMeshCoreConnector();
+    final connector = _FakeHamCoreConnector();
 
     await tester.pumpWidget(
       _buildTestApp(connector: connector, child: const ScannerScreen()),
@@ -177,7 +177,7 @@ void main() {
     await tester.binding.setSurfaceSize(const Size(320, 700));
     addTearDown(() => tester.binding.setSurfaceSize(null));
 
-    final connector = _FakeMeshCoreConnector();
+    final connector = _FakeHamCoreConnector();
 
     await tester.pumpWidget(
       _buildTestApp(connector: connector, child: const ScannerScreen()),
@@ -208,7 +208,7 @@ void main() {
     addTearDown(() => tester.binding.setSurfaceSize(null));
 
     final connector =
-        _FakeMeshCoreConnector(initialState: MeshCoreConnectionState.connected)
+        _FakeHamCoreConnector(initialState: HamCoreConnectionState.connected)
           ..fakeUsbTransportConnected = true
           ..fakeActiveUsbPortDisplayLabel =
               '/dev/bus/usb/001/002 - KD3CGK mesh-utility.org very long label';
@@ -237,7 +237,7 @@ void main() {
     testWidgets('shows error SnackBar when listing ports fails', (
       tester,
     ) async {
-      final connector = _FakeMeshCoreConnector();
+      final connector = _FakeHamCoreConnector();
       connector.listUsbPortsImpl = () async {
         throw PlatformException(
           code: 'usb_permission_denied',
@@ -254,7 +254,7 @@ void main() {
     });
 
     testWidgets('connection failure shows SnackBar error', (tester) async {
-      final connector = _FakeMeshCoreConnector(ports: <String>['COM1']);
+      final connector = _FakeHamCoreConnector(ports: <String>['COM1']);
       var connectAttempted = false;
       connector.connectUsbImpl = ({required String portName}) async {
         connectAttempted = true;

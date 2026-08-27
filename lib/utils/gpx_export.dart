@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:gpx/gpx.dart';
-import 'package:meshcore_open/connector/meshcore_connector.dart';
-import 'package:meshcore_open/connector/meshcore_protocol.dart';
+import 'package:hamcore/connector/hamcore_connector.dart';
+import 'package:hamcore/connector/hamcore_protocol.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import '../utils/platform_info.dart';
@@ -32,7 +32,7 @@ const int gpxExportCancelled = 3;
 const int gpxExportNotAvailable = 4;
 
 class GpxExport {
-  final MeshCoreConnector _connector;
+  final HamCoreConnector _connector;
   final List<ContactExport> _contacts = [];
 
   GpxExport(this._connector);
@@ -66,7 +66,7 @@ class GpxExport {
         continue;
       }
       final url = contact.rawPacket != null
-          ? "meshcore://${pubKeyToHex(contact.rawPacket!)}"
+          ? "hamcore://${pubKeyToHex(contact.rawPacket!)}"
           : "";
       _addContact(
         contact.name,
@@ -85,7 +85,7 @@ class GpxExport {
         continue;
       }
       final url = contact.rawPacket != null
-          ? "meshcore://${pubKeyToHex(contact.rawPacket!)}"
+          ? "hamcore://${pubKeyToHex(contact.rawPacket!)}"
           : "";
       _addContact(
         contact.name,
@@ -104,7 +104,7 @@ class GpxExport {
         continue;
       }
       final url = contact.rawPacket != null
-          ? "meshcore://${pubKeyToHex(contact.rawPacket!)}"
+          ? "hamcore://${pubKeyToHex(contact.rawPacket!)}"
           : "";
       _addContact(
         contact.name,
@@ -136,7 +136,7 @@ class GpxExport {
       // 1. Build GPX content (your existing logic – unchanged here)
       final gpx = Gpx()
         ..version = '1.1'
-        ..creator = 'meshcore-open exporter'
+        ..creator = 'hamcore exporter'
         ..metadata = Metadata(
           name: name,
           desc: description,
@@ -152,7 +152,7 @@ class GpxExport {
               name: c.name,
               desc: c.desc,
               extensions: {
-                "meshcore": {"url": c.url},
+                "hamcore": {"url": c.url},
               },
             ),
           )

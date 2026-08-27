@@ -15,7 +15,7 @@ import 'entropy_tables.dart';
 ///
 /// A decode is 1385 GFLOP over 886M parameters. It must never run on the root
 /// isolate: it would freeze the UI and, worse, stall the BLE notify stream that
-/// `MeshCoreConnector._handleFrame()` feeds on, dropping mesh traffic while a
+/// `HamCoreConnector._handleFrame()` feeds on, dropping mesh traffic while a
 /// picture renders.
 ///
 /// The isolate is spawned once per model load and reused, because loading the

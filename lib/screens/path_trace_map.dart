@@ -5,25 +5,25 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:meshcore_open/connector/meshcore_connector.dart';
-import 'package:meshcore_open/connector/meshcore_protocol.dart';
-import 'package:meshcore_open/helpers/path_helper.dart';
-import 'package:meshcore_open/l10n/l10n.dart';
-import 'package:meshcore_open/models/app_settings.dart';
-import 'package:meshcore_open/models/contact.dart';
-import 'package:meshcore_open/models/display_path.dart';
-import 'package:meshcore_open/models/path_history.dart';
-import 'package:meshcore_open/models/path_playback.dart';
-import 'package:meshcore_open/services/app_settings_service.dart';
-import 'package:meshcore_open/services/map_tile_cache_service.dart';
-import 'package:meshcore_open/services/path_history_service.dart';
-import 'package:meshcore_open/utils/app_logger.dart';
-import 'package:meshcore_open/widgets/path_map_ui.dart';
-import 'package:meshcore_open/widgets/snr_indicator.dart';
+import 'package:hamcore/connector/hamcore_connector.dart';
+import 'package:hamcore/connector/hamcore_protocol.dart';
+import 'package:hamcore/helpers/path_helper.dart';
+import 'package:hamcore/l10n/l10n.dart';
+import 'package:hamcore/models/app_settings.dart';
+import 'package:hamcore/models/contact.dart';
+import 'package:hamcore/models/display_path.dart';
+import 'package:hamcore/models/path_history.dart';
+import 'package:hamcore/models/path_playback.dart';
+import 'package:hamcore/services/app_settings_service.dart';
+import 'package:hamcore/services/map_tile_cache_service.dart';
+import 'package:hamcore/services/path_history_service.dart';
+import 'package:hamcore/utils/app_logger.dart';
+import 'package:hamcore/widgets/path_map_ui.dart';
+import 'package:hamcore/widgets/snr_indicator.dart';
 import 'package:provider/provider.dart';
 import '../theme/mesh_theme.dart';
 
-export 'package:meshcore_open/widgets/path_map_ui.dart'
+export 'package:hamcore/widgets/path_map_ui.dart'
     show formatDistance, getPathDistanceMeters;
 
 class PathTraceData {
@@ -162,7 +162,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
   Uint8List? _expandHopForTrace(
     Uint8List hop,
     int traceHashByteWidth,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     if (hop.length == traceHashByteWidth) return hop;
 
@@ -184,7 +184,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
   Uint8List? _tracePathFromBytes(
     Uint8List pathBytes,
     int traceHashByteWidth,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     final hops = PathHelper.splitPathBytes(pathBytes, widget.pathHashByteWidth);
     final traceBytes = <int>[];
@@ -220,7 +220,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
   void _onPathHistoryChanged() {
     if (!mounted || !_hasData) return;
     setState(() {
-      _rebuildDisplayPaths(context.read<MeshCoreConnector>());
+      _rebuildDisplayPaths(context.read<HamCoreConnector>());
     });
   }
 
@@ -316,7 +316,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
   Uint8List? buildPath(
     Uint8List pathBytes,
     int traceHashByteWidth,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     final pathHops = PathHelper.splitPathBytes(
       pathBytes,
@@ -376,7 +376,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
   /// the connector so a path the user just changed (force flood / set path /
   /// reset to auto) is honored immediately, instead of the value captured when
   /// this screen was first pushed.
-  Uint8List _resolveLivePath(MeshCoreConnector connector) {
+  Uint8List _resolveLivePath(HamCoreConnector connector) {
     final target = widget.targetContact;
     if (!widget.flipPathAround || target == null) {
       return widget.path;
@@ -397,7 +397,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
       });
     }
 
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     final traceHashByteWidth = _traceHashByteWidth(widget.pathHashByteWidth);
     final livePath = _resolveLivePath(connector);
     _tracedPath = livePath;
@@ -446,7 +446,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
   }
 
   void _setupFrameListener() {
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     Uint8List tagData = Uint8List(4);
     // Listen for incoming text messages from the repeater
     _frameSubscription = connector.receivedFrames.listen((frame) {
@@ -506,7 +506,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
   }
 
   Future<void> _handleTraceResponse(Uint8List frame) async {
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
 
     final buffer = BufferReader(frame);
     try {
@@ -772,7 +772,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
     return hops;
   }
 
-  Contact? _contactForHop(Uint8List hop, MeshCoreConnector connector) {
+  Contact? _contactForHop(Uint8List hop, HamCoreConnector connector) {
     final traced = _traceData?.pathContacts[_hopKey(hop)];
     if (traced != null) return traced;
     for (final c in connector.allContactsUnfiltered) {
@@ -785,7 +785,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
     return null;
   }
 
-  LatLng? _inferredPositionForHop(Uint8List hop, MeshCoreConnector connector) {
+  LatLng? _inferredPositionForHop(Uint8List hop, HamCoreConnector connector) {
     final hopKey = _hopKey(hop);
     final cached = _inferredHopPositions[hopKey];
     if (cached != null) return cached;
@@ -816,7 +816,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
 
   /// Rebuilds the renderable paths: the traced path as primary plus up to
   /// four distinct alternates from the target contact's path history.
-  void _rebuildDisplayPaths(MeshCoreConnector connector) {
+  void _rebuildDisplayPaths(HamCoreConnector connector) {
     final paths = <DisplayPath>[];
     final primary = _buildDisplayPath(
       id: 'primary',
@@ -872,7 +872,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
     required Color color,
     required bool isPrimary,
     required List<Uint8List> hops,
-    required MeshCoreConnector connector,
+    required HamCoreConnector connector,
     PathRecord? record,
   }) {
     final selfLat = connector.selfLatitude;
@@ -1020,7 +1020,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MeshCoreConnector>(
+    return Consumer<HamCoreConnector>(
       builder: (context, connector, _) {
         final settings = context.watch<AppSettingsService>().settings;
         final isImperial = settings.unitSystem == UnitSystem.imperial;
@@ -1194,8 +1194,8 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
     required bool showLabels,
     required Contact? target,
   }) {
-    final selfLat = context.read<MeshCoreConnector>().selfLatitude;
-    final selfLon = context.read<MeshCoreConnector>().selfLongitude;
+    final selfLat = context.read<HamCoreConnector>().selfLatitude;
+    final selfLon = context.read<HamCoreConnector>().selfLongitude;
     if (selfLat != null && selfLon != null) {
       final selfPoint = LatLng(selfLat, selfLon);
       markers.add(
@@ -1305,7 +1305,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
     required bool showLabels,
     required Contact? target,
   }) {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final markers = <Marker>[];
 
     // Hop prefix -> paths that use it, in display order.
@@ -1805,7 +1805,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
             index < pathTraceData.snrData.length
                 ? pathTraceData.snrData[index]
                 : null,
-            context.read<MeshCoreConnector>().currentSf,
+            context.read<HamCoreConnector>().currentSf,
           );
           return ListTile(
             tileColor: index == highlightRow
@@ -1843,7 +1843,7 @@ class _PathTraceMapScreenState extends State<PathTraceMapScreen>
     PathTraceData pathTraceData,
     int highlightRow,
   ) {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final l10n = context.l10n;
 
     final hopUseCount = <String, int>{};

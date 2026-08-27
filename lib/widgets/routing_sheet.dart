@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../connector/meshcore_connector.dart';
+import '../connector/hamcore_connector.dart';
 import '../utils/platform_info.dart';
 import '../helpers/path_helper.dart';
 import '../l10n/l10n.dart';
@@ -53,7 +53,7 @@ class _RoutingSheetBodyState extends State<_RoutingSheetBody> {
   int _resolveContactIndex = -1;
   String? _syncStatus;
 
-  Contact _resolveContact(MeshCoreConnector connector) {
+  Contact _resolveContact(HamCoreConnector connector) {
     if (_resolveContactIndex >= 0 &&
         _resolveContactIndex < connector.contacts.length &&
         connector.contacts[_resolveContactIndex].publicKeyHex ==
@@ -76,7 +76,7 @@ class _RoutingSheetBodyState extends State<_RoutingSheetBody> {
   }
 
   Future<void> _selectMode(
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Contact contact,
     _RoutingMode mode,
   ) async {
@@ -93,7 +93,7 @@ class _RoutingSheetBodyState extends State<_RoutingSheetBody> {
   }
 
   Future<void> _editManualPath(
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Contact contact,
   ) async {
     final override = contact.pathOverride;
@@ -120,7 +120,7 @@ class _RoutingSheetBodyState extends State<_RoutingSheetBody> {
   }
 
   Future<void> _applyHistoryPath(
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Contact contact,
     PathRecord record,
   ) async {
@@ -135,7 +135,7 @@ class _RoutingSheetBodyState extends State<_RoutingSheetBody> {
   }
 
   Future<void> _verifyPath(
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Contact contact,
     Uint8List bytes,
   ) async {
@@ -154,14 +154,14 @@ class _RoutingSheetBodyState extends State<_RoutingSheetBody> {
     );
   }
 
-  Future<void> _forgetPath(MeshCoreConnector connector, Contact contact) async {
+  Future<void> _forgetPath(HamCoreConnector connector, Contact contact) async {
     await connector.clearContactPath(contact);
     if (!mounted) return;
     setState(() => _syncStatus = context.l10n.chat_pathCleared);
   }
 
   _PathQuality _qualityOf(
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     PathRecord record,
     List<DirectRepeater> ranked,
   ) {
@@ -227,7 +227,7 @@ class _RoutingSheetBodyState extends State<_RoutingSheetBody> {
 
   String _routeText(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Contact contact,
     _RoutingMode mode,
   ) {
@@ -267,7 +267,7 @@ class _RoutingSheetBodyState extends State<_RoutingSheetBody> {
 
   void _openPathTrace(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Contact contact,
     List<int> pathBytes,
   ) {
@@ -287,7 +287,7 @@ class _RoutingSheetBodyState extends State<_RoutingSheetBody> {
 
   void _showPathDetail(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Contact contact,
     List<int> pathBytes,
   ) {
@@ -338,7 +338,7 @@ class _RoutingSheetBodyState extends State<_RoutingSheetBody> {
 
   Widget _currentRouteCard(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Contact contact,
     _RoutingMode mode,
     ({
@@ -459,7 +459,7 @@ class _RoutingSheetBodyState extends State<_RoutingSheetBody> {
 
   Widget _floodTile(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Contact contact,
     _RoutingMode mode,
     ({
@@ -502,7 +502,7 @@ class _RoutingSheetBodyState extends State<_RoutingSheetBody> {
 
   Widget _pathRecordTile(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Contact contact,
     _RoutingMode mode,
     PathHistoryService pathService,
@@ -637,7 +637,7 @@ class _RoutingSheetBodyState extends State<_RoutingSheetBody> {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
 
-    return Consumer2<MeshCoreConnector, PathHistoryService>(
+    return Consumer2<HamCoreConnector, PathHistoryService>(
       builder: (context, connector, pathService, _) {
         final contact = _resolveContact(connector);
         final mode = _modeOf(contact);

@@ -4,11 +4,11 @@ import 'dart:typed_data';
 import '../services/app_debug_log_service.dart';
 import '../services/tcp_transport_service.dart';
 
-/// Manages TCP transport for MeshCore devices.
+/// Manages TCP transport for HamCore devices.
 ///
 /// Owns the [TcpTransportService] and TCP-specific connection state.
-/// The main [MeshCoreConnector] delegates all TCP operations here.
-class MeshCoreTcpConnector {
+/// The main [HamCoreConnector] delegates all TCP operations here.
+class HamCoreTcpConnector {
   final TcpTransportService _service = TcpTransportService();
   AppDebugLogService? _debugLog;
   StreamSubscription<Uint8List>? _frameSubscription;

@@ -4,8 +4,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
-import '../connector/meshcore_connector.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_connector.dart';
+import '../connector/hamcore_protocol.dart';
 import '../l10n/l10n.dart';
 import '../models/app_settings.dart';
 import '../models/contact.dart';
@@ -64,7 +64,7 @@ class _TelemetryLocationMapState extends State<TelemetryLocationMap> {
 
   @override
   Widget build(BuildContext context) {
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     final settingsService = context.watch<AppSettingsService>();
     final settings = settingsService.settings;
     final tileCache = context.read<MapTileCacheService>();
@@ -170,7 +170,7 @@ class _TelemetryLocationMapState extends State<TelemetryLocationMap> {
   }
 
   List<Contact> _filteredContacts(
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     AppSettings settings,
   ) {
     final contacts = settings.mapShowDiscoveryContacts

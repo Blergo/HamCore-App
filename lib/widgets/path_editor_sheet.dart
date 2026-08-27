@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_protocol.dart';
 import '../helpers/path_helper.dart';
 import '../l10n/contact_localization.dart';
 import '../l10n/l10n.dart';

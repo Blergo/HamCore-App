@@ -4,16 +4,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'dart:typed_data';
 
-import 'package:meshcore_open/connector/meshcore_connector.dart';
-import 'package:meshcore_open/connector/meshcore_protocol.dart';
-import 'package:meshcore_open/screens/path_trace_map.dart';
-import 'package:meshcore_open/services/app_settings_service.dart';
-import 'package:meshcore_open/services/map_tile_cache_service.dart';
-import 'package:meshcore_open/models/contact.dart';
-import 'package:meshcore_open/l10n/app_localizations.dart';
-import 'package:meshcore_open/services/path_history_service.dart';
-import 'package:meshcore_open/services/storage_service.dart';
-import 'package:meshcore_open/models/path_history.dart';
+import 'package:hamcore/connector/hamcore_connector.dart';
+import 'package:hamcore/connector/hamcore_protocol.dart';
+import 'package:hamcore/screens/path_trace_map.dart';
+import 'package:hamcore/services/app_settings_service.dart';
+import 'package:hamcore/services/map_tile_cache_service.dart';
+import 'package:hamcore/models/contact.dart';
+import 'package:hamcore/l10n/app_localizations.dart';
+import 'package:hamcore/services/path_history_service.dart';
+import 'package:hamcore/services/storage_service.dart';
+import 'package:hamcore/models/path_history.dart';
 
 class _FakeStorageService extends StorageService {
   @override
@@ -28,7 +28,7 @@ class _FakeStorageService extends StorageService {
   Future<void> clearPathHistory(String contactPubKeyHex) async {}
 }
 
-class _FakeMeshCoreConnector extends MeshCoreConnector {
+class _FakeHamCoreConnector extends HamCoreConnector {
   final StreamController<Uint8List> _receivedFramesController =
       StreamController<Uint8List>.broadcast();
 
@@ -69,14 +69,14 @@ class _FakeMeshCoreConnector extends MeshCoreConnector {
 }
 
 Widget _buildTestApp({
-  required MeshCoreConnector connector,
+  required HamCoreConnector connector,
   required Widget child,
 }) {
   final appSettingsService = AppSettingsService();
 
   return MultiProvider(
     providers: [
-      ChangeNotifierProvider<MeshCoreConnector>.value(value: connector),
+      ChangeNotifierProvider<HamCoreConnector>.value(value: connector),
       ChangeNotifierProvider<AppSettingsService>.value(
         value: appSettingsService,
       ),
@@ -100,7 +100,7 @@ void main() {
   testWidgets('PathTraceMapScreen parses response frames correctly', (
     tester,
   ) async {
-    final connector = _FakeMeshCoreConnector();
+    final connector = _FakeHamCoreConnector();
 
     final screen = PathTraceMapScreen(
       title: 'Test Trace',
@@ -165,7 +165,7 @@ void main() {
   testWidgets(
     'PathTraceMapScreen parses multi-byte encoded path trace response correctly',
     (tester) async {
-      final connector = _FakeMeshCoreConnector();
+      final connector = _FakeHamCoreConnector();
 
       final screen = PathTraceMapScreen(
         title: 'Test Trace Multi-byte',
@@ -231,7 +231,7 @@ void main() {
   testWidgets('PathTraceMapScreen buildPath: Direct repeater ping (0-hop)', (
     tester,
   ) async {
-    final connector = _FakeMeshCoreConnector();
+    final connector = _FakeHamCoreConnector();
     final target = Contact(
       publicKey: Uint8List.fromList([0xAA, 0xBB, 0xCC]),
       name: 'Repeater Node',
@@ -262,7 +262,7 @@ void main() {
   testWidgets('PathTraceMapScreen buildPath: 1-hop chat contact trace', (
     tester,
   ) async {
-    final connector = _FakeMeshCoreConnector();
+    final connector = _FakeHamCoreConnector();
     final target = Contact(
       publicKey: Uint8List.fromList([0xCC, 0xDD, 0xEE]),
       name: 'Chat User',
@@ -293,7 +293,7 @@ void main() {
   testWidgets('PathTraceMapScreen buildPath: Multi-hop chat contact trace', (
     tester,
   ) async {
-    final connector = _FakeMeshCoreConnector();
+    final connector = _FakeHamCoreConnector();
     final target = Contact(
       publicKey: Uint8List.fromList([0x33, 0x44, 0x55]),
       name: 'Chat User Multi-hop',
@@ -324,7 +324,7 @@ void main() {
   testWidgets(
     'PathTraceMapScreen buildPath: Map trace with null target contact',
     (tester) async {
-      final connector = _FakeMeshCoreConnector();
+      final connector = _FakeHamCoreConnector();
 
       final screen = PathTraceMapScreen(
         title: 'Map Trace No Target',
@@ -350,7 +350,7 @@ void main() {
   testWidgets('PathTraceMapScreen parses raw byte length fallback correctly', (
     tester,
   ) async {
-    final connector = _FakeMeshCoreConnector();
+    final connector = _FakeHamCoreConnector();
 
     final screen = PathTraceMapScreen(
       title: 'Test Raw Fallback',

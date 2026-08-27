@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:meshcore_open/helpers/path_helper.dart';
-import 'package:meshcore_open/screens/path_trace_map.dart';
-import 'package:meshcore_open/widgets/app_bar.dart';
+import 'package:hamcore/helpers/path_helper.dart';
+import 'package:hamcore/screens/path_trace_map.dart';
+import 'package:hamcore/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
 
-import '../connector/meshcore_connector.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_connector.dart';
+import '../connector/hamcore_protocol.dart';
 import '../l10n/l10n.dart';
 import '../models/app_settings.dart';
 import '../models/channel.dart';
@@ -164,7 +164,7 @@ class _MapScreenState extends State<MapScreen> {
     _loadRemovedMarkers();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        context.read<MeshCoreConnector>().getChannels();
+        context.read<HamCoreConnector>().getChannels();
         if (widget.highlightPosition != null) {
           _mapController.move(widget.highlightPosition!, widget.highlightZoom);
         }
@@ -250,7 +250,7 @@ class _MapScreenState extends State<MapScreen> {
     BuildContext context, {
     required LatLng center,
     required double zoom,
-    required MeshCoreConnector connector,
+    required HamCoreConnector connector,
   }) {
     final hasSelf =
         connector.selfLatitude != null && connector.selfLongitude != null;
@@ -313,7 +313,7 @@ class _MapScreenState extends State<MapScreen> {
 
   void _handleMapContextPress(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     LatLng latLng,
   ) {
     if (_isSelectingPoi) {
@@ -341,7 +341,7 @@ class _MapScreenState extends State<MapScreen> {
     return Builder(
       builder: (context) {
         final connectorSnapshot = context
-            .select<MeshCoreConnector, _MapConnectorSnapshot>(
+            .select<HamCoreConnector, _MapConnectorSnapshot>(
               _MapConnectorSnapshot.fromConnector,
             );
         final connector = connectorSnapshot.connector;
@@ -1146,7 +1146,7 @@ class _MapScreenState extends State<MapScreen> {
 
   /// Estimates the free-space maximum LoRa range in km from the connected
   /// device's current radio parameters.  Returns null if parameters are unknown.
-  double? _estimateLoRaRangeKm(MeshCoreConnector connector) {
+  double? _estimateLoRaRangeKm(HamCoreConnector connector) {
     final freqHz = connector.currentFreqHz;
     final bwHz = connector.currentBwHz;
     final sf = connector.currentSf;
@@ -1332,7 +1332,7 @@ class _MapScreenState extends State<MapScreen> {
     final overlapPrefixes = <String>{};
     if (overlapsMode) {
       final hopWidth = context
-          .read<MeshCoreConnector>()
+          .read<HamCoreConnector>()
           .pathHashByteWidth
           .clamp(1, pubKeySize)
           .toInt();
@@ -1351,7 +1351,7 @@ class _MapScreenState extends State<MapScreen> {
       });
     }
     final overlapHopWidth = context
-        .read<MeshCoreConnector>()
+        .read<HamCoreConnector>()
         .pathHashByteWidth
         .clamp(1, pubKeySize)
         .toInt();
@@ -1647,7 +1647,7 @@ class _MapScreenState extends State<MapScreen> {
 
   bool _isBatteryLow(Contact contact) {
     if (contact.type != advTypeRepeater) return false;
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final millivolts = connector.getRepeaterBatteryMillivolts(
       contact.publicKeyHex,
     );
@@ -1788,7 +1788,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Widget _buildTopOverlay(
     BuildContext context, {
-    required MeshCoreConnector connector,
+    required HamCoreConnector connector,
     required AppSettingsService settingsService,
     required List<Contact> allContacts,
     required List<_GuessedLocation> guessedLocations,
@@ -2293,7 +2293,7 @@ class _MapScreenState extends State<MapScreen> {
   Widget _buildSelectedNodeCard(
     BuildContext context,
     Contact contact,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     final color = _markerColor(contact);
     final age = _ageOf(contact);
@@ -2473,7 +2473,7 @@ class _MapScreenState extends State<MapScreen> {
   List<Widget> _selectedNodeActions(
     BuildContext context,
     Contact contact,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     Widget action(String label, IconData icon, VoidCallback onPressed) {
       return Padding(
@@ -2533,7 +2533,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   List<_SharedMarker> _collectSharedMarkers(
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     int markerSignature,
   ) {
     final locale = Localizations.localeOf(context);
@@ -2712,7 +2712,7 @@ class _MapScreenState extends State<MapScreen> {
         room: room,
         // onLogin(password, isAdmin) isAdmin not used for room caht screen
         onLogin: (password, _) {
-          final connector = context.read<MeshCoreConnector>();
+          final connector = context.read<HamCoreConnector>();
           final unread = connector.getUnreadCountForContactKey(
             room.publicKeyHex,
           );
@@ -2734,7 +2734,7 @@ class _MapScreenState extends State<MapScreen> {
     Contact contact, {
     LatLng? guessedPosition,
   }) {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     showMeshSheet(
       context,
       builder: (sheetContext) {
@@ -2870,7 +2870,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Future<void> _disconnect(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -2999,7 +2999,7 @@ class _MapScreenState extends State<MapScreen> {
 
   void _showShareMarkerAtPositionSheet({
     required BuildContext context,
-    required MeshCoreConnector connector,
+    required HamCoreConnector connector,
     required LatLng position,
   }) {
     showModalBottomSheet(
@@ -3052,7 +3052,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Future<void> _shareMarker({
     required BuildContext context,
-    required MeshCoreConnector connector,
+    required HamCoreConnector connector,
     required LatLng position,
     required String defaultLabel,
     required String flags,
@@ -3127,7 +3127,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Future<void> _showRecipientSheet({
     required BuildContext context,
-    required MeshCoreConnector connector,
+    required HamCoreConnector connector,
     required String markerText,
   }) async {
     if (!connector.isLoadingChannels && connector.channels.isEmpty) {
@@ -3139,7 +3139,7 @@ class _MapScreenState extends State<MapScreen> {
       context: context,
       builder: (sheetContext) => StatefulBuilder(
         builder: (sheetContext, setSheetState) {
-          return Consumer<MeshCoreConnector>(
+          return Consumer<HamCoreConnector>(
             builder: (consumerContext, liveConnector, child) {
               final allContacts = liveConnector.contacts
                   .where(
@@ -3563,7 +3563,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void _addToPath(BuildContext context, Contact contact, {LatLng? position}) {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final hopWidth = min(
       connector.pathHashByteWidth.clamp(1, pubKeySize),
       contact.publicKey.length,
@@ -3606,7 +3606,7 @@ class _MapScreenState extends State<MapScreen> {
     setState(() {
       final recordedHopWidth = _pathTraceHopWidths.isNotEmpty
           ? _pathTraceHopWidths.removeLast()
-          : context.read<MeshCoreConnector>().pathHashByteWidth.clamp(
+          : context.read<HamCoreConnector>().pathHashByteWidth.clamp(
               1,
               pubKeySize,
             );
@@ -3679,7 +3679,7 @@ class _MapScreenState extends State<MapScreen> {
                 SelectableText(
                   PathHelper.splitPathBytes(
                     _pathTrace,
-                    context.read<MeshCoreConnector>().pathHashByteWidth,
+                    context.read<HamCoreConnector>().pathHashByteWidth,
                   ).map(PathHelper.formatHopHex).join(','),
                   style: MeshTheme.mono(
                     fontSize: 18,
@@ -3697,7 +3697,7 @@ class _MapScreenState extends State<MapScreen> {
                       IconButton(
                         onPressed: () {
                           final hashW = context
-                              .read<MeshCoreConnector>()
+                              .read<HamCoreConnector>()
                               .pathHashByteWidth;
                           Navigator.push(
                             context,
@@ -3729,7 +3729,7 @@ class _MapScreenState extends State<MapScreen> {
                                 path: Uint8List.fromList(_pathTrace),
                                 flipPathAround: true,
                                 pathHashByteWidth: context
-                                    .read<MeshCoreConnector>()
+                                    .read<HamCoreConnector>()
                                     .pathHashByteWidth,
                                 pathContacts: _pathTraceContacts,
                               ),
@@ -3806,7 +3806,7 @@ int _mapContactSignature(Contact contact) {
 }
 
 class _MapConnectorSnapshot {
-  final MeshCoreConnector connector;
+  final HamCoreConnector connector;
   final int contactsSignature;
   final int markerSignature;
   final int batterySignature;
@@ -3820,7 +3820,7 @@ class _MapConnectorSnapshot {
     required this.uiSignature,
   });
 
-  factory _MapConnectorSnapshot.fromConnector(MeshCoreConnector connector) {
+  factory _MapConnectorSnapshot.fromConnector(HamCoreConnector connector) {
     final allContacts = connector.allContacts;
     final contactsSignature = Object.hashAll(
       allContacts.map(_mapContactSignature),

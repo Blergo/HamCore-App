@@ -8,7 +8,7 @@
     }
   },
   "@@locale": "nl",
-  "appTitle": "MeshCore Open",
+  "appTitle": "HamCore",
   "nav_contacts": "Contacten",
   "nav_channels": "Kanalen",
   "nav_map": "Kaart",
@@ -54,7 +54,7 @@
       }
     }
   },
-  "scanner_title": "MeshCore Open",
+  "scanner_title": "HamCore",
   "scanner_scanning": "Scannen naar apparaten...",
   "scanner_connecting": "Verbinden...",
   "scanner_disconnecting": "Verbinding verbreken...",
@@ -67,8 +67,8 @@
       }
     }
   },
-  "scanner_searchingDevices": "Zoeken naar MeshCore apparaten...",
-  "scanner_tapToScan": "Tik Scan om MeshCore apparaten te vinden",
+  "scanner_searchingDevices": "Zoeken naar HamCore apparaten...",
+  "scanner_tapToScan": "Tik Scan om HamCore apparaten te vinden",
   "scanner_connectionFailed": "Verbinding mislukt: {error}",
   "@scanner_connectionFailed": {
     "placeholders": {
@@ -80,7 +80,7 @@
   "scanner_stop": "Stoppen",
   "scanner_scan": "Scannen",
   "device_quickSwitch": "Snelle overschakeling",
-  "device_meshcore": "MeshCore",
+  "device_hamcore": "HamCore",
   "settings_title": "Instellingen",
   "settings_deviceInfo": "Apparateninformatie",
   "settings_appSettings": "App Instellingen",
@@ -119,7 +119,7 @@
   "settings_refreshContacts": "Contacten vernieuwen",
   "settings_refreshContactsSubtitle": "Contactlijst opnieuw laden van het apparaat",
   "settings_rebootDevice": "Apparaat opnieuw opstarten",
-  "settings_rebootDeviceSubtitle": "Herstart het MeshCore-apparaat",
+  "settings_rebootDeviceSubtitle": "Herstart het HamCore-apparaat",
   "settings_rebootDeviceConfirm": "Ben je er zeker van dat je het apparaat opnieuw wilt opstarten? Je wordt losgekoppeld.",
   "settings_debug": "Foutopsporing",
   "settings_bleDebugLog": "BLE Debug Log",
@@ -127,7 +127,7 @@
   "settings_appDebugLog": "Debuglog van de app",
   "settings_appDebugLogSubtitle": "Toepassingsdebugberichten",
   "settings_about": "Over",
-  "settings_aboutVersion": "MeshCore Open versie {version}",
+  "settings_aboutVersion": "HamCore versie {version}",
   "@settings_aboutVersion": {
     "placeholders": {
       "version": {
@@ -135,8 +135,8 @@
       }
     }
   },
-  "settings_aboutLegalese": "MeshCore Open Source Project 2024",
-  "settings_aboutDescription": "Een open-source Flutter client voor MeshCore LoRa mesh netwerkapparaten.",
+  "settings_aboutLegalese": "HamCore Source Project 2024",
+  "settings_aboutDescription": "Een open-source Flutter client voor HamCore LoRa mesh netwerkapparaten.",
   "settings_infoName": "Naam",
   "settings_infoId": "ID",
   "settings_infoStatus": "Status",
@@ -1770,7 +1770,7 @@
   "contacts_ShareContact": "Contact naar Klembord kopiëren",
   "contacts_ShareContactZeroHop": "Contact delen via advertentie",
   "contacts_zeroHopContactAdvertFailed": "Mislukt om contact te verzenden",
-  "notification_activityTitle": "MeshCore Activiteit",
+  "notification_activityTitle": "HamCore Activiteit",
   "notification_messagesCount": "{count} {count, plural, =1{bericht} other{berichten}}",
   "notification_channelMessagesCount": "{count} {count, plural, =1{kanaalbericht} other{kanaalberichten}}",
   "notification_newNodesCount": "{count} {count, plural, =1{nieuw knooppunt} other{nieuwe knooppunten}}",
@@ -1789,8 +1789,8 @@
   "settings_gpxExportRepeatersRoom": "Repeater- en kamer servers locaties",
   "settings_gpxExportChat": "Locaties van metgezellen",
   "settings_gpxExportAllContacts": "Alle contactlocaties",
-  "settings_gpxExportShareText": "Kaartgegevens geëxporteerd uit meshcore-open",
-  "settings_gpxExportShareSubject": "meshcore-open GPX kaartgegevens exporteren",
+  "settings_gpxExportShareText": "Kaartgegevens geëxporteerd uit hamcore",
+  "settings_gpxExportShareSubject": "hamcore GPX kaartgegevens exporteren",
   "pathTrace_someHopsNoLocation": "Een of meer van de hops ontbreken een locatie!",
   "map_removeLast": "Verwijder Laatste",
   "pathTrace_clearTooltip": "Weg wissen",
@@ -2024,7 +2024,7 @@
   "map_guessedLocation": "Geroerde locatie",
   "map_showGuessedLocations": "Toon de voorspelde locaties van de knopen",
   "connectionChoiceUsbLabel": "USB",
-  "usbScreenSubtitle": "Selecteer een gedetecteerd seriële apparaat en verbind deze direct met uw MeshCore-node.",
+  "usbScreenSubtitle": "Selecteer een gedetecteerd seriële apparaat en verbind deze direct met uw HamCore-node.",
   "connectionChoiceBluetoothLabel": "Bluetooth",
   "usbScreenTitle": "Verbind via USB",
   "usbScreenStatus": "Selecteer een USB-apparaat",
@@ -2335,7 +2335,7 @@
   "repeater_cliHelpStatsRadio": "(Alleen voor serienummers) Toont radio-statistieken.",
   "repeater_cliHelpStatsCore": "(Alleen voor seriële communicatie) Toont de belangrijkste firmware-statistieken.",
   "common_done": "Done",
-  "background_serviceTitle": "MeshCore running",
+  "background_serviceTitle": "HamCore running",
   "background_serviceText": "Keeping BLE connected",
   "appSettings_translationModelDeleted": "Deleted {name}",
   "@appSettings_translationModelDeleted": {
@@ -2757,7 +2757,7 @@
   "channels_regionNotSet": "Regio: geen",
   "channels_regionSelect_Title": "Kies een regio",
   "channels_clearRegion": "Duidelijke regio",
-  "chat_sendImageLora": "Afbeelding verzenden via MeshCore",
+  "chat_sendImageLora": "Afbeelding verzenden via HamCore",
   "chat_imagePickFailed": "Kunde die afbeelding niet openen",
   "chat_receivedGif": "Ontvangen van een GIF",
   "repeater_keySettings": "Verander de Identiteitskies",

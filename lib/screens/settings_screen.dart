@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:meshcore_open/utils/gpx_export.dart';
-import 'package:meshcore_open/widgets/elements_ui.dart';
+import 'package:hamcore/utils/gpx_export.dart';
+import 'package:hamcore/widgets/elements_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '../connector/meshcore_connector.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_connector.dart';
+import '../connector/hamcore_protocol.dart';
 import '../l10n/l10n.dart';
 import '../models/radio_settings.dart';
 import '../services/app_settings_service.dart';
@@ -78,7 +78,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: SafeArea(
         top: false,
-        child: Consumer<MeshCoreConnector>(
+        child: Consumer<HamCoreConnector>(
           builder: (context, connector, child) {
             return ListView(
               padding: const EdgeInsets.fromLTRB(0, 8, 0, 24),
@@ -205,7 +205,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildIdentityCardContent(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
@@ -387,7 +387,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildBatteryInfoRow(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     final l10n = context.l10n;
     final percent = connector.batteryPercent;
@@ -442,7 +442,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildNodeCardContent(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     final l10n = context.l10n;
     return Column(
@@ -506,7 +506,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildLocationCardContent(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     final l10n = context.l10n;
     return Column(
@@ -540,7 +540,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildActionsCardContent(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     final l10n = context.l10n;
     return Column(
@@ -586,7 +586,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildExportCardContent(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     final l10n = context.l10n;
     return Column(
@@ -603,7 +603,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               exporter,
               l10n.map_repeater,
               l10n.settings_gpxExportRepeatersRoom,
-              'meshcore_repeaters_',
+              'hamcore_repeaters_',
               l10n.settings_gpxExportShareText,
               l10n.settings_gpxExportShareSubject,
             );
@@ -622,7 +622,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               exporter,
               l10n.map_repeater,
               l10n.settings_gpxExportChat,
-              'meshcore_contacts_',
+              'hamcore_contacts_',
               l10n.settings_gpxExportShareText,
               l10n.settings_gpxExportShareSubject,
             );
@@ -641,7 +641,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               exporter,
               l10n.map_repeater,
               l10n.settings_gpxExportAllContacts,
-              'meshcore_all_',
+              'hamcore_all_',
               l10n.settings_gpxExportShareText,
               l10n.settings_gpxExportShareSubject,
             );
@@ -739,7 +739,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _editNodeName(BuildContext context, MeshCoreConnector connector) {
+  void _editNodeName(BuildContext context, HamCoreConnector connector) {
     final l10n = context.l10n;
     final controller = TextEditingController(text: connector.selfName ?? '');
     showDialog(
@@ -785,14 +785,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _showRadioSettings(BuildContext context, MeshCoreConnector connector) {
+  void _showRadioSettings(BuildContext context, HamCoreConnector connector) {
     showDialog(
       context: context,
       builder: (context) => _RadioSettingsDialog(connector: connector),
     );
   }
 
-  void _editPathHashMode(BuildContext context, MeshCoreConnector connector) {
+  void _editPathHashMode(BuildContext context, HamCoreConnector connector) {
     final l10n = context.l10n;
     var selectedMode = (connector.pathHashByteWidth - 1).clamp(0, 3).toInt();
 
@@ -873,7 +873,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _editLocation(BuildContext context, MeshCoreConnector connector) {
+  void _editLocation(BuildContext context, HamCoreConnector connector) {
     final l10n = context.l10n;
     final settingsService = context.read<AppSettingsService>();
     final latController = TextEditingController();
@@ -1047,7 +1047,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _syncTime(BuildContext context, MeshCoreConnector connector) {
+  void _syncTime(BuildContext context, HamCoreConnector connector) {
     final l10n = context.l10n;
     connector.syncTime();
     showDismissibleSnackBar(
@@ -1058,7 +1058,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _confirmDeleteAllPaths(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     final l10n = context.l10n;
     showDialog(
@@ -1086,7 +1086,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _confirmReboot(BuildContext context, MeshCoreConnector connector) {
+  void _confirmReboot(BuildContext context, HamCoreConnector connector) {
     final l10n = context.l10n;
     showDialog(
       context: context,
@@ -1173,7 +1173,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  void _editAutoAddConfig(BuildContext context, MeshCoreConnector connector) {
+  void _editAutoAddConfig(BuildContext context, HamCoreConnector connector) {
     final l10n = context.l10n;
     bool autoAddChat = false;
     bool autoAddRepeater = false;
@@ -1181,7 +1181,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     bool autoAddSensor = false;
     bool overwriteOldest = false;
 
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     autoAddChat = connector.autoAddUsers ?? false;
     autoAddRepeater = connector.autoAddRepeaters ?? false;
     autoAddRoomServer = connector.autoAddRoomServers ?? false;
@@ -1270,7 +1270,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _sendSettings(
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     bool autoAddChat,
     bool autoAddRepeater,
     bool autoAddRoomServer,
@@ -1289,7 +1289,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 }
 
-void _privacySettings(BuildContext context, MeshCoreConnector connector) {
+void _privacySettings(BuildContext context, HamCoreConnector connector) {
   final l10n = context.l10n;
   final settingsService = context.read<AppSettingsService>();
 
@@ -1435,7 +1435,7 @@ void _privacySettings(BuildContext context, MeshCoreConnector connector) {
 }
 
 class _RadioSettingsDialog extends StatefulWidget {
-  final MeshCoreConnector connector;
+  final HamCoreConnector connector;
 
   const _RadioSettingsDialog({required this.connector});
 
@@ -1620,7 +1620,7 @@ class _RadioSettingsDialogState extends State<_RadioSettingsDialog> {
   _RadioSettingsSnapshot? _sessionRememberedNonRepeatSnapshot() {
     final snapshot = widget.connector.rememberedNonRepeatRadioState;
     if (snapshot == null) return null;
-    return _RadioSettingsSnapshot.fromMeshCoreSnapshot(snapshot);
+    return _RadioSettingsSnapshot.fromHamCoreSnapshot(snapshot);
   }
 
   _RadioSettingsSnapshot _inferNonRepeatSnapshotForRepeatEnabled() {
@@ -1831,7 +1831,7 @@ class _RadioSettingsDialogState extends State<_RadioSettingsDialog> {
           : _currentSnapshot();
       if (rememberedSnapshot != null) {
         widget.connector.rememberNonRepeatRadioState(
-          rememberedSnapshot.toMeshCoreSnapshot(widget.connector.currentCr),
+          rememberedSnapshot.toHamCoreSnapshot(widget.connector.currentCr),
         );
       }
 
@@ -2061,8 +2061,8 @@ class _RadioSettingsSnapshot {
   int get frequencyHz => (frequencyMHz * 1000).round();
 
   /// Convert from the connector's raw-int snapshot to UI-enum snapshot.
-  static _RadioSettingsSnapshot? fromMeshCoreSnapshot(
-    MeshCoreRadioStateSnapshot snapshot,
+  static _RadioSettingsSnapshot? fromHamCoreSnapshot(
+    HamCoreRadioStateSnapshot snapshot,
   ) {
     final bw = LoRaBandwidth.values
         .where((b) => b.hz == snapshot.bwHz)
@@ -2084,8 +2084,8 @@ class _RadioSettingsSnapshot {
   }
 
   /// Convert back to the connector's raw-int snapshot.
-  MeshCoreRadioStateSnapshot toMeshCoreSnapshot(int? deviceCr) {
-    return MeshCoreRadioStateSnapshot(
+  HamCoreRadioStateSnapshot toHamCoreSnapshot(int? deviceCr) {
+    return HamCoreRadioStateSnapshot(
       freqHz: frequencyHz,
       bwHz: bandwidth.hz,
       sf: spreadingFactor.value,

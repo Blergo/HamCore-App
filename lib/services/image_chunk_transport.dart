@@ -1,4 +1,4 @@
-/// Chunked image transport over MeshCore `PAYLOAD_TYPE_GRP_DATA` (0x06),
+/// Chunked image transport over HamCore `PAYLOAD_TYPE_GRP_DATA` (0x06),
 /// carried by the companion command `CMD_SEND_CHANNEL_DATA` (62) and received
 /// as `RESP_CODE_CHANNEL_DATA_RECV` (27).
 ///
@@ -13,7 +13,7 @@
 ///
 /// ## Wire format
 ///
-/// One MeshCore GRP_DATA blob per chunk, at most [kImageChunkBlobBytes] bytes:
+/// One HamCore GRP_DATA blob per chunk, at most [kImageChunkBlobBytes] bytes:
 ///
 /// ```
 ///   off  size  field
@@ -53,7 +53,7 @@
 /// There is deliberately NO app-level checksum. Two layers below already cover
 /// corruption of a delivered chunk: the LoRa PHY CRCs every packet (`setCRC(1)`
 /// in each radio driver, and a failing packet is dropped by the modem), and
-/// MeshCore verifies a 2-byte HMAC-SHA256 per packet and rejects on mismatch
+/// HamCore verifies a 2-byte HMAC-SHA256 per packet and rejects on mismatch
 /// (`Utils::MACThenDecrypt` returns 0 for a bad tag). What no lower layer can
 /// see is a cross-image MERGE — two senders colliding on senderPrefix + imgId +
 /// channel inside one TTL, ~1/65536 per concurrent pair — which produces a
@@ -115,7 +115,7 @@ const int kImageChunkMetadataBytes = 1;
 /// Body bytes of chunk 0 that are NOT image data: just the metadata byte.
 ///
 /// A CRC-16 briefly lived here. It was removed: the LoRa PHY already CRCs every
-/// packet (`setCRC(1)` in every radio driver) and MeshCore verifies a 2-byte
+/// packet (`setCRC(1)` in every radio driver) and HamCore verifies a 2-byte
 /// HMAC per packet (`Utils::MACThenDecrypt`, which returns 0 on mismatch), so a
 /// corrupted chunk never reaches this layer. The only thing an app-level CRC
 /// added was detection of a cross-image merge (two senders colliding on
@@ -1146,7 +1146,7 @@ bool _sameBytes(Uint8List a, Uint8List b) {
 }
 
 // ---------------------------------------------------------------------------
-// Protocol glue — still pure Dart, but MeshCore-frame shaped
+// Protocol glue — still pure Dart, but HamCore-frame shaped
 // ---------------------------------------------------------------------------
 
 /// Builds a `CMD_SEND_CHANNEL_DATA` (62) frame.

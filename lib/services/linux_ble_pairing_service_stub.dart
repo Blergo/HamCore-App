@@ -1,7 +1,7 @@
 /// No-op stub for web builds where dart:io is unavailable.
 ///
 /// The real implementation lives in linux_ble_pairing_service.dart and is
-/// selected via conditional import in meshcore_connector.dart.
+/// selected via conditional import in hamcore_connector.dart.
 class LinuxBlePairingService {
   LinuxBlePairingService();
 
