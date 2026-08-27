@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 import '../l10n/l10n.dart';
 import '../models/contact.dart';
 import '../models/path_selection.dart';
-import '../connector/meshcore_connector.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_connector.dart';
+import '../connector/hamcore_protocol.dart';
 import '../services/app_settings_service.dart';
 import '../services/repeater_command_service.dart';
 import '../theme/mesh_theme.dart';
@@ -64,7 +64,7 @@ class _RepeaterStatusScreenState extends State<RepeaterStatusScreen> {
   @override
   void initState() {
     super.initState();
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     _commandService = RepeaterCommandService(connector);
     _setupMessageListener();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -81,7 +81,7 @@ class _RepeaterStatusScreenState extends State<RepeaterStatusScreen> {
   }
 
   void _setupMessageListener() {
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     _frameSubscription = connector.receivedFrames.listen((frame) {
       if (frame.isEmpty) return;
       if (frame[0] == pushCodeStatusResponse) {
@@ -95,7 +95,7 @@ class _RepeaterStatusScreenState extends State<RepeaterStatusScreen> {
 
   int _resolveRepeaterIndex = -1;
 
-  Contact _resolveRepeater(MeshCoreConnector connector) {
+  Contact _resolveRepeater(HamCoreConnector connector) {
     if (_resolveRepeaterIndex >= 0 &&
         _resolveRepeaterIndex < connector.contacts.length &&
         connector.contacts[_resolveRepeaterIndex].publicKeyHex ==
@@ -190,7 +190,7 @@ class _RepeaterStatusScreenState extends State<RepeaterStatusScreen> {
       _dupFlood = floodDups;
       _chanUtil = ((txAirSecs + rxAirSecs) / uptimeSecs) * 100;
     });
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     connector.updateRepeaterBatterySnapshot(
       widget.repeater.publicKeyHex,
       batteryMv,
@@ -220,7 +220,7 @@ class _RepeaterStatusScreenState extends State<RepeaterStatusScreen> {
           _debugFlags = _asInt(data['errors']);
           final batteryMv = _batteryMv;
           if (batteryMv != null) {
-            final connector = Provider.of<MeshCoreConnector>(
+            final connector = Provider.of<HamCoreConnector>(
               context,
               listen: false,
             );
@@ -278,7 +278,7 @@ class _RepeaterStatusScreenState extends State<RepeaterStatusScreen> {
     });
 
     try {
-      final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+      final connector = Provider.of<HamCoreConnector>(context, listen: false);
       final repeater = _resolveRepeater(connector);
       final selection = await connector.preparePathForContactSend(repeater);
       _pendingStatusSelection = selection;
@@ -321,7 +321,7 @@ class _RepeaterStatusScreenState extends State<RepeaterStatusScreen> {
   void _recordStatusResult(bool success) {
     final selection = _pendingStatusSelection;
     if (selection == null) return;
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     final repeater = _resolveRepeater(connector);
     connector.recordRepeaterPathResult(repeater, selection, success, null);
     _pendingStatusSelection = null;
@@ -342,7 +342,7 @@ class _RepeaterStatusScreenState extends State<RepeaterStatusScreen> {
   }
 
   String _batteryText() {
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     final batteryMv =
         connector.getRepeaterBatteryMillivolts(widget.repeater.publicKeyHex) ??
         _batteryMv;
@@ -363,7 +363,7 @@ class _RepeaterStatusScreenState extends State<RepeaterStatusScreen> {
   }
 
   String _clockText() {
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     final dt = connector.repeaterClockAtLogin(widget.repeater.publicKey);
     if (dt == null) return '—';
     final local = dt.toLocal();
@@ -437,7 +437,7 @@ class _RepeaterStatusScreenState extends State<RepeaterStatusScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     final repeater = _resolveRepeater(connector);
     final isFloodMode = repeater.pathOverride == -1;
 
@@ -601,7 +601,7 @@ class _RepeaterStatusScreenState extends State<RepeaterStatusScreen> {
   }
 
   Color _batteryColor() {
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     final batteryMv =
         connector.getRepeaterBatteryMillivolts(widget.repeater.publicKeyHex) ??
         _batteryMv;

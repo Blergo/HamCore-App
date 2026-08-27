@@ -9,8 +9,8 @@ The app supports three transports, all sharing the same command/response protoco
 | Transport | Method | Implementation |
 |---|---|---|
 | Bluetooth LE | Nordic UART Service (NUS) GATT | `flutter_blue_plus` |
-| USB Serial | Packet-framed serial | `MeshCoreUsbManager` |
-| TCP | Packet-framed socket | `MeshCoreTcpConnector` |
+| USB Serial | Packet-framed serial | `HamCoreUsbManager` |
+| TCP | Packet-framed socket | `HamCoreTcpConnector` |
 
 ### BLE (Nordic UART Service)
 
@@ -37,7 +37,7 @@ RX (device → host):  [0x3E][len_lo][len_hi][payload...]
 ## Connection State Machine
 
 ```
-enum MeshCoreConnectionState {
+enum HamCoreConnectionState {
   disconnected,
   scanning,
   connecting,
@@ -48,15 +48,8 @@ enum MeshCoreConnectionState {
 
 ## BLE Connection Lifecycle
 
-1. **Scan** with known name prefixes (defined in `MeshCoreUuids.deviceNamePrefixes`):
-    - `MeshCore-`
-    - `Whisper-`
-    - `WisCore-`
-    - `Seeed`
-    - `Lilygo`
-    - `HT-`
-    - `LowMesh_MC_`
-    - `NRF52`
+1. **Scan** for devices advertising the Nordic UART Service UUID (known name prefix for reference, defined in `HamCoreUuids.deviceNamePrefixes`):
+    - `HamCore-`
 2. **Connect** with 15-second timeout (6 seconds on Linux)
 3. **Request MTU** 185 bytes (non-web only)
 4. **Discover services** and locate NUS
@@ -249,7 +242,7 @@ Seen inside `PUSH_CODE_LOG_RX_DATA` raw packets:
 
 ## State Management
 
-Uses Flutter `Provider` with `ChangeNotifier`. The central state holder is `MeshCoreConnector`, which owns all in-memory collections and fires debounced (50ms) `notifyListeners()` to update the UI. In-memory conversations are windowed to 200 messages per contact; older messages remain on disk and are loaded on demand.
+Uses Flutter `Provider` with `ChangeNotifier`. The central state holder is `HamCoreConnector`, which owns all in-memory collections and fires debounced (50ms) `notifyListeners()` to update the UI. In-memory conversations are windowed to 200 messages per contact; older messages remain on disk and are loaded on demand.
 
 ### Data Flow
 

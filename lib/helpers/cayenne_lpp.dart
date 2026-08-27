@@ -1,7 +1,7 @@
 import 'dart:typed_data';
-import 'package:meshcore_open/utils/app_logger.dart';
+import 'package:hamcore/utils/app_logger.dart';
 
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_protocol.dart';
 
 class CayenneLpp {
   static const int lppDigitalInput = 0; // 1 byte
@@ -376,7 +376,7 @@ class CayenneLpp {
             channelData['values']['pressure'] = buffer.readUInt16BE() / 10.0;
             break;
           case lppAltitude:
-            // MeshCore encodes standalone barometric altitude as LPP type 121.
+            // HamCore encodes standalone barometric altitude as LPP type 121.
             channelData['values']['altitude'] = buffer.readInt16BE();
             break;
           case lppVoltage:

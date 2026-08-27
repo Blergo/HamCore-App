@@ -3,12 +3,12 @@ import 'dart:typed_data';
 import '../services/app_debug_log_service.dart';
 import '../services/usb_serial_service.dart';
 
-/// Manages USB serial transport for MeshCore devices.
+/// Manages USB serial transport for HamCore devices.
 ///
 /// Owns the [UsbSerialService] and USB-specific connection state.
-/// The main [MeshCoreConnector] delegates all USB operations here.
-class MeshCoreUsbManager {
-  MeshCoreUsbManager();
+/// The main [HamCoreConnector] delegates all USB operations here.
+class HamCoreUsbManager {
+  HamCoreUsbManager();
 
   final UsbSerialService _service = UsbSerialService();
   AppDebugLogService? _debugLog;

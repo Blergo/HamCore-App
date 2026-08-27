@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../connector/meshcore_connector.dart';
+import '../connector/hamcore_connector.dart';
 import '../helpers/snack_bar_builder.dart';
 import '../l10n/l10n.dart';
 import '../models/community.dart';
@@ -127,7 +127,7 @@ class _CommunityQrScannerScreenState extends State<CommunityQrScannerScreen> {
       _isProcessing = true;
     });
 
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     _communityStore.setPublicKeyHex = connector.selfPublicKeyHex;
 
     try {
@@ -365,13 +365,13 @@ class _CommunityQrScannerScreenState extends State<CommunityQrScannerScreen> {
     bool addPublicChannel,
   ) async {
     // Save community to local storage
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     _communityStore.setPublicKeyHex = connector.selfPublicKeyHex;
     await _communityStore.addCommunity(community);
 
     // Optionally add the community public channel to the device
     if (addPublicChannel && context.mounted) {
-      final connector = context.read<MeshCoreConnector>();
+      final connector = context.read<HamCoreConnector>();
       final nextIndex = _findNextAvailableChannelIndex(connector);
 
       if (nextIndex != null) {
@@ -393,7 +393,7 @@ class _CommunityQrScannerScreenState extends State<CommunityQrScannerScreen> {
     }
   }
 
-  int? _findNextAvailableChannelIndex(MeshCoreConnector connector) {
+  int? _findNextAvailableChannelIndex(HamCoreConnector connector) {
     final usedIndices = connector.channels.map((c) => c.index).toSet();
     for (int i = 0; i < connector.maxChannels; i++) {
       if (!usedIndices.contains(i)) return i;

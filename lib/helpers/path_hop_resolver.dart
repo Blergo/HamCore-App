@@ -1,6 +1,6 @@
 import 'package:latlong2/latlong.dart';
 
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_protocol.dart';
 import 'path_helper.dart';
 import '../models/contact.dart';
 

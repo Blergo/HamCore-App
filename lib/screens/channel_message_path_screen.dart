@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:meshcore_open/helpers/path_helper.dart';
-import 'package:meshcore_open/screens/path_trace_map.dart';
+import 'package:hamcore/helpers/path_helper.dart';
+import 'package:hamcore/screens/path_trace_map.dart';
 import 'package:provider/provider.dart';
 
-import '../connector/meshcore_connector.dart';
+import '../connector/hamcore_connector.dart';
 import '../helpers/path_hop_resolver.dart';
 import '../services/map_tile_cache_service.dart';
 import '../services/app_settings_service.dart';
@@ -35,7 +35,7 @@ class ChannelMessagePathScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MeshCoreConnector>(
+    return Consumer<HamCoreConnector>(
       builder: (context, connector, _) {
         final l10n = context.l10n;
         final primaryPathTmp = _selectPrimaryPath(
@@ -601,7 +601,7 @@ class _ChannelMessagePathMapScreenState
     required bool isPrimary,
     required Uint8List orientedBytes,
     required List<_PathHop> hops,
-    required MeshCoreConnector connector,
+    required HamCoreConnector connector,
   }) {
     final l10n = context.l10n;
     final selfLat = connector.selfLatitude;
@@ -827,7 +827,7 @@ class _ChannelMessagePathMapScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MeshCoreConnector>(
+    return Consumer<HamCoreConnector>(
       builder: (context, connector, _) {
         final settings = context.watch<AppSettingsService>().settings;
         final isImperial = settings.unitSystem == UnitSystem.imperial;
@@ -1256,8 +1256,8 @@ class _ChannelMessagePathMapScreenState
   }
 
   List<Marker> _buildSelfMarkers({required bool showLabels}) {
-    final selfLat = context.read<MeshCoreConnector>().selfLatitude;
-    final selfLon = context.read<MeshCoreConnector>().selfLongitude;
+    final selfLat = context.read<HamCoreConnector>().selfLatitude;
+    final selfLon = context.read<HamCoreConnector>().selfLongitude;
     if (selfLat == null || selfLon == null) return const [];
     final markers = <Marker>[];
     final selfPoint = LatLng(selfLat, selfLon);
@@ -1820,7 +1820,7 @@ class _ObservedPath {
 
 List<_PathHop> _buildPathHops(
   Uint8List pathBytes,
-  MeshCoreConnector connector,
+  HamCoreConnector connector,
   AppLocalizations l10n,
   int hashByteWidth, {
   bool resolveFromEnd = false,

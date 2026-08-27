@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../theme/mesh_theme.dart';
 
-/// MeshCore shared design kit.
+/// HamCore shared design kit.
 ///
 /// Building blocks used across all screens so the app reads as one product:
 /// [SectionHeader], [MeshCard], [StatusChip], [StatTile], [AvatarCircle],

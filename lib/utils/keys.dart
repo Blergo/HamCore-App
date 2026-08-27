@@ -26,7 +26,7 @@ Future<MCKeyPair> generateKeyPair() async {
   final Uint8List pubKeyBytes = Uint8List.fromList(
     (await keys.extractPublicKey()).bytes,
   );
-  // Ed25519 gives 32-byte public and private keys, but MeshCore
+  // Ed25519 gives 32-byte public and private keys, but HamCore
   // uses an expanded 64-byte private key, so we have to make it
   // ourselves. Luckily, we can do it such that it has the same public
   // key, which we'd otherwise be unable to compute, since although the
@@ -35,7 +35,7 @@ Future<MCKeyPair> generateKeyPair() async {
   final Uint8List hash = Uint8List.fromList((await Sha512().hash(seed)).bytes);
   hash[0] &= 248; // Clamp the scalar. This keeps the chosen point in the
   hash[31] &= 63; // large elliptic curve subgroup, and is demanded both by
-  hash[31] |= 64; // Ed25519 and by the MeshCore repeater key validation code.
+  hash[31] |= 64; // Ed25519 and by the HamCore repeater key validation code.
   return MCKeyPair(pubKeyBytes, hash);
 }
 

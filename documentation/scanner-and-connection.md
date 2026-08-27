@@ -53,7 +53,7 @@ Note: The weak (-80 to -90 dBm) and poor (< -90 dBm) tiers share the same icon s
 
 ### How Scanning Works
 
-- Filters for devices advertising the Nordic UART Service UUID (so community forks with non-standard names are still found). Known name prefixes used by stock firmware builds for reference: `MeshCore-`, `Whisper-`, `WisCore-`, `Seeed`, `Lilygo`, `HT-`, `LowMesh_MC_`, `NRF52`
+- Filters for devices advertising the Nordic UART Service UUID (so community forks with non-standard names are still found). Known name prefix used by HamCore firmware builds for reference: `HamCore-`
 - Uses low-latency scan mode on Android
 - Scans for 10 seconds then auto-stops
 - On iOS/macOS, waits for BLE adapter initialization before starting

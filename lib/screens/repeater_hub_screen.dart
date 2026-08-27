@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:meshcore_open/connector/meshcore_protocol.dart';
-import 'package:meshcore_open/connector/meshcore_connector.dart';
+import 'package:hamcore/connector/hamcore_protocol.dart';
+import 'package:hamcore/connector/hamcore_connector.dart';
 import 'package:provider/provider.dart';
 import '../l10n/l10n.dart';
 import '../models/contact.dart';
@@ -32,7 +32,7 @@ class RepeaterHubScreen extends StatelessWidget {
     final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
     final settingsService = context.watch<AppSettingsService>();
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     final chemistry = settingsService.batteryChemistryForRepeater(
       repeater.publicKeyHex,
     );

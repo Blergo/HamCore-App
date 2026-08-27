@@ -1,6 +1,6 @@
-# MeshCore Open - Feature Documentation
+# HamCore - Feature Documentation
 
-MeshCore Open is an open-source Flutter client for MeshCore LoRa mesh networking devices. This documentation covers every user-facing feature, how to access it, and what it does.
+HamCore is an open-source Flutter client for HamCore LoRa mesh networking devices. This documentation covers every user-facing feature, how to access it, and what it does.
 
 ## Table of Contents
 
@@ -19,13 +19,13 @@ MeshCore Open is an open-source Flutter client for MeshCore LoRa mesh networking
 
 ## App Overview
 
-MeshCore Open connects to MeshCore LoRa mesh radios over BLE, USB, or TCP. Once connected, users can:
+HamCore connects to HamCore LoRa mesh radios over BLE, USB, or TCP. Once connected, users can:
 
 - **Chat** with other mesh nodes via encrypted direct messages
 - **Broadcast** on shared channels (public, hashtag, private, or community-scoped)
 - **View nodes on a map** with GPS locations, predicted positions, and path traces
 - **Manage repeaters** with CLI access, telemetry, neighbor info, and settings
-- **Share contacts** via `meshcore://` URIs and QR codes
+- **Share contacts** via `hamcore://` URIs and QR codes
 - **Configure radio settings** including frequency, power, bandwidth, and spreading factor
 - **Cache offline maps** for use without internet connectivity
 - **Analyze line-of-sight** between nodes with terrain elevation profiles

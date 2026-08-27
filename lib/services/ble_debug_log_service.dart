@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_protocol.dart';
 
 class BleDebugLogEntry {
   final DateTime timestamp;

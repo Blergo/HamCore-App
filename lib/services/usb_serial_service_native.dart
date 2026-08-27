@@ -13,15 +13,15 @@ import '../utils/usb_port_labels.dart';
 import 'usb_serial_frame_codec.dart';
 
 /// Wraps the native flserial plugin to expose a stream of raw bytes for the
-/// MeshCore connector to consume.
+/// HamCore connector to consume.
 class UsbSerialService {
   UsbSerialService();
 
   static const MethodChannel _androidMethodChannel = MethodChannel(
-    'meshcore_open/android_usb_serial',
+    'hamcore/android_usb_serial',
   );
   static const EventChannel _androidEventChannel = EventChannel(
-    'meshcore_open/android_usb_serial_events',
+    'hamcore/android_usb_serial_events',
   );
   final StreamController<Uint8List> _frameController =
       StreamController<Uint8List>.broadcast();

@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'screens/chrome_required_screen.dart';
 import 'utils/platform_info.dart';
 
-import 'connector/meshcore_connector.dart';
+import 'connector/hamcore_connector.dart';
 import 'models/image_codec_support.dart';
 import 'screens/scanner_screen.dart';
 import 'services/image_chunk_transport.dart';
@@ -53,7 +53,7 @@ void main() async {
 
   // Initialize services
   final storage = StorageService();
-  final connector = MeshCoreConnector();
+  final connector = HamCoreConnector();
   final pathHistoryService = PathHistoryService(storage);
   final retryService = MessageRetryService();
   final appSettingsService = AppSettingsService();
@@ -163,7 +163,7 @@ void main() async {
   await connector.loadUnreadState();
 
   runApp(
-    MeshCoreApp(
+    HamCoreApp(
       connector: connector,
       retryService: retryService,
       pathHistoryService: pathHistoryService,
@@ -298,8 +298,8 @@ https://creativecommons.org/licenses/by/4.0/
   });
 }
 
-class MeshCoreApp extends StatefulWidget {
-  final MeshCoreConnector connector;
+class HamCoreApp extends StatefulWidget {
+  final HamCoreConnector connector;
   final MessageRetryService retryService;
   final PathHistoryService pathHistoryService;
   final StorageService storage;
@@ -315,7 +315,7 @@ class MeshCoreApp extends StatefulWidget {
   final ReceivedImageStore receivedImageStore;
   final ImageStreamReassembler imageReassembler;
 
-  const MeshCoreApp({
+  const HamCoreApp({
     super.key,
     required this.connector,
     required this.retryService,
@@ -335,7 +335,7 @@ class MeshCoreApp extends StatefulWidget {
   });
 
   @override
-  State<MeshCoreApp> createState() => _MeshCoreAppState();
+  State<HamCoreApp> createState() => _HamCoreAppState();
 }
 
 /// How often abandoned image streams are swept.
@@ -345,7 +345,7 @@ class MeshCoreApp extends StatefulWidget {
 /// packets" until some unrelated image arrived.
 const Duration _kImageSweepInterval = Duration(seconds: 5);
 
-class _MeshCoreAppState extends State<MeshCoreApp> with WidgetsBindingObserver {
+class _HamCoreAppState extends State<HamCoreApp> with WidgetsBindingObserver {
   Timer? _imageSweepTimer;
 
   @override
@@ -410,7 +410,7 @@ class _MeshCoreAppState extends State<MeshCoreApp> with WidgetsBindingObserver {
       child: Consumer<AppSettingsService>(
         builder: (context, settingsService, child) {
           return MaterialApp(
-            title: 'MeshCore Open',
+            title: 'HamCore',
             debugShowCheckedModeBanner: false,
             localizationsDelegates: const [
               AppLocalizations.delegate,

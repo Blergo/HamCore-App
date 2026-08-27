@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import '../storage/prefs_manager.dart';
 
 /// Client-side accessibility/UI service that exposes a persistent shared text scale
-/// factor. No MeshCoreConnector/RoomServer or protocol interaction occurs, and the
+/// factor. No HamCoreConnector/RoomServer or protocol interaction occurs, and the
 /// value is saved locally via SharedPreferences so it can be reused in Markdown
 /// viewers, log panels, or other text-heavy widgets without redundant network
 /// dependencies.

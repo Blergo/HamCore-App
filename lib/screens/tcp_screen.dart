@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import '../connector/meshcore_connector.dart';
+import '../connector/hamcore_connector.dart';
 import '../l10n/l10n.dart';
 import '../services/app_settings_service.dart';
 import '../theme/mesh_theme.dart';
@@ -25,7 +25,7 @@ class TcpScreen extends StatefulWidget {
 class _TcpScreenState extends State<TcpScreen> {
   late final TextEditingController _hostController;
   late final TextEditingController _portController;
-  late final MeshCoreConnector _connector;
+  late final HamCoreConnector _connector;
   late final VoidCallback _connectionListener;
   bool _navigatedToChannels = false;
 
@@ -40,14 +40,14 @@ class _TcpScreenState extends State<TcpScreen> {
           ? context.read<AppSettingsService>().settings.tcpServerPort.toString()
           : '',
     );
-    _connector = context.read<MeshCoreConnector>();
+    _connector = context.read<HamCoreConnector>();
 
     _connectionListener = () {
       if (!mounted) return;
-      if (_connector.state == MeshCoreConnectionState.disconnected) {
+      if (_connector.state == HamCoreConnectionState.disconnected) {
         _navigatedToChannels = false;
       }
-      if (_connector.state == MeshCoreConnectionState.connected &&
+      if (_connector.state == HamCoreConnectionState.connected &&
           _connector.isTcpTransportConnected &&
           !_navigatedToChannels) {
         context.read<AppSettingsService>().setTcpServerAddress(
@@ -71,8 +71,8 @@ class _TcpScreenState extends State<TcpScreen> {
     _portController.dispose();
     _connector.removeListener(_connectionListener);
     if (!_navigatedToChannels &&
-        _connector.activeTransport == MeshCoreTransportType.tcp &&
-        _connector.state != MeshCoreConnectionState.disconnected) {
+        _connector.activeTransport == HamCoreTransportType.tcp &&
+        _connector.state != HamCoreConnectionState.disconnected) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         unawaited(_connector.disconnect(manual: true));
       });
@@ -93,15 +93,15 @@ class _TcpScreenState extends State<TcpScreen> {
       ),
       body: SafeArea(
         top: false,
-        child: Consumer<MeshCoreConnector>(
+        child: Consumer<HamCoreConnector>(
           builder: (context, connector, child) {
             final isConnecting =
-                connector.state == MeshCoreConnectionState.connecting &&
-                connector.activeTransport == MeshCoreTransportType.tcp;
+                connector.state == HamCoreConnectionState.connecting &&
+                connector.activeTransport == HamCoreTransportType.tcp;
             // Connect is only available from a fully disconnected state —
             // scanning, connecting, or an active session must settle first.
             final isButtonDisabled =
-                connector.state != MeshCoreConnectionState.disconnected;
+                connector.state != HamCoreConnectionState.disconnected;
             return ListView(
               padding: const EdgeInsets.only(bottom: 32),
               children: [
@@ -215,7 +215,7 @@ class _TcpScreenState extends State<TcpScreen> {
     );
   }
 
-  Widget _buildStatusChip(BuildContext context, MeshCoreConnector connector) {
+  Widget _buildStatusChip(BuildContext context, HamCoreConnector connector) {
     final l10n = context.l10n;
 
     if (connector.isTcpTransportConnected) {
@@ -223,8 +223,8 @@ class _TcpScreenState extends State<TcpScreen> {
         label: l10n.scanner_connectedTo(connector.activeTcpEndpoint ?? 'TCP'),
         color: MeshPalette.signal,
       );
-    } else if (connector.state == MeshCoreConnectionState.connecting &&
-        connector.activeTransport == MeshCoreTransportType.tcp) {
+    } else if (connector.state == HamCoreConnectionState.connecting &&
+        connector.activeTransport == HamCoreTransportType.tcp) {
       return StatusChip(
         label: l10n.tcpStatus_connectingTo(
           '${_hostController.text}:${_portController.text}',
@@ -232,8 +232,8 @@ class _TcpScreenState extends State<TcpScreen> {
         color: MeshPalette.warn,
         pulse: true,
       );
-    } else if (connector.state == MeshCoreConnectionState.disconnecting &&
-        connector.activeTransport == MeshCoreTransportType.tcp) {
+    } else if (connector.state == HamCoreConnectionState.disconnecting &&
+        connector.activeTransport == HamCoreTransportType.tcp) {
       return StatusChip(
         label: l10n.scanner_disconnecting,
         color: MeshPalette.warn,
@@ -275,9 +275,9 @@ class _TcpScreenState extends State<TcpScreen> {
   }
 
   Future<void> _connectTcp() async {
-    if (_connector.state == MeshCoreConnectionState.connecting ||
-        _connector.state == MeshCoreConnectionState.connected ||
-        _connector.state == MeshCoreConnectionState.disconnecting) {
+    if (_connector.state == HamCoreConnectionState.connecting ||
+        _connector.state == HamCoreConnectionState.connected ||
+        _connector.state == HamCoreConnectionState.disconnecting) {
       return;
     }
 

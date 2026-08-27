@@ -26,22 +26,22 @@ export '../services/image_chunk_transport.dart'
         kImageChunkZeroMetadataBytes,
         kImageParityLengthBytes;
 
-/// Extra on-air bytes added by the MeshCore transport/routing header around a
+/// Extra on-air bytes added by the HamCore transport/routing header around a
 /// GRP_DATA packet.
 ///
 /// This value is NOT derivable from this repository, so it defaults to 0 and
 /// the resulting airtime is therefore a lower bound for the chunk frame itself
 /// (header + payload). Callers may pass a measured value to
 /// [estimateSend] once the real overhead is known. Do not guess it here.
-const int kMeshCoreOnAirOverheadBytes = 0;
+const int kHamCoreOnAirOverheadBytes = 0;
 
-/// MeshCore MAX_TRANS_UNIT — the largest packet that can go on air.
+/// HamCore MAX_TRANS_UNIT — the largest packet that can go on air.
 /// Useful as a worst-case airtime reference.
-const int kMeshCoreMaxTransUnit = 255;
+const int kHamCoreMaxTransUnit = 255;
 
 /// Standard LoRa time-on-air.
 ///
-/// ## Relationship to `connector/meshcore_protocol.dart:calculateLoRaAirtime()`
+/// ## Relationship to `connector/hamcore_protocol.dart:calculateLoRaAirtime()`
 ///
 /// That function exists and is used for *retry timeouts*; it is deliberately NOT
 /// reused here, and the two must not be conflated:
@@ -158,10 +158,10 @@ bool areLoRaParamsValid({
 /// wall clock is substantially longer than the sum of the airtimes. Two numbers
 /// in this repository bound that gap:
 ///
-///  * `connector/meshcore_protocol.dart:calculateMessageTimeout()` uses a
+///  * `connector/hamcore_protocol.dart:calculateMessageTimeout()` uses a
 ///    **500 ms base delay** for "the companion radio has dealt with this
 ///    packet", independent of airtime. That is where this constant comes from.
-///  * MeshCore repeaters default to a flood retransmit spacing of **0.5 x
+///  * HamCore repeaters default to a flood retransmit spacing of **0.5 x
 ///    airtime** (see `repeater_txDelayHelper`), and a packet is retransmitted by
 ///    every repeater in range, so at least one full airtime of quiet is needed
 ///    before the next chunk to avoid colliding with the first hop. That is
@@ -301,7 +301,7 @@ SendEstimate estimateSend({
   required int payloadBytes,
   required RadioSettings? radio,
   bool parity = true,
-  int onAirOverheadBytes = kMeshCoreOnAirOverheadBytes,
+  int onAirOverheadBytes = kHamCoreOnAirOverheadBytes,
 }) {
   return estimateSendFromRadioParams(
     payloadBytes: payloadBytes,
@@ -323,7 +323,7 @@ SendEstimate estimateSendFromRadioParams({
   required int? bandwidthHz,
   required int? codingRate,
   bool parity = true,
-  int onAirOverheadBytes = kMeshCoreOnAirOverheadBytes,
+  int onAirOverheadBytes = kHamCoreOnAirOverheadBytes,
 }) {
   final payload = math.max(payloadBytes, 0);
   final sizes = imageChunkPayloadSizes(payload);

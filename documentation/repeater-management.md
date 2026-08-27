@@ -2,7 +2,7 @@
 
 ## Overview
 
-Repeater Management provides tools for administering MeshCore repeater and room server nodes. It includes device status monitoring, CLI access, telemetry reading, neighbor discovery, and remote configuration.
+Repeater Management provides tools for administering HamCore repeater and room server nodes. It includes device status monitoring, CLI access, telemetry reading, neighbor discovery, and remote configuration.
 
 ## How to Access
 

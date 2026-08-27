@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:latlong2/latlong.dart';
 
-import '../connector/meshcore_connector.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_connector.dart';
+import '../connector/hamcore_protocol.dart';
 import '../helpers/path_helper.dart';
 import '../l10n/l10n.dart';
 import '../models/contact.dart';
@@ -127,7 +127,7 @@ SNRUi snrUiFromSNR(double? snr, int? spreadingFactor) {
 }
 
 class SNRIndicator extends StatefulWidget {
-  final MeshCoreConnector connector;
+  final HamCoreConnector connector;
 
   const SNRIndicator({super.key, required this.connector});
 

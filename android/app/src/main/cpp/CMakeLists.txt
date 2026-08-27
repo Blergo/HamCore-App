@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.13)
-project(meshcore_codec2 C)
+project(hamcore_codec2 C)
 
 set(CODEC2_ROOT ${CMAKE_CURRENT_LIST_DIR}/../../../../../third_party/codec2)
 

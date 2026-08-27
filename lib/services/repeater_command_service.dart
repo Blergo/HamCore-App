@@ -1,11 +1,11 @@
 import 'dart:async';
 import '../models/contact.dart';
 import '../models/path_selection.dart';
-import '../connector/meshcore_connector.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_connector.dart';
+import '../connector/hamcore_protocol.dart';
 
 class RepeaterCommandService {
-  final MeshCoreConnector _connector;
+  final HamCoreConnector _connector;
   final Map<String, Completer<String>> _pendingCommands = {};
   final Map<String, Timer> _commandTimeouts = {};
   final Map<String, String> _commandPrefixes = {};

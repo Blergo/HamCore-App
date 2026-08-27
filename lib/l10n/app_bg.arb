@@ -8,7 +8,7 @@
     }
   },
   "@@locale": "bg",
-  "appTitle": "MeshCore Open",
+  "appTitle": "HamCore",
   "nav_contacts": "Контакти",
   "nav_channels": "Канали",
   "nav_map": "Карта",
@@ -54,7 +54,7 @@
       }
     }
   },
-  "scanner_title": "MeshCore – Отворена версия",
+  "scanner_title": "HamCore – Отворена версия",
   "scanner_scanning": "Сканиране за устройства...",
   "scanner_connecting": "Свързвам се...",
   "scanner_disconnecting": "Изключване...",
@@ -67,8 +67,8 @@
       }
     }
   },
-  "scanner_searchingDevices": "Търсене на устройства MeshCore...",
-  "scanner_tapToScan": "Докоснете „Сканирай“, за да намерите устройства MeshCore.",
+  "scanner_searchingDevices": "Търсене на устройства HamCore...",
+  "scanner_tapToScan": "Докоснете „Сканирай“, за да намерите устройства HamCore.",
   "scanner_connectionFailed": "Връзката не успя: {error}",
   "@scanner_connectionFailed": {
     "placeholders": {
@@ -80,7 +80,7 @@
   "scanner_stop": "Спрете",
   "scanner_scan": "Сканирай",
   "device_quickSwitch": "Бързо превключване",
-  "device_meshcore": "MeshCore",
+  "device_hamcore": "HamCore",
   "settings_title": "Настройки",
   "settings_deviceInfo": "Информация за устройството",
   "settings_appSettings": "Настройки на приложението",
@@ -119,7 +119,7 @@
   "settings_refreshContacts": "Презареди контакти",
   "settings_refreshContactsSubtitle": "Презареди списъка с контакти от устройството",
   "settings_rebootDevice": "Рестартирай устройството",
-  "settings_rebootDeviceSubtitle": "Рестартирай устройството MeshCore",
+  "settings_rebootDeviceSubtitle": "Рестартирай устройството HamCore",
   "settings_rebootDeviceConfirm": "Сигурни ли сте, че искате да рестартирате устройството? Ще бъдете прекъснати.",
   "settings_debug": "Отстрани",
   "settings_bleDebugLog": "Дневник за отстраняване на грешки на BLE",
@@ -127,7 +127,7 @@
   "settings_appDebugLog": "Лог на отстраняване на грешки на приложението",
   "settings_appDebugLogSubtitle": "Съобщения за отстраняване на грешки на приложението",
   "settings_about": "За нас",
-  "settings_aboutVersion": "MeshCore Open, версия {version}",
+  "settings_aboutVersion": "HamCore, версия {version}",
   "@settings_aboutVersion": {
     "placeholders": {
       "version": {
@@ -135,8 +135,8 @@
       }
     }
   },
-  "settings_aboutLegalese": "Проект MeshCore с отворен код 2024 г.",
-  "settings_aboutDescription": "Отворен Flutter клиент за MeshCore LoRa мрежови устройства.",
+  "settings_aboutLegalese": "Проект HamCore с отворен код 2024 г.",
+  "settings_aboutDescription": "Отворен Flutter клиент за HamCore LoRa мрежови устройства.",
   "settings_infoName": "Име",
   "settings_infoId": "ИД",
   "settings_infoStatus": "Статус",
@@ -1770,7 +1770,7 @@
   "contacts_zeroHopContactAdvertFailed": "Неуспешно изпращане на контакт.",
   "contacts_zeroHopContactAdvertSent": "Изпратен контакт по обява.",
   "contacts_contactAdvertCopyFailed": "Копирането на обявата в клипборда не успя.",
-  "notification_activityTitle": "Активност на MeshCore",
+  "notification_activityTitle": "Активност на HamCore",
   "notification_messagesCount": "{count} {count, plural, =1{съобщение} other{съобщения}}",
   "notification_channelMessagesCount": "{count} {count, plural, =1{съобщение в канал} other{съобщения в канали}}",
   "notification_newNodesCount": "{count} {count, plural, =1{нов възел} other{нови възли}}",
@@ -1789,8 +1789,8 @@
   "settings_gpxExportRepeatersRoom": "Местоположения на повторител и сървър на стаята",
   "settings_gpxExportNotAvailable": "Не е поддържан на вашето устройство/ОС",
   "settings_gpxExportAllContacts": "Местоположения на всички контакти",
-  "settings_gpxExportShareText": "Картинни данни изнесени от meshcore-open",
-  "settings_gpxExportShareSubject": "meshcore-open износ на данни за карта в формат GPX",
+  "settings_gpxExportShareText": "Картинни данни изнесени от hamcore",
+  "settings_gpxExportShareSubject": "hamcore износ на данни за карта в формат GPX",
   "pathTrace_someHopsNoLocation": "Един или повече от хмелите липсва местоположение!",
   "map_pathTraceCancelled": "Отменен е следването на пътя.",
   "pathTrace_clearTooltip": "Изчисти пътя",
@@ -2026,7 +2026,7 @@
   "connectionChoiceUsbLabel": "USB",
   "usbScreenTitle": "Свържете се чрез USB",
   "connectionChoiceBluetoothLabel": "Bluetooth",
-  "usbScreenSubtitle": "Изберете открития сериен уред и свържете директно към вашия MeshCore възел.",
+  "usbScreenSubtitle": "Изберете открития сериен уред и свържете директно към вашия HamCore възел.",
   "usbScreenStatus": "Изберете USB устройство",
   "usbScreenNote": "USB серийната връзка е активна на поддържаните Android устройства и настолни платформи.",
   "usbScreenEmptyState": "Няма открити USB устройства. Включете едно и опитайте отново.",
@@ -2334,7 +2334,7 @@
   "repeater_cliHelpStatsRadio": "(Само за конкретен сериал) Показва радиостатистика.",
   "repeater_cliHelpStatsCore": "(Само за серийния номер) Показва основните статистически данни за фърмуера.",
   "common_done": "Готово",
-  "background_serviceTitle": "MeshCore работи",
+  "background_serviceTitle": "HamCore работи",
   "background_serviceText": "Поддържа BLE връзката активна",
   "appSettings_translationModelDeleted": "Изтрит {name}",
   "@appSettings_translationModelDeleted": {
@@ -2757,7 +2757,7 @@
   "channels_regionNotSet": "Регион: ние",
   "channels_regionSelect_Title": "Выберете регион",
   "channels_clearRegion": "Чиста зона",
-  "chat_sendImageLora": "Изпращане на изображение чрез MeshCore",
+  "chat_sendImageLora": "Изпращане на изображение чрез HamCore",
   "chat_imagePickFailed": "Не мог да откривам та изображин",
   "chat_receivedGif": "Получил GIF",
   "repeater_keySettings": "Изменяне на идентичности ключа",

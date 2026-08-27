@@ -2,7 +2,7 @@
 
 ## Overview
 
-MeshCore Open provides both **system notifications** (push-style OS alerts) and **in-app unread badges** to inform users of new activity.
+HamCore provides both **system notifications** (push-style OS alerts) and **in-app unread badges** to inform users of new activity.
 
 ## Notification Types
 
@@ -28,7 +28,7 @@ MeshCore Open provides both **system notifications** (push-style OS alerts) and 
 - **Android channel**: `adverts`
 
 ### 4. Background Service Notification (Android Only)
-- A persistent low-priority notification: "MeshCore running — Keeping BLE connected"
+- A persistent low-priority notification: "HamCore running — Keeping BLE connected"
 - Required by Android for foreground services to keep BLE alive in the background
 - Tap to re-launch the app
 - **Does not auto-start on reboot** — the user must re-open the app manually after a phone restart
@@ -73,7 +73,7 @@ There is no per-contact muting.
 
 The notification system prevents notification storms:
 - **Minimum interval**: 3 seconds between individual notifications
-- **Batch window**: If multiple notifications arrive within 5 seconds, they are combined into a single summary notification on a fourth Android channel (`batch_summary`). The title is "MeshCore Activity" and the body lists the grouped counts (e.g., "2 messages, 1 channel message, 3 new nodes"). Batch summaries are Android-only; queued notifications that overflow the batch window are silently dropped on other platforms
+- **Batch window**: If multiple notifications arrive within 5 seconds, they are combined into a single summary notification on a fourth Android channel (`batch_summary`). The title is "HamCore Activity" and the body lists the grouped counts (e.g., "2 messages, 1 channel message, 3 new nodes"). Batch summaries are Android-only; queued notifications that overflow the batch window are silently dropped on other platforms
 
 ## Notification Clearing
 

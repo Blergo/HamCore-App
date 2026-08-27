@@ -235,7 +235,7 @@ Uint8List buildTelemetryBinaryPayload() {
 
 const int anonReqTypeRegions = 0x01;
 
-// Control data sub-types used by MeshCore discovery packets.
+// Control data sub-types used by HamCore discovery packets.
 const int controlSubtypeDiscoverReq = 0x08;
 const int controlSubtypeDiscoverResp = 0x09;
 
@@ -555,7 +555,7 @@ Uint8List buildRemoveContactFrame(Uint8List pubKey) {
 // Build CMD_APP_START frame
 // Format: [cmd][app_ver][reserved x6][app_name...]
 Uint8List buildAppStartFrame({
-  String appName = 'MeshCoreOpen',
+  String appName = 'HamCore',
   int appVersion = 1,
 }) {
   final writer = BufferWriter();

@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import '../l10n/l10n.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_protocol.dart';
 
 /// Debug widget to show the hex dump of a frame
 class DebugFrameViewer {

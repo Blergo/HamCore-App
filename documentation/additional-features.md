@@ -51,7 +51,7 @@ A list of nodes heard passively over the air but not yet added as contacts. Each
 - Search bar with debounced filtering
 - Sort by last seen or name; filter by type
 - **Tap**: Import the contact (adds to your contact list)
-- **Long-press**: Add Contact, Copy `meshcore://` URI to clipboard, or Delete
+- **Long-press**: Add Contact, Copy `hamcore://` URI to clipboard, or Delete
 - Overflow menu → "Delete All" (with confirmation)
 - Already-known contacts and your own node are filtered out
 
@@ -69,7 +69,7 @@ An optional per-contact and per-channel text compression feature using the SMAZ 
 ### How It Works
 - When enabled, compression is applied using a "compress only if smaller" strategy — the message is only transmitted compressed if the encoded result is actually shorter than the original. Otherwise, the original text is sent uncompressed
 - Compressed messages are transmitted with a `s:` prefix followed by base64-encoded data
-- Recipients using MeshCore Open will decompress automatically. **Recipients using other software** that is not SMAZ-aware will see garbled `s:...` text
+- Recipients using HamCore will decompress automatically. **Recipients using other software** that is not SMAZ-aware will see garbled `s:...` text
 - The codec operates on ASCII. Non-ASCII / non-English text generally does not benefit from compression and may even expand. Best suited for short English messages
 - Disabled by default
 
@@ -215,18 +215,18 @@ An emoji picker inline with common reactions. Selected reactions appear below th
 
 ### How It Works
 - Implemented via `emoji_picker.dart` and `reaction_helper.dart`
-- Reactions are transmitted as a special message type visible to all participants with MeshCore Open
+- Reactions are transmitted as a special message type visible to all participants with HamCore
 
 ---
 
 ## Linkification
 
 ### What It Does
-URLs and `meshcore://` URIs in received messages are automatically detected and rendered as tappable links.
+URLs and `hamcore://` URIs in received messages are automatically detected and rendered as tappable links.
 
 ### How It Works
 - Powered by the `flutter_linkify` package via `link_handler.dart`
-- Tapping a URL opens the system browser; tapping a `meshcore://` URI imports the contact
+- Tapping a URL opens the system browser; tapping a `hamcore://` URI imports the contact
 
 ---
 

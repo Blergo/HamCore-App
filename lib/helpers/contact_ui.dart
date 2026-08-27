@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_protocol.dart';
 import '../utils/emoji_utils.dart';
 
 IconData contactTypeIcon(int type) {

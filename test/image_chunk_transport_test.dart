@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meshcore_open/models/image_codec_support.dart';
-import 'package:meshcore_open/services/image_chunk_transport.dart';
-import 'package:meshcore_open/widgets/image_send_codec_binding.dart';
+import 'package:hamcore/models/image_codec_support.dart';
+import 'package:hamcore/services/image_chunk_transport.dart';
+import 'package:hamcore/widgets/image_send_codec_binding.dart';
 
 Uint8List payloadOf(int length, {int seed = 7}) => Uint8List.fromList(
   List<int>.generate(length, (i) => (i * 37 + seed * 11) & 0xFF),
@@ -50,7 +50,7 @@ void main() {
       expect(kImageChunkBodyBytes, 158);
       // Chunk 0 spends 1 byte on metadata and nothing else: the CRC-16 that
       // briefly lived here was removed once it turned out the LoRa PHY CRC and
-      // MeshCore's per-packet HMAC already cover a delivered chunk.
+      // HamCore's per-packet HMAC already cover a delivered chunk.
       expect(kImageChunkMetadataBytes, 1);
       expect(kImageChunkZeroMetadataBytes, 1);
       expect(kImageChunkFirstCapacity, 157);

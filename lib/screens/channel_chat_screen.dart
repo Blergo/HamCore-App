@@ -10,12 +10,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 
-import '../connector/meshcore_connector.dart';
+import '../connector/hamcore_connector.dart';
 import '../models/community.dart';
 import '../storage/community_store.dart';
 import '../utils/platform_info.dart';
 import '../helpers/chat_scroll_controller.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_protocol.dart';
 import '../helpers/cyr2lat.dart';
 import '../helpers/gif_helper.dart';
 import '../helpers/path_helper.dart';
@@ -92,7 +92,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   int _imageSendSent = 0;
   int _imageSendTotal = 0;
 
-  MeshCoreConnector? _connector;
+  HamCoreConnector? _connector;
   DateTime? _lastChannelSendAt;
   bool _channelSkipNextBottomSnap = false;
   String? _unreadDividerMessageId;
@@ -109,7 +109,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     _scrollController.showJumpToBottom.addListener(_clearDividerAtBottom);
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      final connector = context.read<MeshCoreConnector>();
+      final connector = context.read<HamCoreConnector>();
       final settings = context.read<AppSettingsService>().settings;
       final idx = widget.channel.index;
       final unread = widget.initialUnreadCount;
@@ -143,7 +143,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
 
   // TODO: Reload communities when returning from another screen
   Future<void> _loadCommunities() async {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     _communityStore.setPublicKeyHex = connector.selfPublicKeyHex;
     final communities = await _communityStore.loadCommunities();
     if (mounted) {
@@ -187,7 +187,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     if (_isLoadingOlder) return;
     setState(() => _isLoadingOlder = true);
 
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     await connector.loadOlderChannelMessages(widget.channel.index);
 
     if (mounted) {
@@ -318,7 +318,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    Consumer<MeshCoreConnector>(
+                    Consumer<HamCoreConnector>(
                       builder: (context, connector, _) {
                         final unreadCount = connector
                             .getUnreadCountForChannelIndex(
@@ -391,7 +391,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
         child: Column(
           children: [
             Expanded(
-              child: Consumer<MeshCoreConnector>(
+              child: Consumer<HamCoreConnector>(
                 builder: (context, connector, child) {
                   final messages = connector.getChannelMessages(widget.channel);
                   final imageRows = _receivedImageRows(context);
@@ -532,7 +532,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   }
 
   void _markAsUnread(ChannelMessage message) {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final messages = connector.getChannelMessages(widget.channel);
     var count = 0;
     var found = false;
@@ -565,7 +565,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
               : Uint8List(0));
     final displayPathHashWidth =
         message.pathHashWidth ??
-        context.read<MeshCoreConnector>().pathHashByteWidth;
+        context.read<HamCoreConnector>().pathHashByteWidth;
     final displayHopCount = _displayHopCount(
       displayPath,
       displayPathHashWidth,
@@ -879,7 +879,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   }
 
   Widget _buildReplyPreview(ChannelMessage message, double textScale) {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final isOwnNode = message.replyToSenderName == connector.selfName;
     final replyText = message.replyToText ?? '';
     final colorScheme = Theme.of(context).colorScheme;
@@ -1081,7 +1081,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
           constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
           onPressed: () {
             final selfName =
-                context.read<MeshCoreConnector>().selfName ??
+                context.read<HamCoreConnector>().selfName ??
                 context.l10n.chat_me;
             final fromName = isOutgoing ? selfName : senderName;
             final key = buildSharedMarkerKey(
@@ -1155,7 +1155,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   Future<void> _showImageSendPreview() async {
     final codec = _imageCodec;
     if (codec == null) return;
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
 
     // The picked bytes are kept past the preview on purpose: the sender's own
     // bubble renders from them (see [_registerOutgoingImage]). The bitstream
@@ -1213,13 +1213,13 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   ///
   /// Chunk geometry, CRC and parity all come from [buildImageChunks] \u2014 the
   /// single source of truth for the wire format \u2014 and the blobs go out through
-  /// [MeshCoreConnector.sendImageChunks] as one list, so the connector owns the
+  /// [HamCoreConnector.sendImageChunks] as one list, so the connector owns the
   /// inter-chunk pacing and the whole image sits inside one scoped send.
   ///
   /// [sourceBytes] is the original picked file. It is only ever used to draw
   /// the sender's own bubble; nothing about the transmission depends on it.
   Future<void> _sendImage(
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     ImageSendPreviewResult result, {
     required Uint8List sourceBytes,
   }) async {
@@ -1551,7 +1551,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   /// either one would be a guess, so the prefix is shown instead.
   String _imageSenderLabel(ReceivedImageEntry entry) {
     final hex = entry.senderPrefix.toRadixString(16).padLeft(4, '0');
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     if (entry.isOutgoing) {
       return connector.selfName ?? context.l10n.receivedImage_senderPrefix(hex);
     }
@@ -1664,7 +1664,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   }
 
   Widget _buildInputBar() {
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     final maxBytes = maxChannelMessageBytes(connector.selfName);
     final settings = context.watch<AppSettingsService>().settings;
     final imageCodecDownloading = _isImageCodecDownloading(context);
@@ -1706,7 +1706,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                         case 'gif':
                           _showGifPicker(context);
                           break;
-                        case 'meshcore-image':
+                        case 'hamcore-image':
                           _showImageSendPreview();
                           break;
                       }
@@ -1724,7 +1724,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                       ),
                       if (showImageAction)
                         PopupMenuItem(
-                          value: 'meshcore-image',
+                          value: 'hamcore-image',
                           // Gated on the codec, not just the setting. The preview
                           // sheet explains why a send is impossible, but a fully
                           // live button in a build that cannot encode invites the
@@ -1912,7 +1912,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     }
     _lastChannelSendAt = now;
 
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final settings = context.read<AppSettingsService>().settings;
     final translationService = context.read<TranslationService>();
 
@@ -2074,7 +2074,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                 onTap: () {
                   Navigator.pop(sheetContext);
                   unawaited(
-                    context.read<MeshCoreConnector>().translateChannelMessage(
+                    context.read<HamCoreConnector>().translateChannelMessage(
                       widget.channel.index,
                       message,
                       manualTranslation: true,
@@ -2126,7 +2126,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   }
 
   void _sendReaction(ChannelMessage message, String emoji) {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final emojiIndex = ReactionHelper.emojiToIndex(emoji);
     if (emojiIndex == null) return; // Unknown emoji, skip
     final hash = message.computeReactionHash();
@@ -2164,14 +2164,14 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     );
     if (confirmed == true) {
       if (!mounted) return;
-      context.read<MeshCoreConnector>().clearMessagesForChannel(
+      context.read<HamCoreConnector>().clearMessagesForChannel(
         widget.channel.index,
       );
     }
   }
 
   Future<void> _deleteMessage(ChannelMessage message) async {
-    await context.read<MeshCoreConnector>().deleteChannelMessage(message);
+    await context.read<HamCoreConnector>().deleteChannelMessage(message);
     if (!mounted) return;
     showDismissibleSnackBar(
       context,
@@ -2231,7 +2231,7 @@ class _RegionSelectDialogState extends State<_RegionSelectDialog> {
   void loadRegions() {
     setState(() {
       regions = regionStore.loadRegions();
-      final channelRegion = context.read<MeshCoreConnector>().getChannelRegion(
+      final channelRegion = context.read<HamCoreConnector>().getChannelRegion(
         widget.channel.index,
       );
       selectedIndex = regions.indexOf(channelRegion);
@@ -2256,7 +2256,7 @@ class _RegionSelectDialogState extends State<_RegionSelectDialog> {
                   tooltip: context.l10n.channels_clearRegion,
                   icon: const Icon(Icons.backspace_outlined),
                   onPressed: () {
-                    context.read<MeshCoreConnector>().setChannelRegion(
+                    context.read<HamCoreConnector>().setChannelRegion(
                       widget.channel.index,
                       '',
                     );
@@ -2292,7 +2292,7 @@ class _RegionSelectDialogState extends State<_RegionSelectDialog> {
                     tileColor: selected ? MeshPalette.blueBg : null,
                     onTap: () {
                       // Tapping the already-selected region clears it.
-                      context.read<MeshCoreConnector>().setChannelRegion(
+                      context.read<HamCoreConnector>().setChannelRegion(
                         widget.channel.index,
                         selected ? '' : regions[index],
                       );

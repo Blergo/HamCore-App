@@ -9,7 +9,7 @@ class AppLocalizationsKo extends AppLocalizations {
   AppLocalizationsKo([String locale = 'ko']) : super(locale);
 
   @override
-  String get appTitle => 'MeshCore Open';
+  String get appTitle => 'HamCore';
 
   @override
   String get nav_contacts => '연락처';
@@ -136,7 +136,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get common_interval => '간격';
 
   @override
-  String get scanner_title => 'MeshCore Open';
+  String get scanner_title => 'HamCore';
 
   @override
   String get connectionChoiceUsbLabel => 'USB';
@@ -191,7 +191,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get usbScreenTitle => 'USB를 통해 연결';
 
   @override
-  String get usbScreenSubtitle => '감지된 시리얼 장치를 선택하고 MeshCore 노드에 직접 연결하십시오.';
+  String get usbScreenSubtitle => '감지된 시리얼 장치를 선택하고 HamCore 노드에 직접 연결하십시오.';
 
   @override
   String get usbScreenStatus => 'USB 장치를 선택하세요.';
@@ -275,10 +275,10 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get scanner_searchingDevices => 'MeshCore 장치를 검색 중...';
+  String get scanner_searchingDevices => 'HamCore 장치를 검색 중...';
 
   @override
-  String get scanner_tapToScan => 'MeshCore 장치를 찾기 위해 스캔 버튼을 누르세요.';
+  String get scanner_tapToScan => 'HamCore 장치를 찾기 위해 스캔 버튼을 누르세요.';
 
   @override
   String scanner_connectionFailed(String error) {
@@ -315,7 +315,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get device_quickSwitch => '빠른 전환';
 
   @override
-  String get device_meshcore => 'MeshCore';
+  String get device_hamcore => 'HamCore';
 
   @override
   String get settings_title => '설정';
@@ -533,7 +533,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get settings_rebootDevice => '장치 재부팅';
 
   @override
-  String get settings_rebootDeviceSubtitle => 'MeshCore 장치를 재부팅합니다.';
+  String get settings_rebootDeviceSubtitle => 'HamCore 장치를 재부팅합니다.';
 
   @override
   String get settings_rebootDeviceConfirm => '정말 장치를 재부팅하시겠습니까? 연결이 끊어집니다.';
@@ -559,15 +559,15 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String settings_aboutVersion(String version) {
-    return 'MeshCore Open v$version';
+    return 'HamCore v$version';
   }
 
   @override
-  String get settings_aboutLegalese => '2026 MeshCore 오픈 소스 프로젝트';
+  String get settings_aboutLegalese => '2026 HamCore 오픈 소스 프로젝트';
 
   @override
   String get settings_aboutDescription =>
-      'MeshCore LoRa 메시 네트워크 장치를 위한 오픈소스 Flutter 클라이언트.';
+      'HamCore LoRa 메시 네트워크 장치를 위한 오픈소스 Flutter 클라이언트.';
 
   @override
   String get settings_aboutOpenMeteoAttribution =>
@@ -1422,7 +1422,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get chat_sendGif => 'GIF 보내기';
 
   @override
-  String get chat_sendImageLora => 'MeshCore를 통해 이미지 보내기';
+  String get chat_sendImageLora => 'HamCore를 통해 이미지 보내기';
 
   @override
   String get chat_imagePickFailed => '그 이미지를 열 수 없었어요.';
@@ -4148,10 +4148,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get settings_gpxExportAllContacts => '모든 연락처 위치';
 
   @override
-  String get settings_gpxExportShareText => 'meshcore-open에서 추출한 지도 데이터';
+  String get settings_gpxExportShareText => 'hamcore에서 추출한 지도 데이터';
 
   @override
-  String get settings_gpxExportShareSubject => 'meshcore-open GPX 지도 데이터 내보내기';
+  String get settings_gpxExportShareSubject => 'hamcore GPX 지도 데이터 내보내기';
 
   @override
   String get snrIndicator_nearByRepeaters => '주변의 중계기';
@@ -4457,7 +4457,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get translation_systemLanguage => '시스템 언어';
 
   @override
-  String get background_serviceTitle => 'MeshCore 실행 중';
+  String get background_serviceTitle => 'HamCore 실행 중';
 
   @override
   String get background_serviceText => 'BLE 연결 유지 중';

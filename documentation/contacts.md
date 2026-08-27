@@ -78,7 +78,7 @@ Groups are stored per radio identity (scoped by public key).
 | Room Login | Rooms only | Login dialog → ChatScreen |
 | Room Management | Rooms only | Login dialog → RepeaterHubScreen (management mode) |
 | Add/Remove Favorite | All types | Toggles the favorite flag |
-| Share Contact | All types | Requests advert from device → copies `meshcore://<hex>` URI to clipboard |
+| Share Contact | All types | Requests advert from device → copies `hamcore://<hex>` URI to clipboard |
 | Share Contact Zero-Hop | All types | Broadcasts the contact's advertisement one hop |
 | Delete Contact | All types | Confirmation dialog → removes from device and clears messages |
 
@@ -87,11 +87,11 @@ Groups are stored per radio identity (scoped by public key).
 The Contacts screen has a single **three-dot overflow menu** (`⋮`) in the app bar:
 
 - Discovered Contacts — opens the DiscoveryScreen
-- Add Contact from Clipboard — reads a `meshcore://<hex>` URI from clipboard and imports it
+- Add Contact from Clipboard — reads a `hamcore://<hex>` URI from clipboard and imports it
 - *(divider)*
 - Zero-Hop Advert — broadcasts your advertisement to immediately adjacent nodes
 - Flood Advert — broadcasts across the full mesh network
-- Copy Advert to Clipboard — copies your `meshcore://<hex>` URI for sharing externally
+- Copy Advert to Clipboard — copies your `hamcore://<hex>` URI for sharing externally
 - *(divider)*
 - Disconnect — disconnects from the device
 - Settings — opens the Settings screen
@@ -104,15 +104,15 @@ A **floating action button** (person-add icon) provides a shortcut sheet to "Add
 When the radio hears an advertisement, the contact appears automatically if auto-add is enabled for that type (configurable in Settings → Contact Settings).
 
 ### Import from Clipboard
-Overflow menu (or the FAB shortcut) → "Add Contact from Clipboard". Reads a `meshcore://<hex>` URI from clipboard and imports it to the device.
+Overflow menu (or the FAB shortcut) → "Add Contact from Clipboard". Reads a `hamcore://<hex>` URI from clipboard and imports it to the device.
 
 ### Import from Discovered Contacts
 Overflow menu → "Discovered Contacts". Shows nodes heard passively that haven't been added yet. Tap to immediately import (no confirmation dialog), or long-press for more options (Copy URI, Delete). The Discovery screen has its own search bar, type filters (Users, Repeaters, Rooms), and sort options (Last Seen, A-Z). An overflow "Delete All" option clears all discovered contacts.
 
 ## Contact Sharing Format
 
-Contacts are shared using the `meshcore://` URI scheme:
+Contacts are shared using the `hamcore://` URI scheme:
 ```
-meshcore://<hex-encoded-advertisement-packet>
+hamcore://<hex-encoded-advertisement-packet>
 ```
-This contains the node's public key and metadata. Paste it into another MeshCore app to import.
+This contains the node's public key and metadata. Paste it into another HamCore app to import.

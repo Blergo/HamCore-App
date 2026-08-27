@@ -1,7 +1,7 @@
 import 'dart:typed_data';
-import 'package:meshcore_open/utils/app_logger.dart';
+import 'package:hamcore/utils/app_logger.dart';
 
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_protocol.dart';
 
 class Contact {
   final Uint8List publicKey;

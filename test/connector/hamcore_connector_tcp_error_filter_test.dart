@@ -1,13 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meshcore_open/connector/meshcore_connector.dart';
+import 'package:hamcore/connector/hamcore_connector.dart';
 
 void main() {
   group('shouldIgnoreLateTcpConnectError', () {
     test('returns true for manual cancel during disconnecting state', () {
-      final result = MeshCoreConnector.shouldIgnoreLateTcpConnectError(
+      final result = HamCoreConnector.shouldIgnoreLateTcpConnectError(
         manualDisconnect: true,
-        state: MeshCoreConnectionState.disconnecting,
-        activeTransport: MeshCoreTransportType.bluetooth,
+        state: HamCoreConnectionState.disconnecting,
+        activeTransport: HamCoreTransportType.bluetooth,
         tcpManagerConnected: false,
       );
 
@@ -17,10 +17,10 @@ void main() {
     test(
       'returns true for manual cancel after reaching disconnected state',
       () {
-        final result = MeshCoreConnector.shouldIgnoreLateTcpConnectError(
+        final result = HamCoreConnector.shouldIgnoreLateTcpConnectError(
           manualDisconnect: true,
-          state: MeshCoreConnectionState.disconnected,
-          activeTransport: MeshCoreTransportType.bluetooth,
+          state: HamCoreConnectionState.disconnected,
+          activeTransport: HamCoreTransportType.bluetooth,
           tcpManagerConnected: false,
         );
 
@@ -29,10 +29,10 @@ void main() {
     );
 
     test('returns false when not a manual disconnect', () {
-      final result = MeshCoreConnector.shouldIgnoreLateTcpConnectError(
+      final result = HamCoreConnector.shouldIgnoreLateTcpConnectError(
         manualDisconnect: false,
-        state: MeshCoreConnectionState.disconnecting,
-        activeTransport: MeshCoreTransportType.bluetooth,
+        state: HamCoreConnectionState.disconnecting,
+        activeTransport: HamCoreTransportType.bluetooth,
         tcpManagerConnected: false,
       );
 
@@ -40,10 +40,10 @@ void main() {
     });
 
     test('returns false for connected state handshake failures', () {
-      final result = MeshCoreConnector.shouldIgnoreLateTcpConnectError(
+      final result = HamCoreConnector.shouldIgnoreLateTcpConnectError(
         manualDisconnect: true,
-        state: MeshCoreConnectionState.connected,
-        activeTransport: MeshCoreTransportType.tcp,
+        state: HamCoreConnectionState.connected,
+        activeTransport: HamCoreTransportType.tcp,
         tcpManagerConnected: true,
       );
 
@@ -51,10 +51,10 @@ void main() {
     });
 
     test('returns false when TCP is still active while disconnecting', () {
-      final result = MeshCoreConnector.shouldIgnoreLateTcpConnectError(
+      final result = HamCoreConnector.shouldIgnoreLateTcpConnectError(
         manualDisconnect: true,
-        state: MeshCoreConnectionState.disconnecting,
-        activeTransport: MeshCoreTransportType.tcp,
+        state: HamCoreConnectionState.disconnecting,
+        activeTransport: HamCoreTransportType.tcp,
         tcpManagerConnected: true,
       );
 
@@ -64,27 +64,27 @@ void main() {
 
   group('shouldResetStateAfterTcpConnectAbort', () {
     test('returns true when TCP connect is still in connecting state', () {
-      final result = MeshCoreConnector.shouldResetStateAfterTcpConnectAbort(
-        state: MeshCoreConnectionState.connecting,
-        activeTransport: MeshCoreTransportType.tcp,
+      final result = HamCoreConnector.shouldResetStateAfterTcpConnectAbort(
+        state: HamCoreConnectionState.connecting,
+        activeTransport: HamCoreTransportType.tcp,
       );
 
       expect(result, isTrue);
     });
 
     test('returns false when state is already disconnected', () {
-      final result = MeshCoreConnector.shouldResetStateAfterTcpConnectAbort(
-        state: MeshCoreConnectionState.disconnected,
-        activeTransport: MeshCoreTransportType.tcp,
+      final result = HamCoreConnector.shouldResetStateAfterTcpConnectAbort(
+        state: HamCoreConnectionState.disconnected,
+        activeTransport: HamCoreTransportType.tcp,
       );
 
       expect(result, isFalse);
     });
 
     test('returns false when transport switched away from TCP', () {
-      final result = MeshCoreConnector.shouldResetStateAfterTcpConnectAbort(
-        state: MeshCoreConnectionState.connecting,
-        activeTransport: MeshCoreTransportType.bluetooth,
+      final result = HamCoreConnector.shouldResetStateAfterTcpConnectAbort(
+        state: HamCoreConnectionState.connecting,
+        activeTransport: HamCoreTransportType.bluetooth,
       );
 
       expect(result, isFalse);

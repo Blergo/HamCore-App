@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../l10n/l10n.dart';
 import '../models/contact.dart';
-import '../connector/meshcore_connector.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_connector.dart';
+import '../connector/hamcore_protocol.dart';
 import '../theme/mesh_theme.dart';
 import '../widgets/debug_frame_viewer.dart';
 import '../services/repeater_command_service.dart';
@@ -50,7 +50,7 @@ class _RepeaterCliScreenState extends State<RepeaterCliScreen> {
   @override
   void initState() {
     super.initState();
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     _commandService = RepeaterCommandService(connector);
     _setupMessageListener();
   }
@@ -66,7 +66,7 @@ class _RepeaterCliScreenState extends State<RepeaterCliScreen> {
   }
 
   void _setupMessageListener() {
-    final connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    final connector = Provider.of<HamCoreConnector>(context, listen: false);
     _frameSubscription = connector.receivedFrames.listen((frame) {
       if (frame.isEmpty) return;
       if (frame[0] == respCodeContactMsgRecv ||
@@ -78,7 +78,7 @@ class _RepeaterCliScreenState extends State<RepeaterCliScreen> {
 
   int _resolveRepeaterIndex = -1;
 
-  Contact _resolveRepeater(MeshCoreConnector connector) {
+  Contact _resolveRepeater(HamCoreConnector connector) {
     if (_resolveRepeaterIndex >= 0 &&
         _resolveRepeaterIndex < connector.contacts.length &&
         connector.contacts[_resolveRepeaterIndex].publicKeyHex ==
@@ -136,7 +136,7 @@ class _RepeaterCliScreenState extends State<RepeaterCliScreen> {
 
     try {
       if (_commandService != null) {
-        final connector = Provider.of<MeshCoreConnector>(
+        final connector = Provider.of<HamCoreConnector>(
           context,
           listen: false,
         );
@@ -256,7 +256,7 @@ class _RepeaterCliScreenState extends State<RepeaterCliScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     final repeater = _resolveRepeater(connector);
     final isFloodMode = repeater.pathOverride == -1;
 

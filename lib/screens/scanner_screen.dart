@@ -5,7 +5,7 @@ import '../utils/platform_info.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:provider/provider.dart';
 
-import '../connector/meshcore_connector.dart';
+import '../connector/hamcore_connector.dart';
 import '../l10n/l10n.dart';
 import '../services/linux_ble_error_classifier.dart';
 import '../theme/mesh_theme.dart';
@@ -19,7 +19,7 @@ import 'channels_screen.dart';
 import 'tcp_screen.dart';
 import 'usb_screen.dart';
 
-/// Screen for scanning and connecting to MeshCore devices
+/// Screen for scanning and connecting to HamCore devices
 class ScannerScreen extends StatefulWidget {
   const ScannerScreen({super.key});
 
@@ -30,7 +30,7 @@ class ScannerScreen extends StatefulWidget {
 class _ScannerScreenState extends State<ScannerScreen> {
   bool _changedNavigation = false;
   String? _connectingDeviceId;
-  late final MeshCoreConnector _connector;
+  late final HamCoreConnector _connector;
   late final VoidCallback _connectionListener;
   BluetoothAdapterState _bluetoothState = BluetoothAdapterState.unknown;
   late StreamSubscription<BluetoothAdapterState> _bluetoothStateSubscription;
@@ -38,14 +38,14 @@ class _ScannerScreenState extends State<ScannerScreen> {
   @override
   void initState() {
     super.initState();
-    _connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    _connector = Provider.of<HamCoreConnector>(context, listen: false);
 
     _connectionListener = () {
       final isCurrentRoute = ModalRoute.of(context)?.isCurrent ?? true;
-      if (_connector.state == MeshCoreConnectionState.disconnected) {
+      if (_connector.state == HamCoreConnectionState.disconnected) {
         _changedNavigation = false;
-      } else if (_connector.state == MeshCoreConnectionState.connected &&
-          _connector.activeTransport == MeshCoreTransportType.bluetooth &&
+      } else if (_connector.state == HamCoreConnectionState.connected &&
+          _connector.activeTransport == HamCoreTransportType.bluetooth &&
           isCurrentRoute &&
           !_changedNavigation) {
         _changedNavigation = true;
@@ -135,7 +135,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
       ),
       body: SafeArea(
         top: false,
-        child: Consumer<MeshCoreConnector>(
+        child: Consumer<HamCoreConnector>(
           builder: (context, connector, child) {
             return Column(
               children: [
@@ -162,10 +162,10 @@ class _ScannerScreenState extends State<ScannerScreen> {
           },
         ),
       ),
-      floatingActionButton: Consumer<MeshCoreConnector>(
+      floatingActionButton: Consumer<HamCoreConnector>(
         builder: (context, connector, child) {
           final isScanning =
-              connector.state == MeshCoreConnectionState.scanning;
+              connector.state == HamCoreConnectionState.scanning;
           final isBluetoothOff = _bluetoothState == BluetoothAdapterState.off;
 
           return FloatingActionButton.extended(
@@ -206,7 +206,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
     );
   }
 
-  void _toggleScan(MeshCoreConnector connector) {
+  void _toggleScan(HamCoreConnector connector) {
     if (PlatformInfo.isWeb) {
       // flutter_blue_plus has no web backend, so a BLE scan silently no-ops in
       // the browser. Tell the user instead of leaving them staring at a button.
@@ -216,7 +216,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
       );
       return;
     }
-    if (connector.state == MeshCoreConnectionState.scanning) {
+    if (connector.state == HamCoreConnectionState.scanning) {
       connector.stopScan();
     } else {
       unawaited(
@@ -227,10 +227,10 @@ class _ScannerScreenState extends State<ScannerScreen> {
     }
   }
 
-  Widget _buildDeviceList(BuildContext context, MeshCoreConnector connector) {
+  Widget _buildDeviceList(BuildContext context, HamCoreConnector connector) {
     if (connector.scanResults.isEmpty) {
       final isBluetoothOff = _bluetoothState == BluetoothAdapterState.off;
-      final isScanning = connector.state == MeshCoreConnectionState.scanning;
+      final isScanning = connector.state == HamCoreConnectionState.scanning;
       return EmptyState(
         icon: isBluetoothOff ? Icons.bluetooth_disabled : Icons.bluetooth,
         title: isBluetoothOff
@@ -254,7 +254,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
       );
     }
 
-    final isConnecting = connector.state == MeshCoreConnectionState.connecting;
+    final isConnecting = connector.state == HamCoreConnectionState.connecting;
     return ListView.builder(
       padding: const EdgeInsets.fromLTRB(0, 8, 0, 96),
       itemCount: connector.scanResults.length,
@@ -277,7 +277,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
   Future<void> _connectToDevice(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     ScanResult result,
   ) async {
     final name = result.device.platformName.isNotEmpty
@@ -471,7 +471,7 @@ class _BluetoothOffBanner extends StatelessWidget {
 
 /// Connection status header with AnimatedSwitcher between states.
 class _ConnectionStatusHeader extends StatelessWidget {
-  final MeshCoreConnector connector;
+  final HamCoreConnector connector;
 
   const _ConnectionStatusHeader({required this.connector});
 
@@ -481,27 +481,27 @@ class _ConnectionStatusHeader extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
 
     final (String label, Color color, bool pulse) = switch (connector.state) {
-      MeshCoreConnectionState.scanning => (
+      HamCoreConnectionState.scanning => (
         l10n.scanner_scanning,
         MeshPalette.blue,
         true,
       ),
-      MeshCoreConnectionState.connecting => (
+      HamCoreConnectionState.connecting => (
         l10n.scanner_connecting,
         MeshPalette.warn,
         true,
       ),
-      MeshCoreConnectionState.connected => (
+      HamCoreConnectionState.connected => (
         l10n.scanner_connectedTo(connector.deviceDisplayName),
         MeshPalette.signal,
         false,
       ),
-      MeshCoreConnectionState.disconnecting => (
+      HamCoreConnectionState.disconnecting => (
         l10n.scanner_disconnecting,
         MeshPalette.warn,
         true,
       ),
-      MeshCoreConnectionState.disconnected => (
+      HamCoreConnectionState.disconnected => (
         l10n.scanner_notConnected,
         scheme.onSurfaceVariant,
         false,

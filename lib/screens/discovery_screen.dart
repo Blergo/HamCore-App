@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import '../connector/meshcore_connector.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_connector.dart';
+import '../connector/hamcore_protocol.dart';
 import '../l10n/l10n.dart';
 import '../l10n/contact_localization.dart';
 import '../models/contact.dart';
@@ -80,7 +80,7 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
 
     final discoveredContacts = connector.discoveredContacts;
     final filteredAndSorted = _filterAndSortContacts(
@@ -160,7 +160,7 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
   Widget _buildDiscoveryTile(
     BuildContext context,
     Contact contact,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     int index,
   ) {
     final scheme = Theme.of(context).colorScheme;
@@ -304,7 +304,7 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
 
   Future<void> _showContactContextMenu(
     Contact contact,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) async {
     final action = await showMeshSheet<String>(
       context,
@@ -341,7 +341,7 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
       case 'copy_contact':
         if (contact.rawPacket == null) return;
         final hexString = pubKeyToHex(contact.rawPacket!);
-        Clipboard.setData(ClipboardData(text: "meshcore://$hexString"));
+        Clipboard.setData(ClipboardData(text: "hamcore://$hexString"));
         if (!mounted) return;
         showDismissibleSnackBar(
           context,
@@ -354,7 +354,7 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
     }
   }
 
-  void _deleteContacts(BuildContext context, MeshCoreConnector connector) {
+  void _deleteContacts(BuildContext context, HamCoreConnector connector) {
     final l10n = context.l10n;
     showDialog(
       context: context,
@@ -380,7 +380,7 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
 
   Widget _buildFilters(
     List<Contact> filteredAndSorted,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     String hintText = "";
     switch (typeFilter) {
@@ -464,7 +464,7 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
     );
   }
 
-  Widget _buildFilterButton(BuildContext context, MeshCoreConnector connector) {
+  Widget _buildFilterButton(BuildContext context, HamCoreConnector connector) {
     return DiscoveryContactsFilterMenu(
       sortOption: sortOption,
       typeFilter: typeFilter,
@@ -483,7 +483,7 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
 
   List<Contact> _filterAndSortContacts(
     List<Contact> contacts,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     var filtered = contacts.where((contact) {
       if (searchQuery.isEmpty) return true;

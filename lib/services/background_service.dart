@@ -19,9 +19,9 @@ class BackgroundService {
     if (!PlatformInfo.isAndroid || _initialized) return;
     FlutterForegroundTask.init(
       androidNotificationOptions: AndroidNotificationOptions(
-        channelId: 'meshcore_background',
-        channelName: 'MeshCore Background',
-        channelDescription: 'Keeps MeshCore running in the background.',
+        channelId: 'hamcore_background',
+        channelName: 'HamCore Background',
+        channelDescription: 'Keeps HamCore running in the background.',
         channelImportance: NotificationChannelImportance.LOW,
         priority: NotificationPriority.LOW,
       ),
@@ -80,10 +80,10 @@ class BackgroundService {
 
 @pragma('vm:entry-point')
 void startCallback() {
-  FlutterForegroundTask.setTaskHandler(_MeshCoreTaskHandler());
+  FlutterForegroundTask.setTaskHandler(_HamCoreTaskHandler());
 }
 
-class _MeshCoreTaskHandler extends TaskHandler {
+class _HamCoreTaskHandler extends TaskHandler {
   @override
   Future<void> onStart(DateTime timestamp, TaskStarter starter) async {}
 

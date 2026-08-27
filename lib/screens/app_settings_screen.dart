@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../connector/meshcore_connector.dart';
+import '../connector/hamcore_connector.dart';
 import '../l10n/l10n.dart';
 import '../models/app_settings.dart';
 import '../models/image_codec_support.dart';
@@ -45,7 +45,7 @@ class AppSettingsScreen extends StatelessWidget {
         child:
             Consumer3<
               AppSettingsService,
-              MeshCoreConnector,
+              HamCoreConnector,
               TranslationService
             >(
               builder:
@@ -812,7 +812,7 @@ class AppSettingsScreen extends StatelessWidget {
   Widget _buildBatteryContent(
     BuildContext context,
     AppSettingsService settingsService,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
   ) {
     final deviceId = connector.batteryDeviceKey;
     final isConnected = connector.isConnected && deviceId != null;

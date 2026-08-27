@@ -1,4 +1,4 @@
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_protocol.dart';
 import '../helpers/path_helper.dart';
 import '../models/contact.dart';
 import 'app_localizations.dart';

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import '../connector/meshcore_connector.dart';
+import '../connector/hamcore_connector.dart';
 import '../l10n/l10n.dart';
 import '../theme/mesh_theme.dart';
 import '../utils/app_logger.dart';
@@ -30,7 +30,7 @@ class _UsbScreenState extends State<UsbScreen> {
   bool _navigatedToChannels = false;
   bool _didScheduleInitialLoad = false;
   Timer? _hotPlugTimer;
-  late final MeshCoreConnector _connector;
+  late final HamCoreConnector _connector;
   late final VoidCallback _connectionListener;
 
   bool get _supportsHotPlug =>
@@ -39,13 +39,13 @@ class _UsbScreenState extends State<UsbScreen> {
   @override
   void initState() {
     super.initState();
-    _connector = context.read<MeshCoreConnector>();
+    _connector = context.read<HamCoreConnector>();
     _connectionListener = () {
       if (!mounted) return;
-      if (_connector.state == MeshCoreConnectionState.disconnected) {
+      if (_connector.state == HamCoreConnectionState.disconnected) {
         _navigatedToChannels = false;
       }
-      if (_connector.state == MeshCoreConnectionState.connected &&
+      if (_connector.state == HamCoreConnectionState.connected &&
           _connector.isUsbTransportConnected &&
           !_navigatedToChannels) {
         _navigatedToChannels = true;
@@ -75,8 +75,8 @@ class _UsbScreenState extends State<UsbScreen> {
     _hotPlugTimer = null;
     _connector.removeListener(_connectionListener);
     if (!_navigatedToChannels &&
-        _connector.activeTransport == MeshCoreTransportType.usb &&
-        _connector.state != MeshCoreConnectionState.disconnected) {
+        _connector.activeTransport == HamCoreTransportType.usb &&
+        _connector.state != HamCoreConnectionState.disconnected) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         unawaited(_connector.disconnect(manual: true));
       });
@@ -97,7 +97,7 @@ class _UsbScreenState extends State<UsbScreen> {
       ),
       body: SafeArea(
         top: false,
-        child: Consumer<MeshCoreConnector>(
+        child: Consumer<HamCoreConnector>(
           builder: (context, connector, child) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -151,7 +151,7 @@ class _UsbScreenState extends State<UsbScreen> {
     );
   }
 
-  Widget _buildStatusChip(BuildContext context, MeshCoreConnector connector) {
+  Widget _buildStatusChip(BuildContext context, HamCoreConnector connector) {
     final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
 
@@ -163,14 +163,14 @@ class _UsbScreenState extends State<UsbScreen> {
       );
     } else if (connector.isUsbTransportConnected) {
       switch (connector.state) {
-        case MeshCoreConnectionState.connected:
+        case HamCoreConnectionState.connected:
           return StatusChip(
             label: l10n.scanner_connectedTo(
               connector.activeUsbPortDisplayLabel ?? 'USB',
             ),
             color: MeshPalette.signal,
           );
-        case MeshCoreConnectionState.disconnecting:
+        case HamCoreConnectionState.disconnecting:
           return StatusChip(
             label: l10n.scanner_disconnecting,
             color: MeshPalette.warn,
@@ -182,8 +182,8 @@ class _UsbScreenState extends State<UsbScreen> {
             color: scheme.onSurfaceVariant,
           );
       }
-    } else if (connector.state == MeshCoreConnectionState.connecting &&
-        connector.activeTransport == MeshCoreTransportType.usb) {
+    } else if (connector.state == HamCoreConnectionState.connecting &&
+        connector.activeTransport == HamCoreTransportType.usb) {
       return StatusChip(
         label: l10n.usbStatus_connecting,
         color: MeshPalette.warn,
@@ -224,7 +224,7 @@ class _UsbScreenState extends State<UsbScreen> {
     );
   }
 
-  Widget _buildPortList(BuildContext context, MeshCoreConnector connector) {
+  Widget _buildPortList(BuildContext context, HamCoreConnector connector) {
     final l10n = context.l10n;
 
     if (_isLoadingPorts) {
@@ -236,8 +236,8 @@ class _UsbScreenState extends State<UsbScreen> {
     }
 
     final isConnecting =
-        connector.state == MeshCoreConnectionState.connecting &&
-        connector.activeTransport == MeshCoreTransportType.usb;
+        connector.state == HamCoreConnectionState.connecting &&
+        connector.activeTransport == HamCoreTransportType.usb;
 
     return ListView.builder(
       padding: const EdgeInsets.only(bottom: 32),
@@ -310,7 +310,7 @@ class _UsbScreenState extends State<UsbScreen> {
     if (_isLoadingPorts) return;
     if (!mounted) return;
     // Don't poll while connecting or connected.
-    if (_connector.state != MeshCoreConnectionState.disconnected) return;
+    if (_connector.state != HamCoreConnectionState.disconnected) return;
     try {
       final ports = await _connector.listUsbPorts();
       if (!mounted) return;
@@ -355,7 +355,7 @@ class _UsbScreenState extends State<UsbScreen> {
   }
 
   Future<void> _connectPort(String port) async {
-    if (_connector.state != MeshCoreConnectionState.disconnected) return;
+    if (_connector.state != HamCoreConnectionState.disconnected) return;
 
     final rawPortName = normalizeUsbPortName(port);
     appLogger.info(

@@ -2,17 +2,17 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meshcore_open/connector/meshcore_protocol.dart';
-import 'package:meshcore_open/models/channel_message.dart';
-import 'package:meshcore_open/models/contact.dart';
-import 'package:meshcore_open/models/path_history.dart';
-import 'package:meshcore_open/models/app_settings.dart';
-import 'package:meshcore_open/storage/contact_store.dart';
-import 'package:meshcore_open/storage/channel_message_store.dart';
-import 'package:meshcore_open/storage/contact_discovery_store.dart';
-import 'package:meshcore_open/services/app_settings_service.dart';
-import 'package:meshcore_open/storage/prefs_manager.dart';
-import 'package:meshcore_open/storage/message_store.dart';
+import 'package:hamcore/connector/hamcore_protocol.dart';
+import 'package:hamcore/models/channel_message.dart';
+import 'package:hamcore/models/contact.dart';
+import 'package:hamcore/models/path_history.dart';
+import 'package:hamcore/models/app_settings.dart';
+import 'package:hamcore/storage/contact_store.dart';
+import 'package:hamcore/storage/channel_message_store.dart';
+import 'package:hamcore/storage/contact_discovery_store.dart';
+import 'package:hamcore/services/app_settings_service.dart';
+import 'package:hamcore/storage/prefs_manager.dart';
+import 'package:hamcore/storage/message_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Builds a valid contact frame with the given pathLen and optional overrides.

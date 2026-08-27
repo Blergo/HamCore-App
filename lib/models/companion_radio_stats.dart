@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_protocol.dart';
 import '../utils/app_logger.dart';
 
 /// Parsed `RESP_CODE_STATS` + `STATS_TYPE_RADIO` (14 bytes total).

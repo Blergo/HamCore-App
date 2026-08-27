@@ -8,8 +8,8 @@ import '../l10n/l10n.dart';
 import '../models/contact.dart';
 import '../l10n/contact_localization.dart';
 import '../services/storage_service.dart';
-import '../connector/meshcore_connector.dart';
-import '../connector/meshcore_protocol.dart';
+import '../connector/hamcore_connector.dart';
+import '../connector/hamcore_protocol.dart';
 import '../theme/mesh_theme.dart';
 import '../widgets/mesh_ui.dart';
 import '../utils/app_logger.dart';
@@ -32,14 +32,14 @@ class _RoomLoginDialogState extends State<RoomLoginDialog> {
   bool _savePassword = false;
   bool _isLoading = true;
   bool _obscurePassword = true;
-  late MeshCoreConnector _connector;
+  late HamCoreConnector _connector;
   int _currentAttempt = 0;
   static const int _maxAttempts = 5;
 
   @override
   void initState() {
     super.initState();
-    _connector = Provider.of<MeshCoreConnector>(context, listen: false);
+    _connector = Provider.of<HamCoreConnector>(context, listen: false);
     _loadSavedPassword();
   }
 
@@ -70,7 +70,7 @@ class _RoomLoginDialogState extends State<RoomLoginDialog> {
 
   int _resolveRepeaterIndex = -1;
 
-  Contact _resolveRepeater(MeshCoreConnector connector) {
+  Contact _resolveRepeater(HamCoreConnector connector) {
     if (_resolveRepeaterIndex >= 0 &&
         _resolveRepeaterIndex < connector.contacts.length &&
         connector.contacts[_resolveRepeaterIndex].publicKeyHex ==
@@ -229,7 +229,7 @@ class _RoomLoginDialogState extends State<RoomLoginDialog> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final scheme = Theme.of(context).colorScheme;
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     final repeater = _resolveRepeater(connector);
     final isFloodMode = repeater.pathOverride == -1;
     return AlertDialog(

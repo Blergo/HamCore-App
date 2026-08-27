@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:meshcore_open/storage/channel_message_store.dart';
-import 'package:meshcore_open/utils/keys.dart';
-import 'package:meshcore_open/utils/platform_info.dart';
-import 'package:meshcore_open/widgets/app_bar.dart';
+import 'package:hamcore/storage/channel_message_store.dart';
+import 'package:hamcore/utils/keys.dart';
+import 'package:hamcore/utils/platform_info.dart';
+import 'package:hamcore/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../connector/meshcore_connector.dart';
+import '../connector/hamcore_connector.dart';
 import '../l10n/l10n.dart';
 import '../services/app_settings_service.dart';
 import '../services/ui_view_state_service.dart';
@@ -61,13 +61,13 @@ class _ChannelsScreenState extends State<ChannelsScreen>
         .read<UiViewStateService>()
         .channelsSearchText;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<MeshCoreConnector>().getChannels();
+      context.read<HamCoreConnector>().getChannels();
       _loadCommunities();
     });
   }
 
   Future<void> _loadCommunities() async {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     _communityStore.setPublicKeyHex = connector.selfPublicKeyHex;
     final communities = await _communityStore.loadCommunities();
     if (mounted) {
@@ -95,7 +95,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     final viewState = context.watch<UiViewStateService>();
 
     final channelMessageStore = ChannelMessageStore();
@@ -167,7 +167,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            await context.read<MeshCoreConnector>().getChannels(force: true);
+            await context.read<HamCoreConnector>().getChannels(force: true);
           },
           child: () {
             final channels = connector.channels;
@@ -352,7 +352,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
 
   Widget _buildChannelTile(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     ChannelMessageStore channelMessageStore,
     Channel channel, {
     bool showDragHandle = false,
@@ -607,7 +607,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
 
   void _showChannelActions(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     ChannelMessageStore channelMessageStore,
     Channel channel,
   ) {
@@ -701,7 +701,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
   }
 
   Future<void> _disconnect(BuildContext context) async {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     await showDisconnectDialog(context, connector);
   }
 
@@ -745,7 +745,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
 
   List<Channel> _filterAndSortChannels(
     List<Channel> channels,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     UiViewStateService viewState,
   ) {
     var filtered = channels.where((channel) {
@@ -809,7 +809,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
   }
 
   void _showAddChannelDialog(BuildContext context) {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final nextIndex = _findNextAvailableIndex(
       connector.channels,
       connector.maxChannels,
@@ -1522,7 +1522,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
 
   void _showEditChannelDialog(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     Channel channel,
   ) {
     final appSettingsService = Provider.of<AppSettingsService>(
@@ -1721,7 +1721,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
 
   void _confirmDeleteChannel(
     BuildContext context,
-    MeshCoreConnector connector,
+    HamCoreConnector connector,
     ChannelMessageStore channelMessageStore,
     Channel channel,
   ) {
@@ -1779,7 +1779,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
     );
   }
 
-  void _addPublicChannel(BuildContext context, MeshCoreConnector connector) {
+  void _addPublicChannel(BuildContext context, HamCoreConnector connector) {
     final psk = Channel.parsePskHex(Channel.publicChannelPsk);
     connector.setChannel(0, context.l10n.channels_public, psk);
     showDismissibleSnackBar(
@@ -1949,7 +1949,7 @@ class _ChannelsScreenState extends State<ChannelsScreen>
   }
 
   void _confirmLeaveCommunity(BuildContext context, Community community) {
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
 
     // Find all channels that belong to this community
     List<Channel> communityChannels = [];

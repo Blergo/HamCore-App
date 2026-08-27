@@ -8,7 +8,7 @@
     }
   },
   "@@locale": "sv",
-  "appTitle": "MeshCore Open",
+  "appTitle": "HamCore",
   "nav_contacts": "Kontakter",
   "nav_channels": "Kanaler",
   "nav_map": "Karta",
@@ -54,7 +54,7 @@
       }
     }
   },
-  "scanner_title": "MeshCore – Öppen version",
+  "scanner_title": "HamCore – Öppen version",
   "scanner_scanning": "Söker efter enheter...",
   "scanner_connecting": "Anslutning...",
   "scanner_disconnecting": "Anslutning bryts...",
@@ -67,8 +67,8 @@
       }
     }
   },
-  "scanner_searchingDevices": "Söker efter MeshCore-enheter...",
-  "scanner_tapToScan": "Tryck Skanna för att hitta MeshCore-enheter",
+  "scanner_searchingDevices": "Söker efter HamCore-enheter...",
+  "scanner_tapToScan": "Tryck Skanna för att hitta HamCore-enheter",
   "scanner_connectionFailed": "Anslutning misslyckades: {error}",
   "@scanner_connectionFailed": {
     "placeholders": {
@@ -80,7 +80,7 @@
   "scanner_stop": "Stoppa",
   "scanner_scan": "Skanna",
   "device_quickSwitch": "Snabb växling",
-  "device_meshcore": "MeshCore",
+  "device_hamcore": "HamCore",
   "settings_title": "Inställningar",
   "settings_deviceInfo": "Enhetens information",
   "settings_appSettings": "Appinställningar",
@@ -119,7 +119,7 @@
   "settings_refreshContacts": "Uppdatera Kontakter",
   "settings_refreshContactsSubtitle": "Ladda om kontaktlistan från enheten",
   "settings_rebootDevice": "Starta om enheten",
-  "settings_rebootDeviceSubtitle": "Starta MeshCore-enheten",
+  "settings_rebootDeviceSubtitle": "Starta HamCore-enheten",
   "settings_rebootDeviceConfirm": "Är du säker på att du vill starta om enheten? Du kommer att bli avkopplad.",
   "settings_debug": "Felsök",
   "settings_bleDebugLog": "BLE-felsökning",
@@ -127,7 +127,7 @@
   "settings_appDebugLog": "Appfelsökning",
   "settings_appDebugLogSubtitle": "Applikations felsökningsmeddelanden",
   "settings_about": "Om",
-  "settings_aboutVersion": "MeshCore Open version {version}",
+  "settings_aboutVersion": "HamCore version {version}",
   "@settings_aboutVersion": {
     "placeholders": {
       "version": {
@@ -135,8 +135,8 @@
       }
     }
   },
-  "settings_aboutLegalese": "2024 MeshCore Öppen Källkodsprojekt",
-  "settings_aboutDescription": "En öppen källkods Flutter-klient för MeshCore LoRa meshnätverksenheter.",
+  "settings_aboutLegalese": "2024 HamCore Öppen Källkodsprojekt",
+  "settings_aboutDescription": "En öppen källkods Flutter-klient för HamCore LoRa meshnätverksenheter.",
   "settings_infoName": "Namn",
   "settings_infoId": "ID",
   "settings_infoStatus": "Status",
@@ -1770,7 +1770,7 @@
   "contacts_ShareContact": "Kopiera kontakt till Urklipp",
   "contacts_zeroHopContactAdvertFailed": "Misslyckades med att skicka kontakt.",
   "contacts_ShareContactZeroHop": "Dela kontakt via annons",
-  "notification_activityTitle": "MeshCore Aktivitet",
+  "notification_activityTitle": "HamCore Aktivitet",
   "notification_messagesCount": "{count} {count, plural, =1{meddelande} other{meddelanden}}",
   "notification_channelMessagesCount": "{count} {count, plural, =1{kanalmeddelande} other{kanalmeddelanden}}",
   "notification_newNodesCount": "{count} {count, plural, =1{ny nod} other{nya noder}}",
@@ -1789,8 +1789,8 @@
   "settings_gpxExportChat": "Medhjälparplatser",
   "settings_gpxExportError": "Det uppstod ett fel när data exporterades.",
   "settings_gpxExportAllContacts": "Alla kontakters platser",
-  "settings_gpxExportShareSubject": "meshcore-open export av GPX-kartdata",
-  "settings_gpxExportShareText": "Kartdata exporterad från meshcore-open",
+  "settings_gpxExportShareSubject": "hamcore export av GPX-kartdata",
+  "settings_gpxExportShareText": "Kartdata exporterad från hamcore",
   "pathTrace_someHopsNoLocation": "En eller flera av humlen saknar en plats!",
   "pathTrace_clearTooltip": "Rensa väg",
   "map_pathTraceCancelled": "Sökvägsspårning avbruten.",
@@ -2025,7 +2025,7 @@
   "map_showGuessedLocations": "Visa upp de antagna nodernas placeringar",
   "connectionChoiceBluetoothLabel": "Bluetooth",
   "connectionChoiceUsbLabel": "USB",
-  "usbScreenSubtitle": "Välj en detekterad seriell enhet och anslut direkt till din MeshCore-nod.",
+  "usbScreenSubtitle": "Välj en detekterad seriell enhet och anslut direkt till din HamCore-nod.",
   "usbScreenTitle": "Anslut via USB",
   "usbScreenStatus": "Välj en USB-enhet",
   "usbScreenNote": "USB-seriell kommunikation är aktiv på stödda Android-enheter och på skrivbordsplattformar.",
@@ -2335,7 +2335,7 @@
   "repeater_cliHelpStatsRadio": "(Enbart för serier) Visar radiostatistik.",
   "repeater_cliHelpStatsCore": "(Enbart för seriell kommunikation) Visar grundläggande firmware-statistik.",
   "common_done": "Done",
-  "background_serviceTitle": "MeshCore running",
+  "background_serviceTitle": "HamCore running",
   "background_serviceText": "Keeping BLE connected",
   "appSettings_translationModelDeleted": "Deleted {name}",
   "@appSettings_translationModelDeleted": {
@@ -2757,7 +2757,7 @@
   "channels_regionNotSet": "Region: ingen",
   "channels_regionSelect_Title": "Välj en region",
   "channels_clearRegion": "klar region",
-  "chat_sendImageLora": "Skicka bild via MeshCore",
+  "chat_sendImageLora": "Skicka bild via HamCore",
   "chat_imagePickFailed": "Kunde inte öppna det bildet",
   "chat_receivedGif": "Mottagit en GIF",
   "repeater_keySettings": "Ändra identitetsnyckel",

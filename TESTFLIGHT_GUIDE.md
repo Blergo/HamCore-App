@@ -6,7 +6,7 @@
 - [x] Xcode installed
 - [x] Apple Transporter app installed
 - [x] App icons ready (1024x1024px)
-- [x] Bundle ID configured: `com.monitormx.meshcoreopen`
+- [x] Bundle ID configured: `com.hamcore.hamcore`
 
 ## Step 1: Register Bundle Identifier
 
@@ -15,8 +15,8 @@
 3. Select **"App IDs"** → Continue
 4. Select **"App"** → Continue
 5. Fill in:
-   - **Description**: Meshcore Open
-   - **Bundle ID**: Explicit - `com.monitormx.meshcoreopen`
+   - **Description**: HamCore
+   - **Bundle ID**: Explicit - `com.hamcore.hamcore`
    - **Capabilities**: Leave defaults (or add as needed)
 6. Click **Continue** → **Register**
 
@@ -28,10 +28,10 @@
 4. Click the **"+"** button → **"New App"**
 5. Fill in the form:
    - **Platforms**: iOS
-   - **Name**: Meshcore Open
+   - **Name**: HamCore
    - **Primary Language**: English (U.S.)
-   - **Bundle ID**: Select `com.monitormx.meshcoreopen` from dropdown
-   - **SKU**: `meshcore-open-001` (or any unique identifier)
+   - **Bundle ID**: Select `com.hamcore.hamcore` from dropdown
+   - **SKU**: `hamcore-001` (or any unique identifier)
    - **User Access**: Full Access
 6. Click **"Create"**
 
@@ -50,7 +50,7 @@ export PATH="/opt/homebrew/lib/ruby/gems/4.0.0/bin:$PATH"
 ../flutter/bin/flutter build ipa
 ```
 
-The IPA will be created at: `build/ios/ipa/meshcore_open.ipa`
+The IPA will be created at: `build/ios/ipa/hamcore.ipa`
 
 ## Step 4: Upload to App Store Connect via Transporter
 
@@ -59,7 +59,7 @@ The IPA will be created at: `build/ios/ipa/meshcore_open.ipa`
    - Sign in with your Apple ID
 
 2. **Upload the IPA**
-   - Drag and drop `build/ios/ipa/meshcore_open.ipa` into Transporter
+   - Drag and drop `build/ios/ipa/hamcore.ipa` into Transporter
    - Click **"Deliver"**
    - Wait for upload to complete (usually 1-5 minutes)
 
@@ -86,16 +86,16 @@ The IPA will be created at: `build/ios/ipa/meshcore_open.ipa`
 
 3. Fill in **Description**:
    ```
-   Meshcore Open is a Flutter client for MeshCore LoRa mesh networking devices.
+   HamCore is a Flutter client for HamCore LoRa mesh networking devices.
 
    Features:
-   - BLE connectivity to MeshCore devices
+   - BLE connectivity to HamCore devices
    - Real-time mesh network communication
    - Map visualization with OpenStreetMap
    - Community management with QR code scanning
    - Message tracking and retry system
 
-   Connect to your MeshCore LoRa device and start communicating over the mesh network.
+   Connect to your HamCore LoRa device and start communicating over the mesh network.
    ```
 
 4. **Keywords**: `lora,mesh,networking,bluetooth,communication`
@@ -105,7 +105,7 @@ The IPA will be created at: `build/ios/ipa/meshcore_open.ipa`
 ### Version Information
 1. **What's New in This Version**:
    ```
-   Initial release of Meshcore Open
+   Initial release of HamCore
 
    - BLE device connectivity
    - Mesh network messaging
@@ -196,7 +196,7 @@ To build for macOS:
 export PATH="/opt/homebrew/lib/ruby/gems/4.0.0/bin:$PATH"
 ../flutter/bin/flutter build macos --release
 cd build/macos/Build/Products/Release
-zip -r meshcore_open-macos.zip meshcore_open.app
+zip -r hamcore-macos.zip hamcore.app
 ```
 
 Distribution:
@@ -223,8 +223,8 @@ Distribution:
 
 ## Important Files
 
-- **iOS IPA**: `build/ios/ipa/meshcore_open.ipa`
-- **macOS App**: `build/macos/Build/Products/Release/meshcore_open.app`
+- **iOS IPA**: `build/ios/ipa/hamcore.ipa`
+- **macOS App**: `build/macos/Build/Products/Release/hamcore.app`
 - **Bundle ID Config**: `ios/Runner.xcodeproj/project.pbxproj`
 - **Version Info**: `pubspec.yaml`
 
@@ -241,4 +241,4 @@ Distribution:
 For issues with:
 - **App Store Process**: [Apple Developer Support](https://developer.apple.com/contact/)
 - **Flutter Build Issues**: [Flutter GitHub](https://github.com/flutter/flutter/issues)
-- **Meshcore Open App**: [GitHub Issues](https://github.com/wel97459/meshcore-open/issues)
+- **HamCore App**: [GitHub Issues](https://github.com/Blergo/HamCore-App/issues)

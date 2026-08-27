@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Generate local PoCs for MeshCore clipboard contact import validation gaps.
+"""Generate local PoCs for HamCore clipboard contact import validation gaps.
 
-The output is a meshcore:// URI suitable for manual testing in a local/dev app
+The output is a hamcore:// URI suitable for manual testing in a local/dev app
 session. It does not connect to BLE/USB/TCP devices or transmit anything.
 """
 
@@ -11,7 +11,7 @@ import argparse
 import sys
 
 
-SCHEME = "meshcore://"
+SCHEME = "hamcore://"
 
 
 def uri_from_bytes(payload: bytes) -> str:
@@ -40,7 +40,7 @@ def non_advert_like_payload() -> bytes:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Generate meshcore:// clipboard import PoC payloads."
+        description="Generate hamcore:// clipboard import PoC payloads."
     )
     parser.add_argument(
         "case",

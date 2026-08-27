@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meshcore_open/helpers/reaction_helper.dart';
-import 'package:meshcore_open/widgets/emoji_picker.dart';
+import 'package:hamcore/helpers/reaction_helper.dart';
+import 'package:hamcore/widgets/emoji_picker.dart';
 
 void main() {
   group('ReactionHelper', () {

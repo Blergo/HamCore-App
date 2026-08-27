@@ -15,7 +15,7 @@ import '../services/app_settings_service.dart';
 import '../services/line_of_sight_service.dart';
 import '../services/map_tile_cache_service.dart';
 import '../utils/route_transitions.dart';
-import '../connector/meshcore_connector.dart';
+import '../connector/hamcore_connector.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/quick_switch_bar.dart';
 import '../icons/los_icon.dart';
@@ -167,7 +167,7 @@ class _LineOfSightMapScreenState extends State<LineOfSightMapScreen> {
     });
 
     try {
-      final connector = context.read<MeshCoreConnector>();
+      final connector = context.read<HamCoreConnector>();
       final frequencyMHz = _normalizeFrequencyMHz(connector.currentFreqHz);
       final result = await _lineOfSightService.analyzePath(
         [start.point, end.point],
@@ -491,10 +491,10 @@ class _LineOfSightMapScreenState extends State<LineOfSightMapScreen> {
           selectedIndex: 2,
           onDestinationSelected: (index) => _handleQuickSwitch(index, context),
           contactsUnreadCount: context
-              .watch<MeshCoreConnector>()
+              .watch<HamCoreConnector>()
               .getTotalContactsUnreadCount(),
           channelsUnreadCount: context
-              .watch<MeshCoreConnector>()
+              .watch<HamCoreConnector>()
               .getTotalChannelsUnreadCount(),
           highContrast: true,
         ),
@@ -503,7 +503,7 @@ class _LineOfSightMapScreenState extends State<LineOfSightMapScreen> {
   }
 
   Widget _buildLinkBanner(bool isImperial) {
-    final connector = context.watch<MeshCoreConnector>();
+    final connector = context.watch<HamCoreConnector>();
     final segment = _primarySegmentResult();
     final status = _losStatusFor(segment);
     final battery = connector.batteryPercent;
@@ -969,7 +969,7 @@ class _LineOfSightMapScreenState extends State<LineOfSightMapScreen> {
   ) {
     _sanitizeSelection();
     final segment = _primarySegmentResult();
-    final connector = context.read<MeshCoreConnector>();
+    final connector = context.read<HamCoreConnector>();
     final reportedFrequencyMHz = _normalizeFrequencyMHz(
       connector.currentFreqHz,
     );

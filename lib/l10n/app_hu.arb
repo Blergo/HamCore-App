@@ -1,6 +1,6 @@
 {
   "@@locale": "hu",
-  "appTitle": "MeshCore Open",
+  "appTitle": "HamCore",
   "nav_contacts": "Kapcsolatok",
   "nav_channels": "Csatornák",
   "nav_map": "Térkép",
@@ -48,7 +48,7 @@
       }
     }
   },
-  "scanner_title": "MeshCore Open",
+  "scanner_title": "HamCore",
   "connectionChoiceUsbLabel": "USB",
   "connectionChoiceBluetoothLabel": "Bluetooth",
   "connectionChoiceTcpLabel": "TCP",
@@ -79,7 +79,7 @@
     }
   },
   "usbScreenTitle": "Csatlakoztassa USB-n keresztül",
-  "usbScreenSubtitle": "Válasszon egy észlelt soros eszközt, és csatlakozzon közvetlenül a MeshCore csomóponthoz.",
+  "usbScreenSubtitle": "Válasszon egy észlelt soros eszközt, és csatlakozzon közvetlenül a HamCore csomóponthoz.",
   "usbScreenStatus": "Válasszon ki egy USB-eszközt",
   "usbScreenNote": "Az USB-soros aktív a támogatott Android-eszközökön és asztali platformokon.",
   "usbScreenEmptyState": "Nem található USB-eszköz. Csatlakoztasson egyet, és frissítse.",
@@ -119,8 +119,8 @@
       }
     }
   },
-  "scanner_searchingDevices": "MeshCore eszközök keresése...",
-  "scanner_tapToScan": "Koppintson a Scan elemre a MeshCore-eszközök megkereséséhez",
+  "scanner_searchingDevices": "HamCore eszközök keresése...",
+  "scanner_tapToScan": "Koppintson a Scan elemre a HamCore-eszközök megkereséséhez",
   "scanner_connectionFailed": "A csatlakozás sikertelen: {error}",
   "@scanner_connectionFailed": {
     "placeholders": {
@@ -137,7 +137,7 @@
   "scanner_chromeRequiredMessage": "Ehhez a webes alkalmazáshoz Google Chrome vagy Chromium-alapú böngésző szükséges a Bluetooth támogatásához.",
   "scanner_enableBluetooth": "Bluetooth engedélyezése",
   "device_quickSwitch": "Gyors váltás",
-  "device_meshcore": "MeshCore",
+  "device_hamcore": "HamCore",
   "settings_title": "Beállítások elemre",
   "settings_deviceInfo": "Készülék Info",
   "settings_appSettings": "Alkalmazásbeállítások",
@@ -182,7 +182,7 @@
   "settings_refreshContacts": "Névjegyek frissítése",
   "settings_refreshContactsSubtitle": "Névjegylista újratöltése az eszközről",
   "settings_rebootDevice": "Eszköz újraindítása",
-  "settings_rebootDeviceSubtitle": "Indítsa újra a MeshCore eszközt",
+  "settings_rebootDeviceSubtitle": "Indítsa újra a HamCore eszközt",
   "settings_rebootDeviceConfirm": "Biztosan újra akarja indítani az eszközt? Megszakad a kapcsolat.",
   "settings_debug": "Hibakeresés",
   "settings_bleDebugLog": "BLE hibaelhárítási napló",
@@ -190,7 +190,7 @@
   "settings_appDebugLog": "Alkalmazás hibakeresési naplója",
   "settings_appDebugLogSubtitle": "Alkalmazás hibakeresési üzenetei",
   "settings_about": "Körülbelül",
-  "settings_aboutVersion": "MeshCore Open v{version}",
+  "settings_aboutVersion": "HamCore v{version}",
   "@settings_aboutVersion": {
     "placeholders": {
       "version": {
@@ -198,8 +198,8 @@
       }
     }
   },
-  "settings_aboutLegalese": "2026 MeshCore nyílt forráskódú projekt",
-  "settings_aboutDescription": "Nyílt forráskódú Flutter kliens MeshCore LoRa mesh hálózati eszközökhöz.",
+  "settings_aboutLegalese": "2026 HamCore nyílt forráskódú projekt",
+  "settings_aboutDescription": "Nyílt forráskódú Flutter kliens HamCore LoRa mesh hálózati eszközökhöz.",
   "settings_aboutOpenMeteoAttribution": "LOS magassági adatok: Open-Meteo (CC BY 4.0)",
   "settings_infoName": "Név",
   "settings_infoId": "ID",
@@ -2069,7 +2069,7 @@
   "contacts_zeroHopContactAdvertFailed": "Nem sikerült elküldeni a névjegyet.",
   "contacts_contactAdvertCopied": "A hirdetés a vágólapra másolva.",
   "contacts_contactAdvertCopyFailed": "A hirdetés vágólapra másolása nem sikerült.",
-  "notification_activityTitle": "MeshCore tevékenység",
+  "notification_activityTitle": "HamCore tevékenység",
   "notification_messagesCount": "{count} {count, plural, =1{üzenet} other{üzenetek}}",
   "@notification_messagesCount": {
     "placeholders": {
@@ -2116,8 +2116,8 @@
   "settings_gpxExportRepeatersRoom": "Repeater és szobaszerver helyei",
   "settings_gpxExportChat": "Társ helyek",
   "settings_gpxExportAllContacts": "Minden kapcsolattartó hely",
-  "settings_gpxExportShareText": "A térképadatok a meshcore-openből exportálva",
-  "settings_gpxExportShareSubject": "meshcore-open GPX térképadatok exportálása",
+  "settings_gpxExportShareText": "A térképadatok a hamcoreből exportálva",
+  "settings_gpxExportShareSubject": "hamcore GPX térképadatok exportálása",
   "snrIndicator_nearByRepeaters": "Közeli átjátszók",
   "snrIndicator_lastSeen": "Utoljára látott",
   "contactsSettings_title": "Névjegyek beállításai",
@@ -2372,7 +2372,7 @@
   "repeater_cliHelpStatsRadio": "(Csak soros) Rádióstatisztikák megjelenítése.",
   "repeater_cliHelpStatsCore": "(Csak soros) Az alapvető firmware-statisztikák megjelenítése.",
   "common_done": "Kész",
-  "background_serviceTitle": "MeshCore fut",
+  "background_serviceTitle": "HamCore fut",
   "background_serviceText": "A BLE-kapcsolat fenntartása",
   "appSettings_translationModelDeleted": "Törölve {name}",
   "@appSettings_translationModelDeleted": {
@@ -2795,7 +2795,7 @@
   "channels_regionNotSet": "Tájékoztetés: nem",
   "channels_regionSelect_Title": "Válassz egy regionot",
   "channels_clearRegion": "Kéres kör",
-  "chat_sendImageLora": "Kép küldése MeshCore-on keresztül",
+  "chat_sendImageLora": "Kép küldése HamCore-on keresztül",
   "chat_imagePickFailed": "Nem tudtam ezt a fenti fényre kapni",
   "chat_receivedGif": "GIF-ot kapott",
   "repeater_keySettings": "Képzőítsekei jelölt",
