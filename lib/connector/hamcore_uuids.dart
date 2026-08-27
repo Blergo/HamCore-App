@@ -7,7 +7,5 @@ class HamCoreUuids {
   /// Discovery does not filter on this (it filters on the [service] UUID so
   /// that community forks with custom names are still found); kept for
   /// reference and possible future display heuristics.
-  static const List<String> deviceNamePrefixes = [
-    "HamCore-",
-  ];
+  static const List<String> deviceNamePrefixes = ["HamCore-"];
 }
