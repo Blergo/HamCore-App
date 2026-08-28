@@ -5,16 +5,9 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version/tag name for this release (e.g. v0.02a). Only used for a manual run; ignored on a tag push.'
-        required: true
 
 permissions:
   contents: write
-
-env:
-  RELEASE_TAG: ${{ github.event.inputs.version || github.ref_name }}
 
 jobs:
   android:
@@ -42,11 +35,11 @@ jobs:
       - run: flutter pub get
       - run: flutter build apk --release --no-pub
       - name: Rename APK
-        run: cp build/app/outputs/flutter-apk/app-release.apk hamcore-${{ env.RELEASE_TAG }}.apk
+        run: cp build/app/outputs/flutter-apk/app-release.apk hamcore-${{ github.ref_name }}.apk
       - uses: actions/upload-artifact@v4
         with:
           name: android-apk
-          path: hamcore-${{ env.RELEASE_TAG }}.apk
+          path: hamcore-${{ github.ref_name }}.apk
 
   ios:
     runs-on: macos-latest
@@ -67,25 +60,29 @@ jobs:
       - name: Zip unsigned app
         run: |
           cd build/ios/iphoneos
-          zip -r "../../../hamcore-${{ env.RELEASE_TAG }}-ios-unsigned.zip" Runner.app
+          zip -r "../../../hamcore-${{ github.ref_name }}-ios-unsigned.zip" Runner.app
       - uses: actions/upload-artifact@v4
         with:
           name: ios-unsigned
-          path: hamcore-${{ env.RELEASE_TAG }}-ios-unsigned.zip
+          path: hamcore-${{ github.ref_name }}-ios-unsigned.zip
 
+  # Only publishes a GitHub Release when the workflow actually ran against a
+  # tag (a real tag push, or a tag picked manually in "Run workflow"). A
+  # manual run against a branch just builds and uploads the two artifacts
+  # above for download from the run's Summary page - no release is created.
   release:
     needs: [android, ios]
     runs-on: ubuntu-latest
+    if: github.ref_type == 'tag'
     steps:
       - uses: actions/download-artifact@v4
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${{ env.RELEASE_TAG }}" \
+          gh release create "${{ github.ref_name }}" \
             android-apk/*.apk \
             ios-unsigned/*.zip \
             --repo "${{ github.repository }}" \
-            --target "${{ github.sha }}" \
-            --title "HamCore ${{ env.RELEASE_TAG }}" \
+            --title "HamCore ${{ github.ref_name }}" \
             --generate-notes
