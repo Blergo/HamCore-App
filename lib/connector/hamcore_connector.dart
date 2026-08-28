@@ -4,7 +4,6 @@ import 'dart:math' as math;
 
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:hamcore/storage/region_store.dart';
-import 'package:pointycastle/export.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_blue_plus_platform_interface/flutter_blue_plus_platform_interface.dart';
@@ -4629,9 +4628,8 @@ class HamCoreConnector extends ChangeNotifier {
       if (frame.length < start + maxLen) return null;
       final bytes = frame.sublist(start, start + maxLen);
       final end = bytes.indexOf(0);
-      final s = String.fromCharCodes(
-        end >= 0 ? bytes.sublist(0, end) : bytes,
-      ).trim();
+      final s = String.fromCharCodes(end >= 0 ? bytes.sublist(0, end) : bytes)
+          .trim();
       return s.isEmpty ? null : s;
     }
 
@@ -5721,7 +5719,11 @@ class HamCoreConnector extends ChangeNotifier {
 
       final payload = BufferReader(packet.payload);
       final channelHash = payload.readByte();
-      final encrypted = Uint8List.fromList(payload.readRemainingBytes());
+      // HamCore firmware sends channel payloads in plain text (no real
+      // encryption), but the wire format still carries the old 2-byte MAC
+      // field - it's just zero-filled now rather than a real HMAC check.
+      // Layout: [mac:2 (zeroed)][timestamp:4][txtType:1][text...].
+      final plainPayload = Uint8List.fromList(payload.readRemainingBytes());
 
       // Use cached channels as fallback if live channels not yet loaded
       final channelsToSearch = _channels.isNotEmpty
@@ -5732,17 +5734,17 @@ class HamCoreConnector extends ChangeNotifier {
         final hash = _computeChannelHash(channel.psk);
         if (hash != channelHash) continue;
         try {
-          final decryptedBytes = _decryptPayload(channel.psk, encrypted);
-          if (decryptedBytes == null || decryptedBytes.length < 6) return;
-          final decrypted = BufferReader(decryptedBytes);
+          if (plainPayload.length < 8) return;
+          final plain = BufferReader(plainPayload);
+          plain.skipBytes(2); // zeroed MAC placeholder
 
-          final timestampRaw = decrypted.readUInt32LE();
-          final txtType = decrypted.readByte();
+          final timestampRaw = plain.readUInt32LE();
+          final txtType = plain.readByte();
           if ((txtType >> 2) != 0) {
             return;
           }
 
-          final text = decrypted.readCString();
+          final text = plain.readCString();
           final parsed = _splitSenderText(text);
           final decodedText =
               Smaz.tryDecodePrefixed(parsed.text) ?? parsed.text;
@@ -5800,7 +5802,9 @@ class HamCoreConnector extends ChangeNotifier {
           }
           return;
         } catch (e) {
-          appLogger.warn('Decryption failed for channel ${channel.index}: $e');
+          appLogger.warn(
+            'Failed to parse raw channel payload for channel ${channel.index}: $e',
+          );
         }
       }
     } catch (e) {
@@ -6419,34 +6423,6 @@ class HamCoreConnector extends ChangeNotifier {
     return 'c:${digest.sublist(0, 8).map((b) => b.toRadixString(16).padLeft(2, '0')).join()}';
   }
 
-  Uint8List? _decryptPayload(Uint8List psk, Uint8List encrypted) {
-    if (encrypted.length <= _cipherMacSize) return null;
-    final mac = encrypted.sublist(0, _cipherMacSize);
-    final cipherText = encrypted.sublist(_cipherMacSize);
-
-    final key32 = Uint8List(32);
-    final copyLen = psk.length < 32 ? psk.length : 32;
-    key32.setRange(0, copyLen, psk);
-
-    final hmac = crypto.Hmac(crypto.sha256, key32).convert(cipherText).bytes;
-    if (hmac[0] != mac[0] || hmac[1] != mac[1]) {
-      return null;
-    }
-
-    if (cipherText.isEmpty || cipherText.length % 16 != 0) return null;
-    final key16 = Uint8List(16);
-    final keyLen = psk.length < 16 ? psk.length : 16;
-    key16.setRange(0, keyLen, psk);
-
-    final cipher = ECBBlockCipher(AESEngine());
-    cipher.init(false, KeyParameter(key16));
-    final out = Uint8List(cipherText.length);
-    for (var i = 0; i < cipherText.length; i += 16) {
-      cipher.processBlock(cipherText, i, out, i);
-    }
-    return out;
-  }
-
   _ParsedText _splitSenderText(String text) {
     final colonIndex = text.indexOf(':');
     if (colonIndex > 0 && colonIndex < text.length - 1 && colonIndex < 50) {
@@ -6637,6 +6613,11 @@ class HamCoreConnector extends ChangeNotifier {
 
   bool _isChannelRepeat(ChannelMessage existing, ChannelMessage incoming) {
     if (existing.text != incoming.text) return false;
+
+    // A freshly composed local send is never a repeat of anything - it's
+    // always its own new message, even if the text matches an earlier send.
+    // Only an incoming (received) copy can be a repeat/echo of something.
+    if (incoming.isOutgoing) return false;
 
     // Self-echo: an outgoing message coming back via a repeater. The send is
     // delayed by _waitForRadioQuiet (often 10s+) and propagation can add more,
@@ -7468,7 +7449,6 @@ const int _routeFlood = 0x01;
 const int _routeTransportDirect = 0x03;
 
 const int _payloadTypeGroupText = 0x05;
-const int _cipherMacSize = 2;
 
 /// Decodes the firmware's encoded path_len byte into actual byte length.
 /// Bits 0-5: hash count (0-63), Bits 6-7: hash size code (0=1byte ... 3=4bytes).
