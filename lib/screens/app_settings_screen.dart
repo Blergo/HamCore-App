@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -43,11 +44,7 @@ class AppSettingsScreen extends StatelessWidget {
       body: SafeArea(
         top: false,
         child:
-            Consumer3<
-              AppSettingsService,
-              HamCoreConnector,
-              TranslationService
-            >(
+            Consumer3<AppSettingsService, HamCoreConnector, TranslationService>(
               builder:
                   (
                     context,

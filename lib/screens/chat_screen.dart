@@ -354,10 +354,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget _buildMessageList(
-    List<Message> messages,
-    HamCoreConnector connector,
-  ) {
+  Widget _buildMessageList(List<Message> messages, HamCoreConnector connector) {
     // Reverse messages so newest appear at bottom with reverse: true
     final reversedMessages = messages.reversed.toList();
     final itemCount = reversedMessages.length + (_isLoadingOlder ? 1 : 0);

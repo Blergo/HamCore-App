@@ -1,7 +1,10 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../utils/platform_info.dart';
+
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:provider/provider.dart';
 
@@ -116,9 +119,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
                   'USB selected, opening UsbScreen',
                   tag: 'ScannerScreen',
                 );
-                Navigator.of(
-                  context,
-                ).push(MaterialPageRoute(builder: (_) => const UsbScreen()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => const UsbScreen()));
               },
             ),
           if (!PlatformInfo.isWeb)
@@ -126,9 +128,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
               icon: const Icon(Icons.lan),
               tooltip: context.l10n.connectionChoiceTcpLabel,
               onPressed: () {
-                Navigator.of(
-                  context,
-                ).push(MaterialPageRoute(builder: (_) => const TcpScreen()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => const TcpScreen()));
               },
             ),
         ],
@@ -164,8 +165,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
       ),
       floatingActionButton: Consumer<HamCoreConnector>(
         builder: (context, connector, child) {
-          final isScanning =
-              connector.state == HamCoreConnectionState.scanning;
+          final isScanning = connector.state == HamCoreConnectionState.scanning;
           final isBluetoothOff = _bluetoothState == BluetoothAdapterState.off;
 
           return FloatingActionButton.extended(

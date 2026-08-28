@@ -1,7 +1,9 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
 import '../l10n/l10n.dart';
 import '../models/contact.dart';
 import '../connector/hamcore_connector.dart';
@@ -136,10 +138,7 @@ class _RepeaterCliScreenState extends State<RepeaterCliScreen> {
 
     try {
       if (_commandService != null) {
-        final connector = Provider.of<HamCoreConnector>(
-          context,
-          listen: false,
-        );
+        final connector = Provider.of<HamCoreConnector>(context, listen: false);
         final repeater = _resolveRepeater(connector);
         final response = await _commandService!.sendCommand(
           repeater,
