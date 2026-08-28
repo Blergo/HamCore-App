@@ -10,7 +10,33 @@ permissions:
   contents: write
 
 jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      name: ${{ steps.compute.outputs.name }}
+      number: ${{ steps.compute.outputs.number }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Compute app version
+        id: compute
+        run: |
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            RAW_TAG="${{ github.ref_name }}"
+          else
+            # Test build off a branch: fall back to the most recent tag
+            # reachable from this commit (0.0.0 if none exist yet).
+            RAW_TAG="$(git describe --tags --abbrev=0 2>/dev/null || echo v0.0.0)"
+          fi
+          # Flutter's --build-name maps to iOS's CFBundleShortVersionString,
+          # which only accepts up to 3 period-separated integers - no
+          # prefix/suffix letters allowed. Tags are plain numeric (vX.Y.Z).
+          echo "name=${RAW_TAG#v}" >> "$GITHUB_OUTPUT"
+          echo "number=${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+
   android:
+    needs: version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -33,7 +59,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - run: flutter pub get
-      - run: flutter build apk --release --no-pub
+      - run: |
+          flutter build apk --release --no-pub \
+            --build-name="${{ needs.version.outputs.name }}" \
+            --build-number="${{ needs.version.outputs.number }}"
       - name: Rename APK
         run: cp build/app/outputs/flutter-apk/app-release.apk hamcore-${{ github.ref_name }}.apk
       - uses: actions/upload-artifact@v4
@@ -42,6 +71,7 @@ jobs:
           path: hamcore-${{ github.ref_name }}.apk
 
   ios:
+    needs: version
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -56,7 +86,10 @@ jobs:
       # re-signed locally with a valid provisioning profile (Xcode), or
       # installed via a sideloading tool. See TESTFLIGHT_GUIDE.md for the
       # manual, signed release process.
-      - run: flutter build ios --release --no-codesign --no-pub
+      - run: |
+          flutter build ios --release --no-codesign --no-pub \
+            --build-name="${{ needs.version.outputs.name }}" \
+            --build-number="${{ needs.version.outputs.number }}"
       - name: Zip unsigned app
         run: |
           cd build/ios/iphoneos
