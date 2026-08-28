@@ -1364,9 +1364,7 @@ class _ContactsScreenState extends State<ContactsScreen>
                 title: Text(context.l10n.contacts_ping),
                 onTap: () {
                   Navigator.pop(sheetContext);
-                  final hw = context
-                      .read<HamCoreConnector>()
-                      .pathHashByteWidth;
+                  final hw = context.read<HamCoreConnector>().pathHashByteWidth;
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -1397,9 +1395,7 @@ class _ContactsScreenState extends State<ContactsScreen>
                 title: Text(context.l10n.contacts_pathTrace),
                 onTap: () {
                   Navigator.pop(sheetContext);
-                  final hw = context
-                      .read<HamCoreConnector>()
-                      .pathHashByteWidth;
+                  final hw = context.read<HamCoreConnector>().pathHashByteWidth;
                   Navigator.push(
                     context,
                     MaterialPageRoute(

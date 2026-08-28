@@ -4,8 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hamcore/services/entropy_tables.dart';
-import 'package:hamcore/services/image_codec_backend.dart'
-    show AeicRansCoders;
+import 'package:hamcore/services/image_codec_backend.dart' show AeicRansCoders;
 import 'package:hamcore/services/image_codec_entropy.dart';
 
 /// Golden vectors for the entropy layer — the arithmetic between the ONNX
@@ -785,9 +784,8 @@ void main() {
         final vector = _readGoldenVector(
           File('${goldenDir.path}/vectors/$name.gv').readAsBytesSync(),
         );
-        final expectedStream = File(
-          '${goldenDir.path}/vectors/$name.bin',
-        ).readAsBytesSync();
+        final expectedStream = File('${goldenDir.path}/vectors/$name.bin')
+            .readAsBytesSync();
 
         // Rebuild the pre-fold tensors the graph would have produced. `squeeze`
         // is a bijection on masked tensors, so unsqueezing the golden arrays
