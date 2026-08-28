@@ -357,7 +357,7 @@
     }
   },
   "channels_public": "Javni",
-  "channels_private": "Zasebni",
+  "channels_hashtag": "Hashtag",
   "channels_editChannel": "Uredi kanal",
   "channels_muteChannel": "Utišaj kanal",
   "channels_unmuteChannel": "Vklopi obvestila kanala",
@@ -383,10 +383,7 @@
   "channels_channelName": "Ime kanala",
   "channels_usePublicChannel": "Uporabi javni kanal",
   "channels_standardPublicPsk": "Standardni javni PSK",
-  "channels_pskHex": "PSK (Šestnajstbinska)",
-  "channels_generateRandomPsk": "Generiraj naključni PSK",
   "channels_enterChannelName": "Vnesi ime kanala",
-  "channels_pskMustBe32Hex": "PSK mora biti 32 heksadecimalnih znakov.",
   "channels_channelAdded": "Kanal \"{name}\" dodan",
   "@channels_channelAdded": {
     "placeholders": {
@@ -1562,10 +1559,6 @@
   "neighbors_errorLoading": "Napaka pri obnašanju sosedov: {error}",
   "neighbors_repeatersNeighbors": "Ponovitve Sosedi",
   "neighbors_noData": "Niso na voljo podatki o sosedih.",
-  "channels_joinPrivateChannel": "Pridružite se zasebni skupini",
-  "channels_createPrivateChannelDesc": "Varno zaklenjeno s skrivnim ključem.",
-  "channels_joinPrivateChannelDesc": "Ročno vnesite zaporni ključ.",
-  "channels_createPrivateChannel": "Ustvari zasebno kanal.",
   "channels_joinPublicChannel": "Pridružite se javnemu kanalu",
   "channels_joinPublicChannelDesc": "Kdor karkoli je, lahko se pridruži tej skupini.",
   "channels_joinHashtagChannel": "Pridružite se Kanalu z Hashtagom",
@@ -1596,143 +1589,7 @@
   "settings_locationIntervalInvalid": "Intervallo mora biti vsaj 60 sekund in manj kot 86400 sekund.",
   "contacts_manageRoom": "Upravljajte strežnik sobe",
   "room_management": "Upravljanje stremlišča",
-  "@community_joinConfirmation": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_created": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_joined": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_qrInstructions": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_alreadyMemberMessage": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleteConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleted": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_forCommunity": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_createDesc": "Ustvari novo skupnost in jo deli preko QR kode.",
-  "community_title": "Skupnost",
   "common_ok": "V redu",
-  "community_create": "Ustvari skupnost",
-  "community_joinTitle": "Pridružite se skupnosti",
-  "community_joinConfirmation": "Želiš se pridružiti skupnosti \"{name}\"?",
-  "community_scanQr": "Skeniraj QR kode skupnosti",
-  "community_scanInstructions": "Nasmerite kamero s skupnostnim QR kodom.",
-  "community_showQr": "Pokaži QR kodo",
-  "community_publicChannel": "Skupnostna javna",
-  "community_hashtagChannel": "Skupnostni hashtag",
-  "community_name": "Komunitarne ime",
-  "community_enterName": "Vnesite ime skupnosti",
-  "community_join": "Pridružiti se",
-  "community_created": "Skupnost \"{name}\" je bila ustvarila.",
-  "community_joined": "Prilojen k skupnosti \"{name}\"",
-  "community_qrTitle": "Delite skupnost",
-  "community_qrInstructions": "Skenirajte to QR kodo za vključitev {name}.",
-  "community_hashtagPrivacyHint": "Hashtag kanali skupnosti so dostopni samo članom skupnosti",
-  "community_invalidQrCode": "Neveljaven QR koden skupnosti",
-  "community_alreadyMember": "Že član",
-  "community_alreadyMemberMessage": "Kljub temu ste že član/ka {name}.",
-  "community_addPublicChannel": "Dodaj Objavni Kanal Komunitarja",
-  "community_addPublicChannelHint": "Samodejno dodaj javni kanal za to skupnost.",
-  "community_noCommunities": "Še nobena skupnost se ni pridružila.",
-  "community_scanOrCreate": "Skeniraj QR kodo ali ustvari skupnost za začetek.",
-  "community_manageCommunities": "Upravljanje skupnosti",
-  "community_delete": "Opusti skupnost",
-  "community_deleteConfirm": "Zapusti \"{name}\"?",
-  "community_deleteChannelsWarning": "To bo izbrisalo tudi {count} kanal/kanalov in njihova sporočila.",
-  "@community_deleteChannelsWarning": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "community_deleted": "Zapustil skupnost \"{name}\"",
-  "community_addHashtagChannel": "Dodaj hashtag kanal",
-  "community_addHashtagChannelDesc": "Dodajte hashtag kanal za to skupnost.",
-  "community_selectCommunity": "Izberi skupnost",
-  "community_regularHashtag": "Oznaka s hashtagom",
-  "community_regularHashtagDesc": "javna oznaka (kdorkoli lahko sodeluje)",
-  "community_communityHashtag": "Skupnostni hashtag",
-  "community_communityHashtagDesc": "Izključeno za uporabnike skupnosti",
-  "community_forCommunity": "Za {name}",
-  "@community_regenerateSecretConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretRegenerated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretUpdated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_scanToUpdateSecret": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_secretRegenerated": "Geslo za \"{name}\" ponovno ustvarjeno",
-  "community_regenerateSecret": "Ponovno ustvari geslo",
-  "community_regenerateSecretConfirm": "Preberite novo tajno geslo za \"{name}\"? Vsi članici morajo prebrati novo QR kodo, da lahko nadaljujejo s komunikacijo.",
-  "community_regenerate": "Preberi znova",
-  "community_scanToUpdateSecret": "Skeniraj novo QR kodo za posodabljanje ključa za {name}",
-  "community_updateSecret": "Ažuriraj ključ",
-  "community_secretUpdated": "Skrivnostno spremembo za \"{name}\"",
   "@contacts_pathTraceTo": {
     "placeholders": {
       "name": {
@@ -2451,13 +2308,6 @@
       }
     }
   },
-  "@channels_communityShortId": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "common_undo": "Preobrn",
   "messageStatus_delivered": "Dostavljeno",
   "messageStatus_sent": "Pošljeno",
@@ -2510,7 +2360,6 @@
   "map_zoomOut": "Povečajte pogled",
   "map_centerMap": "Krajšarska karta",
   "chrome_bluetoothRequiresChromium": "Web Bluetooth zahteva brskalnik Chromium.",
-  "channels_communityShortId": "ID: {id}...",
   "pathTrace_legendGpsConfirmed": "GPS potrdilo",
   "pathTrace_legendInferred": "Izpeljana lokacija",
   "@pathMap_hopOf": {

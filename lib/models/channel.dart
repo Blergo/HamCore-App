@@ -4,9 +4,6 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart' as crypto;
 
 import '../connector/hamcore_protocol.dart';
-import 'community.dart';
-
-enum ChannelType { public, private, hashtag, communityPublic, communityHashtag }
 
 class Channel {
   final int index;
@@ -28,8 +25,6 @@ class Channel {
   bool get isPublicChannel => pskHex == publicChannelPsk;
 
   bool get isHashtagChannel => name.startsWith('#');
-
-  bool get isPrivateChannel => !isPublicChannel && !isHashtagChannel;
 
   static Channel? fromFrame(Uint8List frame) {
     // CHANNEL_INFO format:
@@ -81,72 +76,8 @@ class Channel {
     return Uint8List.fromList(hash.sublist(0, 16));
   }
 
-  /// Derive PSK for community public channel using HMAC-SHA256.
-  /// PSK = HMAC-SHA256(K, "channel:v1:__public__")[:16]
-  ///
-  /// This creates a channel that is "public" only to members who have
-  /// the community secret. Outsiders see only opaque IDs.
-  static Uint8List deriveCommunityPublicPsk(Uint8List secret) {
-    final hmac = crypto.Hmac(crypto.sha256, secret);
-    final digest = hmac.convert(utf8.encode('channel:v1:__public__'));
-    return Uint8List.fromList(digest.bytes.sublist(0, 16));
-  }
-
-  /// Derive PSK for community hashtag channel using HMAC-SHA256.
-  /// PSK = HMAC-SHA256(K, "channel:v1:" + normalized_name)[:16]
-  ///
-  /// Community hashtag channels are deterministic for all members
-  /// (same name => same id) but impossible to enumerate/guess without K.
-  static Uint8List deriveCommunityHashtagPsk(Uint8List secret, String hashtag) {
-    final normalized = _normalizeCommunityHashtag(hashtag);
-    final hmac = crypto.Hmac(crypto.sha256, secret);
-    final digest = hmac.convert(utf8.encode('channel:v1:$normalized'));
-    return Uint8List.fromList(digest.bytes.sublist(0, 16));
-  }
-
-  /// Normalize a hashtag name for consistent community PSK derivation.
-  /// Strips leading #, converts to lowercase, trims whitespace.
-  static String _normalizeCommunityHashtag(String hashtag) {
-    return hashtag.replaceFirst(RegExp(r'^#'), '').toLowerCase().trim();
-  }
-
-  static String formatPskHex(Uint8List psk) {
-    return _bytesToHex(psk);
-  }
-
   static String _bytesToHex(Uint8List bytes) {
     return bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
-  }
-
-  static bool isCommunityChannel(ChannelType channelType) {
-    switch (channelType) {
-      case ChannelType.communityPublic:
-      case ChannelType.communityHashtag:
-        return true;
-      case ChannelType.public:
-      case ChannelType.private:
-      case ChannelType.hashtag:
-        return false;
-    }
-  }
-
-  static ChannelType getChannelType(
-    Channel channel,
-    CommunityPskIndex communityIndex,
-  ) {
-    Community? community = communityIndex.getCommunityForChannel(channel);
-    if (community != null) {
-      if (Community.isCommunityPublicChannel(channel, community)) {
-        return ChannelType.communityPublic;
-      }
-      return ChannelType.communityHashtag;
-    }
-    if (channel.isPublicChannel) {
-      return ChannelType.public;
-    } else if (channel.name.startsWith('#')) {
-      return ChannelType.hashtag;
-    }
-    return ChannelType.private;
   }
 
   static const String publicChannelPsk = '8b3387e9c5cdea6ac9e5edbaa115cd72';

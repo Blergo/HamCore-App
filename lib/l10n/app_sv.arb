@@ -357,7 +357,7 @@
     }
   },
   "channels_public": "Offentligt",
-  "channels_private": "Privat",
+  "channels_hashtag": "Hashtag",
   "channels_editChannel": "Redigera kanal",
   "channels_muteChannel": "Tysta kanal",
   "channels_unmuteChannel": "Slå på ljud för kanal",
@@ -383,10 +383,7 @@
   "channels_channelName": "Kanalnamn",
   "channels_usePublicChannel": "Använd Publikkanal",
   "channels_standardPublicPsk": "Standard allmän PSK",
-  "channels_pskHex": "PSK (heks)",
-  "channels_generateRandomPsk": "Generera slumpmässig PSK",
   "channels_enterChannelName": "Ange en kanalnamn",
-  "channels_pskMustBe32Hex": "PSK måste vara 32 hexadecimala tecken",
   "channels_channelAdded": "Kanalen \"{name}\" har lagts till",
   "@channels_channelAdded": {
     "placeholders": {
@@ -1562,10 +1559,6 @@
   "neighbors_errorLoading": "Fel vid inläsning av grannar: {error}",
   "neighbors_repeatersNeighbors": "Upprepar grannar",
   "neighbors_noData": "Inga grannuppgifter finns tillgängliga.",
-  "channels_createPrivateChannel": "Skapa en privat kanal",
-  "channels_joinPrivateChannel": "Gå med i en Privat Kanal",
-  "channels_joinPrivateChannelDesc": "Ange en hemlig nyckel manuellt.",
-  "channels_createPrivateChannelDesc": "Skyddat med en hemlig nyckel.",
   "channels_joinPublicChannel": "Gå med i den Offentliga Kanalen",
   "channels_joinPublicChannelDesc": "Vem som helst kan gå med i denna kanal.",
   "channels_joinHashtagChannel": "Gå med i en Hashtagkanal",
@@ -1596,143 +1589,7 @@
   "settings_locationIntervalInvalid": "Intervalet måste vara minst 60 sekunder och mindre än 86400 sekunder.",
   "contacts_manageRoom": "Hantera Rumserver",
   "room_management": "Rumserverhantering",
-  "@community_joinConfirmation": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_created": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_joined": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_qrInstructions": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_alreadyMemberMessage": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleteConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleted": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_forCommunity": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_create": "Skapa Gemenskap",
-  "community_createDesc": "Skapa en ny gemenskap och dela via QR-kod.",
   "common_ok": "Okej",
-  "community_title": "Gemenskap",
-  "community_join": "Gå med",
-  "community_joinTitle": "Gå med i gemenskapen",
-  "community_joinConfirmation": "Vill du gå med i communityn \"{name}\"?",
-  "community_scanQr": "Skanna Gemenskapens QR",
-  "community_scanInstructions": "Rikta kameran mot en QR-kod i communityn",
-  "community_showQr": "Visa QR-kod",
-  "community_publicChannel": "Föreningens Offentliga",
-  "community_name": "Gemenskapens namn",
-  "community_enterName": "Ange communities namn",
-  "community_created": "Community \"{name}\" har skapats",
-  "community_joined": "Medlem i communityn \"{name}\"",
-  "community_qrTitle": "Dela Gemenskap",
-  "community_qrInstructions": "Skanna denna QR-kod för att gå med i \"{name}\"",
-  "community_hashtagPrivacyHint": "Community-hashtagkanaler kan endast nås av medlemmar i communityn",
-  "community_hashtagChannel": "Hashtag för gemenskapen",
-  "community_invalidQrCode": "Ogiltig community QR-kod",
-  "community_alreadyMember": "Är redan medlem",
-  "community_alreadyMemberMessage": "Du är redan medlem av \"{name}\".",
-  "community_addPublicChannel": "Lägg till Gemenskapskanal (Offentlig)",
-  "community_addPublicChannelHint": "Lägg automatiskt till den offentliga kanalen för denna community",
-  "community_noCommunities": "Inga gemenskaper har anslutats ännu",
-  "community_scanOrCreate": "Skanna en QR-kod eller skapa en community för att komma igång",
-  "community_manageCommunities": "Hantera Gemenskaper",
-  "community_delete": "Lämna Gemenskap",
-  "community_deleteConfirm": "Lämna \"{name}\"?",
-  "community_deleteChannelsWarning": "Detta kommer också att radera {count} kanal/kanaler och deras meddelanden.",
-  "@community_deleteChannelsWarning": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "community_deleted": "Lämnade community \"{name}\"",
-  "community_addHashtagChannel": "Lägg till Gemenskapens Hashtag",
-  "community_addHashtagChannelDesc": "Lägg till en hashtag-kanal för denna community",
-  "community_selectCommunity": "Välj Gemenskap",
-  "community_regularHashtag": "Vanlig Hash Tag",
-  "community_regularHashtagDesc": "Offentlig hashtag (alla kan gå med)",
-  "community_communityHashtagDesc": "Endast för medlemmar",
-  "community_forCommunity": "För {name}",
-  "community_communityHashtag": "Gemenskaps-hashtag",
-  "@community_regenerateSecretConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretRegenerated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretUpdated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_scanToUpdateSecret": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_regenerate": "Regenerera",
-  "community_regenerateSecretConfirm": "Regenerera den hemliga nyckeln för \"{name}\"? Alla medlemmar måste scanna den nya QR-koden för att fortsätta kommunicera.",
-  "community_secretRegenerated": "Lösenord återskapad för \"{name}\"",
-  "community_regenerateSecret": "Regenerera hemlig kod",
-  "community_scanToUpdateSecret": "Skanna den nya QR-koden för att uppdatera hemligheten för \"{name}\"",
-  "community_secretUpdated": "Hemlighet uppdaterad för \"{name}\"",
-  "community_updateSecret": "Uppdatera hemlighet",
   "@contacts_pathTraceTo": {
     "placeholders": {
       "name": {
@@ -2451,13 +2308,6 @@
       }
     }
   },
-  "@channels_communityShortId": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "messageStatus_sent": "Sen",
   "messageStatus_delivered": "Levererad",
   "common_undo": "Ångra",
@@ -2510,7 +2360,6 @@
   "map_zoomOut": "Zooma ut",
   "map_centerMap": "Kartöversikt",
   "chrome_bluetoothRequiresChromium": "Web Bluetooth kräver en Chromium-baserad webbläsare.",
-  "channels_communityShortId": "ID: {id}...",
   "pathTrace_legendGpsConfirmed": "GPS-verifierat",
   "pathTrace_legendInferred": "Antagen position",
   "@pathMap_hopOf": {

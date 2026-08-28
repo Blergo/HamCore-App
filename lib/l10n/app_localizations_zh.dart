@@ -1152,7 +1152,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get channels_private => '私有';
+  String get channels_hashtag => 'Hashtag';
 
   @override
   String get channels_editChannel => '编辑频道';
@@ -1197,16 +1197,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get channels_standardPublicPsk => '标准公共 PSK';
 
   @override
-  String get channels_pskHex => 'PSK (十六进制)';
-
-  @override
-  String get channels_generateRandomPsk => '生成随机 PSK';
-
-  @override
   String get channels_enterChannelName => '请输入频道名称';
-
-  @override
-  String get channels_pskMustBe32Hex => 'PSK 必须为 32 个十六进制字符';
 
   @override
   String channels_channelAdded(String name) {
@@ -1295,18 +1286,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get channels_sortUnread => '未读';
-
-  @override
-  String get channels_createPrivateChannel => '创建私有频道';
-
-  @override
-  String get channels_createPrivateChannelDesc => '使用密钥保护。';
-
-  @override
-  String get channels_joinPrivateChannel => '加入私有频道';
-
-  @override
-  String get channels_joinPrivateChannelDesc => '手动输入密钥。';
 
   @override
   String get channels_joinPublicChannel => '加入公共频道';
@@ -3521,167 +3500,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get channelPath_unknownRepeater => '未知转发节点';
 
   @override
-  String get community_title => '社区';
-
-  @override
-  String get community_create => '创建社区';
-
-  @override
-  String get community_createDesc => '创建新社区并通过二维码分享。';
-
-  @override
-  String get community_join => '加入';
-
-  @override
-  String get community_joinTitle => '加入社区';
-
-  @override
-  String community_joinConfirmation(String name) {
-    return '是否加入社区 \"$name\"？';
-  }
-
-  @override
-  String get community_scanQr => '扫描社区二维码';
-
-  @override
-  String get community_scanInstructions => '将摄像头对准社区的二维码';
-
-  @override
-  String get community_showQr => '显示二维码';
-
-  @override
-  String get community_publicChannel => '社区公共频道';
-
-  @override
-  String get community_hashtagChannel => '社区标签频道';
-
-  @override
-  String get community_name => '社区名称';
-
-  @override
-  String get community_enterName => '请输入社区名称';
-
-  @override
-  String community_created(String name) {
-    return '社区 \"$name\" 已创建';
-  }
-
-  @override
-  String community_joined(String name) {
-    return '已加入社区 \"$name\"';
-  }
-
-  @override
-  String get community_qrTitle => '分享社区';
-
-  @override
-  String community_qrInstructions(String name) {
-    return '扫描此二维码加入 \"$name\"';
-  }
-
-  @override
-  String get community_hashtagPrivacyHint => '仅社区成员可加入社区标签频道。';
-
-  @override
-  String get community_invalidQrCode => '无效的社区二维码';
-
-  @override
-  String get community_alreadyMember => '已是成员';
-
-  @override
-  String community_alreadyMemberMessage(String name) {
-    return '您已是 \"$name\" 的成员。';
-  }
-
-  @override
-  String get community_addPublicChannel => '添加公共频道';
-
-  @override
-  String get community_addPublicChannelHint => '自动添加此社区的公共频道';
-
-  @override
-  String get community_noCommunities => '尚未加入任何社区。';
-
-  @override
-  String get community_scanOrCreate => '扫描二维码或创建社区以开始。';
-
-  @override
-  String get community_manageCommunities => '管理社区';
-
-  @override
-  String get community_delete => '退出社区';
-
-  @override
-  String community_deleteConfirm(String name) {
-    return '是否退出 \"$name\"？';
-  }
-
-  @override
-  String community_deleteChannelsWarning(int count) {
-    return '这将同时删除 $count 个频道及其所有消息。';
-  }
-
-  @override
-  String community_deleted(String name) {
-    return '已退出社区 \"$name\"';
-  }
-
-  @override
-  String get community_regenerateSecret => '重新生成密钥';
-
-  @override
-  String community_regenerateSecretConfirm(String name) {
-    return '是否为 \"$name\" 重新生成密钥？所有成员需扫描新的二维码才能继续通信。';
-  }
-
-  @override
-  String get community_regenerate => '重新生成';
-
-  @override
-  String community_secretRegenerated(String name) {
-    return '已为 \"$name\" 重新生成密钥';
-  }
-
-  @override
-  String get community_updateSecret => '更新密钥';
-
-  @override
-  String community_secretUpdated(String name) {
-    return '“$name”的密钥已更新';
-  }
-
-  @override
-  String community_scanToUpdateSecret(String name) {
-    return '扫描新二维码以更新 \"$name\" 的密钥';
-  }
-
-  @override
-  String get community_addHashtagChannel => '添加标签频道';
-
-  @override
-  String get community_addHashtagChannelDesc => '为此社区创建标签频道';
-
-  @override
-  String get community_selectCommunity => '选择社区';
-
-  @override
-  String get community_regularHashtag => '普通标签';
-
-  @override
-  String get community_regularHashtagDesc => '公共标签频道（任何人都可参与）';
-
-  @override
-  String get community_communityHashtag => '社区标签';
-
-  @override
-  String get community_communityHashtagDesc => '仅限社区成员';
-
-  @override
-  String community_forCommunity(String name) {
-    return '为 $name';
-  }
-
-  @override
   String get listFilter_tooltip => '筛选与排序';
 
   @override
@@ -4388,11 +4206,6 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get chrome_bluetoothRequiresChromium =>
       'Web Bluetooth 需要 Chromium 浏览器';
-
-  @override
-  String channels_communityShortId(String id) {
-    return 'ID：$id...';
-  }
 
   @override
   String get pathTrace_legendGpsConfirmed => '通过GPS确认';

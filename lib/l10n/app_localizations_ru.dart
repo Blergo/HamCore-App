@@ -1233,7 +1233,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get channels_private => 'Приватный';
+  String get channels_hashtag => 'Hashtag';
 
   @override
   String get channels_editChannel => 'Изменить канал';
@@ -1278,17 +1278,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get channels_standardPublicPsk => 'Стандартный публичный PSK';
 
   @override
-  String get channels_pskHex => 'PSK (Hex)';
-
-  @override
-  String get channels_generateRandomPsk => 'Сгенерировать случайный PSK';
-
-  @override
   String get channels_enterChannelName => 'Введите имя канала';
-
-  @override
-  String get channels_pskMustBe32Hex =>
-      'PSK должен содержать 32 шестнадцатеричных символа';
 
   @override
   String channels_channelAdded(String name) {
@@ -1380,20 +1370,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get channels_sortUnread => 'По непрочитанным';
-
-  @override
-  String get channels_createPrivateChannel => 'Создать приватный канал';
-
-  @override
-  String get channels_createPrivateChannelDesc => 'Защищён секретным ключом.';
-
-  @override
-  String get channels_joinPrivateChannel =>
-      'Присоединиться к приватному каналу';
-
-  @override
-  String get channels_joinPrivateChannelDesc =>
-      'Введите секретный ключ вручную.';
 
   @override
   String get channels_joinPublicChannel => 'Присоединиться к публичному каналу';
@@ -3798,177 +3774,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get channelPath_unknownRepeater => 'Неизвестный репитер';
 
   @override
-  String get community_title => 'Сообщество';
-
-  @override
-  String get community_create => 'Создать сообщество';
-
-  @override
-  String get community_createDesc =>
-      'Создать новое сообщество и поделиться через QR-код.';
-
-  @override
-  String get community_join => 'Присоединиться';
-
-  @override
-  String get community_joinTitle => 'Присоединиться к сообществу';
-
-  @override
-  String community_joinConfirmation(String name) {
-    return 'Вы хотите присоединиться к сообществу  \"$name\"?';
-  }
-
-  @override
-  String get community_scanQr => 'Сканировать QR-код сообщества';
-
-  @override
-  String get community_scanInstructions =>
-      'Наведите камеру на QR-код сообщества';
-
-  @override
-  String get community_showQr => 'Показать QR-код';
-
-  @override
-  String get community_publicChannel => 'Публичный канал сообщества';
-
-  @override
-  String get community_hashtagChannel => 'Хэштег-канал сообщества';
-
-  @override
-  String get community_name => 'Имя сообщества';
-
-  @override
-  String get community_enterName => 'Введите имя сообщества';
-
-  @override
-  String community_created(String name) {
-    return 'Сообщество \"$name\" создано';
-  }
-
-  @override
-  String community_joined(String name) {
-    return 'Присоединились к сообществу \"$name\"';
-  }
-
-  @override
-  String get community_qrTitle => 'Поделиться сообществом';
-
-  @override
-  String community_qrInstructions(String name) {
-    return 'Отсканируйте этот QR-код, чтобы присоединиться к \"$name\"';
-  }
-
-  @override
-  String get community_hashtagPrivacyHint =>
-      'Хэштег-каналы сообщества доступны только его участникам';
-
-  @override
-  String get community_invalidQrCode => 'Недопустимый QR-код сообщества';
-
-  @override
-  String get community_alreadyMember => 'Уже участник';
-
-  @override
-  String community_alreadyMemberMessage(String name) {
-    return 'Вы уже участник сообщества \"$name\".';
-  }
-
-  @override
-  String get community_addPublicChannel =>
-      'Добавить публичный канал сообщества';
-
-  @override
-  String get community_addPublicChannelHint =>
-      'Автоматически добавить публичный канал для этого сообщества';
-
-  @override
-  String get community_noCommunities =>
-      'Вы ещё не присоединились ни к одному сообществу';
-
-  @override
-  String get community_scanOrCreate =>
-      'Отсканируйте QR-код или создайте сообщество, чтобы начать';
-
-  @override
-  String get community_manageCommunities => 'Управление сообществами';
-
-  @override
-  String get community_delete => 'Покинуть сообщество';
-
-  @override
-  String community_deleteConfirm(String name) {
-    return 'Покинуть \"$name\"?';
-  }
-
-  @override
-  String community_deleteChannelsWarning(int count) {
-    return 'Это также удалит $count канал(ов) и их сообщения.';
-  }
-
-  @override
-  String community_deleted(String name) {
-    return 'Покинули сообщество \"$name\"';
-  }
-
-  @override
-  String get community_regenerateSecret => 'Пересоздать секрет';
-
-  @override
-  String community_regenerateSecretConfirm(String name) {
-    return 'Пересоздать секретный ключ для \"$name\"? Все участники должны будут отсканировать новый QR-код для продолжения общения.';
-  }
-
-  @override
-  String get community_regenerate => 'Пересоздать';
-
-  @override
-  String community_secretRegenerated(String name) {
-    return 'Секрет пересоздан для \"$name\"';
-  }
-
-  @override
-  String get community_updateSecret => 'Обновить секрет';
-
-  @override
-  String community_secretUpdated(String name) {
-    return 'Секрет обновлён для \"$name\"';
-  }
-
-  @override
-  String community_scanToUpdateSecret(String name) {
-    return 'Отсканируйте новый QR-код, чтобы обновить секрет для \"$name\"';
-  }
-
-  @override
-  String get community_addHashtagChannel => 'Добавить хэштег-канал сообщества';
-
-  @override
-  String get community_addHashtagChannelDesc =>
-      'Добавить хэштег-канал для этого сообщества';
-
-  @override
-  String get community_selectCommunity => 'Выбрать сообщество';
-
-  @override
-  String get community_regularHashtag => 'Обычный хэштег';
-
-  @override
-  String get community_regularHashtagDesc =>
-      'Публичный хэштег (любой может присоединиться)';
-
-  @override
-  String get community_communityHashtag => 'Хэштег сообщества';
-
-  @override
-  String get community_communityHashtagDesc =>
-      'Доступен только участникам сообщества';
-
-  @override
-  String community_forCommunity(String name) {
-    return 'Для $name';
-  }
-
-  @override
   String get listFilter_tooltip => 'Фильтр и сортировка';
 
   @override
@@ -4754,11 +4559,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get chrome_bluetoothRequiresChromium =>
       'Для работы Web Bluetooth требуется браузер на основе Chromium.';
-
-  @override
-  String channels_communityShortId(String id) {
-    return 'Идентификатор: $id...';
-  }
 
   @override
   String get pathTrace_legendGpsConfirmed => 'GPS подтверждено';

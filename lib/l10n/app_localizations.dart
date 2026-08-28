@@ -2290,11 +2290,11 @@ abstract class AppLocalizations {
   /// **'via {path}'**
   String channels_via(String path);
 
-  /// No description provided for @channels_private.
+  /// No description provided for @channels_hashtag.
   ///
   /// In en, this message translates to:
-  /// **'Private'**
-  String get channels_private;
+  /// **'Hashtag'**
+  String get channels_hashtag;
 
   /// No description provided for @channels_editChannel.
   ///
@@ -2368,29 +2368,11 @@ abstract class AppLocalizations {
   /// **'Standard public PSK'**
   String get channels_standardPublicPsk;
 
-  /// No description provided for @channels_pskHex.
-  ///
-  /// In en, this message translates to:
-  /// **'PSK (Hex)'**
-  String get channels_pskHex;
-
-  /// No description provided for @channels_generateRandomPsk.
-  ///
-  /// In en, this message translates to:
-  /// **'Generate random PSK'**
-  String get channels_generateRandomPsk;
-
   /// No description provided for @channels_enterChannelName.
   ///
   /// In en, this message translates to:
   /// **'Please enter a channel name'**
   String get channels_enterChannelName;
-
-  /// No description provided for @channels_pskMustBe32Hex.
-  ///
-  /// In en, this message translates to:
-  /// **'PSK must be 32 hex characters'**
-  String get channels_pskMustBe32Hex;
 
   /// No description provided for @channels_channelAdded.
   ///
@@ -2548,30 +2530,6 @@ abstract class AppLocalizations {
   /// **'Unread'**
   String get channels_sortUnread;
 
-  /// No description provided for @channels_createPrivateChannel.
-  ///
-  /// In en, this message translates to:
-  /// **'Create a Private Channel'**
-  String get channels_createPrivateChannel;
-
-  /// No description provided for @channels_createPrivateChannelDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Secured with a secret key.'**
-  String get channels_createPrivateChannelDesc;
-
-  /// No description provided for @channels_joinPrivateChannel.
-  ///
-  /// In en, this message translates to:
-  /// **'Join a Private Channel'**
-  String get channels_joinPrivateChannel;
-
-  /// No description provided for @channels_joinPrivateChannelDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Manually enter a secret key.'**
-  String get channels_joinPrivateChannelDesc;
-
   /// No description provided for @channels_joinPublicChannel.
   ///
   /// In en, this message translates to:
@@ -2587,13 +2545,13 @@ abstract class AppLocalizations {
   /// No description provided for @channels_joinHashtagChannel.
   ///
   /// In en, this message translates to:
-  /// **'Join a Hashtag Channel'**
+  /// **'Add Channel'**
   String get channels_joinHashtagChannel;
 
   /// No description provided for @channels_joinHashtagChannelDesc.
   ///
   /// In en, this message translates to:
-  /// **'Anyone can join hashtag channels.'**
+  /// **'Enter a channel name to create or join it.'**
   String get channels_joinHashtagChannelDesc;
 
   /// No description provided for @channels_scanQrCode.
@@ -6602,276 +6560,6 @@ abstract class AppLocalizations {
   /// **'Unknown Repeater'**
   String get channelPath_unknownRepeater;
 
-  /// No description provided for @community_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Community'**
-  String get community_title;
-
-  /// No description provided for @community_create.
-  ///
-  /// In en, this message translates to:
-  /// **'Create Community'**
-  String get community_create;
-
-  /// No description provided for @community_createDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Create a new community and share via QR code.'**
-  String get community_createDesc;
-
-  /// No description provided for @community_join.
-  ///
-  /// In en, this message translates to:
-  /// **'Join'**
-  String get community_join;
-
-  /// No description provided for @community_joinTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Join Community'**
-  String get community_joinTitle;
-
-  /// No description provided for @community_joinConfirmation.
-  ///
-  /// In en, this message translates to:
-  /// **'Do you want to join the community \"{name}\"?'**
-  String community_joinConfirmation(String name);
-
-  /// No description provided for @community_scanQr.
-  ///
-  /// In en, this message translates to:
-  /// **'Scan Community QR'**
-  String get community_scanQr;
-
-  /// No description provided for @community_scanInstructions.
-  ///
-  /// In en, this message translates to:
-  /// **'Point the camera at a community QR code'**
-  String get community_scanInstructions;
-
-  /// No description provided for @community_showQr.
-  ///
-  /// In en, this message translates to:
-  /// **'Show QR Code'**
-  String get community_showQr;
-
-  /// No description provided for @community_publicChannel.
-  ///
-  /// In en, this message translates to:
-  /// **'Community Public'**
-  String get community_publicChannel;
-
-  /// No description provided for @community_hashtagChannel.
-  ///
-  /// In en, this message translates to:
-  /// **'Community Hashtag'**
-  String get community_hashtagChannel;
-
-  /// No description provided for @community_name.
-  ///
-  /// In en, this message translates to:
-  /// **'Community Name'**
-  String get community_name;
-
-  /// No description provided for @community_enterName.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter community name'**
-  String get community_enterName;
-
-  /// No description provided for @community_created.
-  ///
-  /// In en, this message translates to:
-  /// **'Community \"{name}\" created'**
-  String community_created(String name);
-
-  /// No description provided for @community_joined.
-  ///
-  /// In en, this message translates to:
-  /// **'Joined community \"{name}\"'**
-  String community_joined(String name);
-
-  /// No description provided for @community_qrTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Share Community'**
-  String get community_qrTitle;
-
-  /// No description provided for @community_qrInstructions.
-  ///
-  /// In en, this message translates to:
-  /// **'Scan this QR code to join \"{name}\"'**
-  String community_qrInstructions(String name);
-
-  /// No description provided for @community_hashtagPrivacyHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Community hashtag channels are only joinable by members of the community'**
-  String get community_hashtagPrivacyHint;
-
-  /// No description provided for @community_invalidQrCode.
-  ///
-  /// In en, this message translates to:
-  /// **'Invalid community QR code'**
-  String get community_invalidQrCode;
-
-  /// No description provided for @community_alreadyMember.
-  ///
-  /// In en, this message translates to:
-  /// **'Already a Member'**
-  String get community_alreadyMember;
-
-  /// No description provided for @community_alreadyMemberMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'You are already a member of \"{name}\".'**
-  String community_alreadyMemberMessage(String name);
-
-  /// No description provided for @community_addPublicChannel.
-  ///
-  /// In en, this message translates to:
-  /// **'Add Community Public Channel'**
-  String get community_addPublicChannel;
-
-  /// No description provided for @community_addPublicChannelHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Automatically add the public channel for this community'**
-  String get community_addPublicChannelHint;
-
-  /// No description provided for @community_noCommunities.
-  ///
-  /// In en, this message translates to:
-  /// **'No communities joined yet'**
-  String get community_noCommunities;
-
-  /// No description provided for @community_scanOrCreate.
-  ///
-  /// In en, this message translates to:
-  /// **'Scan a QR code or create a community to get started'**
-  String get community_scanOrCreate;
-
-  /// No description provided for @community_manageCommunities.
-  ///
-  /// In en, this message translates to:
-  /// **'Manage Communities'**
-  String get community_manageCommunities;
-
-  /// No description provided for @community_delete.
-  ///
-  /// In en, this message translates to:
-  /// **'Leave Community'**
-  String get community_delete;
-
-  /// No description provided for @community_deleteConfirm.
-  ///
-  /// In en, this message translates to:
-  /// **'Leave \"{name}\"?'**
-  String community_deleteConfirm(String name);
-
-  /// No description provided for @community_deleteChannelsWarning.
-  ///
-  /// In en, this message translates to:
-  /// **'This will also delete {count} channel(s) and their messages.'**
-  String community_deleteChannelsWarning(int count);
-
-  /// No description provided for @community_deleted.
-  ///
-  /// In en, this message translates to:
-  /// **'Left community \"{name}\"'**
-  String community_deleted(String name);
-
-  /// No description provided for @community_regenerateSecret.
-  ///
-  /// In en, this message translates to:
-  /// **'Regenerate Secret'**
-  String get community_regenerateSecret;
-
-  /// No description provided for @community_regenerateSecretConfirm.
-  ///
-  /// In en, this message translates to:
-  /// **'Regenerate the secret key for \"{name}\"? All members will need to scan the new QR code to continue communicating.'**
-  String community_regenerateSecretConfirm(String name);
-
-  /// No description provided for @community_regenerate.
-  ///
-  /// In en, this message translates to:
-  /// **'Regenerate'**
-  String get community_regenerate;
-
-  /// No description provided for @community_secretRegenerated.
-  ///
-  /// In en, this message translates to:
-  /// **'Secret regenerated for \"{name}\"'**
-  String community_secretRegenerated(String name);
-
-  /// No description provided for @community_updateSecret.
-  ///
-  /// In en, this message translates to:
-  /// **'Update Secret'**
-  String get community_updateSecret;
-
-  /// No description provided for @community_secretUpdated.
-  ///
-  /// In en, this message translates to:
-  /// **'Secret updated for \"{name}\"'**
-  String community_secretUpdated(String name);
-
-  /// No description provided for @community_scanToUpdateSecret.
-  ///
-  /// In en, this message translates to:
-  /// **'Scan the new QR code to update the secret for \"{name}\"'**
-  String community_scanToUpdateSecret(String name);
-
-  /// No description provided for @community_addHashtagChannel.
-  ///
-  /// In en, this message translates to:
-  /// **'Add Community Hashtag'**
-  String get community_addHashtagChannel;
-
-  /// No description provided for @community_addHashtagChannelDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Add a hashtag channel for this community'**
-  String get community_addHashtagChannelDesc;
-
-  /// No description provided for @community_selectCommunity.
-  ///
-  /// In en, this message translates to:
-  /// **'Select Community'**
-  String get community_selectCommunity;
-
-  /// No description provided for @community_regularHashtag.
-  ///
-  /// In en, this message translates to:
-  /// **'Regular Hashtag'**
-  String get community_regularHashtag;
-
-  /// No description provided for @community_regularHashtagDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Public hashtag (anyone can join)'**
-  String get community_regularHashtagDesc;
-
-  /// No description provided for @community_communityHashtag.
-  ///
-  /// In en, this message translates to:
-  /// **'Community Hashtag'**
-  String get community_communityHashtag;
-
-  /// No description provided for @community_communityHashtagDesc.
-  ///
-  /// In en, this message translates to:
-  /// **'Private to community members'**
-  String get community_communityHashtagDesc;
-
-  /// No description provided for @community_forCommunity.
-  ///
-  /// In en, this message translates to:
-  /// **'For {name}'**
-  String community_forCommunity(String name);
-
   /// No description provided for @listFilter_tooltip.
   ///
   /// In en, this message translates to:
@@ -8145,12 +7833,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Web Bluetooth requires a Chromium browser'**
   String get chrome_bluetoothRequiresChromium;
-
-  /// No description provided for @channels_communityShortId.
-  ///
-  /// In en, this message translates to:
-  /// **'ID: {id}...'**
-  String channels_communityShortId(String id);
 
   /// No description provided for @pathTrace_legendGpsConfirmed.
   ///

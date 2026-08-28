@@ -1209,7 +1209,7 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
-  String get channels_private => 'Privat';
+  String get channels_hashtag => 'Hashtag';
 
   @override
   String get channels_editChannel => 'Redigera kanal';
@@ -1254,16 +1254,7 @@ class AppLocalizationsSv extends AppLocalizations {
   String get channels_standardPublicPsk => 'Standard allmän PSK';
 
   @override
-  String get channels_pskHex => 'PSK (heks)';
-
-  @override
-  String get channels_generateRandomPsk => 'Generera slumpmässig PSK';
-
-  @override
   String get channels_enterChannelName => 'Ange en kanalnamn';
-
-  @override
-  String get channels_pskMustBe32Hex => 'PSK måste vara 32 hexadecimala tecken';
 
   @override
   String channels_channelAdded(String name) {
@@ -1355,20 +1346,6 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get channels_sortUnread => 'Oläst';
-
-  @override
-  String get channels_createPrivateChannel => 'Skapa en privat kanal';
-
-  @override
-  String get channels_createPrivateChannelDesc =>
-      'Skyddat med en hemlig nyckel.';
-
-  @override
-  String get channels_joinPrivateChannel => 'Gå med i en Privat Kanal';
-
-  @override
-  String get channels_joinPrivateChannelDesc =>
-      'Ange en hemlig nyckel manuellt.';
 
   @override
   String get channels_joinPublicChannel => 'Gå med i den Offentliga Kanalen';
@@ -3748,175 +3725,6 @@ class AppLocalizationsSv extends AppLocalizations {
   String get channelPath_unknownRepeater => 'Okänt Upprepare';
 
   @override
-  String get community_title => 'Gemenskap';
-
-  @override
-  String get community_create => 'Skapa Gemenskap';
-
-  @override
-  String get community_createDesc =>
-      'Skapa en ny gemenskap och dela via QR-kod.';
-
-  @override
-  String get community_join => 'Gå med';
-
-  @override
-  String get community_joinTitle => 'Gå med i gemenskapen';
-
-  @override
-  String community_joinConfirmation(String name) {
-    return 'Vill du gå med i communityn \"$name\"?';
-  }
-
-  @override
-  String get community_scanQr => 'Skanna Gemenskapens QR';
-
-  @override
-  String get community_scanInstructions =>
-      'Rikta kameran mot en QR-kod i communityn';
-
-  @override
-  String get community_showQr => 'Visa QR-kod';
-
-  @override
-  String get community_publicChannel => 'Föreningens Offentliga';
-
-  @override
-  String get community_hashtagChannel => 'Hashtag för gemenskapen';
-
-  @override
-  String get community_name => 'Gemenskapens namn';
-
-  @override
-  String get community_enterName => 'Ange communities namn';
-
-  @override
-  String community_created(String name) {
-    return 'Community \"$name\" har skapats';
-  }
-
-  @override
-  String community_joined(String name) {
-    return 'Medlem i communityn \"$name\"';
-  }
-
-  @override
-  String get community_qrTitle => 'Dela Gemenskap';
-
-  @override
-  String community_qrInstructions(String name) {
-    return 'Skanna denna QR-kod för att gå med i \"$name\"';
-  }
-
-  @override
-  String get community_hashtagPrivacyHint =>
-      'Community-hashtagkanaler kan endast nås av medlemmar i communityn';
-
-  @override
-  String get community_invalidQrCode => 'Ogiltig community QR-kod';
-
-  @override
-  String get community_alreadyMember => 'Är redan medlem';
-
-  @override
-  String community_alreadyMemberMessage(String name) {
-    return 'Du är redan medlem av \"$name\".';
-  }
-
-  @override
-  String get community_addPublicChannel =>
-      'Lägg till Gemenskapskanal (Offentlig)';
-
-  @override
-  String get community_addPublicChannelHint =>
-      'Lägg automatiskt till den offentliga kanalen för denna community';
-
-  @override
-  String get community_noCommunities => 'Inga gemenskaper har anslutats ännu';
-
-  @override
-  String get community_scanOrCreate =>
-      'Skanna en QR-kod eller skapa en community för att komma igång';
-
-  @override
-  String get community_manageCommunities => 'Hantera Gemenskaper';
-
-  @override
-  String get community_delete => 'Lämna Gemenskap';
-
-  @override
-  String community_deleteConfirm(String name) {
-    return 'Lämna \"$name\"?';
-  }
-
-  @override
-  String community_deleteChannelsWarning(int count) {
-    return 'Detta kommer också att radera $count kanal/kanaler och deras meddelanden.';
-  }
-
-  @override
-  String community_deleted(String name) {
-    return 'Lämnade community \"$name\"';
-  }
-
-  @override
-  String get community_regenerateSecret => 'Regenerera hemlig kod';
-
-  @override
-  String community_regenerateSecretConfirm(String name) {
-    return 'Regenerera den hemliga nyckeln för \"$name\"? Alla medlemmar måste scanna den nya QR-koden för att fortsätta kommunicera.';
-  }
-
-  @override
-  String get community_regenerate => 'Regenerera';
-
-  @override
-  String community_secretRegenerated(String name) {
-    return 'Lösenord återskapad för \"$name\"';
-  }
-
-  @override
-  String get community_updateSecret => 'Uppdatera hemlighet';
-
-  @override
-  String community_secretUpdated(String name) {
-    return 'Hemlighet uppdaterad för \"$name\"';
-  }
-
-  @override
-  String community_scanToUpdateSecret(String name) {
-    return 'Skanna den nya QR-koden för att uppdatera hemligheten för \"$name\"';
-  }
-
-  @override
-  String get community_addHashtagChannel => 'Lägg till Gemenskapens Hashtag';
-
-  @override
-  String get community_addHashtagChannelDesc =>
-      'Lägg till en hashtag-kanal för denna community';
-
-  @override
-  String get community_selectCommunity => 'Välj Gemenskap';
-
-  @override
-  String get community_regularHashtag => 'Vanlig Hash Tag';
-
-  @override
-  String get community_regularHashtagDesc =>
-      'Offentlig hashtag (alla kan gå med)';
-
-  @override
-  String get community_communityHashtag => 'Gemenskaps-hashtag';
-
-  @override
-  String get community_communityHashtagDesc => 'Endast för medlemmar';
-
-  @override
-  String community_forCommunity(String name) {
-    return 'För $name';
-  }
-
-  @override
   String get listFilter_tooltip => 'Filtrera och sortera';
 
   @override
@@ -4689,11 +4497,6 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get chrome_bluetoothRequiresChromium =>
       'Web Bluetooth kräver en Chromium-baserad webbläsare.';
-
-  @override
-  String channels_communityShortId(String id) {
-    return 'ID: $id...';
-  }
 
   @override
   String get pathTrace_legendGpsConfirmed => 'GPS-verifierat';

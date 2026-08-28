@@ -92,7 +92,7 @@ The IPA will be created at: `build/ios/ipa/hamcore.ipa`
    - BLE connectivity to HamCore devices
    - Real-time mesh network communication
    - Map visualization with OpenStreetMap
-   - Community management with QR code scanning
+   - Public and hashtag channels
    - Message tracking and retry system
 
    Connect to your HamCore LoRa device and start communicating over the mesh network.
@@ -110,7 +110,7 @@ The IPA will be created at: `build/ios/ipa/hamcore.ipa`
    - BLE device connectivity
    - Mesh network messaging
    - Map integration
-   - Community features
+   - Channel support
    ```
 
 2. **Build**: Select the uploaded build once processing completes

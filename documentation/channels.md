@@ -2,7 +2,7 @@
 
 ## Overview
 
-Channels are broadcast group-chat spaces secured by a 16-byte pre-shared key (PSK). Any device with the same channel index and PSK will receive and decrypt channel messages. Unlike direct messages, channel messages are broadcast to the entire mesh.
+Channels are broadcast group-chat spaces identified by a 16-byte pre-shared key (PSK). Any device with the same channel index and PSK will receive and decode channel messages. Unlike direct messages, channel messages are broadcast to the entire mesh. HamCore firmware transmits channel payloads in plain text (no over-the-air encryption), to stay compliant with amateur radio licensing rules — the PSK is a channel identifier, not a privacy mechanism.
 
 The number of active channels is determined by the firmware (default 40); the device reports its actual limit at login.
 
@@ -15,9 +15,7 @@ QuickSwitchBar tab 1 (middle) from any main screen.
 | Type | Icon | Color | Description |
 |---|---|---|---|
 | Public | Globe | Green | Fixed well-known PSK; any device can join |
-| Hashtag | Hash tag | Blue | PSK derived from the hashtag name via SHA-256; discoverable by convention |
-| Private | Lock | Blue | Random PSK; requires out-of-band sharing of the 32-hex key |
-| Community | Groups/Tag | Magenta | PSK derived via HMAC-SHA256 from a community's shared secret |
+| Hashtag | Hash tag | Blue | PSK derived from the channel name via SHA-256; the same name always derives the same channel, so this doubles as both "create" and "join" |
 
 ## Channels List Screen
 
@@ -26,12 +24,12 @@ QuickSwitchBar tab 1 (middle) from any main screen.
 - **Search bar** with live text filtering (300ms debounce)
 - **Sort/filter button**
 - **Scrollable list of channel cards**, each showing:
-  - Type icon with color coding (magenta badge overlay for community channels)
+  - Type icon with color coding
   - Channel name (or "Channel N" if unnamed)
   - Unread badge (if messages are unread)
   - Drag handle (when manual sort is active)
 - **"+" FAB** to add a new channel
-- **Overflow menu**: Disconnect, Manage Communities, Settings
+- **Overflow menu**: Disconnect, Settings
 
 If no channels exist, an empty state with an "Add Public Channel" shortcut is shown. If a search produces no results, a separate "no results" empty state with a search-off icon is shown.
 
@@ -46,20 +44,16 @@ Pull-to-refresh (swipe down) forces a re-fetch of channels from the device firmw
 
 ## Adding a Channel
 
-Tap the "+" FAB to open a dialog with six options:
+Tap the "+" FAB to open a dialog with two options:
 
-1. **Create Private Channel** — Enter a name (max 31 characters); a random PSK is generated
-2. **Join Private Channel** — Enter a name and a 32-hex PSK (non-hex characters like spaces and dashes are silently stripped, so pasted keys with formatting are accepted)
-3. **Join Public Channel** — One tap; uses the well-known public PSK (only shown if no public channel exists)
-4. **Join Hashtag Channel** — Enter a hashtag name; PSK is derived from the name. If communities exist, choose between regular hashtag (SHA-256) or community hashtag (HMAC)
-5. **Scan Community QR** — Opens QR scanner to join a community
-6. **Create Community** — Enter a name; generates a random 32-byte secret; optionally adds a community public channel; shows QR code for sharing
+1. **Join Public Channel** — One tap; uses the well-known public PSK (only shown if no public channel exists)
+2. **Add Channel** — Enter a name; PSK is derived from it via SHA-256. Since the same name always derives the same PSK, entering a name either creates a new channel or joins an existing one with that name
 
 ## Channel Actions (Long-Press / Right-Click)
 
 | Action | Description |
 |---|---|
-| Edit | Change name, PSK (with a dice icon to generate a random PSK), SMAZ compression toggle (compresses outgoing messages to allow longer text within the byte limit), or Cyr2Lat encoding toggle (transliterates Cyrillic to Latin for compatibility) |
+| Edit | Change name (PSK is re-derived from the new name automatically), SMAZ compression toggle (compresses outgoing messages to allow longer text within the byte limit), or Cyr2Lat encoding toggle (transliterates Cyrillic to Latin for compatibility) |
 | Mute / Unmute | Toggle push notification suppression for this channel |
 | Delete | Remove the channel from the device (confirmation required) |
 
@@ -69,9 +63,9 @@ Tap a channel card to open the channel chat screen.
 
 ### App Bar
 
-- Type icon: globe for public channels, tag (#) for all other channel types
+- Type icon: globe for public channels, tag (#) for hashtag channels
 - Channel name
-- Subtitle: "{Public|Private} • {N} unread" (e.g., "Public • 3 unread")
+- Subtitle: "{Public|Hashtag} • {N} unread" (e.g., "Public • 3 unread")
 
 ### Message Display
 
@@ -114,41 +108,11 @@ Tap a channel card to open the channel chat screen.
 | Mark as Unread | Incoming messages only | Marks this message and all subsequent incoming messages as unread |
 | Delete | All messages | Removes locally (not from mesh) |
 
-## Communities
-
-Communities are a layer above channels that provide a private namespace.
-
-### What is a Community?
-
-A community has a name and a 32-byte random secret. Channel PSKs are derived from this secret:
-- **Public channel**: `HMAC-SHA256(secret, "channel:v1:__public__")[:16]`
-- **Hashtag channel**: `HMAC-SHA256(secret, "channel:v1:{hashtag}")[:16]`
-
-Outsiders who don't know the secret cannot discover or join community channels.
-
-### Sharing a Community
-
-Communities are shared via QR codes containing a JSON payload:
-```json
-{"v": 1, "type": "hamcore_community", "name": "...", "k": "<base64url-secret>"}
-```
-
-### Managing Communities
-
-From the channels screen overflow menu → "Manage Communities". Opens a draggable scrollable sheet (resizable 30–90% of screen height):
-
-- Each community shows its name and a short community ID (first 8 hex characters)
-- **Tap a community** to directly show its QR code for sharing
-- **Popup menu** per community:
-  - **Show QR** — displays the QR code for sharing with new members
-  - **Leave Community** — removes the community locally and deletes all associated device channels (confirmation dialog warns how many channels will be removed)
-
 ## How Channels Differ from Direct Messages
 
 | Aspect | Channels | Direct Messages |
 |---|---|---|
 | Addressing | Broadcast to all nodes with matching PSK | Point-to-point to a specific contact |
-| Encryption | Shared PSK (symmetric) | Contact's public key (asymmetric) |
 | Sender identity | Plain text prefix in payload | Verified via public key |
 | Replies | Supported (swipe or long-press) | Not supported |
 | Retry mechanism | No automatic retry | Exponential backoff with path rotation |

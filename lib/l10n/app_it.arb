@@ -411,7 +411,7 @@
     }
   },
   "channels_public": "Pubblico",
-  "channels_private": "Privato",
+  "channels_hashtag": "Hashtag",
   "channels_editChannel": "Modifica canale",
   "channels_muteChannel": "Silenzia canale",
   "channels_unmuteChannel": "Attiva notifiche canale",
@@ -437,10 +437,7 @@
   "channels_channelName": "Nome canale",
   "channels_usePublicChannel": "Usa il canale pubblico",
   "channels_standardPublicPsk": "PSK pubblico standard",
-  "channels_pskHex": "PSK (esadecimale)",
-  "channels_generateRandomPsk": "Genera una PSK casuale",
   "channels_enterChannelName": "Inserisci un nome per il canale",
-  "channels_pskMustBe32Hex": "PSK deve essere composto da 32 caratteri esadecimali.",
   "channels_channelAdded": "Canale \"{name}\" aggiunto",
   "@channels_channelAdded": {
     "placeholders": {
@@ -1705,10 +1702,6 @@
   "neighbors_errorLoading": "Errore nel caricamento dei vicini: {error}",
   "neighbors_repeatersNeighbors": "Vicini dei ripetitori",
   "neighbors_noData": "Nessun dato sui vicini disponibile.",
-  "channels_createPrivateChannel": "Crea un Canale Privato",
-  "channels_createPrivateChannelDesc": "Protetta con una chiave segreta.",
-  "channels_joinPrivateChannel": "Unisciti a un Canale Privato",
-  "channels_joinPrivateChannelDesc": "Inserire manualmente una chiave segreta.",
   "channels_joinPublicChannel": "Unisciti al Canale Pubblico",
   "channels_joinPublicChannelDesc": "Chiunque può unirsi a questo canale.",
   "channels_joinHashtagChannel": "Unisciti a un Canale con Hashtag",
@@ -1738,143 +1731,7 @@
   "settings_locationIntervalSec": "Intervallo GPS (Secondi)",
   "settings_locationIntervalInvalid": "L'intervallo deve essere di almeno 60 secondi e inferiore a 86400 secondi.",
   "room_management": "Gestione del Server di Camera",
-  "@community_joinConfirmation": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_created": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_joined": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_qrInstructions": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_alreadyMemberMessage": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleteConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleted": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_forCommunity": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "common_ok": "OK",
-  "community_title": "Comunità",
-  "community_create": "Crea Comunità",
-  "community_createDesc": "Crea una nuova comunità e condividila tramite codice QR.",
-  "community_join": "Unisciti",
-  "community_joinTitle": "Unisciti alla Community",
-  "community_joinConfirmation": "Vuoi unirti alla community \"{name}\"?",
-  "community_scanQr": "Scansiona il QR Code della Community",
-  "community_scanInstructions": "Punta la fotocamera su un codice QR della comunità",
-  "community_showQr": "Mostra il codice QR",
-  "community_publicChannel": "Comunità Pubblica",
-  "community_hashtagChannel": "Hashtag della Comunità",
-  "community_name": "Nome della Comunità",
-  "community_enterName": "Inserisci il nome della comunità",
-  "community_created": "Comunità \"{name}\" creata",
-  "community_joined": "Unito alla comunità \"{name}\"",
-  "community_qrTitle": "Condividi Comunità",
-  "community_qrInstructions": "Scansiona questo codice QR per unirti a {name}",
-  "community_hashtagPrivacyHint": "I canali hashtag della community sono accessibili solo ai membri della community",
-  "community_invalidQrCode": "Codice QR della community non valido",
-  "community_alreadyMember": "Già membro",
-  "community_alreadyMemberMessage": "Sei già un membro di \"{name}\".",
-  "community_addPublicChannel": "Aggiungi Canale Pubblico della Comunità",
-  "community_addPublicChannelHint": "Aggiungi automaticamente il canale pubblico per questa community",
-  "community_noCommunities": "Nessun gruppo aggiunto finora",
-  "community_scanOrCreate": "Scansiona un codice QR o crea una community per iniziare.",
-  "community_manageCommunities": "Gestisci Comunità",
-  "community_delete": "Lascia la Comunità",
-  "community_deleteConfirm": "Uscire da \"{name}\"?",
-  "community_deleteChannelsWarning": "Questo eliminerà anche {count} canale/i e i loro messaggi.",
-  "@community_deleteChannelsWarning": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "community_deleted": "Hai lasciato la comunità \"{name}\"",
-  "community_addHashtagChannel": "Aggiungi Hashtag della Community",
-  "community_addHashtagChannelDesc": "Aggiungi un canale con hashtag per questa community",
-  "community_selectCommunity": "Seleziona Comunità",
-  "community_regularHashtag": "Hashtag regolare",
-  "community_regularHashtagDesc": "Hashtag pubblico (chiunque può unirsi)",
-  "community_communityHashtag": "Hashtag della Comunità",
-  "community_communityHashtagDesc": "Visibile solo ai membri della comunità",
-  "community_forCommunity": "Per {name}",
-  "@community_regenerateSecretConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretRegenerated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretUpdated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_scanToUpdateSecret": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_regenerateSecretConfirm": "Regenera la chiave segreta per \"{name}\"? Tutti i membri dovranno scansionare il nuovo codice QR per continuare a comunicare.",
-  "community_regenerateSecret": "Ri genera la chiave segreta",
-  "community_regenerate": "Rigenera",
-  "community_secretRegenerated": "Codice segreto rigenerato per \"{name}\"",
-  "community_updateSecret": "Aggiorna Segreto",
-  "community_secretUpdated": "Segreto aggiornato per \"{name}\"",
-  "community_scanToUpdateSecret": "Scansiona il nuovo codice QR per aggiornare il segreto di \"{name}\"",
   "@contacts_pathTraceTo": {
     "placeholders": {
       "name": {
@@ -2585,13 +2442,6 @@
       }
     }
   },
-  "@channels_communityShortId": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "common_undo": "Annulla",
   "messageStatus_delivered": "Consegnato",
   "messageStatus_sent": "Inviato",
@@ -2643,7 +2493,6 @@
   "map_zoomIn": "Ingrandisci",
   "map_zoomOut": "Riduci la visualizzazione",
   "map_centerMap": "Centra mappa",
-  "channels_communityShortId": "ID: {id}...",
   "chrome_bluetoothRequiresChromium": "Web Bluetooth richiede un browser basato su Chromium.",
   "pathTrace_legendGpsConfirmed": "Il GPS conferma",
   "pathTrace_legendInferred": "Posizione dedotta",

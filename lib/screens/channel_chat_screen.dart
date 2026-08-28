@@ -11,8 +11,6 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 
 import '../connector/hamcore_connector.dart';
-import '../models/community.dart';
-import '../storage/community_store.dart';
 import '../utils/platform_info.dart';
 import '../helpers/chat_scroll_controller.dart';
 import '../connector/hamcore_protocol.dart';
@@ -76,11 +74,8 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   final ChatScrollController _scrollController = ChatScrollController();
   final FocusNode _textFieldFocusNode = FocusNode();
   ChannelMessage? _replyingToMessage;
-  final CommunityStore _communityStore = CommunityStore();
-  final CommunityPskIndex _communityIndex = CommunityPskIndex();
   final Map<String, GlobalKey> _messageKeys = {};
   bool _isLoadingOlder = false;
-  bool _communitiesLoaded = false;
 
   /// Per-screen image-id allocator. The id is 8 bits and the reassembly key also
   /// carries the sender prefix and channel, so a per-screen allocator is enough
@@ -114,7 +109,6 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
       final idx = widget.channel.index;
       final unread = widget.initialUnreadCount;
       final messages = connector.getChannelMessages(widget.channel);
-      _loadCommunities();
       ChannelMessage? anchor;
       if (unread > 0) {
         anchor = _findOldestUnreadChannelAnchor(messages, unread);
@@ -139,19 +133,6 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
         });
       }
     });
-  }
-
-  // TODO: Reload communities when returning from another screen
-  Future<void> _loadCommunities() async {
-    final connector = context.read<HamCoreConnector>();
-    _communityStore.setPublicKeyHex = connector.selfPublicKeyHex;
-    final communities = await _communityStore.loadCommunities();
-    if (mounted) {
-      setState(() {
-        _communityIndex.initialize(communities);
-        _communitiesLoaded = true;
-      });
-    }
   }
 
   ChannelMessage? _findOldestUnreadChannelAnchor(
@@ -244,52 +225,10 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
   }
 
   Widget _channelIcon(Channel channel) {
-    // Determine icon based on channel type
-    final ChannelType channelType = Channel.getChannelType(
-      channel,
-      _communityIndex,
-    );
-    final bool isCommunityChannel = Channel.isCommunityChannel(channelType);
-    IconData icon;
-    switch (channelType) {
-      case ChannelType.communityPublic:
-        icon = Icons.groups;
-      case ChannelType.communityHashtag:
-        icon = Icons.tag;
-      case ChannelType.public:
-        icon = Icons.public;
-      case ChannelType.hashtag:
-        icon = Icons.tag;
-      case ChannelType.private:
-        icon = Icons.lock;
-    }
-    return Stack(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 3),
-          child: _communitiesLoaded
-              ? Icon(icon, size: 20)
-              : SizedBox.square(dimension: 20),
-        ),
-        if (isCommunityChannel)
-          Positioned(
-            right: 0,
-            bottom: 0,
-            child: Container(
-              width: 12,
-              height: 12,
-              decoration: BoxDecoration(
-                color: Colors.purple,
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Theme.of(context).cardColor,
-                  width: 2,
-                ),
-              ),
-              child: const Icon(Icons.people, size: 8, color: Colors.white),
-            ),
-          ),
-      ],
+    final icon = channel.isPublicChannel ? Icons.public : Icons.tag;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Icon(icon, size: 20),
     );
   }
 
@@ -324,9 +263,9 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                             .getUnreadCountForChannelIndex(
                               widget.channel.index,
                             );
-                        final privacy = widget.channel.isPublicChannel
+                        final channelKind = widget.channel.isPublicChannel
                             ? context.l10n.channels_public
-                            : context.l10n.channels_private;
+                            : context.l10n.channels_hashtag;
                         final region = connector.getChannelRegion(
                           widget.channel.index,
                         );
@@ -334,7 +273,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                             ? ' • ${context.l10n.channels_regionSetTo(region)}'
                             : '';
                         return Text(
-                          '$privacy • ${context.l10n.chat_unread(unreadCount)}$regionText',
+                          '$channelKind • ${context.l10n.chat_unread(unreadCount)}$regionText',
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(fontSize: 12),
                         );

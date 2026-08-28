@@ -22,7 +22,7 @@ HamCore is an open-source Flutter client for HamCore LoRa mesh networking device
 HamCore connects to HamCore LoRa mesh radios over BLE, USB, or TCP. Once connected, users can:
 
 - **Chat** with other mesh nodes via encrypted direct messages
-- **Broadcast** on shared channels (public, hashtag, private, or community-scoped)
+- **Broadcast** on shared channels (public or hashtag-derived)
 - **View nodes on a map** with GPS locations, predicted positions, and path traces
 - **Manage repeaters** with CLI access, telemetry, neighbor info, and settings
 - **Share contacts** via `hamcore://` URIs and QR codes

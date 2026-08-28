@@ -30,7 +30,7 @@ Node name labels appear automatically at zoom level 14 and above.
 ### Shared Map Pins (Flag Icons)
 Location pins shared in chat messages are displayed as flags:
 - **Blue flag**: From a direct message
-- **Purple flag**: From a private channel
+- **Purple flag**: From a hashtag channel
 - **Orange flag**: From a public channel
 
 Tap a pin to see its info. Options to "Hide" (session only) or "Remove" (persistent).

@@ -1224,7 +1224,7 @@ class AppLocalizationsHu extends AppLocalizations {
   }
 
   @override
-  String get channels_private => 'Magán';
+  String get channels_hashtag => 'Hashtag';
 
   @override
   String get channels_editChannel => 'Csatorna szerkesztése';
@@ -1269,17 +1269,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get channels_standardPublicPsk => 'Normál nyilvános PSK';
 
   @override
-  String get channels_pskHex => 'PSK (Hex)';
-
-  @override
-  String get channels_generateRandomPsk => 'Véletlenszerű PSK generálása';
-
-  @override
   String get channels_enterChannelName => 'Kérjük, adja meg a csatorna nevét';
-
-  @override
-  String get channels_pskMustBe32Hex =>
-      'A PSK-nak 32 hexadecimális karakterből kell állnia';
 
   @override
   String channels_channelAdded(String name) {
@@ -1370,20 +1360,6 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get channels_sortUnread => 'Nem olvasott';
-
-  @override
-  String get channels_createPrivateChannel =>
-      'Hozzon létre egy privát csatornát';
-
-  @override
-  String get channels_createPrivateChannelDesc => 'Titkos kulccsal biztosítva.';
-
-  @override
-  String get channels_joinPrivateChannel => 'Csatlakozz egy privát csatornához';
-
-  @override
-  String get channels_joinPrivateChannelDesc =>
-      'Adjon meg kézzel egy titkos kulcsot.';
 
   @override
   String get channels_joinPublicChannel =>
@@ -3784,176 +3760,6 @@ class AppLocalizationsHu extends AppLocalizations {
   String get channelPath_unknownRepeater => 'Ismeretlen Repeater';
 
   @override
-  String get community_title => 'Közösség';
-
-  @override
-  String get community_create => 'Közösség létrehozása';
-
-  @override
-  String get community_createDesc =>
-      'Hozzon létre egy új közösséget, és ossza meg QR-kóddal.';
-
-  @override
-  String get community_join => 'Csatlakozik';
-
-  @override
-  String get community_joinTitle => 'Csatlakozz a közösséghez';
-
-  @override
-  String community_joinConfirmation(String name) {
-    return 'Szeretnél csatlakozni a \"$name\" közösséghez?';
-  }
-
-  @override
-  String get community_scanQr => 'Scan Community QR';
-
-  @override
-  String get community_scanInstructions =>
-      'Irányítsa a kamerát egy közösségi QR-kódra';
-
-  @override
-  String get community_showQr => 'QR-kód megjelenítése';
-
-  @override
-  String get community_publicChannel => 'Közösségi Nyilvános';
-
-  @override
-  String get community_hashtagChannel => 'Közösségi hashtag';
-
-  @override
-  String get community_name => 'Közösség neve';
-
-  @override
-  String get community_enterName => 'Adja meg a közösség nevét';
-
-  @override
-  String community_created(String name) {
-    return 'A \"$name\" közösség létrehozva';
-  }
-
-  @override
-  String community_joined(String name) {
-    return 'Csatlakozott a \"$name\" közösséghez';
-  }
-
-  @override
-  String get community_qrTitle => 'Közösség megosztása';
-
-  @override
-  String community_qrInstructions(String name) {
-    return 'Olvassa be ezt a QR-kódot a \"$name\" csoporthoz való csatlakozáshoz';
-  }
-
-  @override
-  String get community_hashtagPrivacyHint =>
-      'A közösségi hashtag csatornákhoz csak a közösség tagjai csatlakozhatnak';
-
-  @override
-  String get community_invalidQrCode => 'Érvénytelen közösségi QR-kód';
-
-  @override
-  String get community_alreadyMember => 'Már tag';
-
-  @override
-  String community_alreadyMemberMessage(String name) {
-    return 'Ön már tagja a(z) \"$name\".';
-  }
-
-  @override
-  String get community_addPublicChannel =>
-      'Közösségi nyilvános csatorna hozzáadása';
-
-  @override
-  String get community_addPublicChannelHint =>
-      'Nyilvános csatorna automatikus hozzáadása ehhez a közösséghez';
-
-  @override
-  String get community_noCommunities => 'Még nem csatlakozott közösség';
-
-  @override
-  String get community_scanOrCreate =>
-      'Olvassa be a QR-kódot, vagy hozzon létre egy közösséget a kezdéshez';
-
-  @override
-  String get community_manageCommunities => 'Közösségek kezelése';
-
-  @override
-  String get community_delete => 'Kilépés a közösségből';
-
-  @override
-  String community_deleteConfirm(String name) {
-    return 'Kilép a(z) „$name” programból?';
-  }
-
-  @override
-  String community_deleteChannelsWarning(int count) {
-    return 'Ezzel $count csatornát és azok üzeneteit is törli.';
-  }
-
-  @override
-  String community_deleted(String name) {
-    return 'Kilépett a \"$name\" közösségből';
-  }
-
-  @override
-  String get community_regenerateSecret => 'Regeneráld a Titkot';
-
-  @override
-  String community_regenerateSecretConfirm(String name) {
-    return 'Újragenerálja a titkos kulcsot a következőhöz: \"$name\"? A kommunikáció folytatásához minden tagnak be kell olvasnia az új QR-kódot.';
-  }
-
-  @override
-  String get community_regenerate => 'Regenerátum';
-
-  @override
-  String community_secretRegenerated(String name) {
-    return 'Titok újra létrehozva a következőhöz: \"$name\"';
-  }
-
-  @override
-  String get community_updateSecret => 'Frissítse a Titkot';
-
-  @override
-  String community_secretUpdated(String name) {
-    return 'Titok frissítve a következőhöz: \"$name\"';
-  }
-
-  @override
-  String community_scanToUpdateSecret(String name) {
-    return 'Olvassa be az új QR-kódot a „$name” titkának frissítéséhez';
-  }
-
-  @override
-  String get community_addHashtagChannel => 'Közösségi hashtag hozzáadása';
-
-  @override
-  String get community_addHashtagChannelDesc =>
-      'Adj hozzá egy hashtag-csatornát ehhez a közösséghez';
-
-  @override
-  String get community_selectCommunity => 'Válassza a Közösség lehetőséget';
-
-  @override
-  String get community_regularHashtag => 'Rendszeres hashtag';
-
-  @override
-  String get community_regularHashtagDesc =>
-      'Nyilvános hashtag (bárki csatlakozhat)';
-
-  @override
-  String get community_communityHashtag => 'Közösségi hashtag';
-
-  @override
-  String get community_communityHashtagDesc =>
-      'Privát a közösség tagjai számára';
-
-  @override
-  String community_forCommunity(String name) {
-    return '$name';
-  }
-
-  @override
   String get listFilter_tooltip => 'Szűrés és rendezés';
 
   @override
@@ -4730,11 +4536,6 @@ class AppLocalizationsHu extends AppLocalizations {
   @override
   String get chrome_bluetoothRequiresChromium =>
       'A Web Bluetooth használatához Chromium böngésző szükséges';
-
-  @override
-  String channels_communityShortId(String id) {
-    return 'ID: $id...';
-  }
 
   @override
   String get pathTrace_legendGpsConfirmed => 'GPS megerősítve';

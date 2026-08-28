@@ -509,7 +509,7 @@
     }
   },
   "channels_public": "대중의",
-  "channels_private": "사립",
+  "channels_hashtag": "Hashtag",
   "channels_editChannel": "채널 편집",
   "channels_muteChannel": "음소거 채널",
   "channels_unmuteChannel": "채널 음소거 해제",
@@ -543,10 +543,7 @@
   "channels_channelName": "채널 이름",
   "channels_usePublicChannel": "공개 채널 사용",
   "channels_standardPublicPsk": "표준 공공 PSK",
-  "channels_pskHex": "PSK (헥스)",
-  "channels_generateRandomPsk": "임의의 PSK 생성",
   "channels_enterChannelName": "채널 이름을 입력해 주세요.",
-  "channels_pskMustBe32Hex": "PSK(개인식별키)는 32자리 16진수 문자여야 합니다.",
   "channels_channelAdded": "채널 \"{name}\" 추가",
   "@channels_channelAdded": {
     "placeholders": {
@@ -594,10 +591,6 @@
   "channels_sortAZ": "A부터 Z까지",
   "channels_sortLatestMessages": "최신 메시지",
   "channels_sortUnread": "읽지 않음",
-  "channels_createPrivateChannel": "개인 채널 만들기",
-  "channels_createPrivateChannelDesc": "비밀 키로 암호화되어 있습니다.",
-  "channels_joinPrivateChannel": "개인 채널에 참여하기",
-  "channels_joinPrivateChannelDesc": "비밀 키를 수동으로 입력합니다.",
   "channels_joinPublicChannel": "공개 채널에 참여하세요",
   "channels_joinPublicChannelDesc": "누구나 이 채널에 참여할 수 있습니다.",
   "channels_joinHashtagChannel": "해시태그 채널에 참여하세요",
@@ -1750,142 +1743,6 @@
   },
   "channelPath_noHopDetailsAvailable": "이 패킷에 대한 이동 정보는 제공되지 않습니다.",
   "channelPath_unknownRepeater": "알 수 없는 중계기",
-  "community_title": "지역 사회",
-  "community_create": "커뮤니티 만들기",
-  "community_createDesc": "새로운 커뮤니티를 만들고 QR 코드를 통해 공유하세요.",
-  "community_join": "참여하기",
-  "community_joinTitle": "커뮤니티에 참여하기",
-  "community_joinConfirmation": "{name}님, 커뮤니티에 참여하고 싶으신가요?",
-  "@community_joinConfirmation": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_scanQr": "커뮤니티 QR 스캔",
-  "community_scanInstructions": "카메라를 커뮤니티 QR 코드 방향으로 향하게 하세요.",
-  "community_showQr": "QR 코드 표시",
-  "community_publicChannel": "지역 사회 대상",
-  "community_hashtagChannel": "커뮤니티 해시태그",
-  "community_name": "지역 이름",
-  "community_enterName": "커뮤니티 이름을 입력하세요",
-  "community_created": "커뮤니티 \"{name}\"이 생성되었습니다.",
-  "@community_created": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_joined": "\"{name}\" 커뮤니티에 가입",
-  "@community_joined": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_qrTitle": "커뮤니티 공유",
-  "community_qrInstructions": "이 QR 코드를 스캔하여 \"{name}\"에 가입하세요.",
-  "@community_qrInstructions": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_hashtagPrivacyHint": "커뮤니티 해시태그 채널은 커뮤니티 구성원만 가입할 수 있습니다.",
-  "community_invalidQrCode": "유효하지 않은 커뮤니티 QR 코드",
-  "community_alreadyMember": "이미 회원인 경우",
-  "community_alreadyMemberMessage": "이미 {name}의 회원입니다.",
-  "@community_alreadyMemberMessage": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_addPublicChannel": "커뮤니티 공개 채널 추가",
-  "community_addPublicChannelHint": "이 커뮤니티에 공개 채널을 자동으로 추가합니다.",
-  "community_noCommunities": "아직 어느 커뮤니티도 가입하지 않았습니다.",
-  "community_scanOrCreate": "QR 코드를 스캔하거나 커뮤니티를 만들어 시작하세요.",
-  "community_manageCommunities": "커뮤니티 관리",
-  "community_delete": "커뮤니티 떠나기",
-  "community_deleteConfirm": "{name}을 묻어두나요?",
-  "@community_deleteConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_deleteChannelsWarning": "또한, 이 기능은 {count}개의 채널과 그에 해당하는 메시지를 삭제합니다.",
-  "@community_deleteChannelsWarning": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "community_deleted": "지역 커뮤니티 \"{name}\"",
-  "@community_deleted": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_regenerateSecret": "비밀 복원",
-  "community_regenerateSecretConfirm": "{name}의 비밀 키를 재생성하시겠습니까? 모든 회원은 계속 통신을 위해 새로운 QR 코드를 스캔해야 합니다.",
-  "@community_regenerateSecretConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_regenerate": "재생",
-  "community_secretRegenerated": "{name}을 위한 비밀 정보가 복원되었습니다.",
-  "@community_secretRegenerated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_updateSecret": "비밀 업데이트",
-  "community_secretUpdated": "{name}을 위한 비밀 정보 업데이트",
-  "@community_secretUpdated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_scanToUpdateSecret": "새로운 QR 코드를 스캔하여 {name}의 비밀번호를 업데이트하세요.",
-  "@community_scanToUpdateSecret": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_addHashtagChannel": "커뮤니티 해시태그 추가",
-  "community_addHashtagChannelDesc": "이 커뮤니티를 위한 해시태그 채널을 추가하세요.",
-  "community_selectCommunity": "커뮤니티 선택",
-  "community_regularHashtag": "일반 해시태그",
-  "community_regularHashtagDesc": "공개 해시태그 (누구나 참여 가능)",
-  "community_communityHashtag": "커뮤니티 해시태그",
-  "community_communityHashtagDesc": "지역 주민을 위한",
-  "community_forCommunity": "{name} 님께",
-  "@community_forCommunity": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "listFilter_tooltip": "필터링 및 정렬",
   "listFilter_sortBy": "정렬 기준 선택",
   "listFilter_latestMessages": "최신 메시지",
@@ -2489,13 +2346,6 @@
       }
     }
   },
-  "@channels_communityShortId": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "messageStatus_pending": "전송 중",
   "messageStatus_sent": "전송됨",
   "messageStatus_delivered": "전달됨",
@@ -2548,7 +2398,6 @@
   "map_zoomOut": "축소",
   "map_centerMap": "지도 중앙 맞추기",
   "chrome_bluetoothRequiresChromium": "웹 블루투스는 Chromium 기반 브라우저가 필요합니다.",
-  "channels_communityShortId": "ID: {id}...",
   "pathTrace_legendGpsConfirmed": "GPS로 확인됨",
   "pathTrace_legendInferred": "추정된 위치",
   "@pathMap_hopOf": {

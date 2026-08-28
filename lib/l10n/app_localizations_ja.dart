@@ -1166,7 +1166,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get channels_private => '非公開';
+  String get channels_hashtag => 'Hashtag';
 
   @override
   String get channels_editChannel => 'チャンネルを編集';
@@ -1211,16 +1211,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get channels_standardPublicPsk => '公開用の標準 PSK';
 
   @override
-  String get channels_pskHex => 'PSK（16 進数）';
-
-  @override
-  String get channels_generateRandomPsk => 'ランダムな PSK を生成';
-
-  @override
   String get channels_enterChannelName => 'チャンネル名を入力してください';
-
-  @override
-  String get channels_pskMustBe32Hex => 'PSKは32桁の16進数で構成されている必要があります。';
 
   @override
   String channels_channelAdded(String name) {
@@ -1309,18 +1300,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get channels_sortUnread => '未読';
-
-  @override
-  String get channels_createPrivateChannel => 'プライベートチャンネルを作成する';
-
-  @override
-  String get channels_createPrivateChannelDesc => '秘密鍵で保護されます。';
-
-  @override
-  String get channels_joinPrivateChannel => 'プライベートチャンネルに参加する';
-
-  @override
-  String get channels_joinPrivateChannelDesc => '秘密鍵を手動で入力します。';
 
   @override
   String get channels_joinPublicChannel => '公開チャンネルに参加する';
@@ -3595,168 +3574,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get channelPath_unknownRepeater => '不明な増幅機';
 
   @override
-  String get community_title => 'コミュニティ';
-
-  @override
-  String get community_create => 'コミュニティを作成';
-
-  @override
-  String get community_createDesc => '新しいコミュニティを作成して QR コードで共有します。';
-
-  @override
-  String get community_join => '参加';
-
-  @override
-  String get community_joinTitle => 'コミュニティに参加';
-
-  @override
-  String community_joinConfirmation(String name) {
-    return '$name のコミュニティに参加しますか？';
-  }
-
-  @override
-  String get community_scanQr => 'コミュニティの QR コードをスキャン';
-
-  @override
-  String get community_scanInstructions => 'カメラをコミュニティの QR コードに向けてください';
-
-  @override
-  String get community_showQr => 'QR コードを表示';
-
-  @override
-  String get community_publicChannel => '公開チャンネル';
-
-  @override
-  String get community_hashtagChannel => 'コミュニティ用ハッシュタグ';
-
-  @override
-  String get community_name => 'コミュニティ名';
-
-  @override
-  String get community_enterName => 'コミュニティ名を入力してください';
-
-  @override
-  String community_created(String name) {
-    return 'コミュニティ「$name」を作成しました';
-  }
-
-  @override
-  String community_joined(String name) {
-    return '$name のコミュニティに参加しました';
-  }
-
-  @override
-  String get community_qrTitle => 'コミュニティ共有';
-
-  @override
-  String community_qrInstructions(String name) {
-    return 'この QR コードをスキャンして $name に参加してください。';
-  }
-
-  @override
-  String get community_hashtagPrivacyHint =>
-      'コミュニティのハッシュタグチャンネルには、コミュニティのメンバーだけが参加できます。';
-
-  @override
-  String get community_invalidQrCode => '無効なコミュニティQRコード';
-
-  @override
-  String get community_alreadyMember => 'すでにメンバーです';
-
-  @override
-  String community_alreadyMemberMessage(String name) {
-    return 'あなたはすでに $name のメンバーです。';
-  }
-
-  @override
-  String get community_addPublicChannel => '公開チャンネルを追加';
-
-  @override
-  String get community_addPublicChannelHint => 'このコミュニティの公開チャンネルを自動で追加します';
-
-  @override
-  String get community_noCommunities => 'まだコミュニティはありません';
-
-  @override
-  String get community_scanOrCreate => 'QR コードをスキャンするか、コミュニティを作成して始めてください。';
-
-  @override
-  String get community_manageCommunities => 'コミュニティを管理';
-
-  @override
-  String get community_delete => 'コミュニティを離脱';
-
-  @override
-  String community_deleteConfirm(String name) {
-    return '$name から離脱しますか？';
-  }
-
-  @override
-  String community_deleteChannelsWarning(int count) {
-    return 'これにより、$count のチャンネルとそのメッセージも削除されます。';
-  }
-
-  @override
-  String community_deleted(String name) {
-    return 'コミュニティ「$name」から離脱しました';
-  }
-
-  @override
-  String get community_regenerateSecret => '秘密鍵を再生成';
-
-  @override
-  String community_regenerateSecretConfirm(String name) {
-    return '$name の秘密鍵を再生成しますか？ 継続して通信するには、すべてのメンバーが新しい QR コードをスキャンする必要があります。';
-  }
-
-  @override
-  String get community_regenerate => '再生成';
-
-  @override
-  String community_secretRegenerated(String name) {
-    return '$name の秘密鍵を再生成しました';
-  }
-
-  @override
-  String get community_updateSecret => '秘密鍵を更新';
-
-  @override
-  String community_secretUpdated(String name) {
-    return '$name の秘密設定を更新しました';
-  }
-
-  @override
-  String community_scanToUpdateSecret(String name) {
-    return '新しい QR コードをスキャンして $name の秘密設定を更新してください。';
-  }
-
-  @override
-  String get community_addHashtagChannel => 'ハッシュタグチャンネルを追加';
-
-  @override
-  String get community_addHashtagChannelDesc => 'このコミュニティ用のハッシュタグチャンネルを追加します';
-
-  @override
-  String get community_selectCommunity => 'コミュニティを選択';
-
-  @override
-  String get community_regularHashtag => '通常のハッシュタグ';
-
-  @override
-  String get community_regularHashtagDesc => '公開ハッシュタグ（誰でも参加可能）';
-
-  @override
-  String get community_communityHashtag => 'コミュニティ用ハッシュタグ';
-
-  @override
-  String get community_communityHashtagDesc => 'コミュニティメンバーのみ利用できます';
-
-  @override
-  String community_forCommunity(String name) {
-    return '$name 向け';
-  }
-
-  @override
   String get listFilter_tooltip => 'フィルタリングと並べ替え';
 
   @override
@@ -4495,11 +4312,6 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get chrome_bluetoothRequiresChromium =>
       'Web Bluetooth には Chromium ベースのブラウザが必要です。';
-
-  @override
-  String channels_communityShortId(String id) {
-    return 'ID: $id…';
-  }
 
   @override
   String get pathTrace_legendGpsConfirmed => 'GPSによる確認';

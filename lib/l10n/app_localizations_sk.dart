@@ -1218,7 +1218,7 @@ class AppLocalizationsSk extends AppLocalizations {
   }
 
   @override
-  String get channels_private => 'Osobné';
+  String get channels_hashtag => 'Hashtag';
 
   @override
   String get channels_editChannel => 'Upraviť kanál';
@@ -1263,17 +1263,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get channels_standardPublicPsk => 'Štandardný verejný PSK';
 
   @override
-  String get channels_pskHex => 'PSK (Šifrovacia kľúčik)';
-
-  @override
-  String get channels_generateRandomPsk => 'Generovať náhodný PSK';
-
-  @override
   String get channels_enterChannelName => 'Prosím, zadajte názov kanála.';
-
-  @override
-  String get channels_pskMustBe32Hex =>
-      'PSK musí mať 32 hexadecimálových znakov.';
 
   @override
   String channels_channelAdded(String name) {
@@ -1366,19 +1356,6 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get channels_sortUnread => 'Nezriadené';
-
-  @override
-  String get channels_createPrivateChannel => 'Vytvorte súkromný kanál';
-
-  @override
-  String get channels_createPrivateChannelDesc =>
-      'Zabezpečené pomocou tajného kľúča.';
-
-  @override
-  String get channels_joinPrivateChannel => 'Pripojiť sa k súkromnému kanálu';
-
-  @override
-  String get channels_joinPrivateChannelDesc => 'Ručne zadajte tajný kľúč.';
 
   @override
   String get channels_joinPublicChannel => 'Pripojte sa k verejnému kanálu';
@@ -3774,175 +3751,6 @@ class AppLocalizationsSk extends AppLocalizations {
   String get channelPath_unknownRepeater => 'Neznáme opakovače';
 
   @override
-  String get community_title => 'Komunita';
-
-  @override
-  String get community_create => 'Vytvoriť komunitu';
-
-  @override
-  String get community_createDesc =>
-      'Vytvorte novú komunitu a zdieľajte cez QR kód.';
-
-  @override
-  String get community_join => 'Pripojiť';
-
-  @override
-  String get community_joinTitle => 'Pripojiť sa k spoločenstvu';
-
-  @override
-  String community_joinConfirmation(String name) {
-    return 'Chceš sa pridať do komunity \"$name\"?';
-  }
-
-  @override
-  String get community_scanQr => 'Skontrolujte komunitný QR kód';
-
-  @override
-  String get community_scanInstructions =>
-      'Zamerte kameru na komunitný QR kód.';
-
-  @override
-  String get community_showQr => 'Zobraziť QR kód';
-
-  @override
-  String get community_publicChannel => 'Komunita verejná';
-
-  @override
-  String get community_hashtagChannel => 'Komunitný Hashtag';
-
-  @override
-  String get community_name => 'Komunita';
-
-  @override
-  String get community_enterName => 'Zadajte názov komunity';
-
-  @override
-  String community_created(String name) {
-    return 'Komunita \"$name\" vytvorená';
-  }
-
-  @override
-  String community_joined(String name) {
-    return 'Pripojená komunita \"$name\"';
-  }
-
-  @override
-  String get community_qrTitle => 'Zdieľť komunitu';
-
-  @override
-  String community_qrInstructions(String name) {
-    return 'Skenejte tento QR kód, aby ste sa pripojili k $name.';
-  }
-
-  @override
-  String get community_hashtagPrivacyHint =>
-      'Hashtagové kanály komunity sú prístupné len členom komunity';
-
-  @override
-  String get community_invalidQrCode => 'Neplatná QR kód komunity.';
-
-  @override
-  String get community_alreadyMember => 'Už ste členom.';
-
-  @override
-  String community_alreadyMemberMessage(String name) {
-    return 'Vy ste už členom \"$name\".';
-  }
-
-  @override
-  String get community_addPublicChannel => 'Pridať verejný komunikačný kanál';
-
-  @override
-  String get community_addPublicChannelHint =>
-      'Automaticky prida verejný kanál pre túto komunitu.';
-
-  @override
-  String get community_noCommunities =>
-      'Zatiaľ ste sa nepripojili k žiadnej komunite';
-
-  @override
-  String get community_scanOrCreate =>
-      'Skene QR kód alebo vytvor komunitu na začiatok.';
-
-  @override
-  String get community_manageCommunities => 'Spravovať komunity';
-
-  @override
-  String get community_delete => 'Nechajte komunitu';
-
-  @override
-  String community_deleteConfirm(String name) {
-    return 'Opustiť \"$name\"?';
-  }
-
-  @override
-  String community_deleteChannelsWarning(int count) {
-    return 'Tým sa tiež vymaže $count kanál/kanálov a ich správy.';
-  }
-
-  @override
-  String community_deleted(String name) {
-    return 'Opustená komunita \"$name\"';
-  }
-
-  @override
-  String get community_regenerateSecret => 'Zobraziť nový tajný kód';
-
-  @override
-  String community_regenerateSecretConfirm(String name) {
-    return 'Znovu vygenerovať tajný kľúč pre \"$name\"? Všetci členovia budú musieť skanovať nový QR kód, aby mohli nadviazať komunikáciu.';
-  }
-
-  @override
-  String get community_regenerate => 'Znovu vygenerovať';
-
-  @override
-  String community_secretRegenerated(String name) {
-    return 'Záznam pre \"$name\" bol regenerovaný tajne';
-  }
-
-  @override
-  String get community_updateSecret => 'Aktualizovať tajné heslo';
-
-  @override
-  String community_secretUpdated(String name) {
-    return 'Zmena tajnej slova pre \"$name\"';
-  }
-
-  @override
-  String community_scanToUpdateSecret(String name) {
-    return 'Skáňte nový QR kód na aktualizáciu tajného hesla pre \"$name\"';
-  }
-
-  @override
-  String get community_addHashtagChannel => 'Pridať komunitný hashtag';
-
-  @override
-  String get community_addHashtagChannelDesc =>
-      'Pridajte hashtagový kanál pre túto komunitu.';
-
-  @override
-  String get community_selectCommunity => 'Vyberte komunitu';
-
-  @override
-  String get community_regularHashtag => 'Zvyčajný hashtag';
-
-  @override
-  String get community_regularHashtagDesc =>
-      'Veľký hashtag (ktočokoľvek sa môže pridať)';
-
-  @override
-  String get community_communityHashtag => 'Komunitný Hashtag';
-
-  @override
-  String get community_communityHashtagDesc => 'Špecifické pre členov komunity';
-
-  @override
-  String community_forCommunity(String name) {
-    return 'Pre $name';
-  }
-
-  @override
   String get listFilter_tooltip => 'Filtrovať a triediť';
 
   @override
@@ -4716,11 +4524,6 @@ class AppLocalizationsSk extends AppLocalizations {
   @override
   String get chrome_bluetoothRequiresChromium =>
       'Web Bluetooth vyžaduje prehliadač Chromium.';
-
-  @override
-  String channels_communityShortId(String id) {
-    return 'ID: $id...';
-  }
 
   @override
   String get pathTrace_legendGpsConfirmed => 'GPS potvrdilo';

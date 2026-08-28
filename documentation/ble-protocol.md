@@ -185,10 +185,7 @@ Sender key, text, timestamp, outgoing flag, status (pending/sent/delivered/faile
 Sender name, text, timestamp, status (pending/sent/failed), repeater hops, path variants, channel index, reactions, reply threading fields.
 
 ### Channel
-Index (0–7), name, 16-byte PSK, unread count. PSK derivation methods for hashtag (SHA-256) and community (HMAC-SHA256) channels.
-
-### Community
-UUID, name, 32-byte secret, hashtag channel list. Shared via QR code.
+Index (0–7), name, 16-byte PSK, unread count. Non-public channels derive their PSK from the channel name via SHA-256.
 
 ## Persistence
 
@@ -202,7 +199,6 @@ All data is stored via `SharedPreferences` (JSON-serialized). No SQLite or other
 | Channels | `channels<pubKey10>` | Per device identity |
 | Channel Order | `channel_order_<pubKey10>` | Per device identity |
 | Contact Groups | `contact_groups<pubKey10>` | Per device identity |
-| Communities | `communities_v1<pubKey10>` | Per device identity |
 | Unread Counts | `contact_unread_count<pubKey10>` | Per device identity |
 | Discovered Contacts | `discovered_contacts` | Global |
 | App Settings | `app_settings` | Global |

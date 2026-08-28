@@ -357,7 +357,7 @@
     }
   },
   "channels_public": "Openbaar",
-  "channels_private": "Privé",
+  "channels_hashtag": "Hashtag",
   "channels_editChannel": "Kanaal bewerken",
   "channels_muteChannel": "Kanaal dempen",
   "channels_unmuteChannel": "Kanaal dempen opheffen",
@@ -383,10 +383,7 @@
   "channels_channelName": "Kanaalnaam",
   "channels_usePublicChannel": "Gebruik Open Kanaal",
   "channels_standardPublicPsk": "Standaard open PSK",
-  "channels_pskHex": "PSK (Hex)",
-  "channels_generateRandomPsk": "Willekeurige PSK genereren",
   "channels_enterChannelName": "Voer een kanaalnaam in",
-  "channels_pskMustBe32Hex": "De PSK moet 32 hexadecimale tekens zijn.",
   "channels_channelAdded": "Kanaal \"{name}\" toegevoegd",
   "@channels_channelAdded": {
     "placeholders": {
@@ -1562,10 +1559,6 @@
   "neighbors_errorLoading": "Fout bij het laden van buren: {error}",
   "neighbors_repeatersNeighbors": "Repeatbburen",
   "neighbors_noData": "Geen gegevens van buren beschikbaar.",
-  "channels_createPrivateChannelDesc": "Beveiligd met een geheime sleutel.",
-  "channels_createPrivateChannel": "PrivéKanaal Aanmaken",
-  "channels_joinPrivateChannel": "PrivéKanaal Toetreden",
-  "channels_joinPrivateChannelDesc": "Voer handmatig een geheime sleutel in.",
   "channels_joinPublicChannel": "Publiek Kanaal Toetreden",
   "channels_joinPublicChannelDesc": "Iedereen kan toetreden tot dit kanaal.",
   "channels_joinHashtagChannel": "Hashtag-kanaal Aanmaken",
@@ -1596,143 +1589,7 @@
   "settings_locationIntervalInvalid": "De intervallen moeten minstens 60 seconden zijn en minder dan 86400 seconden.",
   "contacts_manageRoom": "Beheer Ruimte Server",
   "room_management": "Beheer Server Kamer",
-  "@community_joinConfirmation": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_created": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_joined": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_qrInstructions": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_alreadyMemberMessage": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleteConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleted": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_forCommunity": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_title": "Gemeenschap",
   "common_ok": "Prima",
-  "community_createDesc": "Maak een nieuwe community en deel deze via QR-code.",
-  "community_create": "Maak Gemeenschap",
-  "community_join": "Sluit aan",
-  "community_joinTitle": "Worden lid van de community",
-  "community_joinConfirmation": "Wil je je aansluiten bij de community \"{name}\"?",
-  "community_scanQr": "Scan Gemeenschap QR",
-  "community_scanInstructions": "Richt de camera op een gemeenschappelijke QR-code",
-  "community_showQr": "Toon QR-code",
-  "community_publicChannel": "Gemeenschap Openbaar",
-  "community_hashtagChannel": "Gemeenschappelijk Hashtag",
-  "community_name": "Gemeenschapnaam",
-  "community_enterName": "Voer de gemeenschapsnaam in",
-  "community_created": "Gemeenschap \"{name}\" is aangemaakt",
-  "community_joined": "Gevonden in de community \"{name}\"",
-  "community_qrTitle": "Deel Gemeenschap",
-  "community_qrInstructions": "Scan deze QR-code om je aan te sluiten bij {name}",
-  "community_hashtagPrivacyHint": "Community hashtag-kanalen zijn alleen toegankelijk voor leden van de community",
-  "community_invalidQrCode": "Ongeldige community QR-code",
-  "community_alreadyMember": "Alleen al lid",
-  "community_alreadyMemberMessage": "U bent al lid van \"{name}\".",
-  "community_addPublicChannel": "Voeg een Openbaar Gemeenschapskanaal toe",
-  "community_addPublicChannelHint": "Automatisch de publieke kanaal toevoegen voor deze community",
-  "community_noCommunities": "Nog geen gemeenschappen zijn bijgesloten.",
-  "community_scanOrCreate": "Scan een QR-code of een community aanmaken om te beginnen",
-  "community_manageCommunities": "Beheer Gemeenschappen",
-  "community_delete": "Laat Gemeenschap",
-  "community_deleteConfirm": "\"{name}\" verlaten?",
-  "community_deleteChannelsWarning": "Dit verwijdert ook {count} kanaal/kanalen en hun berichten.",
-  "@community_deleteChannelsWarning": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "community_deleted": "Community \"{name}\" verlaten",
-  "community_addHashtagChannel": "Voeg Community Hashtag toe",
-  "community_addHashtagChannelDesc": "Voeg een hashtag-kanaal toe aan deze community",
-  "community_selectCommunity": "Selecteer Gemeenschap",
-  "community_regularHashtag": "Gewone Hashtag",
-  "community_regularHashtagDesc": "Open hashtag (iedereen kan deelnemen)",
-  "community_communityHashtag": "Gemeenschappelijk Hashtag",
-  "community_communityHashtagDesc": "Alleen zichtbaar voor leden van de community",
-  "community_forCommunity": "Voor {name}",
-  "@community_regenerateSecretConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretRegenerated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretUpdated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_scanToUpdateSecret": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_secretRegenerated": "Geheim hersteld voor \"{name}\"",
-  "community_regenerateSecret": "Regeneer Geheimwoord",
-  "community_regenerateSecretConfirm": "Regeneere de geheime sleutel voor \"{name}\"? Alle leden moeten de nieuwe QR-code scannen om verder te communiceren.",
-  "community_regenerate": "Regeneer",
-  "community_updateSecret": "Bijwerken Geheime",
-  "community_secretUpdated": "Geheim gewijzigd voor \"{name}\"",
-  "community_scanToUpdateSecret": "Scan de nieuwe QR-code om het geheim voor \"{name}\" bij te werken",
   "@contacts_pathTraceTo": {
     "placeholders": {
       "name": {
@@ -2451,13 +2308,6 @@
       }
     }
   },
-  "@channels_communityShortId": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "messageStatus_sent": "Verzonden",
   "common_undo": "Achterhalen/Annuleren",
   "messageStatus_delivered": "Leverd",
@@ -2510,7 +2360,6 @@
   "map_zoomOut": "Inzoomen",
   "map_centerMap": "Centraal overzicht",
   "chrome_bluetoothRequiresChromium": "Web Bluetooth vereist een Chromium-browser.",
-  "channels_communityShortId": "ID: {id}...",
   "pathTrace_legendGpsConfirmed": "GPS-locatie bevestigd",
   "pathTrace_legendInferred": "Afgeleide positie",
   "@pathMap_hopOf": {

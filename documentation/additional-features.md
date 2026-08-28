@@ -75,23 +75,6 @@ An optional per-contact and per-channel text compression feature using the SMAZ 
 
 ---
 
-## Community QR Scanner
-
-### How to Access
-From Channels screen → "+" FAB → "Scan Community QR"
-
-### What the User Sees
-A live QR scanner view with instruction text overlay.
-
-### Key Interactions
-- Scan a community QR code shared by another member
-- On valid scan: confirmation dialog showing community name and ID
-- Option to "Add public channel to device" on join
-- If already a member: shows an "Already a member" dialog
-- Invalid QR: shows an orange error snackbar
-
----
-
 ## Channel Message Path Viewing
 
 ### How to Access

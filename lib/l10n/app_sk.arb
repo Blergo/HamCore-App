@@ -357,7 +357,7 @@
     }
   },
   "channels_public": "Veľké verejné",
-  "channels_private": "Osobné",
+  "channels_hashtag": "Hashtag",
   "channels_editChannel": "Upraviť kanál",
   "channels_muteChannel": "Stlmiť kanál",
   "channels_unmuteChannel": "Zrušiť stlmenie kanála",
@@ -383,10 +383,7 @@
   "channels_channelName": "Názov kanálu",
   "channels_usePublicChannel": "Použite verejný kanál",
   "channels_standardPublicPsk": "Štandardný verejný PSK",
-  "channels_pskHex": "PSK (Šifrovacia kľúčik)",
-  "channels_generateRandomPsk": "Generovať náhodný PSK",
   "channels_enterChannelName": "Prosím, zadajte názov kanála.",
-  "channels_pskMustBe32Hex": "PSK musí mať 32 hexadecimálových znakov.",
   "channels_channelAdded": "Kanál \"{name}\" pridaný",
   "@channels_channelAdded": {
     "placeholders": {
@@ -1562,10 +1559,6 @@
   "neighbors_errorLoading": "Chyba pri načítaní susedov: {error}",
   "neighbors_repeatersNeighbors": "Opakovadlá Súsezná",
   "neighbors_noData": "Nie je dostupná žiadna informácia o susedoch.",
-  "channels_createPrivateChannel": "Vytvorte súkromný kanál",
-  "channels_joinPrivateChannel": "Pripojiť sa k súkromnému kanálu",
-  "channels_joinPrivateChannelDesc": "Ručne zadajte tajný kľúč.",
-  "channels_createPrivateChannelDesc": "Zabezpečené pomocou tajného kľúča.",
   "channels_joinPublicChannel": "Pripojte sa k verejnému kanálu",
   "channels_joinPublicChannelDesc": "Któvek sátó na tutó kanalizovát.",
   "channels_joinHashtagChannel": "Pripojte sa k Hashtag Kanálu",
@@ -1596,143 +1589,7 @@
   "settings_locationIntervalInvalid": "Interval musí byť aspoň 60 sekúnd a menej ako 86400 sekúnd.",
   "contacts_manageRoom": "Spravovať server miestnosti",
   "room_management": "Správa servera miestnosti",
-  "@community_joinConfirmation": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_created": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_joined": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_qrInstructions": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_alreadyMemberMessage": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleteConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleted": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_forCommunity": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_create": "Vytvoriť komunitu",
-  "community_title": "Komunita",
-  "community_createDesc": "Vytvorte novú komunitu a zdieľajte cez QR kód.",
-  "community_join": "Pripojiť",
-  "community_joinTitle": "Pripojiť sa k spoločenstvu",
-  "community_joinConfirmation": "Chceš sa pridať do komunity \"{name}\"?",
-  "community_scanQr": "Skontrolujte komunitný QR kód",
-  "community_scanInstructions": "Zamerte kameru na komunitný QR kód.",
-  "community_showQr": "Zobraziť QR kód",
   "common_ok": "OK\nDobre",
-  "community_publicChannel": "Komunita verejná",
-  "community_hashtagChannel": "Komunitný Hashtag",
-  "community_name": "Komunita",
-  "community_enterName": "Zadajte názov komunity",
-  "community_created": "Komunita \"{name}\" vytvorená",
-  "community_joined": "Pripojená komunita \"{name}\"",
-  "community_qrTitle": "Zdieľť komunitu",
-  "community_qrInstructions": "Skenejte tento QR kód, aby ste sa pripojili k {name}.",
-  "community_hashtagPrivacyHint": "Hashtagové kanály komunity sú prístupné len členom komunity",
-  "community_invalidQrCode": "Neplatná QR kód komunity.",
-  "community_alreadyMember": "Už ste členom.",
-  "community_alreadyMemberMessage": "Vy ste už členom \"{name}\".",
-  "community_addPublicChannel": "Pridať verejný komunikačný kanál",
-  "community_addPublicChannelHint": "Automaticky prida verejný kanál pre túto komunitu.",
-  "community_noCommunities": "Zatiaľ ste sa nepripojili k žiadnej komunite",
-  "community_scanOrCreate": "Skene QR kód alebo vytvor komunitu na začiatok.",
-  "community_manageCommunities": "Spravovať komunity",
-  "community_delete": "Nechajte komunitu",
-  "community_deleteConfirm": "Opustiť \"{name}\"?",
-  "community_deleteChannelsWarning": "Tým sa tiež vymaže {count} kanál/kanálov a ich správy.",
-  "@community_deleteChannelsWarning": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "community_deleted": "Opustená komunita \"{name}\"",
-  "community_addHashtagChannel": "Pridať komunitný hashtag",
-  "community_addHashtagChannelDesc": "Pridajte hashtagový kanál pre túto komunitu.",
-  "community_selectCommunity": "Vyberte komunitu",
-  "community_regularHashtag": "Zvyčajný hashtag",
-  "community_regularHashtagDesc": "Veľký hashtag (ktočokoľvek sa môže pridať)",
-  "community_communityHashtag": "Komunitný Hashtag",
-  "community_communityHashtagDesc": "Špecifické pre členov komunity",
-  "community_forCommunity": "Pre {name}",
-  "@community_regenerateSecretConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretRegenerated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretUpdated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_scanToUpdateSecret": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_secretRegenerated": "Záznam pre \"{name}\" bol regenerovaný tajne",
-  "community_regenerateSecretConfirm": "Znovu vygenerovať tajný kľúč pre \"{name}\"? Všetci členovia budú musieť skanovať nový QR kód, aby mohli nadviazať komunikáciu.",
-  "community_regenerate": "Znovu vygenerovať",
-  "community_regenerateSecret": "Zobraziť nový tajný kód",
-  "community_scanToUpdateSecret": "Skáňte nový QR kód na aktualizáciu tajného hesla pre \"{name}\"",
-  "community_updateSecret": "Aktualizovať tajné heslo",
-  "community_secretUpdated": "Zmena tajnej slova pre \"{name}\"",
   "@contacts_pathTraceTo": {
     "placeholders": {
       "name": {
@@ -2451,13 +2308,6 @@
       }
     }
   },
-  "@channels_communityShortId": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "messageStatus_sent": "Odoslané",
   "messageStatus_delivered": "Doručené",
   "messageStatus_pending": "Odoslanie",
@@ -2510,7 +2360,6 @@
   "map_zoomOut": "Zmenť zamer zblízka",
   "map_centerMap": "Mapa centra",
   "chrome_bluetoothRequiresChromium": "Web Bluetooth vyžaduje prehliadač Chromium.",
-  "channels_communityShortId": "ID: {id}...",
   "pathTrace_legendGpsConfirmed": "GPS potvrdilo",
   "pathTrace_legendInferred": "Odvodená poloha",
   "@pathMap_hopOf": {

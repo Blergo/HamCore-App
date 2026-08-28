@@ -38,7 +38,7 @@ lib/
 │   ├── hamcore_connector_usb.dart   # USB serial transport helper
 │   ├── hamcore_protocol.dart        # Frame size + version constants
 │   └── hamcore_uuids.dart           # Nordic UART UUIDs + scan name prefixes
-├── models/          # Plain data classes (Contact, Channel, Message, Community, …)
+├── models/          # Plain data classes (Contact, Channel, Message, …)
 ├── services/        # ChangeNotifier services + IO services (retry, translation, ML, …)
 ├── storage/         # SharedPreferences-backed stores, scoped per device key
 ├── helpers/         # Pure utilities (Smaz compression, GIF parsing, scroll helpers, path hop resolution)
@@ -92,7 +92,6 @@ All screens are fully implemented (no remaining placeholders).
 | `line_of_sight_map_screen.dart` | Terrain LOS analysis between configurable endpoints |
 | `path_trace_map.dart` | Animates the hop path a direct message traveled |
 | `map_cache_screen.dart` | Download/clear offline map tile cache |
-| `community_qr_scanner_screen.dart` | Scan QR to join a mesh community/channel |
 
 ### Settings / Debug / Diagnostics
 | Screen | Purpose |
@@ -136,7 +135,6 @@ All stores in `lib/storage/` use `PrefsManager` (a `SharedPreferences` singleton
 | `message_store`, `channel_message_store` | Direct + channel messages |
 | `contact_store`, `contact_discovery_store` | Known + discovered contacts |
 | `channel_store`, `channel_order_store`, `channel_settings_store` | Channels, display order, per-channel Smaz toggle |
-| `community_store` | Communities (32-byte shared secrets) |
 | `contact_group_store`, `contact_settings_store` | Groups, per-contact Smaz toggle |
 | `unread_store` | Per-contact unread counts (debounced writes) |
 
