@@ -5748,12 +5748,13 @@ class HamCoreConnector extends ChangeNotifier {
           final parsed = _splitSenderText(text);
           final decodedText =
               Smaz.tryDecodePrefixed(parsed.text) ?? parsed.text;
-          if (_shouldDropSelfChannelMessage(
-            parsed.senderName,
-            packet.pathBytes,
-          )) {
-            return;
-          }
+          // Note: unlike the decoded RESP_CODE_CHANNEL_MSG_RECV path, we
+          // don't drop self-named messages here. The radio is half-duplex -
+          // it can never hear its own transmission - so any raw RX log
+          // entry naming us as sender is necessarily a genuine repeater
+          // echo, which _isChannelRepeat's self-echo handling is meant to
+          // merge into the original outgoing message (bumping repeatCount)
+          // rather than showing as a separate bubble.
 
           final pktHash = _computePacketHash(
             packet.payloadType,
@@ -6423,6 +6424,19 @@ class HamCoreConnector extends ChangeNotifier {
     return 'c:${digest.sublist(0, 8).map((b) => b.toRadixString(16).padLeft(2, '0')).join()}';
   }
 
+  /// Picks which packetHash to keep when merging a repeat into an existing
+  /// channel message. A real packet hash (from raw over-air bytes, no 'c:'
+  /// prefix) is exact and stable across every repeat of the same message; a
+  /// content hash ('c:' prefix) is only a fuzzy stand-in used before a real
+  /// one has been seen. Once a real hash shows up it's always adopted, so
+  /// later genuine repeats - which can arrive well outside the short
+  /// text/sender/time heuristic window on a multi-hop mesh - match it
+  /// exactly instead of falling back to that heuristic every time.
+  String? _preferPacketHash(String? existing, String? incoming) {
+    if (incoming != null && !incoming.startsWith('c:')) return incoming;
+    return existing ?? incoming;
+  }
+
   _ParsedText _splitSenderText(String text) {
     final colonIndex = text.indexOf(':');
     if (colonIndex > 0 && colonIndex < text.length - 1 && colonIndex < 50) {
@@ -6538,7 +6552,10 @@ class HamCoreConnector extends ChangeNotifier {
         pathHashWidth: existing.pathHashWidth ?? processedMessage.pathHashWidth,
         pathBytes: mergedPathBytes,
         pathVariants: mergedPathVariants,
-        packetHash: existing.packetHash ?? processedMessage.packetHash,
+        packetHash: _preferPacketHash(
+          existing.packetHash,
+          processedMessage.packetHash,
+        ),
         // Mark as sent when first repeat is heard
         status: promotedFromPending
             ? ChannelMessageStatus.sent
@@ -6619,16 +6636,19 @@ class HamCoreConnector extends ChangeNotifier {
     // Only an incoming (received) copy can be a repeat/echo of something.
     if (incoming.isOutgoing) return false;
 
-    // Self-echo: an outgoing message coming back via a repeater. The send is
-    // delayed by _waitForRadioQuiet (often 10s+) and propagation can add more,
-    // so the timestamp gap can easily exceed the cross-peer window.
+    // Self-echo: an outgoing message coming back via a direct repeater.
+    // The send can be delayed by _waitForRadioQuiet (often 10s+), and a
+    // direct repeat adds a few more seconds of propagation on top - so this
+    // window needs to be a bit wider than the plain cross-peer one, but
+    // repeats are only ever heard directly, not relayed multiple hops deep,
+    // so it doesn't need to be huge either.
     final selfName = _selfName ?? 'Me';
     final isSelfEcho =
         existing.isOutgoing &&
         !incoming.isOutgoing &&
         (incoming.senderName == selfName || existing.senderName == selfName);
 
-    final windowMs = isSelfEcho ? 10 * 60 * 1000 : 30000;
+    final windowMs = isSelfEcho ? 60 * 1000 : 30000;
     final diffMs =
         (existing.timestamp.millisecondsSinceEpoch -
                 incoming.timestamp.millisecondsSinceEpoch)
