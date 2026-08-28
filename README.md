@@ -3,15 +3,6 @@
 HamCore is a fork of [meshcore-open](https://github.com/zjs81/meshcore-open), the open-source Flutter companion app for MeshCore LoRa mesh networking devices. It pairs with its own HamCore firmware fork, which uses a modified payload and is not backwards compatible with stock MeshCore devices.
 
 ## Changelog
-
-Changes specific to this fork, on top of upstream `meshcore-open`.
-
-Versioning is plain numeric `major.minor.patch` (e.g. `v0.1.0`), matching git
-tags 1:1 — no releases have shipped yet, so there's no legacy alpha/beta
-suffix scheme to account for. Release builds take their version directly from
-the triggering tag; test builds (manually run against a branch) fall back to
-the most recent tag reachable from that branch.
-
 ### v0.1.0
 
 - Forked from [zjs81/meshcore-open](https://github.com/zjs81/meshcore-open) at commit `e6cea37`.
