@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -714,18 +715,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => '우크라이나어';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1 바이트';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1~2 바이트';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 바이트';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 바이트';
 
   @override
   String get appSettings_enableMessageTracing => '메시지 추적 기능 활성화';
@@ -2600,13 +2589,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get repeater_advancedSettingsSubtitle => '숙련된 운영자를 위한 조절 노브';
 
   @override
-  String get repeater_pathHashMode => '패스 해시 모드';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      '이 리피터의 ID를 플러드 경로/루프 감지 태그에 인코딩하는 데 사용되는 바이트 수입니다. 0=1바이트(256개 ID, 최대 64홉), 1=2바이트(65,000개 ID, 최대 32홉), 2=3바이트(1,600만 개 ID, 최대 21홉). v1.14 이전 펌웨어는 항상 1바이트 경로를 사용했으며, v1.14 이상은 2바이트 또는 3바이트 경로로 설정할 수 있습니다.';
-
-  @override
   String get repeater_keySettings => '신원 키 변경';
 
   @override
@@ -3090,10 +3072,6 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       '광고에 포함된 소유자 연락처 정보를 지정합니다. 줄 바꿈을 위해 \'|\' 문자를 사용합니다.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      '경로 해시 모드를 설정합니다. 0 = 고전 방식, 1 = 표준 방식, 2 = 엄격한 방식. 경로 매칭 방식에 영향을 미칩니다.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -4627,7 +4605,8 @@ class AppLocalizationsKo extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes분 $seconds초';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}

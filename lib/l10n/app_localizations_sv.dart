@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -733,18 +734,6 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => 'Ukrainska';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1 byte';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 byte';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 byte';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 byte';
 
   @override
   String get appSettings_enableMessageTracing => 'Aktivera meddelandespårning';
@@ -2681,13 +2670,6 @@ class AppLocalizationsSv extends AppLocalizations {
       'Ställjusteringsknappar för erfarna användare';
 
   @override
-  String get repeater_pathHashMode => 'Hash-läge för sökväg';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Byte som används för att koda denna repeaters ID i taggar för flood-väg/loopdetektering. 0=1 byte (256 ID:n, upp till 64 hopp), 1=2 byte (65 000 ID:n, upp till 32 hopp), 2=3 byte (16 miljoner ID:n, upp till 21 hopp). Firmware före v1.14 använde alltid 1-byte-vägar; v1.14 och nyare kan konfigureras för 2- eller 3-byte-vägar.';
-
-  @override
   String get repeater_keySettings => 'Ändra identitetsnyckel';
 
   @override
@@ -3203,10 +3185,6 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       'Anger kontaktinformationen som ska inkluderas i annonserna. Använd \'|\' för att separera olika fält.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Definierar läget för hash-baserad ruttning. 0 = äldre läge, 1 = standard, 2 = strikt. Påverkar hur ruttvägar matchas.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -4120,12 +4098,10 @@ class AppLocalizationsSv extends AppLocalizations {
   String get settings_gpxExportAllContacts => 'Alla kontakters platser';
 
   @override
-  String get settings_gpxExportShareText =>
-      'Kartdata exporterad från hamcore';
+  String get settings_gpxExportShareText => 'Kartdata exporterad från hamcore';
 
   @override
-  String get settings_gpxExportShareSubject =>
-      'hamcore export av GPX-kartdata';
+  String get settings_gpxExportShareSubject => 'hamcore export av GPX-kartdata';
 
   @override
   String get snrIndicator_nearByRepeaters => 'Närliggande uppreparstationer';
@@ -4811,7 +4787,8 @@ class AppLocalizationsSv extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes min $seconds s';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}

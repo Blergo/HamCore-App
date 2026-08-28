@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -554,8 +555,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get settings_rebootDevice => 'Restartovať zariadenie';
 
   @override
-  String get settings_rebootDeviceSubtitle =>
-      'Restartujte zariadenie HamCore.';
+  String get settings_rebootDeviceSubtitle => 'Restartujte zariadenie HamCore.';
 
   @override
   String get settings_rebootDeviceConfirm =>
@@ -738,18 +738,6 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => 'Ukrajinská';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1 byt';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 bity';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 bity';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 bity';
 
   @override
   String get appSettings_enableMessageTracing => 'Povoliť sledovanie správ';
@@ -2697,13 +2685,6 @@ class AppLocalizationsSk extends AppLocalizations {
       'Ovládacie knopy pre skúsených operátorov';
 
   @override
-  String get repeater_pathHashMode => 'Režim hashovania cesty';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Bajty použité na zakódovanie ID tohto opakovača v tagoch flood trasy/detekcie slučky. 0=1 bajt (256 ID, až 64 skokov), 1=2 bajty (65 000 ID, až 32 skokov), 2=3 bajty (16 miliónov ID, až 21 skokov). Firmvér pred v1.14 vždy používal 1-bajtové trasy; v1.14 a novšie možno nakonfigurovať na 2- alebo 3-bajtové trasy.';
-
-  @override
   String get repeater_keySettings => 'Zmena identititačných klíčov';
 
   @override
@@ -3221,10 +3202,6 @@ class AppLocalizationsSk extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       'Definuje reťazec s informáciami o kontaktnom osobě, ktorý je zahrnutý v reklamách. Používajte \'|\' pre nové riadky.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Nastavuje režim hashovania cesty. 0 = starý režim, 1 = štandardný režim, 2 = striktný režim. Ovplyvňuje, ako sa prekladajú trasy.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -4840,7 +4817,8 @@ class AppLocalizationsSk extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes min $seconds s';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}

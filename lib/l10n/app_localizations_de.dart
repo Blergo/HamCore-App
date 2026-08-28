@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -744,18 +745,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => 'Ukrainisch';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1 Byte';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 Bytes';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 Bytes';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 Bytes';
 
   @override
   String get appSettings_enableMessageTracing =>
@@ -2710,13 +2699,6 @@ class AppLocalizationsDe extends AppLocalizations {
       'Feinabstimmung für erfahrene Betreiber';
 
   @override
-  String get repeater_pathHashMode => 'Hash-Modus für Pfade';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Bytes, die zur Kodierung der ID dieses Repeaters in Flood-Pfad-/Schleifen-Erkennung-Tags verwendet werden. 0 = 1 Byte (256 IDs, bis zu 64 Hops), 1 = 2 Bytes (65.000 IDs, bis zu 32 Hops), 2 = 3 Bytes (16 Millionen IDs, bis zu 21 Hops). Firmware-Versionen 1.13 und älter verwenden mehrstellige Pfade – ab Version 1.14+ wird nur ein Pfad erstellt, sobald das Netzwerk aktiv ist.';
-
-  @override
   String get repeater_keySettings => 'Identitätsschlüssel ändern';
 
   @override
@@ -3237,10 +3219,6 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       'Definiert den String mit den Kontaktinformationen des Eigentümers, der in den Anzeigen enthalten ist. Verwenden Sie \'|\' für Zeilenumbrüche.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Legt den Modus für die Pfad-Hashes fest. 0 = ältere Version, 1 = Standard, 2 = streng. Beeinflusst, wie Routing-Pfade abgeglichen werden.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -4638,8 +4616,7 @@ class AppLocalizationsDe extends AppLocalizations {
       locale: localeName,
       other:
           '$count Sprünge haben keinen Standort - der angezeigte Pfad ist unvollständig',
-      one:
-          '1 Sprung hat keinen Standort - der angezeigte Pfad ist unvollständig',
+      one: '1 Sprung hat keinen Standort - der angezeigte Pfad ist unvollständig',
     );
     return '$_temp0';
   }
@@ -4867,7 +4844,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes Min $seconds Sek';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}

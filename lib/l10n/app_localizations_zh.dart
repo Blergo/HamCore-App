@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -705,18 +706,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => '乌克兰语';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1 字节';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 字节';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 字节';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 字节';
 
   @override
   String get appSettings_enableMessageTracing => '启用消息追踪';
@@ -2569,13 +2558,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get repeater_advancedSettingsSubtitle => '高级操作员使用的调节旋钮';
 
   @override
-  String get repeater_pathHashMode => '路径哈希模式';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      '用于在洪泛路径/环路检测标签中编码此中继器 ID 的字节数。0=1 字节（256 个 ID，最多 64 跳），1=2 字节（65K 个 ID，最多 32 跳），2=3 字节（16M 个 ID，最多 21 跳）。v1.14 之前的固件始终使用 1 字节路径；v1.14 及更新版本可配置为 2 或 3 字节路径。';
-
-  @override
   String get repeater_keySettings => '更改身份密钥';
 
   @override
@@ -3021,10 +3003,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get repeater_cliHelpSetOwnerInfo => '设置广告中包含的联系人信息字符串。使用 \'|\' 作为换行符。';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      '设置路径哈希模式。 0 = 传统模式，1 = 标准模式，2 = 严格模式。 影响路由路径的匹配方式。';
 
   @override
   String get repeater_cliHelpSetLoopDetect => '设置路由环检测的灵敏度：关闭、低、中、或高。';
@@ -4511,7 +4489,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes 分 $seconds 秒';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}

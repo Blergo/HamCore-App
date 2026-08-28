@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -748,18 +749,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => 'Ukrainien';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1 octet';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 à 2 octets';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 à 3 octets';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 à 4 octets';
 
   @override
   String get appSettings_enableMessageTracing =>
@@ -2722,13 +2711,6 @@ class AppLocalizationsFr extends AppLocalizations {
       'Réglages avancés pour les opérateurs expérimentés';
 
   @override
-  String get repeater_pathHashMode => 'Mode de hachage de chemin';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Octets utilisés pour encoder l\'ID de ce routeur dans les balises de détection de flux/boucles. 0 = 1 octet (256 ID, jusqu\'à 64 sauts), 1 = 2 octets (65 000 ID, jusqu\'à 32 sauts), 2 = 3 octets (16 millions d\'ID, jusqu\'à 21 sauts). Les versions 1.13 et antérieures utilisent des chemins multi-octets ; à partir de la version 1.14, cela n\'est plus nécessaire.';
-
-  @override
   String get repeater_keySettings => 'Modifier les clés d\'identité';
 
   @override
@@ -3250,10 +3232,6 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       'Définit la chaîne d\'informations de contact du propriétaire, qui figure dans les annonces. Utilisez \'|\' pour les sauts de ligne.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Définit le mode de hachage de chemin. 0 = mode ancien, 1 = mode standard, 2 = mode strict. Influence la façon dont les chemins de routage sont correspondus.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -4882,7 +4860,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes minutes $seconds secondes';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}

@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -731,18 +732,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => 'Українська';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1 byte';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 bytes';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 bytes';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 bytes';
 
   @override
   String get appSettings_enableMessageTracing => 'Enable Message Tracing';
@@ -2217,7 +2206,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'Password will be stored securely on this device';
 
   @override
-  String get login_repeaterDescription => 'Choose how you\'d like to connect to this repeater.';
+  String get login_repeaterDescription =>
+      'Choose how you\'d like to connect to this repeater.';
 
   @override
   String get login_roomDescription =>
@@ -2664,13 +2654,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get repeater_advancedSettingsSubtitle =>
       'Tuning knobs for experienced operators';
-
-  @override
-  String get repeater_pathHashMode => 'Path hash mode';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Bytes used to encode this repeater\'s ID in flood path/loop-detect tags. 0=1 byte (256 IDs, up to 64 hops), 1=2 bytes (65K IDs, up to 32 hops), 2=3 bytes (16M IDs, up to 21 hops). Firmware before v1.14 always used 1-byte paths; v1.14 and newer can be configured for 2- or 3-byte paths.';
 
   @override
   String get repeater_keySettings => 'Change Identity Keys';
@@ -3186,10 +3169,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       'Sets the owner contact info string included in adverts. Use \'|\' for newlines.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Sets the path-hash mode. 0 = legacy, 1 = standard, 2 = strict. Affects how routing paths are matched.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -4102,12 +4081,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_gpxExportAllContacts => 'All contacts locations';
 
   @override
-  String get settings_gpxExportShareText =>
-      'Map data exported from hamcore';
+  String get settings_gpxExportShareText => 'Map data exported from hamcore';
 
   @override
-  String get settings_gpxExportShareSubject =>
-      'hamcore GPX map data export';
+  String get settings_gpxExportShareSubject => 'hamcore GPX map data export';
 
   @override
   String get snrIndicator_nearByRepeaters => 'Nearby Repeaters';
@@ -4782,7 +4759,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes m $seconds s';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}

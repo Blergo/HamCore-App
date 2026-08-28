@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -747,18 +748,6 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => 'Ucraino';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1 byte';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 byte';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 byte';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 byte';
 
   @override
   String get appSettings_enableMessageTracing =>
@@ -2715,13 +2704,6 @@ class AppLocalizationsIt extends AppLocalizations {
       'Manopole di regolazione per operatori esperti';
 
   @override
-  String get repeater_pathHashMode => 'Modalità di hashing del percorso';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Byte utilizzati per codificare l\'ID di questo ripetitore nei tag di percorso flood/rilevamento loop. 0=1 byte (256 ID, fino a 64 salti), 1=2 byte (65.000 ID, fino a 32 salti), 2=3 byte (16 milioni di ID, fino a 21 salti). Il firmware precedente alla v1.14 usava sempre percorsi a 1 byte; v1.14 e versioni successive possono essere configurate per percorsi a 2 o 3 byte.';
-
-  @override
   String get repeater_keySettings => 'Cambia le Chiavi di Identità';
 
   @override
@@ -3244,10 +3226,6 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       'Definisce la stringa contenente le informazioni di contatto del proprietario, presente negli annunci. Utilizzare \'|\' per i newline.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Imposta la modalità di hashing del percorso. 0 = modalità legacy, 1 = modalità standard, 2 = modalità rigorosa. Influisce su come vengono abbinati i percorsi di routing.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -4174,8 +4152,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get settings_gpxExportAllContacts => 'Tutte le posizioni dei contatti';
 
   @override
-  String get settings_gpxExportShareText =>
-      'Dati mappa esportati da hamcore';
+  String get settings_gpxExportShareText => 'Dati mappa esportati da hamcore';
 
   @override
   String get settings_gpxExportShareSubject =>
@@ -4641,8 +4618,7 @@ class AppLocalizationsIt extends AppLocalizations {
       locale: localeName,
       other:
           '$count salti non hanno una posizione specifica — il percorso mostrato è parziale',
-      one:
-          '1 salto non ha una posizione specifica — il percorso mostrato è parziale',
+      one: '1 salto non ha una posizione specifica — il percorso mostrato è parziale',
     );
     return '$_temp0';
   }
@@ -4870,7 +4846,8 @@ class AppLocalizationsIt extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes min $seconds s';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}

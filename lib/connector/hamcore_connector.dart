@@ -2977,18 +2977,6 @@ class HamCoreConnector extends ChangeNotifier {
     } catch (_) {}
   }
 
-  Future<void> setPathHashMode(int mode) async {
-    if (!isConnected) return;
-    final clampedMode = mode.clamp(0, 3).toInt();
-    await sendFrame(buildSetPathHashModeFrame(clampedMode));
-    final nextWidth = clampedMode + 1;
-    if (_pathHashByteWidth != nextWidth) {
-      _pathHashByteWidth = nextWidth;
-      _directRepeaters.clear();
-      notifyListeners();
-    }
-  }
-
   bool _isPathLenValidForCurrentMode(int pathLen, List<int> pathBytes) {
     return _isPathLenValidForMode(pathLen, pathBytes, _pathHashByteWidth);
   }

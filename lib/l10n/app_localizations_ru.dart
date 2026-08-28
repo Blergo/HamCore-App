@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -748,18 +749,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => 'Українська';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1 байт';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 байта';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 байта';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 байта';
 
   @override
   String get appSettings_enableMessageTracing =>
@@ -2719,13 +2708,6 @@ class AppLocalizationsRu extends AppLocalizations {
       'Регуляторы для опытных операторов';
 
   @override
-  String get repeater_pathHashMode => 'Режим хеширования пути';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Байты, используемые для кодирования идентификатора этого ретранслятора в тегах flood-маршрута/обнаружения циклов. 0 = 1 байт (256 идентификаторов, до 64 переходов), 1 = 2 байта (65 000 идентификаторов, до 32 переходов), 2 = 3 байта (16 миллионов идентификаторов, до 21 перехода). Прошивки до v1.14 всегда использовали 1-байтовые маршруты; v1.14 и новее можно настроить на 2- или 3-байтовые маршруты.';
-
-  @override
   String get repeater_keySettings => 'Изменить ключи идентичности';
 
   @override
@@ -3244,10 +3226,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       'Указывает строку с контактной информацией владельца, которая должна быть включена в объявления. Используйте \'|\' для переносов строк.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Устанавливает режим хеширования пути. 0 = устаревший, 1 = стандартный, 2 = строгий. Влияет на то, как определяются маршруты.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -4879,7 +4857,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes м $seconds с';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}

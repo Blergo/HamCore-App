@@ -1474,30 +1474,6 @@ abstract class AppLocalizations {
   /// **'Українська'**
   String get appSettings_languageUk;
 
-  /// No description provided for @repeater_pathHashModeOption0.
-  ///
-  /// In en, this message translates to:
-  /// **'0 - 1 byte'**
-  String get repeater_pathHashModeOption0;
-
-  /// No description provided for @repeater_pathHashModeOption1.
-  ///
-  /// In en, this message translates to:
-  /// **'1 - 2 bytes'**
-  String get repeater_pathHashModeOption1;
-
-  /// No description provided for @repeater_pathHashModeOption2.
-  ///
-  /// In en, this message translates to:
-  /// **'2 - 3 bytes'**
-  String get repeater_pathHashModeOption2;
-
-  /// No description provided for @repeater_pathHashModeOption3.
-  ///
-  /// In en, this message translates to:
-  /// **'3 - 4 bytes'**
-  String get repeater_pathHashModeOption3;
-
   /// No description provided for @appSettings_enableMessageTracing.
   ///
   /// In en, this message translates to:
@@ -4868,18 +4844,6 @@ abstract class AppLocalizations {
   /// **'Tuning knobs for experienced operators'**
   String get repeater_advancedSettingsSubtitle;
 
-  /// No description provided for @repeater_pathHashMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Path hash mode'**
-  String get repeater_pathHashMode;
-
-  /// No description provided for @repeater_pathHashModeHelper.
-  ///
-  /// In en, this message translates to:
-  /// **'Bytes used to encode this repeater\'s ID in flood path/loop-detect tags. 0=1 byte (256 IDs, up to 64 hops), 1=2 bytes (65K IDs, up to 32 hops), 2=3 bytes (16M IDs, up to 21 hops). Firmware before v1.14 always used 1-byte paths; v1.14 and newer can be configured for 2- or 3-byte paths.'**
-  String get repeater_pathHashModeHelper;
-
   /// No description provided for @repeater_keySettings.
   ///
   /// In en, this message translates to:
@@ -5725,12 +5689,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sets the owner contact info string included in adverts. Use \'|\' for newlines.'**
   String get repeater_cliHelpSetOwnerInfo;
-
-  /// No description provided for @repeater_cliHelpSetPathHashMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Sets the path-hash mode. 0 = legacy, 1 = standard, 2 = strict. Affects how routing paths are matched.'**
-  String get repeater_cliHelpSetPathHashMode;
 
   /// No description provided for @repeater_cliHelpSetLoopDetect.
   ///
@@ -8301,6 +8259,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{minutes} m {seconds} s'**
   String imageSend_minutesSecondsValue(String minutes, String seconds);
+
+  /// No description provided for @login_repeaterAccessUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest and admin access are temporarily unavailable.'**
+  String get login_repeaterAccessUnavailable;
 }
 
 class _AppLocalizationsDelegate
@@ -8386,9 +8350,3 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
     'that was used.',
   );
 }
-  /// No description provided for @login_repeaterAccessUnavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'Guest and admin access are temporarily unavailable.'**
-  String get login_repeaterAccessUnavailable;
-

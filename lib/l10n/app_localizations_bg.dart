@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -749,18 +750,6 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => 'Украински';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1 байт';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 байта';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 байта';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 байта';
 
   @override
   String get appSettings_enableMessageTracing =>
@@ -2719,13 +2708,6 @@ class AppLocalizationsBg extends AppLocalizations {
       'Експериментални настройки за опитни оператори';
 
   @override
-  String get repeater_pathHashMode => 'Режим за хеширане на пътища';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Байтовете, използвани за кодиране на идентификатора на този повторител в таговете за откриване на потоци/цикли, са: 0=1 байт (256 идентификатора, до 64 скока), 1=2 байта (65 000 идентификатора, до 32 скока), 2=3 байта (16 милиона идентификатора, до 21 скока). Версиите 1.13 и по-старите фърмуери използват многобайтови пътища - само след като мрежата е актуализирана до версия 1.14 или по-нова.';
-
-  @override
   String get repeater_keySettings => 'Изменяне на идентичности ключа';
 
   @override
@@ -3244,10 +3226,6 @@ class AppLocalizationsBg extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       'Задава низовете с информация за контакт на собственика, които са включени в рекламите. Използвайте \'|\' за нови редове.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Задава режима за хеширане на пътищата. 0 = за стари системи, 1 = за стандартни системи, 2 = за строги системи. Влияе върху начина, по който се съпоставят маршрутите.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -4860,7 +4838,8 @@ class AppLocalizationsBg extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes мин $seconds сек';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}

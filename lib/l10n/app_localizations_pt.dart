@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -561,8 +562,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_rebootDevice => 'Reiniciar Dispositivo';
 
   @override
-  String get settings_rebootDeviceSubtitle =>
-      'Reiniciar o dispositivo HamCore';
+  String get settings_rebootDeviceSubtitle => 'Reiniciar o dispositivo HamCore';
 
   @override
   String get settings_rebootDeviceConfirm =>
@@ -745,18 +745,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => 'Ucraniano';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1 byte';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 bytes';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 bytes';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 bytes';
 
   @override
   String get appSettings_enableMessageTracing =>
@@ -2711,13 +2699,6 @@ class AppLocalizationsPt extends AppLocalizations {
       'Controles de ajuste para operadores experientes';
 
   @override
-  String get repeater_pathHashMode => 'Modo de hash de caminho';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Bytes usados para codificar o ID deste repetidor nas tags de caminho flood/detecção de loop. 0=1 byte (256 IDs, até 64 saltos), 1=2 bytes (65.000 IDs, até 32 saltos), 2=3 bytes (16 milhões de IDs, até 21 saltos). O firmware anterior à v1.14 sempre usava caminhos de 1 byte; v1.14 e versões mais recentes podem ser configuradas para caminhos de 2 ou 3 bytes.';
-
-  @override
   String get repeater_keySettings => 'Alterar Chaves de Identidade';
 
   @override
@@ -3236,10 +3217,6 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       'Define a string com as informações de contato do proprietário, que será incluída nos anúncios. Utilize \'|\' para indicar novas linhas.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Define o modo de hash de caminho. 0 = modo legado, 1 = modo padrão, 2 = modo rigoroso. Afeta a forma como os caminhos de roteamento são correspondidos.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -4855,7 +4832,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes min $seconds s';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}

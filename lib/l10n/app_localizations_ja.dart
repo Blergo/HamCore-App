@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -713,18 +714,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => 'ウクライナ語';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1バイト';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1〜2バイト';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2〜3バイト';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3〜4バイト';
 
   @override
   String get appSettings_enableMessageTracing => 'メッセージ追跡を有効にする';
@@ -2594,13 +2583,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get repeater_advancedSettingsSubtitle => '経験豊富なオペレーター向けの調整ノブ';
 
   @override
-  String get repeater_pathHashMode => 'パスハッシュモード';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'このリピータのIDをフローパス/ループ検出タグにエンコードするために使用されるバイト数。 0=1バイト (256個のID、最大64ホップ)、1=2バイト (65,000個のID、最大32ホップ)、2=3バイト (160万個のID、最大21ホップ)。 v1.13およびそれ以前のファームウェアでは、マルチバイトパスがサポートされていません。 v1.14以降のバージョンでは、一度ネットワークが起動されると、パスが一度だけ検出されます。';
-
-  @override
   String get repeater_keySettings => 'アイデンティティキーの変更';
 
   @override
@@ -3082,10 +3064,6 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       '広告に記載されている所有者連絡先情報を設定します。改行には\'|\'を使用してください。';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'パスハッシュモードを設定します。 0 = 従来のモード、1 = 標準モード、2 = 厳格モード。ルーティングパスのマッチング方法に影響します。';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -3961,8 +3939,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settings_gpxExportShareText => 'hamcoreからエクスポートされた地図データ';
 
   @override
-  String get settings_gpxExportShareSubject =>
-      'hamcore GPX形式の地図データのエクスポート';
+  String get settings_gpxExportShareSubject => 'hamcore GPX形式の地図データのエクスポート';
 
   @override
   String get snrIndicator_nearByRepeaters => '近くのリピータ';
@@ -4619,7 +4596,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes分 $seconds秒';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}

@@ -748,10 +748,6 @@ class _RepeaterCliScreenState extends State<RepeaterCliScreen> {
         description: l10n.repeater_cliHelpSetOwnerInfo,
       ),
       _CommandHelpEntry(
-        command: 'set path.hash.mode {0|1|2}',
-        description: l10n.repeater_cliHelpSetPathHashMode,
-      ),
-      _CommandHelpEntry(
         command: 'set loop.detect {off|minimal|moderate|strict}',
         description: l10n.repeater_cliHelpSetLoopDetect,
       ),

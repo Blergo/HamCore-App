@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -740,18 +741,6 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => 'Oekraïens';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1 byte';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 bytes';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 bytes';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 bytes';
 
   @override
   String get appSettings_enableMessageTracing => 'Berichttracking inschakelen';
@@ -2694,13 +2683,6 @@ class AppLocalizationsNl extends AppLocalizations {
       'Regelhendels voor ervaren gebruikers';
 
   @override
-  String get repeater_pathHashMode => 'Hash-modus voor paden';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Bytes die gebruikt worden om de ID van deze repeater te coderen in flood-pad/lusdetectietags. 0=1 byte (256 ID\'s, tot 64 hops), 1=2 bytes (65.000 ID\'s, tot 32 hops), 2=3 bytes (16 miljoen ID\'s, tot 21 hops). Firmware vóór v1.14 gebruikte altijd 1-byte paden; v1.14 en nieuwer kunnen worden ingesteld op 2- of 3-byte paden.';
-
-  @override
   String get repeater_keySettings => 'Verander de Identiteitskies';
 
   @override
@@ -3220,10 +3202,6 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       'Definieert de string met contactgegevens van de eigenaar, die in de advertenties wordt opgenomen. Gebruik \'|\' voor nieuwe regels.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Stelt de modus voor het berekenen van de hash van de route in. 0 = voorheen, 1 = standaard, 2 = strikt. Beïnvloedt hoe de routes worden gematched.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -4838,7 +4816,8 @@ class AppLocalizationsNl extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes m $seconds s';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}

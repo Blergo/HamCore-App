@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -742,18 +743,6 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => 'Українська';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1 byte';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 szavak';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 bajt';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 bajt';
 
   @override
   String get appSettings_enableMessageTracing => 'Üzenetkövetés engedélyezése';
@@ -2704,13 +2693,6 @@ class AppLocalizationsHu extends AppLocalizations {
       'Hangológombok tapasztalt kezelőknek';
 
   @override
-  String get repeater_pathHashMode => 'Útvonal hash mód';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Az átjátszó azonosítójának elárasztási útvonal/hurokészlelési címkékbe való kódolására használt bájtok. 0 = 1 bájt (256 azonosító, legfeljebb 64 ugrás), 1 = 2 bájt (65 000 azonosító, legfeljebb 32 ugrás), 2 = 3 bájt (16 millió azonosító, legfeljebb 21 ugrás). A v1.13 és régebbi firmware eldobja a többbájtos elérési utat – csak akkor emelje meg, ha a hálózat a v1.14+ verziót használja.';
-
-  @override
   String get repeater_keySettings => 'Képzőítsekei jelölt';
 
   @override
@@ -3230,10 +3212,6 @@ class AppLocalizationsHu extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       'Beállítja a hirdetésekben szereplő tulajdonos elérhetőségi adatait. A \'|\' használata újsorokhoz.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Beállítja az útvonal-kivonat módot. 0 = örökölt, 1 = szabványos, 2 = szigorú. Befolyásolja az útválasztási útvonalak egyeztetését.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -4850,7 +4828,8 @@ class AppLocalizationsHu extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes per $seconds sekünd\n\n(Note: The original text appears to be a placeholder format rather than a complete sentence. The translation reflects the literal structure while preserving the placeholders as requested.)';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}

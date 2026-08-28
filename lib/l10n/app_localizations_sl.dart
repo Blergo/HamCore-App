@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -737,18 +738,6 @@ class AppLocalizationsSl extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => 'Ukrajinsko';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1 bajt';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 bite';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 bite';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 bite';
 
   @override
   String get appSettings_enableMessageTracing => 'Omogoči sledenje sporočilom';
@@ -2694,13 +2683,6 @@ class AppLocalizationsSl extends AppLocalizations {
       'Gumbi za nastavljanje za izkušene uporabnike';
 
   @override
-  String get repeater_pathHashMode => 'Način ustvarjanja hash-a poti';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Bajti, uporabljeni za kodiranje ID-ja tega repetitorja v oznakah flood poti/zaznavanja zank. 0=1 bajt (256 ID-jev, do 64 skokov), 1=2 bajta (65.000 ID-jev, do 32 skokov), 2=3 bajti (16 milijonov ID-jev, do 21 skokov). Vdelana programska oprema pred v1.14 je vedno uporabljala 1-bajtne poti; v1.14 in novejše je mogoče nastaviti na 2- ali 3-bajtne poti.';
-
-  @override
   String get repeater_keySettings => 'Zmeničke ključe identitete';
 
   @override
@@ -3221,10 +3203,6 @@ class AppLocalizationsSl extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       'Določi niz z informacijami o kontaktni osebi, ki je v oglasih. Za uporabo novih vrstic uporabite \'|\'.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Nastavlja način \"hash poti\". 0 = za stare sisteme, 1 = za standard, 2 = za stroge. Vpliva na to, kako so poti uskladene.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -4150,8 +4128,7 @@ class AppLocalizationsSl extends AppLocalizations {
   String get settings_gpxExportAllContacts => 'Lokacije vseh stikov';
 
   @override
-  String get settings_gpxExportShareText =>
-      'Podatki kart izvoženi iz hamcore';
+  String get settings_gpxExportShareText => 'Podatki kart izvoženi iz hamcore';
 
   @override
   String get settings_gpxExportShareSubject =>
@@ -4842,7 +4819,8 @@ class AppLocalizationsSl extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes m $seconds s';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}

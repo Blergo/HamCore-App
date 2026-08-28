@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -741,18 +742,6 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get appSettings_languageUk => 'Українська';
-
-  @override
-  String get repeater_pathHashModeOption0 => '0 - 1 байт';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 байти';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 байти';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 байта';
 
   @override
   String get appSettings_enableMessageTracing =>
@@ -2714,13 +2703,6 @@ class AppLocalizationsUk extends AppLocalizations {
       'Регулювальні ручки для досвідчених операторів';
 
   @override
-  String get repeater_pathHashMode => 'Режим хешування шляху';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Байти, що використовуються для кодування ідентифікатора цього ретранслятора в тегах flood-шляху/виявлення петель. 0=1 байт (256 ідентифікаторів, до 64 переходів), 1=2 байти (65 000 ідентифікаторів, до 32 переходів), 2=3 байти (16 мільйонів ідентифікаторів, до 21 переходу). Прошивки до v1.14 завжди використовували 1-байтові шляхи; v1.14 і новіші можна налаштувати на 2- або 3-байтові шляхи.';
-
-  @override
   String get repeater_keySettings => 'Зміна ключів ідентифікації';
 
   @override
@@ -3236,10 +3218,6 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       'Вказує рядок з контактною інформацією власника, який вказано в оголошеннях. Використовуйте \'|\' для переходу на новий рядок.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Встановлює режим хешування шляху. 0 = для старих систем, 1 = для стандартних, 2 = для суворих. Впливає на те, як маршрути порівнюються.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -4171,8 +4149,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get settings_gpxExportAllContacts => 'Усі місця контактів';
 
   @override
-  String get settings_gpxExportShareText =>
-      'Дані карти експортовані з hamcore';
+  String get settings_gpxExportShareText => 'Дані карти експортовані з hamcore';
 
   @override
   String get settings_gpxExportShareSubject =>
@@ -4871,7 +4848,8 @@ class AppLocalizationsUk extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes хв $seconds с';
   }
-}
-  @override
-  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
 
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
+}
