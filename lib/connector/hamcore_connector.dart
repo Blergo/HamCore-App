@@ -5715,7 +5715,20 @@ class HamCoreConnector extends ChangeNotifier {
 
       final raw = reader.readRemainingBytes();
       final packet = _parseRawPacket(raw);
-      if (packet == null || packet.payloadType != _payloadTypeGroupText) return;
+      if (packet == null) {
+        appLogger.info(
+          'LogRxData: _parseRawPacket returned null',
+          tag: 'ChannelRepeat',
+        );
+        return;
+      }
+      if (packet.payloadType != _payloadTypeGroupText) {
+        appLogger.info(
+          'LogRxData: payloadType=${packet.payloadType} (not GRP_TXT=$_payloadTypeGroupText), skipping',
+          tag: 'ChannelRepeat',
+        );
+        return;
+      }
 
       final payload = BufferReader(packet.payload);
       final channelHash = payload.readByte();
@@ -5729,18 +5742,41 @@ class HamCoreConnector extends ChangeNotifier {
       final channelsToSearch = _channels.isNotEmpty
           ? _channels
           : _cachedChannels;
+      appLogger.info(
+        'LogRxData: packet channelHash=0x${channelHash.toRadixString(16)}, '
+        'searching ${channelsToSearch.length} channels '
+        '(source: ${_channels.isNotEmpty ? "_channels" : "_cachedChannels"})',
+        tag: 'ChannelRepeat',
+      );
+      var matchedAnyChannel = false;
       for (final channel in channelsToSearch) {
         if (channel.isEmpty) continue;
         final hash = _computeChannelHash(channel.psk);
+        appLogger.info(
+          'LogRxData: channel idx=${channel.index} name="${channel.name}" '
+          'computedHash=0x${hash.toRadixString(16)}',
+          tag: 'ChannelRepeat',
+        );
         if (hash != channelHash) continue;
+        matchedAnyChannel = true;
         try {
-          if (plainPayload.length < 8) return;
+          if (plainPayload.length < 8) {
+            appLogger.info(
+              'LogRxData: plainPayload too short (${plainPayload.length} bytes)',
+              tag: 'ChannelRepeat',
+            );
+            return;
+          }
           final plain = BufferReader(plainPayload);
           plain.skipBytes(2); // zeroed MAC placeholder
 
           final timestampRaw = plain.readUInt32LE();
           final txtType = plain.readByte();
           if ((txtType >> 2) != 0) {
+            appLogger.info(
+              'LogRxData: txtType=$txtType not plain text, skipping',
+              tag: 'ChannelRepeat',
+            );
             return;
           }
 
@@ -5775,6 +5811,13 @@ class HamCoreConnector extends ChangeNotifier {
             packetHash: pktHash,
           );
 
+          appLogger.info(
+            'LogRxData: parsed message sender="${parsed.senderName}" '
+            'text="$decodedText" selfName="${_selfName ?? "(null)"}" '
+            'pktHash=$pktHash existingCount=${(_channelMessages[channel.index] ?? []).length}',
+            tag: 'ChannelRepeat',
+          );
+
           _updateContactLastMessageAtByName(
             parsed.senderName,
             message.timestamp,
@@ -5782,6 +5825,18 @@ class HamCoreConnector extends ChangeNotifier {
             pathHashWidth: message.pathHashWidth,
           );
           final isNew = _addChannelMessage(channel.index, message);
+          final updatedRepeatCount = isNew
+              ? 0
+              : (_channelMessages[channel.index] ?? [])
+                    .firstWhere(
+                      (m) => m.packetHash == pktHash || m.text == decodedText,
+                      orElse: () => message,
+                    )
+                    .repeatCount;
+          appLogger.info(
+            'LogRxData: _addChannelMessage isNew=$isNew repeatCount=$updatedRepeatCount',
+            tag: 'ChannelRepeat',
+          );
           _maybeIncrementChannelUnread(message, isNew: isNew);
           notifyListeners();
           if (isNew) {
@@ -5807,6 +5862,12 @@ class HamCoreConnector extends ChangeNotifier {
             'Failed to parse raw channel payload for channel ${channel.index}: $e',
           );
         }
+      }
+      if (!matchedAnyChannel) {
+        appLogger.info(
+          'LogRxData: no loaded channel matched hash 0x${channelHash.toRadixString(16)}',
+          tag: 'ChannelRepeat',
+        );
       }
     } catch (e) {
       appLogger.warn('Error handling log RX data frame: $e');
