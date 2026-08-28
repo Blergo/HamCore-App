@@ -926,6 +926,23 @@ Uint8List buildSendAnonReqFrame(
   return writer.toBytes();
 }
 
+// Build CMD_SEND_ANON_REQ frame for repeater login (guest/admin).
+// Unlike the regions variant above, login requests carry no reply-path
+// payload at all - the companion firmware's own sendAnonReq() prepends its
+// anti-replay timestamp and picks flood vs a known direct path to the
+// repeater on its own. The app only supplies the target and request type.
+// Format: [cmd][repeater_pubkey x32][anon_req_type]
+Uint8List buildSendLoginAnonReqFrame(
+  Uint8List repeaterPubKey, {
+  required int requestType,
+}) {
+  final writer = BufferWriter();
+  writer.writeByte(cmdSendAnonReq);
+  writer.writeBytes(repeaterPubKey);
+  writer.writeByte(requestType);
+  return writer.toBytes();
+}
+
 //Build a trace request frame
 //[cmd][tag x4][auth x4][flag][payload]
 Uint8List buildTraceReq(int tag, int auth, int flag, {Uint8List? payload}) {

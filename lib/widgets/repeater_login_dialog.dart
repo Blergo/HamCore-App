@@ -79,10 +79,9 @@ class _RepeaterLoginDialogState extends State<RepeaterLoginDialog> {
         tag: 'RepeaterLogin',
       );
       final selection = await _connector.preparePathForContactSend(repeater);
-      final loginFrame = buildSendAnonReqFrame(
+      final loginFrame = buildSendLoginAnonReqFrame(
         repeater.publicKey,
         requestType: anonReqTypeLoginGuest,
-        pathHashWidth: _connector.pathHashByteWidth,
       );
       final pathLengthValue = selection.useFlood ? -1 : selection.hopCount;
       final responseBytes = loginFrame.length > maxFrameSize
