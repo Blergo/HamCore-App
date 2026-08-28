@@ -4762,5 +4762,5 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get login_repeaterAccessUnavailable =>
-      'Guest and admin access are temporarily unavailable.';
+      'Admin access is not yet supported by this firmware.';
 }

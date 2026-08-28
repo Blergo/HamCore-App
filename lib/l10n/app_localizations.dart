@@ -8263,7 +8263,7 @@ abstract class AppLocalizations {
   /// No description provided for @login_repeaterAccessUnavailable.
   ///
   /// In en, this message translates to:
-  /// **'Guest and admin access are temporarily unavailable.'**
+  /// **'Admin access is not yet supported by this firmware.'**
   String get login_repeaterAccessUnavailable;
 }
 

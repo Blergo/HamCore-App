@@ -2728,5 +2728,5 @@
       }
     }
   },
-  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
+  "login_repeaterAccessUnavailable": "Admin access is not yet supported by this firmware."
 }

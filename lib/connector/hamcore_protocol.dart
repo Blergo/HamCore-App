@@ -234,6 +234,12 @@ Uint8List buildTelemetryBinaryPayload() {
 }
 
 const int anonReqTypeRegions = 0x01;
+// Login is now requested by type byte instead of a password: the repeater
+// grants guest access unconditionally (no auth check at all) and currently
+// rejects admin outright ("not yet implemented" on the firmware side) - kept
+// here as a documented slot for when firmware-side admin auth lands.
+const int anonReqTypeLoginGuest = 0x04;
+const int anonReqTypeLoginAdmin = 0x05;
 
 // Control data sub-types used by HamCore discovery packets.
 const int controlSubtypeDiscoverReq = 0x08;
