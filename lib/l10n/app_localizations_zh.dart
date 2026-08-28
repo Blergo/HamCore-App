@@ -2415,6 +2415,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get repeater_guestAccess => '访客访问';
 
   @override
+  String get repeater_adminAccess => 'Admin Access';
+
+  @override
   String get repeater_guestAccessSubtitle => '允许访客只读权限';
 
   @override
@@ -4509,3 +4512,6 @@ class AppLocalizationsZh extends AppLocalizations {
     return '$minutes 分 $seconds 秒';
   }
 }
+  @override
+  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
+

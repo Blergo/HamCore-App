@@ -4068,7 +4068,7 @@ abstract class AppLocalizations {
   /// No description provided for @login_repeaterDescription.
   ///
   /// In en, this message translates to:
-  /// **'Enter the repeater password for guest or admin access.'**
+  /// **'Choose how you'd like to connect to this repeater.'**
   String get login_repeaterDescription;
 
   /// No description provided for @login_roomDescription.
@@ -4579,6 +4579,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Guest Access'**
   String get repeater_guestAccess;
+
+  /// No description provided for @repeater_adminAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin Access'**
+  String get repeater_adminAccess;
 
   /// No description provided for @repeater_guestAccessSubtitle.
   ///
@@ -8380,3 +8386,9 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
     'that was used.',
   );
 }
+  /// No description provided for @login_repeaterAccessUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest and admin access are temporarily unavailable.'**
+  String get login_repeaterAccessUnavailable;
+

@@ -2556,6 +2556,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get repeater_guestAccess => 'Dostęp dla gości';
 
   @override
+  String get repeater_adminAccess => 'Admin Access';
+
+  @override
   String get repeater_guestAccessSubtitle =>
       'Umożliw dostęp tylko do odczytu dla gości.';
 
@@ -4883,3 +4886,6 @@ class AppLocalizationsPl extends AppLocalizations {
     return '$minutes minut $seconds sekundy';
   }
 }
+  @override
+  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
+

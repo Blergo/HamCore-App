@@ -1113,6 +1113,7 @@
   "repeater_packetForwarding": "数据包转发",
   "repeater_packetForwardingSubtitle": "启用转发节点转发数据包",
   "repeater_guestAccess": "访客访问",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "允许访客只读权限",
   "repeater_privacyMode": "隐私模式",
   "repeater_privacyModeSubtitle": "在广播中隐藏姓名/位置",
@@ -2682,5 +2683,6 @@
   "receivedImage_tapToProcess": "点击处理",
   "receivedImage_awaiting": "{bytes} 字节 · {packets} {packets, plural, =1{个数据包} other{个数据包}}",
   "imageSend_secondsValue": "{seconds} 秒",
-  "imageSend_minutesSecondsValue": "{minutes} 分 {seconds} 秒"
+  "imageSend_minutesSecondsValue": "{minutes} 分 {seconds} 秒",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

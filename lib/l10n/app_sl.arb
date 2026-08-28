@@ -1087,6 +1087,7 @@
   "repeater_packetForwarding": "Usmerjanje paketa",
   "repeater_packetForwardingSubtitle": "Omogoči ponovitelja za usmerjanje paketov.",
   "repeater_guestAccess": "Prijemnik",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Omogoči dostop gostom v samo bralni načinu.",
   "repeater_privacyMode": "Privatni način",
   "repeater_privacyModeSubtitle": "Skrita imena/lokacije v oglasih",
@@ -2677,5 +2678,6 @@
   "receivedImage_tapToProcess": "Kliknij za obravnavanje",
   "receivedImage_awaiting": "{bytes} bajtov · {packets} {packets, plural, =1{paket} other{paketov}}",
   "imageSend_secondsValue": "{seconds} s",
-  "imageSend_minutesSecondsValue": "{minutes} m {seconds} s"
+  "imageSend_minutesSecondsValue": "{minutes} m {seconds} s",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

@@ -1087,6 +1087,7 @@
   "repeater_packetForwarding": "Pakketdoorvoering",
   "repeater_packetForwardingSubtitle": "Repeater instellen om pakketten door te sturen",
   "repeater_guestAccess": "Toegang voor Gasten",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Toegestane leesbeheer toegang voor gasten.",
   "repeater_privacyMode": "Privacymodus",
   "repeater_privacyModeSubtitle": "Naam/locatie verbergen in advertenties",
@@ -2677,5 +2678,6 @@
   "receivedImage_tapToProcess": "Tik om te verwerken",
   "receivedImage_awaiting": "{bytes} bytes · {packets} {packets, plural, =1{pakket} other{pakketten}}",
   "imageSend_secondsValue": "{seconds} seconden",
-  "imageSend_minutesSecondsValue": "{minutes} m {seconds} s"
+  "imageSend_minutesSecondsValue": "{minutes} m {seconds} s",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

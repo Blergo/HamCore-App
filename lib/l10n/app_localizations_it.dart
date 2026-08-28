@@ -2542,6 +2542,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get repeater_guestAccess => 'Accesso ospite';
 
   @override
+  String get repeater_adminAccess => 'Admin Access';
+
+  @override
   String get repeater_guestAccessSubtitle =>
       'Consenti l\'accesso ospite in sola lettura';
 
@@ -4868,3 +4871,6 @@ class AppLocalizationsIt extends AppLocalizations {
     return '$minutes min $seconds s';
   }
 }
+  @override
+  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
+

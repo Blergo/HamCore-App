@@ -2535,6 +2535,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get repeater_guestAccess => 'Vendég hozzáférés';
 
   @override
+  String get repeater_adminAccess => 'Admin Access';
+
+  @override
   String get repeater_guestAccessSubtitle =>
       'Csak olvasási hozzáférés engedélyezése a vendégek számára';
 
@@ -4848,3 +4851,6 @@ class AppLocalizationsHu extends AppLocalizations {
     return '$minutes per $seconds sekünd\n\n(Note: The original text appears to be a placeholder format rather than a complete sentence. The translation reflects the literal structure while preserving the placeholders as requested.)';
   }
 }
+  @override
+  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
+

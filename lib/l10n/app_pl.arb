@@ -1097,6 +1097,7 @@
   "repeater_packetForwarding": "Przekierowanie pakietów",
   "repeater_packetForwardingSubtitle": "Włącz przekaźnik, aby przekazywać pakiety.",
   "repeater_guestAccess": "Dostęp dla gości",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Umożliw dostęp tylko do odczytu dla gości.",
   "repeater_privacyMode": "Tryb prywatności",
   "repeater_privacyModeSubtitle": "Ukryj imię/lokalizację w rozgłoszeniach",
@@ -2715,5 +2716,6 @@
   "receivedImage_tapToProcess": "Kliknij, aby przetworzyć",
   "receivedImage_awaiting": "{bytes} bajtów · {packets} {packets, plural, =1{pakiet} other{pakiety}}",
   "imageSend_secondsValue": "{seconds} sekund",
-  "imageSend_minutesSecondsValue": "{minutes} minut {seconds} sekundy"
+  "imageSend_minutesSecondsValue": "{minutes} minut {seconds} sekundy",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

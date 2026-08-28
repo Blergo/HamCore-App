@@ -2438,6 +2438,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get repeater_guestAccess => 'ゲストへのアクセス';
 
   @override
+  String get repeater_adminAccess => 'Admin Access';
+
+  @override
   String get repeater_guestAccessSubtitle => 'ゲストへの読み取り専用アクセスを許可する';
 
   @override
@@ -4617,3 +4620,6 @@ class AppLocalizationsJa extends AppLocalizations {
     return '$minutes分 $seconds秒';
   }
 }
+  @override
+  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
+

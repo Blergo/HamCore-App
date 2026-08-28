@@ -1087,6 +1087,7 @@
   "repeater_packetForwarding": "Пренасочване на пакети",
   "repeater_packetForwardingSubtitle": "Активирайте повторителя, за да препраща пакети.",
   "repeater_guestAccess": "Достъп за гости",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Разрешете само четене за гости",
   "repeater_privacyMode": "Режим на поверителност",
   "repeater_privacyModeSubtitle": "Скриване на име/местоположение в рекламите",
@@ -2677,5 +2678,6 @@
   "receivedImage_tapToProcess": "Натискнете за обработка",
   "receivedImage_awaiting": "{bytes} байта · {packets} {packets, plural, =1{пакет} other{пакета}}",
   "imageSend_secondsValue": "{seconds} секунди",
-  "imageSend_minutesSecondsValue": "{minutes} мин {seconds} сек"
+  "imageSend_minutesSecondsValue": "{minutes} мин {seconds} сек",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

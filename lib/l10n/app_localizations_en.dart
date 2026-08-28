@@ -2217,8 +2217,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Password will be stored securely on this device';
 
   @override
-  String get login_repeaterDescription =>
-      'Enter the repeater password for guest or admin access.';
+  String get login_repeaterDescription => 'Choose how you\'d like to connect to this repeater.';
 
   @override
   String get login_roomDescription =>
@@ -2498,6 +2497,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get repeater_guestAccess => 'Guest Access';
+
+  @override
+  String get repeater_adminAccess => 'Admin Access';
 
   @override
   String get repeater_guestAccessSubtitle => 'Allow read-only guest access';
@@ -4781,3 +4783,6 @@ class AppLocalizationsEn extends AppLocalizations {
     return '$minutes m $seconds s';
   }
 }
+  @override
+  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
+

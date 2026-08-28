@@ -1087,6 +1087,7 @@
   "repeater_packetForwarding": "Paketväxling",
   "repeater_packetForwardingSubtitle": "Aktivera återuppspelaren för att vidarebefordra paket",
   "repeater_guestAccess": "Gäståtkomst",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Tillåt läsbehörigheter för gäster.",
   "repeater_privacyMode": "Privatläge",
   "repeater_privacyModeSubtitle": "Dölj namn/plats i annonser",
@@ -2677,5 +2678,6 @@
   "receivedImage_tapToProcess": "Tap för att behandla",
   "receivedImage_awaiting": "{bytes} byte · {packets} {packets, plural, =1{paket} other{paket}}",
   "imageSend_secondsValue": "{seconds} sekunder",
-  "imageSend_minutesSecondsValue": "{minutes} min {seconds} s"
+  "imageSend_minutesSecondsValue": "{minutes} min {seconds} s",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

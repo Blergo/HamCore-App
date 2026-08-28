@@ -1109,6 +1109,7 @@
   "repeater_packetForwarding": "Paketweiterleitung",
   "repeater_packetForwardingSubtitle": "Den Repeater aktivieren, um Pakete weiterzuleiten",
   "repeater_guestAccess": "Gastzugriff",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Nur-Lese-Gastzugriff erlauben",
   "repeater_privacyMode": "Privatsphärenmodus",
   "repeater_privacyModeSubtitle": "Name und Standort in Ankündigungen verbergen",
@@ -2811,5 +2812,6 @@
   "receivedImage_tapToProcess": "Klicken Sie, um fortzufahren",
   "receivedImage_awaiting": "{bytes} Bytes · {packets} {packets, plural, =1{Paket} other{Pakete}}",
   "imageSend_secondsValue": "{seconds} s",
-  "imageSend_minutesSecondsValue": "{minutes} Min {seconds} Sek"
+  "imageSend_minutesSecondsValue": "{minutes} Min {seconds} Sek",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

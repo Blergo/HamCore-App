@@ -2539,6 +2539,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get repeater_guestAccess => 'Гостьовий доступ';
 
   @override
+  String get repeater_adminAccess => 'Admin Access';
+
+  @override
   String get repeater_guestAccessSubtitle =>
       'Дозволити гостьовий доступ лише для читання';
 
@@ -4869,3 +4872,6 @@ class AppLocalizationsUk extends AppLocalizations {
     return '$minutes хв $seconds с';
   }
 }
+  @override
+  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
+

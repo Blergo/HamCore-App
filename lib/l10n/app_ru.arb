@@ -614,6 +614,7 @@
   "repeater_packetForwarding": "Пересылка пакетов",
   "repeater_packetForwardingSubtitle": "Разрешить репитеру пересылать пакеты",
   "repeater_guestAccess": "Гостевой доступ",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Разрешить гостевой доступ только для чтения",
   "repeater_privacyMode": "Режим конфиденциальности",
   "repeater_privacyModeSubtitle": "Скрывать имя/местоположение в оповещениях",
@@ -2071,5 +2072,6 @@
   "receivedImage_tapToProcess": "Нажмите для обработки",
   "receivedImage_awaiting": "{bytes} байт · {packets} {packets, plural, =1{пакет} other{пакетов}}",
   "imageSend_secondsValue": "{seconds} секунд",
-  "imageSend_minutesSecondsValue": "{minutes} м {seconds} с"
+  "imageSend_minutesSecondsValue": "{minutes} м {seconds} с",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

@@ -1109,6 +1109,7 @@
   "repeater_packetForwarding": "Mode répéteur",
   "repeater_packetForwardingSubtitle": "Activer le répéteur pour transmettre des paquets",
   "repeater_guestAccess": "Accès Invité",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Autoriser l'accès invité en lecture seule",
   "repeater_privacyMode": "Mode de confidentialité",
   "repeater_privacyModeSubtitle": "Masquer le nom et la localisation dans les annonces",
@@ -2811,5 +2812,6 @@
   "receivedImage_tapToProcess": "Tapez pour traiter",
   "receivedImage_awaiting": "{bytes} octets · {packets} {packets, plural, =1{paquet} other{paquets}}",
   "imageSend_secondsValue": "{seconds} s",
-  "imageSend_minutesSecondsValue": "{minutes} minutes {seconds} secondes"
+  "imageSend_minutesSecondsValue": "{minutes} minutes {seconds} secondes",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

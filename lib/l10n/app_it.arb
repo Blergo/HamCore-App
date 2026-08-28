@@ -1153,6 +1153,7 @@
   "repeater_packetForwarding": "Inoltro pacchetti",
   "repeater_packetForwardingSubtitle": "Abilita il ripetitore per inoltrare i pacchetti",
   "repeater_guestAccess": "Accesso ospite",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Consenti l'accesso ospite in sola lettura",
   "repeater_privacyMode": "Modalità Privacy",
   "repeater_privacyModeSubtitle": "Nascondi nome/posizione negli annunci",
@@ -2811,5 +2812,6 @@
   "receivedImage_tapToProcess": "Premi per elaborare",
   "receivedImage_awaiting": "{bytes} byte · {packets} {packets, plural, =1{pacchetto} other{pacchetti}}",
   "imageSend_secondsValue": "{seconds} secondi",
-  "imageSend_minutesSecondsValue": "{minutes} min {seconds} s"
+  "imageSend_minutesSecondsValue": "{minutes} min {seconds} s",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

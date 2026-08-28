@@ -1097,6 +1097,7 @@
   "repeater_packetForwarding": "Пересилання пакетів",
   "repeater_packetForwardingSubtitle": "Дозволити ретранслятору пересилати пакети",
   "repeater_guestAccess": "Гостьовий доступ",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Дозволити гостьовий доступ лише для читання",
   "repeater_privacyMode": "Режим приватності",
   "repeater_privacyModeSubtitle": "Приховати ім'я/геопозицію в оголошеннях",
@@ -2657,5 +2658,6 @@
   "receivedImage_tapToProcess": "Кликніть для обробки",
   "receivedImage_awaiting": "{bytes} байтів · {packets} {packets, plural, =1{пакет} other{пакетів}}",
   "imageSend_secondsValue": "{seconds} секунди",
-  "imageSend_minutesSecondsValue": "{minutes} хв {seconds} с"
+  "imageSend_minutesSecondsValue": "{minutes} хв {seconds} с",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

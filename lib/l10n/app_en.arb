@@ -1224,7 +1224,7 @@
   "login_enterPassword": "Enter password",
   "login_savePassword": "Save password",
   "login_savePasswordSubtitle": "Password will be stored securely on this device",
-  "login_repeaterDescription": "Enter the repeater password for guest or admin access.",
+  "login_repeaterDescription": "Choose how you'd like to connect to this repeater.",
   "login_roomDescription": "Enter the room password for guest or admin access.",
   "login_routing": "Routing",
   "login_routingMode": "Routing mode",
@@ -1398,6 +1398,7 @@
   "repeater_packetForwarding": "Packet Forwarding",
   "repeater_packetForwardingSubtitle": "Enable repeater to forward packets",
   "repeater_guestAccess": "Guest Access",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Allow read-only guest access",
   "repeater_privacyMode": "Privacy Mode",
   "repeater_privacyModeSubtitle": "Hide name/location in advertisements",
@@ -2733,5 +2734,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

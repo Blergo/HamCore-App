@@ -1087,6 +1087,7 @@
   "repeater_packetForwarding": "Riadenie prienikov",
   "repeater_packetForwardingSubtitle": "Povolte opakovač na smerovanie paketov.",
   "repeater_guestAccess": "Prístup pre hostí",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Umožniť prístup hosta iba na čítanie.",
   "repeater_privacyMode": "Režim ochrany súkromia",
   "repeater_privacyModeSubtitle": "Skryť meno/poloha v reklamách",
@@ -2677,5 +2678,6 @@
   "receivedImage_tapToProcess": "Ukliknite, aby sa príjomili",
   "receivedImage_awaiting": "{bytes} bajtov · {packets} {packets, plural, =1{paket} other{paketov}}",
   "imageSend_secondsValue": "{seconds} s",
-  "imageSend_minutesSecondsValue": "{minutes} min {seconds} s"
+  "imageSend_minutesSecondsValue": "{minutes} min {seconds} s",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

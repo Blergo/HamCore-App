@@ -1269,6 +1269,7 @@
   "repeater_packetForwarding": "패킷 전송",
   "repeater_packetForwardingSubtitle": "리피터가 패킷을 전달하도록 설정",
   "repeater_guestAccess": "게스트 접근",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "게스트의 읽기 전용 접근 권한 허용",
   "repeater_privacyMode": "개인 정보 보호 모드",
   "repeater_privacyModeSubtitle": "광고에 이름/위치 정보 숨기기",
@@ -2811,5 +2812,6 @@
   "receivedImage_tapToProcess": "처리하려면 탭을 누르세요.",
   "receivedImage_awaiting": "{bytes} 바이트 · {packets} {packets, plural, =1{패킷} other{패킷}}",
   "imageSend_secondsValue": "{seconds} 초",
-  "imageSend_minutesSecondsValue": "{minutes}분 {seconds}초"
+  "imageSend_minutesSecondsValue": "{minutes}분 {seconds}초",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

@@ -2442,6 +2442,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get repeater_guestAccess => '게스트 접근';
 
   @override
+  String get repeater_adminAccess => 'Admin Access';
+
+  @override
   String get repeater_guestAccessSubtitle => '게스트의 읽기 전용 접근 권한 허용';
 
   @override
@@ -4625,3 +4628,6 @@ class AppLocalizationsKo extends AppLocalizations {
     return '$minutes분 $seconds초';
   }
 }
+  @override
+  String get login_repeaterAccessUnavailable => 'Guest and admin access are temporarily unavailable.';
+
