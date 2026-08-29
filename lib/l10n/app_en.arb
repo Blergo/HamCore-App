@@ -294,10 +294,6 @@
   "appSettings_languageBg": "Български",
   "appSettings_languageRu": "Русский",
   "appSettings_languageUk": "Українська",
-  "repeater_pathHashModeOption0": "0 - 1 byte",
-  "repeater_pathHashModeOption1": "1 - 2 bytes",
-  "repeater_pathHashModeOption2": "2 - 3 bytes",
-  "repeater_pathHashModeOption3": "3 - 4 bytes",
   "appSettings_enableMessageTracing": "Enable Message Tracing",
   "appSettings_enableMessageTracingSubtitle": "Show detailed routing and timing metadata for messages",
   "appSettings_notifications": "Notifications",
@@ -567,7 +563,7 @@
       }
     }
   },
-  "channels_private": "Private",
+  "channels_hashtag": "Hashtag",
   "channels_editChannel": "Edit channel",
   "channels_muteChannel": "Mute channel",
   "channels_unmuteChannel": "Unmute channel",
@@ -601,10 +597,7 @@
   "channels_channelName": "Channel Name",
   "channels_usePublicChannel": "Use Public Channel",
   "channels_standardPublicPsk": "Standard public PSK",
-  "channels_pskHex": "PSK (Hex)",
-  "channels_generateRandomPsk": "Generate random PSK",
   "channels_enterChannelName": "Please enter a channel name",
-  "channels_pskMustBe32Hex": "PSK must be 32 hex characters",
   "channels_channelAdded": "Channel \"{name}\" added",
   "@channels_channelAdded": {
     "placeholders": {
@@ -664,14 +657,10 @@
   "channels_sortAZ": "A-Z",
   "channels_sortLatestMessages": "Latest messages",
   "channels_sortUnread": "Unread",
-  "channels_createPrivateChannel": "Create a Private Channel",
-  "channels_createPrivateChannelDesc": "Secured with a secret key.",
-  "channels_joinPrivateChannel": "Join a Private Channel",
-  "channels_joinPrivateChannelDesc": "Manually enter a secret key.",
   "channels_joinPublicChannel": "Join the Public Channel",
   "channels_joinPublicChannelDesc": "Anyone can join this channel.",
-  "channels_joinHashtagChannel": "Join a Hashtag Channel",
-  "channels_joinHashtagChannelDesc": "Anyone can join hashtag channels.",
+  "channels_joinHashtagChannel": "Add Channel",
+  "channels_joinHashtagChannelDesc": "Enter a channel name to create or join it.",
   "channels_scanQrCode": "Scan a QR Code",
   "channels_scanQrCodeComingSoon": "Coming soon",
   "channels_enterHashtag": "Enter hashtag",
@@ -1231,7 +1220,7 @@
   "login_enterPassword": "Enter password",
   "login_savePassword": "Save password",
   "login_savePasswordSubtitle": "Password will be stored securely on this device",
-  "login_repeaterDescription": "Enter the repeater password for guest or admin access.",
+  "login_repeaterDescription": "Choose how you'd like to connect to this repeater.",
   "login_roomDescription": "Enter the room password for guest or admin access.",
   "login_routing": "Routing",
   "login_routingMode": "Routing mode",
@@ -1405,6 +1394,7 @@
   "repeater_packetForwarding": "Packet Forwarding",
   "repeater_packetForwardingSubtitle": "Enable repeater to forward packets",
   "repeater_guestAccess": "Guest Access",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Allow read-only guest access",
   "repeater_privacyMode": "Privacy Mode",
   "repeater_privacyModeSubtitle": "Hide name/location in advertisements",
@@ -1487,8 +1477,6 @@
   "repeater_floodMaxHelper": "Maximum hops a flood packet may travel (0-64)",
   "repeater_advancedSettings": "Advanced",
   "repeater_advancedSettingsSubtitle": "Tuning knobs for experienced operators",
-  "repeater_pathHashMode": "Path hash mode",
-  "repeater_pathHashModeHelper": "Bytes used to encode this repeater's ID in flood path/loop-detect tags. 0=1 byte (256 IDs, up to 64 hops), 1=2 bytes (65K IDs, up to 32 hops), 2=3 bytes (16M IDs, up to 21 hops). Firmware before v1.14 always used 1-byte paths; v1.14 and newer can be configured for 2- or 3-byte paths.",
   "repeater_keySettings": "Change Identity Keys",
   "repeater_keySettingsSubtitle": "Change the public/private keypair",
   "repeater_prvKey": "Private key",
@@ -1689,7 +1677,6 @@
   "repeater_cliHelpSetPrvKey": "Replaces the device identity private key. Reboot required to apply. Generates a new public key.",
   "repeater_cliHelpSetRadioRxGain": "(SX126x only) Toggles boosted RX gain for improved sensitivity at higher current draw.",
   "repeater_cliHelpSetOwnerInfo": "Sets the owner contact info string included in adverts. Use '|' for newlines.",
-  "repeater_cliHelpSetPathHashMode": "Sets the path-hash mode. 0 = legacy, 1 = standard, 2 = strict. Affects how routing paths are matched.",
   "repeater_cliHelpSetLoopDetect": "Sets the routing loop-detection sensitivity: off, minimal, moderate, or strict.",
   "repeater_cliHelpSetFreq": "(Serial only) Quickly sets just the frequency. Reboot required. Prefer \"set radio\" for full radio params.",
   "repeater_cliHelpSetBridgeChannel": "(ESPNow bridge only) Sets the WiFi channel (1-14) used by the bridge.",
@@ -2046,142 +2033,6 @@
   },
   "channelPath_noHopDetailsAvailable": "No hop details available for this packet.",
   "channelPath_unknownRepeater": "Unknown Repeater",
-  "community_title": "Community",
-  "community_create": "Create Community",
-  "community_createDesc": "Create a new community and share via QR code.",
-  "community_join": "Join",
-  "community_joinTitle": "Join Community",
-  "community_joinConfirmation": "Do you want to join the community \"{name}\"?",
-  "@community_joinConfirmation": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_scanQr": "Scan Community QR",
-  "community_scanInstructions": "Point the camera at a community QR code",
-  "community_showQr": "Show QR Code",
-  "community_publicChannel": "Community Public",
-  "community_hashtagChannel": "Community Hashtag",
-  "community_name": "Community Name",
-  "community_enterName": "Enter community name",
-  "community_created": "Community \"{name}\" created",
-  "@community_created": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_joined": "Joined community \"{name}\"",
-  "@community_joined": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_qrTitle": "Share Community",
-  "community_qrInstructions": "Scan this QR code to join \"{name}\"",
-  "@community_qrInstructions": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_hashtagPrivacyHint": "Community hashtag channels are only joinable by members of the community",
-  "community_invalidQrCode": "Invalid community QR code",
-  "community_alreadyMember": "Already a Member",
-  "community_alreadyMemberMessage": "You are already a member of \"{name}\".",
-  "@community_alreadyMemberMessage": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_addPublicChannel": "Add Community Public Channel",
-  "community_addPublicChannelHint": "Automatically add the public channel for this community",
-  "community_noCommunities": "No communities joined yet",
-  "community_scanOrCreate": "Scan a QR code or create a community to get started",
-  "community_manageCommunities": "Manage Communities",
-  "community_delete": "Leave Community",
-  "community_deleteConfirm": "Leave \"{name}\"?",
-  "@community_deleteConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_deleteChannelsWarning": "This will also delete {count} channel(s) and their messages.",
-  "@community_deleteChannelsWarning": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "community_deleted": "Left community \"{name}\"",
-  "@community_deleted": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_regenerateSecret": "Regenerate Secret",
-  "community_regenerateSecretConfirm": "Regenerate the secret key for \"{name}\"? All members will need to scan the new QR code to continue communicating.",
-  "@community_regenerateSecretConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_regenerate": "Regenerate",
-  "community_secretRegenerated": "Secret regenerated for \"{name}\"",
-  "@community_secretRegenerated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_updateSecret": "Update Secret",
-  "community_secretUpdated": "Secret updated for \"{name}\"",
-  "@community_secretUpdated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_scanToUpdateSecret": "Scan the new QR code to update the secret for \"{name}\"",
-  "@community_scanToUpdateSecret": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_addHashtagChannel": "Add Community Hashtag",
-  "community_addHashtagChannelDesc": "Add a hashtag channel for this community",
-  "community_selectCommunity": "Select Community",
-  "community_regularHashtag": "Regular Hashtag",
-  "community_regularHashtagDesc": "Public hashtag (anyone can join)",
-  "community_communityHashtag": "Community Hashtag",
-  "community_communityHashtagDesc": "Private to community members",
-  "community_forCommunity": "For {name}",
-  "@community_forCommunity": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "listFilter_tooltip": "Filter and sort",
   "listFilter_sortBy": "Sort by",
   "listFilter_latestMessages": "Latest messages",
@@ -2643,14 +2494,6 @@
   "map_zoomOut": "Zoom out",
   "map_centerMap": "Center map",
   "chrome_bluetoothRequiresChromium": "Web Bluetooth requires a Chromium browser",
-  "channels_communityShortId": "ID: {id}...",
-  "@channels_communityShortId": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "pathTrace_legendGpsConfirmed": "GPS confirmed",
   "pathTrace_legendInferred": "Inferred position",
   "pathMap_viewSingle": "Single",
@@ -2884,5 +2727,6 @@
         "type": "String"
       }
     }
-  }
+  },
+  "login_repeaterAccessUnavailable": "Admin access is not yet supported by this firmware."
 }

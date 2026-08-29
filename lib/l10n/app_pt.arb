@@ -357,7 +357,7 @@
     }
   },
   "channels_public": "Público",
-  "channels_private": "Privado",
+  "channels_hashtag": "Hashtag",
   "channels_editChannel": "Editar canal",
   "channels_muteChannel": "Silenciar canal",
   "channels_unmuteChannel": "Ativar canal",
@@ -383,10 +383,7 @@
   "channels_channelName": "Nome do Canal",
   "channels_usePublicChannel": "Usar Canal Público",
   "channels_standardPublicPsk": "PSK público padrão",
-  "channels_pskHex": "PSK (Hex)",
-  "channels_generateRandomPsk": "Gerar PSK aleatório",
   "channels_enterChannelName": "Por favor, insira um nome de canal",
-  "channels_pskMustBe32Hex": "O PSK deve ter 32 caracteres hexadecimais.",
   "channels_channelAdded": "Canal \"{name}\" adicionado",
   "@channels_channelAdded": {
     "placeholders": {
@@ -1090,6 +1087,7 @@
   "repeater_packetForwarding": "Encaminhamento de Pacotes",
   "repeater_packetForwardingSubtitle": "Habilitar o repetidor para encaminhar pacotes",
   "repeater_guestAccess": "Acesso de Convidado",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Permitir acesso de convidado somente leitura",
   "repeater_privacyMode": "Modo de Privacidade",
   "repeater_privacyModeSubtitle": "Esconder nome/localização em anúncios",
@@ -1172,8 +1170,6 @@
   "repeater_floodMaxHelper": "Número máximo de saltos que um pacote de inundação pode percorrer (0-64)",
   "repeater_advancedSettings": "Avançado",
   "repeater_advancedSettingsSubtitle": "Controles de ajuste para operadores experientes",
-  "repeater_pathHashMode": "Modo de hash de caminho",
-  "repeater_pathHashModeHelper": "Bytes usados para codificar o ID deste repetidor nas tags de caminho flood/detecção de loop. 0=1 byte (256 IDs, até 64 saltos), 1=2 bytes (65.000 IDs, até 32 saltos), 2=3 bytes (16 milhões de IDs, até 21 saltos). O firmware anterior à v1.14 sempre usava caminhos de 1 byte; v1.14 e versões mais recentes podem ser configuradas para caminhos de 2 ou 3 bytes.",
   "repeater_txDelay": "Atraso na entrega em Flood, TX",
   "repeater_txDelayHelper": "Ajuste de espaçamento para tráfego de inundações, como um multiplicador do tempo de transmissão (0-2, padrão 0,5). Quanto maior, menos colisões, mas uma entrega mais lenta.",
   "repeater_directTxDelay": "Atraso direto no sinal TX",
@@ -1562,10 +1558,6 @@
   "neighbors_errorLoading": "Erro ao carregar vizinhos: {error}",
   "neighbors_repeatersNeighbors": "Repetidores Vizinhos",
   "neighbors_noData": "Não estão disponíveis dados de vizinhos.",
-  "channels_createPrivateChannelDesc": "Protegido com uma chave secreta.",
-  "channels_joinPrivateChannelDesc": "Inserir uma chave secreta manualmente.",
-  "channels_createPrivateChannel": "Criar um Canal Privado",
-  "channels_joinPrivateChannel": "Junte-se a um Canal Privado",
   "channels_joinPublicChannel": "Junte-se ao Canal Público",
   "channels_joinPublicChannelDesc": "Qualquer pessoa pode entrar neste canal.",
   "channels_joinHashtagChannel": "Junte-se a um Canal com Hashtag",
@@ -1596,143 +1588,7 @@
   "settings_locationIntervalSec": "Intervalo para GPS (Segundos)",
   "contacts_manageRoom": "Gerenciar Servidor de Sala",
   "room_management": "Gerenciamento de Servidor de Sala",
-  "@community_joinConfirmation": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_created": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_joined": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_qrInstructions": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_alreadyMemberMessage": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleteConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleted": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_forCommunity": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_title": "Comunidade",
-  "community_createDesc": "Crie uma nova comunidade e compartilhe via código QR.",
   "common_ok": "Tudo bem",
-  "community_create": "Criar Comunidade",
-  "community_join": "Junte-se",
-  "community_joinTitle": "Junte-se à Comunidade",
-  "community_joinConfirmation": "Você gostaria de se juntar à comunidade \"{name}\"?",
-  "community_scanQr": "Digitalizar a QR Code da Comunidade",
-  "community_scanInstructions": "Aponte a câmera para um código QR da comunidade",
-  "community_showQr": "Mostrar Código QR",
-  "community_publicChannel": "Comunidade Pública",
-  "community_hashtagChannel": "Hashtag da Comunidade",
-  "community_name": "Nome da Comunidade",
-  "community_enterName": "Insira o nome da comunidade",
-  "community_created": "Comunidade \"{name}\" criada",
-  "community_joined": "Juntou-se à comunidade \"{name}\"",
-  "community_qrTitle": "Partilhar Comunidade",
-  "community_qrInstructions": "Escanear este código QR para juntar-se a {name}",
-  "community_hashtagPrivacyHint": "Os canais de hashtag da comunidade só podem ser acessados por membros da comunidade",
-  "community_invalidQrCode": "Código QR da comunidade inválido",
-  "community_alreadyMember": "Já é Membro",
-  "community_alreadyMemberMessage": "Você já é membro de \"{name}\".",
-  "community_addPublicChannel": "Adicionar Canal Público da Comunidade",
-  "community_addPublicChannelHint": "Adicionar automaticamente o canal público para esta comunidade",
-  "community_noCommunities": "Ainda não foram adicionadas comunidades.",
-  "community_scanOrCreate": "Escaneie um código QR ou crie uma comunidade para começar.",
-  "community_manageCommunities": "Gerenciar Comunidades",
-  "community_delete": "Deixar Comunidade",
-  "community_deleteConfirm": "Sair de \"{name}\"?",
-  "community_deleteChannelsWarning": "Isso também excluirá {count} canal/canais e suas mensagens.",
-  "@community_deleteChannelsWarning": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "community_deleted": "Saiu da comunidade \"{name}\"",
-  "community_addHashtagChannel": "Adicionar Hashtag da Comunidade",
-  "community_addHashtagChannelDesc": "Adicionar um canal de hashtag para esta comunidade",
-  "community_selectCommunity": "Selecione Comunidade",
-  "community_regularHashtag": "Hashtag Regular",
-  "community_regularHashtagDesc": "Hashtag público (qualquer pessoa pode participar)",
-  "community_communityHashtag": "Hashtag da Comunidade",
-  "community_communityHashtagDesc": "Apenas para membros da comunidade",
-  "community_forCommunity": "Para {name}",
-  "@community_regenerateSecretConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretRegenerated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretUpdated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_scanToUpdateSecret": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_regenerateSecretConfirm": "Regenerar a chave secreta para \"{name}\"? Todos os membros precisarão escanear o novo código QR para continuar a comunicação.",
-  "community_regenerateSecret": "Regenerar Senha Segura",
-  "community_secretRegenerated": "Senha secreta regenerada para \"{name}\"",
-  "community_regenerate": "Regenerar",
-  "community_secretUpdated": "Segredo atualizado para \"{name}\"",
-  "community_scanToUpdateSecret": "Scanar o novo código QR para atualizar o segredo para \"{name}\"\n\n\n+++++",
-  "community_updateSecret": "Atualizar Segredo",
   "@contacts_pathTraceTo": {
     "placeholders": {
       "name": {
@@ -2280,7 +2136,6 @@
   "repeater_cliHelpSetPrvKey": "(Apenas para uso em série) Substitui a chave privada de identificação do dispositivo. É necessário reiniciar o dispositivo para aplicar a alteração. Gera uma nova chave pública.",
   "repeater_cliHelpSetRadioRxGain": "(Apenas para SX126x) Alterna o ganho amplificado do receptor (RX) para melhorar a sensibilidade em condições de corrente mais elevada.",
   "repeater_cliHelpSetOwnerInfo": "Define a string com as informações de contato do proprietário, que será incluída nos anúncios. Utilize '|' para indicar novas linhas.",
-  "repeater_cliHelpSetPathHashMode": "Define o modo de hash de caminho. 0 = modo legado, 1 = modo padrão, 2 = modo rigoroso. Afeta a forma como os caminhos de roteamento são correspondidos.",
   "repeater_cliHelpSetLoopDetect": "Define o nível de sensibilidade para a detecção de loops de roteamento: desligado, mínimo, moderado ou estrito.",
   "repeater_cliHelpSetFreq": "(Apenas para rádio) Define rapidamente a frequência. É necessário reiniciar o dispositivo. Recomenda-se usar a opção \"configurar rádio\" para definir todos os parâmetros do rádio.",
   "repeater_cliHelpSetBridgeChannel": "(Apenas para a ponte ESPNow) Define o canal Wi-Fi (1-14) utilizado pela ponte.",
@@ -2451,13 +2306,6 @@
       }
     }
   },
-  "@channels_communityShortId": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "common_undo": "Desfazer",
   "messageStatus_sent": "Enviado",
   "messageStatus_pending": "Enviar",
@@ -2510,7 +2358,6 @@
   "map_zoomOut": "Ampliar",
   "map_centerMap": "Mapa do centro",
   "chrome_bluetoothRequiresChromium": "O Web Bluetooth requer um navegador Chromium.",
-  "channels_communityShortId": "ID: {id}...",
   "pathTrace_legendGpsConfirmed": "GPS confirmado",
   "pathTrace_legendInferred": "Posição inferida",
   "@pathMap_hopOf": {
@@ -2748,10 +2595,6 @@
   "settings_deleteRegionConfirm": "Remover \"{region}\" da lista de regiões?",
   "settings_infoHardware": "Hardware",
   "settings_infoFirmware": "Firmware",
-  "repeater_pathHashModeOption0": "0 - 1 byte",
-  "repeater_pathHashModeOption1": "1 - 2 bytes",
-  "repeater_pathHashModeOption2": "2 - 3 bytes",
-  "repeater_pathHashModeOption3": "3 - 4 bytes",
   "appSettings_batteryLipoHv": "LiPo HV (3,0-4,35V)",
   "channels_regionSetTo": "Região: {region}",
   "channels_regionNotSet": "Região: nenhuma",
@@ -2828,5 +2671,6 @@
   "receivedImage_tapToProcess": "Toque para processar",
   "receivedImage_awaiting": "{bytes} bytes · {packets} {packets, plural, =1{pacote} other{pacotes}}",
   "imageSend_secondsValue": "{seconds} segundos",
-  "imageSend_minutesSecondsValue": "{minutes} min {seconds} s"
+  "imageSend_minutesSecondsValue": "{minutes} min {seconds} s",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

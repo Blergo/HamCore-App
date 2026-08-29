@@ -509,7 +509,7 @@
     }
   },
   "channels_public": "Nyilvános",
-  "channels_private": "Magán",
+  "channels_hashtag": "Hashtag",
   "channels_editChannel": "Csatorna szerkesztése",
   "channels_muteChannel": "Csatorna némítása",
   "channels_unmuteChannel": "Csatorna némításának feloldása",
@@ -543,10 +543,7 @@
   "channels_channelName": "Csatorna neve",
   "channels_usePublicChannel": "Nyilvános csatorna használata",
   "channels_standardPublicPsk": "Normál nyilvános PSK",
-  "channels_pskHex": "PSK (Hex)",
-  "channels_generateRandomPsk": "Véletlenszerű PSK generálása",
   "channels_enterChannelName": "Kérjük, adja meg a csatorna nevét",
-  "channels_pskMustBe32Hex": "A PSK-nak 32 hexadecimális karakterből kell állnia",
   "channels_channelAdded": "A \"{name}\" csatorna hozzáadva",
   "@channels_channelAdded": {
     "placeholders": {
@@ -594,10 +591,6 @@
   "channels_sortAZ": "A-Z",
   "channels_sortLatestMessages": "Legújabb üzenetek",
   "channels_sortUnread": "Nem olvasott",
-  "channels_createPrivateChannel": "Hozzon létre egy privát csatornát",
-  "channels_createPrivateChannelDesc": "Titkos kulccsal biztosítva.",
-  "channels_joinPrivateChannel": "Csatlakozz egy privát csatornához",
-  "channels_joinPrivateChannelDesc": "Adjon meg kézzel egy titkos kulcsot.",
   "channels_joinPublicChannel": "Csatlakozzon a nyilvános csatornához",
   "channels_joinPublicChannelDesc": "Bárki csatlakozhat ehhez a csatornához.",
   "channels_joinHashtagChannel": "Csatlakozz egy Hashtag csatornához",
@@ -1276,6 +1269,7 @@
   "repeater_packetForwarding": "Csomagtovábbítás",
   "repeater_packetForwardingSubtitle": "Ismétlő engedélyezése a csomagok továbbításához",
   "repeater_guestAccess": "Vendég hozzáférés",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Csak olvasási hozzáférés engedélyezése a vendégek számára",
   "repeater_privacyMode": "Adatvédelmi mód",
   "repeater_privacyModeSubtitle": "Név/hely elrejtése a hirdetésekben",
@@ -1358,8 +1352,6 @@
   "repeater_floodMaxHelper": "Maximum ugrások, amelyeket egy árvízcsomag utazhat (0-64)",
   "repeater_advancedSettings": "Fejlett",
   "repeater_advancedSettingsSubtitle": "Hangológombok tapasztalt kezelőknek",
-  "repeater_pathHashMode": "Útvonal hash mód",
-  "repeater_pathHashModeHelper": "Az átjátszó azonosítójának elárasztási útvonal/hurokészlelési címkékbe való kódolására használt bájtok. 0 = 1 bájt (256 azonosító, legfeljebb 64 ugrás), 1 = 2 bájt (65 000 azonosító, legfeljebb 32 ugrás), 2 = 3 bájt (16 millió azonosító, legfeljebb 21 ugrás). A v1.13 és régebbi firmware eldobja a többbájtos elérési utat – csak akkor emelje meg, ha a hálózat a v1.14+ verziót használja.",
   "repeater_txDelay": "Áradási TX késleltetés",
   "repeater_txDelayHelper": "Újraküldési térköz az árvízi forgalomhoz, a csomag sugárzási idejének szorzójaként (0-2, alapértelmezett 0,5). Magasabb = kevesebb ütközés, de lassabb szállítás.",
   "repeater_directTxDelay": "Közvetlen TX késleltetés",
@@ -1750,142 +1742,6 @@
   },
   "channelPath_noHopDetailsAvailable": "Ehhez a csomaghoz nem állnak rendelkezésre ugrási részletek.",
   "channelPath_unknownRepeater": "Ismeretlen Repeater",
-  "community_title": "Közösség",
-  "community_create": "Közösség létrehozása",
-  "community_createDesc": "Hozzon létre egy új közösséget, és ossza meg QR-kóddal.",
-  "community_join": "Csatlakozik",
-  "community_joinTitle": "Csatlakozz a közösséghez",
-  "community_joinConfirmation": "Szeretnél csatlakozni a \"{name}\" közösséghez?",
-  "@community_joinConfirmation": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_scanQr": "Scan Community QR",
-  "community_scanInstructions": "Irányítsa a kamerát egy közösségi QR-kódra",
-  "community_showQr": "QR-kód megjelenítése",
-  "community_publicChannel": "Közösségi Nyilvános",
-  "community_hashtagChannel": "Közösségi hashtag",
-  "community_name": "Közösség neve",
-  "community_enterName": "Adja meg a közösség nevét",
-  "community_created": "A \"{name}\" közösség létrehozva",
-  "@community_created": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_joined": "Csatlakozott a \"{name}\" közösséghez",
-  "@community_joined": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_qrTitle": "Közösség megosztása",
-  "community_qrInstructions": "Olvassa be ezt a QR-kódot a \"{name}\" csoporthoz való csatlakozáshoz",
-  "@community_qrInstructions": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_hashtagPrivacyHint": "A közösségi hashtag csatornákhoz csak a közösség tagjai csatlakozhatnak",
-  "community_invalidQrCode": "Érvénytelen közösségi QR-kód",
-  "community_alreadyMember": "Már tag",
-  "community_alreadyMemberMessage": "Ön már tagja a(z) \"{name}\".",
-  "@community_alreadyMemberMessage": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_addPublicChannel": "Közösségi nyilvános csatorna hozzáadása",
-  "community_addPublicChannelHint": "Nyilvános csatorna automatikus hozzáadása ehhez a közösséghez",
-  "community_noCommunities": "Még nem csatlakozott közösség",
-  "community_scanOrCreate": "Olvassa be a QR-kódot, vagy hozzon létre egy közösséget a kezdéshez",
-  "community_manageCommunities": "Közösségek kezelése",
-  "community_delete": "Kilépés a közösségből",
-  "community_deleteConfirm": "Kilép a(z) „{name}” programból?",
-  "@community_deleteConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_deleteChannelsWarning": "Ezzel {count} csatornát és azok üzeneteit is törli.",
-  "@community_deleteChannelsWarning": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "community_deleted": "Kilépett a \"{name}\" közösségből",
-  "@community_deleted": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_regenerateSecret": "Regeneráld a Titkot",
-  "community_regenerateSecretConfirm": "Újragenerálja a titkos kulcsot a következőhöz: \"{name}\"? A kommunikáció folytatásához minden tagnak be kell olvasnia az új QR-kódot.",
-  "@community_regenerateSecretConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_regenerate": "Regenerátum",
-  "community_secretRegenerated": "Titok újra létrehozva a következőhöz: \"{name}\"",
-  "@community_secretRegenerated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_updateSecret": "Frissítse a Titkot",
-  "community_secretUpdated": "Titok frissítve a következőhöz: \"{name}\"",
-  "@community_secretUpdated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_scanToUpdateSecret": "Olvassa be az új QR-kódot a „{name}” titkának frissítéséhez",
-  "@community_scanToUpdateSecret": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_addHashtagChannel": "Közösségi hashtag hozzáadása",
-  "community_addHashtagChannelDesc": "Adj hozzá egy hashtag-csatornát ehhez a közösséghez",
-  "community_selectCommunity": "Válassza a Közösség lehetőséget",
-  "community_regularHashtag": "Rendszeres hashtag",
-  "community_regularHashtagDesc": "Nyilvános hashtag (bárki csatlakozhat)",
-  "community_communityHashtag": "Közösségi hashtag",
-  "community_communityHashtagDesc": "Privát a közösség tagjai számára",
-  "community_forCommunity": "{name}",
-  "@community_forCommunity": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "listFilter_tooltip": "Szűrés és rendezés",
   "listFilter_sortBy": "Rendezés",
   "listFilter_latestMessages": "Legújabb üzenetek",
@@ -2317,7 +2173,6 @@
   "repeater_cliHelpSetPrvKey": "(Csak soros) Lecseréli az eszközazonosító privát kulcsot. Újraindítás szükséges az alkalmazáshoz. Új nyilvános kulcsot generál.",
   "repeater_cliHelpSetRadioRxGain": "(csak SX126x) Bekapcsolja a megnövelt RX-erősítést a jobb érzékenység érdekében nagyobb áramfelvétel mellett.",
   "repeater_cliHelpSetOwnerInfo": "Beállítja a hirdetésekben szereplő tulajdonos elérhetőségi adatait. A '|' használata újsorokhoz.",
-  "repeater_cliHelpSetPathHashMode": "Beállítja az útvonal-kivonat módot. 0 = örökölt, 1 = szabványos, 2 = szigorú. Befolyásolja az útválasztási útvonalak egyeztetését.",
   "repeater_cliHelpSetLoopDetect": "Beállítja az útválasztási hurok észlelésének érzékenységét: ki, minimális, közepes vagy szigorú.",
   "repeater_cliHelpSetFreq": "(Csak soros) Gyorsan beállítja csak a frekvenciát. Újraindítás szükséges. A „rádió beállítása” előnyben részesítse a teljes rádióparamétereket.",
   "repeater_cliHelpSetBridgeChannel": "(Csak ESPNow bridge) Beállítja a híd által használt WiFi csatornát (1-14).",
@@ -2489,13 +2344,6 @@
       }
     }
   },
-  "@channels_communityShortId": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "messageStatus_delivered": "Szállítva",
   "common_undo": "Visszavonás",
   "messageStatus_sent": "Küldött",
@@ -2548,7 +2396,6 @@
   "map_zoomOut": "Kicsinyítés",
   "map_centerMap": "Középső térkép",
   "chrome_bluetoothRequiresChromium": "A Web Bluetooth használatához Chromium böngésző szükséges",
-  "channels_communityShortId": "ID: {id}...",
   "pathTrace_legendGpsConfirmed": "GPS megerősítve",
   "pathTrace_legendInferred": "Kikövetkeztetett pozíció",
   "@pathMap_hopOf": {
@@ -2786,10 +2633,6 @@
   "settings_deleteRegionConfirm": "Kell kiszámítsd a {region}ot a részekre?",
   "settings_infoHardware": "Hardverő",
   "settings_infoFirmware": "Firmver",
-  "repeater_pathHashModeOption0": "0 - 1 byte",
-  "repeater_pathHashModeOption1": "1 - 2 szavak",
-  "repeater_pathHashModeOption2": "2 - 3 bajt",
-  "repeater_pathHashModeOption3": "3 - 4 bajt",
   "appSettings_batteryLipoHv": "LiPo HV (3.0-4.35V)",
   "channels_regionSetTo": "Tájékoztatás: A {region} -t\n\nEz a tájékoztatás a magyar nyelvben a következően kell szóva:\n\nTájékoztatás: A {region} -t",
   "channels_regionNotSet": "Tájékoztetés: nem",
@@ -2866,5 +2709,6 @@
   "receivedImage_tapToProcess": "Klikd a feljelenítést",
   "receivedImage_awaiting": "{bytes} bájt · {packets} {packets, plural, =1{csomag} other{csomag}}",
   "imageSend_secondsValue": "{seconds} sekünd\n\n(Note: The placeholder {seconds} is kept unchanged as requested.)",
-  "imageSend_minutesSecondsValue": "{minutes} per {seconds} sekünd\n\n(Note: The original text appears to be a placeholder format rather than a complete sentence. The translation reflects the literal structure while preserving the placeholders as requested.)"
+  "imageSend_minutesSecondsValue": "{minutes} per {seconds} sekünd\n\n(Note: The original text appears to be a placeholder format rather than a complete sentence. The translation reflects the literal structure while preserving the placeholders as requested.)",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

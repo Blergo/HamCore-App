@@ -4,7 +4,6 @@ import 'dart:math' as math;
 
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:hamcore/storage/region_store.dart';
-import 'package:pointycastle/export.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_blue_plus_platform_interface/flutter_blue_plus_platform_interface.dart';
@@ -2978,18 +2977,6 @@ class HamCoreConnector extends ChangeNotifier {
     } catch (_) {}
   }
 
-  Future<void> setPathHashMode(int mode) async {
-    if (!isConnected) return;
-    final clampedMode = mode.clamp(0, 3).toInt();
-    await sendFrame(buildSetPathHashModeFrame(clampedMode));
-    final nextWidth = clampedMode + 1;
-    if (_pathHashByteWidth != nextWidth) {
-      _pathHashByteWidth = nextWidth;
-      _directRepeaters.clear();
-      notifyListeners();
-    }
-  }
-
   bool _isPathLenValidForCurrentMode(int pathLen, List<int> pathBytes) {
     return _isPathLenValidForMode(pathLen, pathBytes, _pathHashByteWidth);
   }
@@ -4629,9 +4616,8 @@ class HamCoreConnector extends ChangeNotifier {
       if (frame.length < start + maxLen) return null;
       final bytes = frame.sublist(start, start + maxLen);
       final end = bytes.indexOf(0);
-      final s = String.fromCharCodes(
-        end >= 0 ? bytes.sublist(0, end) : bytes,
-      ).trim();
+      final s = String.fromCharCodes(end >= 0 ? bytes.sublist(0, end) : bytes)
+          .trim();
       return s.isEmpty ? null : s;
     }
 
@@ -5717,41 +5703,82 @@ class HamCoreConnector extends ChangeNotifier {
 
       final raw = reader.readRemainingBytes();
       final packet = _parseRawPacket(raw);
-      if (packet == null || packet.payloadType != _payloadTypeGroupText) return;
+      if (packet == null) {
+        appLogger.info(
+          'LogRxData: _parseRawPacket returned null',
+          tag: 'ChannelRepeat',
+        );
+        return;
+      }
+      if (packet.payloadType != _payloadTypeGroupText) {
+        appLogger.info(
+          'LogRxData: payloadType=${packet.payloadType} (not GRP_TXT=$_payloadTypeGroupText), skipping',
+          tag: 'ChannelRepeat',
+        );
+        return;
+      }
 
       final payload = BufferReader(packet.payload);
       final channelHash = payload.readByte();
-      final encrypted = Uint8List.fromList(payload.readRemainingBytes());
+      // HamCore firmware sends channel payloads in plain text (no real
+      // encryption), but the wire format still carries the old 2-byte MAC
+      // field - it's just zero-filled now rather than a real HMAC check.
+      // Layout: [mac:2 (zeroed)][timestamp:4][txtType:1][text...].
+      final plainPayload = Uint8List.fromList(payload.readRemainingBytes());
 
       // Use cached channels as fallback if live channels not yet loaded
       final channelsToSearch = _channels.isNotEmpty
           ? _channels
           : _cachedChannels;
+      appLogger.info(
+        'LogRxData: packet channelHash=0x${channelHash.toRadixString(16)}, '
+        'searching ${channelsToSearch.length} channels '
+        '(source: ${_channels.isNotEmpty ? "_channels" : "_cachedChannels"})',
+        tag: 'ChannelRepeat',
+      );
+      var matchedAnyChannel = false;
       for (final channel in channelsToSearch) {
         if (channel.isEmpty) continue;
         final hash = _computeChannelHash(channel.psk);
+        appLogger.info(
+          'LogRxData: channel idx=${channel.index} name="${channel.name}" '
+          'computedHash=0x${hash.toRadixString(16)}',
+          tag: 'ChannelRepeat',
+        );
         if (hash != channelHash) continue;
+        matchedAnyChannel = true;
         try {
-          final decryptedBytes = _decryptPayload(channel.psk, encrypted);
-          if (decryptedBytes == null || decryptedBytes.length < 6) return;
-          final decrypted = BufferReader(decryptedBytes);
+          if (plainPayload.length < 8) {
+            appLogger.info(
+              'LogRxData: plainPayload too short (${plainPayload.length} bytes)',
+              tag: 'ChannelRepeat',
+            );
+            return;
+          }
+          final plain = BufferReader(plainPayload);
+          plain.skipBytes(2); // zeroed MAC placeholder
 
-          final timestampRaw = decrypted.readUInt32LE();
-          final txtType = decrypted.readByte();
+          final timestampRaw = plain.readUInt32LE();
+          final txtType = plain.readByte();
           if ((txtType >> 2) != 0) {
+            appLogger.info(
+              'LogRxData: txtType=$txtType not plain text, skipping',
+              tag: 'ChannelRepeat',
+            );
             return;
           }
 
-          final text = decrypted.readCString();
+          final text = plain.readCString();
           final parsed = _splitSenderText(text);
           final decodedText =
               Smaz.tryDecodePrefixed(parsed.text) ?? parsed.text;
-          if (_shouldDropSelfChannelMessage(
-            parsed.senderName,
-            packet.pathBytes,
-          )) {
-            return;
-          }
+          // Note: unlike the decoded RESP_CODE_CHANNEL_MSG_RECV path, we
+          // don't drop self-named messages here. The radio is half-duplex -
+          // it can never hear its own transmission - so any raw RX log
+          // entry naming us as sender is necessarily a genuine repeater
+          // echo, which _isChannelRepeat's self-echo handling is meant to
+          // merge into the original outgoing message (bumping repeatCount)
+          // rather than showing as a separate bubble.
 
           final pktHash = _computePacketHash(
             packet.payloadType,
@@ -5772,6 +5799,13 @@ class HamCoreConnector extends ChangeNotifier {
             packetHash: pktHash,
           );
 
+          appLogger.info(
+            'LogRxData: parsed message sender="${parsed.senderName}" '
+            'text="$decodedText" selfName="${_selfName ?? "(null)"}" '
+            'pktHash=$pktHash existingCount=${(_channelMessages[channel.index] ?? []).length}',
+            tag: 'ChannelRepeat',
+          );
+
           _updateContactLastMessageAtByName(
             parsed.senderName,
             message.timestamp,
@@ -5779,6 +5813,18 @@ class HamCoreConnector extends ChangeNotifier {
             pathHashWidth: message.pathHashWidth,
           );
           final isNew = _addChannelMessage(channel.index, message);
+          final updatedRepeatCount = isNew
+              ? 0
+              : (_channelMessages[channel.index] ?? [])
+                    .firstWhere(
+                      (m) => m.packetHash == pktHash || m.text == decodedText,
+                      orElse: () => message,
+                    )
+                    .repeatCount;
+          appLogger.info(
+            'LogRxData: _addChannelMessage isNew=$isNew repeatCount=$updatedRepeatCount',
+            tag: 'ChannelRepeat',
+          );
           _maybeIncrementChannelUnread(message, isNew: isNew);
           notifyListeners();
           if (isNew) {
@@ -5800,8 +5846,16 @@ class HamCoreConnector extends ChangeNotifier {
           }
           return;
         } catch (e) {
-          appLogger.warn('Decryption failed for channel ${channel.index}: $e');
+          appLogger.warn(
+            'Failed to parse raw channel payload for channel ${channel.index}: $e',
+          );
         }
+      }
+      if (!matchedAnyChannel) {
+        appLogger.info(
+          'LogRxData: no loaded channel matched hash 0x${channelHash.toRadixString(16)}',
+          tag: 'ChannelRepeat',
+        );
       }
     } catch (e) {
       appLogger.warn('Error handling log RX data frame: $e');
@@ -6419,32 +6473,17 @@ class HamCoreConnector extends ChangeNotifier {
     return 'c:${digest.sublist(0, 8).map((b) => b.toRadixString(16).padLeft(2, '0')).join()}';
   }
 
-  Uint8List? _decryptPayload(Uint8List psk, Uint8List encrypted) {
-    if (encrypted.length <= _cipherMacSize) return null;
-    final mac = encrypted.sublist(0, _cipherMacSize);
-    final cipherText = encrypted.sublist(_cipherMacSize);
-
-    final key32 = Uint8List(32);
-    final copyLen = psk.length < 32 ? psk.length : 32;
-    key32.setRange(0, copyLen, psk);
-
-    final hmac = crypto.Hmac(crypto.sha256, key32).convert(cipherText).bytes;
-    if (hmac[0] != mac[0] || hmac[1] != mac[1]) {
-      return null;
-    }
-
-    if (cipherText.isEmpty || cipherText.length % 16 != 0) return null;
-    final key16 = Uint8List(16);
-    final keyLen = psk.length < 16 ? psk.length : 16;
-    key16.setRange(0, keyLen, psk);
-
-    final cipher = ECBBlockCipher(AESEngine());
-    cipher.init(false, KeyParameter(key16));
-    final out = Uint8List(cipherText.length);
-    for (var i = 0; i < cipherText.length; i += 16) {
-      cipher.processBlock(cipherText, i, out, i);
-    }
-    return out;
+  /// Picks which packetHash to keep when merging a repeat into an existing
+  /// channel message. A real packet hash (from raw over-air bytes, no 'c:'
+  /// prefix) is exact and stable across every repeat of the same message; a
+  /// content hash ('c:' prefix) is only a fuzzy stand-in used before a real
+  /// one has been seen. Once a real hash shows up it's always adopted, so
+  /// later genuine repeats - which can arrive well outside the short
+  /// text/sender/time heuristic window on a multi-hop mesh - match it
+  /// exactly instead of falling back to that heuristic every time.
+  String? _preferPacketHash(String? existing, String? incoming) {
+    if (incoming != null && !incoming.startsWith('c:')) return incoming;
+    return existing ?? incoming;
   }
 
   _ParsedText _splitSenderText(String text) {
@@ -6562,7 +6601,10 @@ class HamCoreConnector extends ChangeNotifier {
         pathHashWidth: existing.pathHashWidth ?? processedMessage.pathHashWidth,
         pathBytes: mergedPathBytes,
         pathVariants: mergedPathVariants,
-        packetHash: existing.packetHash ?? processedMessage.packetHash,
+        packetHash: _preferPacketHash(
+          existing.packetHash,
+          processedMessage.packetHash,
+        ),
         // Mark as sent when first repeat is heard
         status: promotedFromPending
             ? ChannelMessageStatus.sent
@@ -6638,16 +6680,24 @@ class HamCoreConnector extends ChangeNotifier {
   bool _isChannelRepeat(ChannelMessage existing, ChannelMessage incoming) {
     if (existing.text != incoming.text) return false;
 
-    // Self-echo: an outgoing message coming back via a repeater. The send is
-    // delayed by _waitForRadioQuiet (often 10s+) and propagation can add more,
-    // so the timestamp gap can easily exceed the cross-peer window.
+    // A freshly composed local send is never a repeat of anything - it's
+    // always its own new message, even if the text matches an earlier send.
+    // Only an incoming (received) copy can be a repeat/echo of something.
+    if (incoming.isOutgoing) return false;
+
+    // Self-echo: an outgoing message coming back via a direct repeater.
+    // The send can be delayed by _waitForRadioQuiet (often 10s+), and a
+    // direct repeat adds a few more seconds of propagation on top - so this
+    // window needs to be a bit wider than the plain cross-peer one, but
+    // repeats are only ever heard directly, not relayed multiple hops deep,
+    // so it doesn't need to be huge either.
     final selfName = _selfName ?? 'Me';
     final isSelfEcho =
         existing.isOutgoing &&
         !incoming.isOutgoing &&
         (incoming.senderName == selfName || existing.senderName == selfName);
 
-    final windowMs = isSelfEcho ? 10 * 60 * 1000 : 30000;
+    final windowMs = isSelfEcho ? 60 * 1000 : 30000;
     final diffMs =
         (existing.timestamp.millisecondsSinceEpoch -
                 incoming.timestamp.millisecondsSinceEpoch)
@@ -7468,7 +7518,6 @@ const int _routeFlood = 0x01;
 const int _routeTransportDirect = 0x03;
 
 const int _payloadTypeGroupText = 0x05;
-const int _cipherMacSize = 2;
 
 /// Decodes the firmware's encoded path_len byte into actual byte length.
 /// Bits 0-5: hash count (0-63), Bits 6-7: hash size code (0=1byte ... 3=4bytes).

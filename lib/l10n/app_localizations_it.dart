@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -749,18 +750,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get appSettings_languageUk => 'Ucraino';
 
   @override
-  String get repeater_pathHashModeOption0 => '0 - 1 byte';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 byte';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 byte';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 byte';
-
-  @override
   String get appSettings_enableMessageTracing =>
       'Abilita tracciamento messaggi';
 
@@ -1231,7 +1220,7 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String get channels_private => 'Privato';
+  String get channels_hashtag => 'Hashtag';
 
   @override
   String get channels_editChannel => 'Modifica canale';
@@ -1276,17 +1265,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get channels_standardPublicPsk => 'PSK pubblico standard';
 
   @override
-  String get channels_pskHex => 'PSK (esadecimale)';
-
-  @override
-  String get channels_generateRandomPsk => 'Genera una PSK casuale';
-
-  @override
   String get channels_enterChannelName => 'Inserisci un nome per il canale';
-
-  @override
-  String get channels_pskMustBe32Hex =>
-      'PSK deve essere composto da 32 caratteri esadecimali.';
 
   @override
   String channels_channelAdded(String name) {
@@ -1380,20 +1359,6 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get channels_sortUnread => 'Non letto';
-
-  @override
-  String get channels_createPrivateChannel => 'Crea un Canale Privato';
-
-  @override
-  String get channels_createPrivateChannelDesc =>
-      'Protetta con una chiave segreta.';
-
-  @override
-  String get channels_joinPrivateChannel => 'Unisciti a un Canale Privato';
-
-  @override
-  String get channels_joinPrivateChannelDesc =>
-      'Inserire manualmente una chiave segreta.';
 
   @override
   String get channels_joinPublicChannel => 'Unisciti al Canale Pubblico';
@@ -2566,6 +2531,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get repeater_guestAccess => 'Accesso ospite';
 
   @override
+  String get repeater_adminAccess => 'Admin Access';
+
+  @override
   String get repeater_guestAccessSubtitle =>
       'Consenti l\'accesso ospite in sola lettura';
 
@@ -2734,13 +2702,6 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get repeater_advancedSettingsSubtitle =>
       'Manopole di regolazione per operatori esperti';
-
-  @override
-  String get repeater_pathHashMode => 'Modalità di hashing del percorso';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Byte utilizzati per codificare l\'ID di questo ripetitore nei tag di percorso flood/rilevamento loop. 0=1 byte (256 ID, fino a 64 salti), 1=2 byte (65.000 ID, fino a 32 salti), 2=3 byte (16 milioni di ID, fino a 21 salti). Il firmware precedente alla v1.14 usava sempre percorsi a 1 byte; v1.14 e versioni successive possono essere configurate per percorsi a 2 o 3 byte.';
 
   @override
   String get repeater_keySettings => 'Cambia le Chiavi di Identità';
@@ -3267,10 +3228,6 @@ class AppLocalizationsIt extends AppLocalizations {
       'Definisce la stringa contenente le informazioni di contatto del proprietario, presente negli annunci. Utilizzare \'|\' per i newline.';
 
   @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Imposta la modalità di hashing del percorso. 0 = modalità legacy, 1 = modalità standard, 2 = modalità rigorosa. Influisce su come vengono abbinati i percorsi di routing.';
-
-  @override
   String get repeater_cliHelpSetLoopDetect =>
       'Imposta il livello di sensibilità per il rilevamento dei loop di routing: disattivato, minimo, moderato o rigoroso.';
 
@@ -3794,176 +3751,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get channelPath_unknownRepeater => 'Ripetitore sconosciuto';
 
   @override
-  String get community_title => 'Comunità';
-
-  @override
-  String get community_create => 'Crea Comunità';
-
-  @override
-  String get community_createDesc =>
-      'Crea una nuova comunità e condividila tramite codice QR.';
-
-  @override
-  String get community_join => 'Unisciti';
-
-  @override
-  String get community_joinTitle => 'Unisciti alla Community';
-
-  @override
-  String community_joinConfirmation(String name) {
-    return 'Vuoi unirti alla community \"$name\"?';
-  }
-
-  @override
-  String get community_scanQr => 'Scansiona il QR Code della Community';
-
-  @override
-  String get community_scanInstructions =>
-      'Punta la fotocamera su un codice QR della comunità';
-
-  @override
-  String get community_showQr => 'Mostra il codice QR';
-
-  @override
-  String get community_publicChannel => 'Comunità Pubblica';
-
-  @override
-  String get community_hashtagChannel => 'Hashtag della Comunità';
-
-  @override
-  String get community_name => 'Nome della Comunità';
-
-  @override
-  String get community_enterName => 'Inserisci il nome della comunità';
-
-  @override
-  String community_created(String name) {
-    return 'Comunità \"$name\" creata';
-  }
-
-  @override
-  String community_joined(String name) {
-    return 'Unito alla comunità \"$name\"';
-  }
-
-  @override
-  String get community_qrTitle => 'Condividi Comunità';
-
-  @override
-  String community_qrInstructions(String name) {
-    return 'Scansiona questo codice QR per unirti a $name';
-  }
-
-  @override
-  String get community_hashtagPrivacyHint =>
-      'I canali hashtag della community sono accessibili solo ai membri della community';
-
-  @override
-  String get community_invalidQrCode => 'Codice QR della community non valido';
-
-  @override
-  String get community_alreadyMember => 'Già membro';
-
-  @override
-  String community_alreadyMemberMessage(String name) {
-    return 'Sei già un membro di \"$name\".';
-  }
-
-  @override
-  String get community_addPublicChannel =>
-      'Aggiungi Canale Pubblico della Comunità';
-
-  @override
-  String get community_addPublicChannelHint =>
-      'Aggiungi automaticamente il canale pubblico per questa community';
-
-  @override
-  String get community_noCommunities => 'Nessun gruppo aggiunto finora';
-
-  @override
-  String get community_scanOrCreate =>
-      'Scansiona un codice QR o crea una community per iniziare.';
-
-  @override
-  String get community_manageCommunities => 'Gestisci Comunità';
-
-  @override
-  String get community_delete => 'Lascia la Comunità';
-
-  @override
-  String community_deleteConfirm(String name) {
-    return 'Uscire da \"$name\"?';
-  }
-
-  @override
-  String community_deleteChannelsWarning(int count) {
-    return 'Questo eliminerà anche $count canale/i e i loro messaggi.';
-  }
-
-  @override
-  String community_deleted(String name) {
-    return 'Hai lasciato la comunità \"$name\"';
-  }
-
-  @override
-  String get community_regenerateSecret => 'Ri genera la chiave segreta';
-
-  @override
-  String community_regenerateSecretConfirm(String name) {
-    return 'Regenera la chiave segreta per \"$name\"? Tutti i membri dovranno scansionare il nuovo codice QR per continuare a comunicare.';
-  }
-
-  @override
-  String get community_regenerate => 'Rigenera';
-
-  @override
-  String community_secretRegenerated(String name) {
-    return 'Codice segreto rigenerato per \"$name\"';
-  }
-
-  @override
-  String get community_updateSecret => 'Aggiorna Segreto';
-
-  @override
-  String community_secretUpdated(String name) {
-    return 'Segreto aggiornato per \"$name\"';
-  }
-
-  @override
-  String community_scanToUpdateSecret(String name) {
-    return 'Scansiona il nuovo codice QR per aggiornare il segreto di \"$name\"';
-  }
-
-  @override
-  String get community_addHashtagChannel => 'Aggiungi Hashtag della Community';
-
-  @override
-  String get community_addHashtagChannelDesc =>
-      'Aggiungi un canale con hashtag per questa community';
-
-  @override
-  String get community_selectCommunity => 'Seleziona Comunità';
-
-  @override
-  String get community_regularHashtag => 'Hashtag regolare';
-
-  @override
-  String get community_regularHashtagDesc =>
-      'Hashtag pubblico (chiunque può unirsi)';
-
-  @override
-  String get community_communityHashtag => 'Hashtag della Comunità';
-
-  @override
-  String get community_communityHashtagDesc =>
-      'Visibile solo ai membri della comunità';
-
-  @override
-  String community_forCommunity(String name) {
-    return 'Per $name';
-  }
-
-  @override
   String get listFilter_tooltip => 'Filtra e ordina';
 
   @override
@@ -4365,8 +4152,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get settings_gpxExportAllContacts => 'Tutte le posizioni dei contatti';
 
   @override
-  String get settings_gpxExportShareText =>
-      'Dati mappa esportati da hamcore';
+  String get settings_gpxExportShareText => 'Dati mappa esportati da hamcore';
 
   @override
   String get settings_gpxExportShareSubject =>
@@ -4748,11 +4534,6 @@ class AppLocalizationsIt extends AppLocalizations {
       'Web Bluetooth richiede un browser basato su Chromium.';
 
   @override
-  String channels_communityShortId(String id) {
-    return 'ID: $id...';
-  }
-
-  @override
   String get pathTrace_legendGpsConfirmed => 'Il GPS conferma';
 
   @override
@@ -4837,8 +4618,7 @@ class AppLocalizationsIt extends AppLocalizations {
       locale: localeName,
       other:
           '$count salti non hanno una posizione specifica — il percorso mostrato è parziale',
-      one:
-          '1 salto non ha una posizione specifica — il percorso mostrato è parziale',
+      one: '1 salto non ha una posizione specifica — il percorso mostrato è parziale',
     );
     return '$_temp0';
   }
@@ -5066,4 +4846,8 @@ class AppLocalizationsIt extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes min $seconds s';
   }
+
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
 }

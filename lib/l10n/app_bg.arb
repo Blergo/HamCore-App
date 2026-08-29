@@ -357,7 +357,7 @@
     }
   },
   "channels_public": "Публично",
-  "channels_private": "Частен",
+  "channels_hashtag": "Hashtag",
   "channels_editChannel": "Редактирай канал",
   "channels_muteChannel": "Заглуши канала",
   "channels_unmuteChannel": "Включи известията на канала",
@@ -383,10 +383,7 @@
   "channels_channelName": "Име на канала",
   "channels_usePublicChannel": "Използвай публичен канал",
   "channels_standardPublicPsk": "Стандартен публичен PSK",
-  "channels_pskHex": "PSK (шестнадесетичен код)",
-  "channels_generateRandomPsk": "Генерирай случайна PSK",
   "channels_enterChannelName": "Моля, въведете име на канал.",
-  "channels_pskMustBe32Hex": "PSK трябва да бъде 32 шестнадесетични знака.",
   "channels_channelAdded": "Каналът \"{name}\" е добавен",
   "@channels_channelAdded": {
     "placeholders": {
@@ -1090,6 +1087,7 @@
   "repeater_packetForwarding": "Пренасочване на пакети",
   "repeater_packetForwardingSubtitle": "Активирайте повторителя, за да препраща пакети.",
   "repeater_guestAccess": "Достъп за гости",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Разрешете само четене за гости",
   "repeater_privacyMode": "Режим на поверителност",
   "repeater_privacyModeSubtitle": "Скриване на име/местоположение в рекламите",
@@ -1172,8 +1170,6 @@
   "repeater_floodMaxHelper": "Максималният брой хопове, които един пакет може да премине (0-64)",
   "repeater_advancedSettings": "Разширени настройки",
   "repeater_advancedSettingsSubtitle": "Експериментални настройки за опитни оператори",
-  "repeater_pathHashMode": "Режим за хеширане на пътища",
-  "repeater_pathHashModeHelper": "Байтовете, използвани за кодиране на идентификатора на този повторител в таговете за откриване на потоци/цикли, са: 0=1 байт (256 идентификатора, до 64 скока), 1=2 байта (65 000 идентификатора, до 32 скока), 2=3 байта (16 милиона идентификатора, до 21 скока). Версиите 1.13 и по-старите фърмуери използват многобайтови пътища - само след като мрежата е актуализирана до версия 1.14 или по-нова.",
   "repeater_txDelay": "Забавяне на Flood TX",
   "repeater_txDelayHelper": "Разстоянието между пакетите при наводняване като множител на времето за пренос на пакета (0-2, по подразбиране 0.5). По-висока стойност означава по-малко сблъсъци, но по-бавно предаване.",
   "repeater_directTxDelay": "Забавяне на директното предаване",
@@ -1562,10 +1558,6 @@
   "neighbors_errorLoading": "Грешка при зареждане на съседи: {error}",
   "neighbors_repeatersNeighbors": "Повторители Съседи",
   "neighbors_noData": "Няма налични данни за съседи.",
-  "channels_createPrivateChannel": "Създай Частен Канал",
-  "channels_joinPrivateChannel": "Присъедини се към Частен Канал",
-  "channels_createPrivateChannelDesc": "Защитено с таен ключ.",
-  "channels_joinPrivateChannelDesc": "Ръчно въведете таен ключ.",
   "channels_joinPublicChannel": "Присъединете се към Публичния канал",
   "channels_joinPublicChannelDesc": "Всеки може да се присъедини към този канал.",
   "channels_joinHashtagChannel": "Присъедини се към Хаштаг Канал",
@@ -1596,143 +1588,7 @@
   "settings_locationIntervalInvalid": "Интервалът трябва да бъде поне 60 секунди и по-малко от 86400 секунди.",
   "room_management": "Управление на сървъра за стая",
   "contacts_manageRoom": "Управление на сървър за стая",
-  "@community_joinConfirmation": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_created": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_joined": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_qrInstructions": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_alreadyMemberMessage": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleteConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleted": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_forCommunity": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_title": "Общност",
   "common_ok": "Добре",
-  "community_createDesc": "Създайте нова общност и я споделете чрез QR код.",
-  "community_create": "Създай общност",
-  "community_joinTitle": "Присъедини се към общността",
-  "community_joinConfirmation": "Искате ли да се присъедините към общността \"{name}\"?",
-  "community_scanQr": "Сканирайте QR кода на общността",
-  "community_scanInstructions": "Насочете камерата към QR код на общността",
-  "community_showQr": "Покажи QR код",
-  "community_publicChannel": "Обществено общност",
-  "community_hashtagChannel": "Хаштаг на общността",
-  "community_name": "Име на общността",
-  "community_enterName": "Въведете име на общността",
-  "community_created": "Общността \"{name}\" е създадена",
-  "community_joined": "Присъединено общност \"{name}\"",
-  "community_qrTitle": "Споделяне в общността",
-  "community_join": "Присъедини се",
-  "community_qrInstructions": "Сканирайте този QR код, за да се присъедините към {name}.",
-  "community_hashtagPrivacyHint": "Хаштаг каналите на общността са достъпни само за членове на общността",
-  "community_invalidQrCode": "Невалиден QR код на общността",
-  "community_alreadyMember": "Вече съм член",
-  "community_alreadyMemberMessage": "Вие вече сте член на \"{name}\".",
-  "community_addPublicChannel": "Добави публичен общностен канал",
-  "community_addPublicChannelHint": "Автоматично добавете публичния канал за тази общност.",
-  "community_noCommunities": "Няма присъединени общности още.",
-  "community_scanOrCreate": "Сканирайте QR код или създайте общност, за да започнете.",
-  "community_manageCommunities": "Управление на общности",
-  "community_delete": "Напусни общността",
-  "community_deleteConfirm": "Напускате \"{name}\"?",
-  "community_deleteChannelsWarning": "Това ще изтрие също {count} канал(а) и техните съобщения.",
-  "@community_deleteChannelsWarning": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "community_deleted": "Остави общността \"{name}\"",
-  "community_addHashtagChannel": "Добави общностен хаштаг",
-  "community_addHashtagChannelDesc": "Добавете хаштаг канал за тази общност",
-  "community_selectCommunity": "Изберете общност",
-  "community_regularHashtag": "Обикновен хаштаг",
-  "community_regularHashtagDesc": "Общ хаштаг (всеки може да се присъедини)",
-  "community_communityHashtag": "Общностен хаштаг",
-  "community_communityHashtagDesc": "Само за членове на общността",
-  "community_forCommunity": "За {name}",
-  "@community_regenerateSecretConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretRegenerated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretUpdated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_scanToUpdateSecret": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_regenerateSecretConfirm": "Регенерация на секретния ключ за \"{name}\"? Всички членове ще трябва да сканират новия QR код, за да продължат комуникацията.",
-  "community_secretRegenerated": "Секретно презареждане за \"{name}\"",
-  "community_regenerateSecret": "Регенерейрай секрет",
-  "community_regenerate": "Регенерация",
-  "community_updateSecret": "Актуализирай тайна",
-  "community_scanToUpdateSecret": "Сканьорвайте новия QR код, за да актуализирате секрета за \"{name}\"",
-  "community_secretUpdated": "Секретно обновено за \"{name}\"",
   "@contacts_pathTraceTo": {
     "placeholders": {
       "name": {
@@ -2279,7 +2135,6 @@
   "repeater_cliHelpSetPrvKey": "(Само за серийни номера) Заменя личната част от ключа за идентификация на устройството. Необходимо е да се рестартира устройството, за да се приложи. Генерира нов публичен ключ.",
   "repeater_cliHelpSetRadioRxGain": "(Само за SX126x) Превключва усиления на приемния сигнал (RX gain) за подобрена чувствителност при по-високо потребление на ток.",
   "repeater_cliHelpSetOwnerInfo": "Задава низовете с информация за контакт на собственика, които са включени в рекламите. Използвайте '|' за нови редове.",
-  "repeater_cliHelpSetPathHashMode": "Задава режима за хеширане на пътищата. 0 = за стари системи, 1 = за стандартни системи, 2 = за строги системи. Влияе върху начина, по който се съпоставят маршрутите.",
   "repeater_cliHelpSetLoopDetect": "Задава чувствителността за откриване на цикли в маршрутизацията: изключена, минимална, умерена или строга.",
   "repeater_cliHelpSetFreq": "(Само за серийно управление) Бързо задава само честотата. Необходимо е рестартиране. Препоръчително е да се използват настройките за \"радио\", за да се зададат всички параметри.",
   "repeater_cliHelpSetBridgeChannel": "(Само за моста ESPNow) Определя WiFi канала (от 1 до 14), използван от моста.",
@@ -2451,13 +2306,6 @@
       }
     }
   },
-  "@channels_communityShortId": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "messageStatus_pending": "Изпраща се",
   "common_undo": "Отмени",
   "messageStatus_delivered": "Доставено",
@@ -2510,7 +2358,6 @@
   "map_zoomOut": "Намали мащаба",
   "map_centerMap": "Центрирай картата",
   "chrome_bluetoothRequiresChromium": "Web Bluetooth изисква браузър, базиран на Chromium.",
-  "channels_communityShortId": "Идентификационен номер: {id}...",
   "pathTrace_legendGpsConfirmed": "GPS потвърдено",
   "pathTrace_legendInferred": "Извлечена позиция",
   "@pathMap_hopOf": {
@@ -2748,10 +2595,6 @@
   "settings_deleteRegionConfirm": "Състрясна: отпиште \"{region}\" от списка региони?",
   "settings_infoHardware": "Оборудование",
   "settings_infoFirmware": "Програмно-оборонни системни программи (фirmware)",
-  "repeater_pathHashModeOption0": "0 - 1 байт",
-  "repeater_pathHashModeOption1": "1 - 2 байта",
-  "repeater_pathHashModeOption2": "2 - 3 байта",
-  "repeater_pathHashModeOption3": "3 - 4 байта",
   "appSettings_batteryLipoHv": "LiPo ВЗГ (3,0-4,35 В)",
   "channels_regionSetTo": "Регион: {region}",
   "channels_regionNotSet": "Регион: ние",
@@ -2828,5 +2671,6 @@
   "receivedImage_tapToProcess": "Натискнете за обработка",
   "receivedImage_awaiting": "{bytes} байта · {packets} {packets, plural, =1{пакет} other{пакета}}",
   "imageSend_secondsValue": "{seconds} секунди",
-  "imageSend_minutesSecondsValue": "{minutes} мин {seconds} сек"
+  "imageSend_minutesSecondsValue": "{minutes} мин {seconds} сек",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

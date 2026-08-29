@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
 import '../l10n/l10n.dart';
 import '../models/contact.dart';
 import '../connector/hamcore_connector.dart';
@@ -45,7 +47,6 @@ enum _SettingField {
   floodMax,
   advertInterval,
   floodAdvertInterval,
-  pathHashMode,
   prvKey,
   txDelay,
   directTxDelay,
@@ -106,7 +107,6 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
   bool _refreshingAdvertInterval = false;
   bool _refreshingFloodAdvertInterval = false;
   bool _refreshingFloodMax = false;
-  bool _refreshingPathHashMode = false;
   bool _refreshingTxDelay = false;
   bool _refreshingDirectTxDelay = false;
   bool _refreshingIntThresh = false;
@@ -158,7 +158,6 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
   final TextEditingController _ownerInfoController = TextEditingController();
 
   // Advanced
-  int _pathHashMode = 0; // 0-2
   final TextEditingController _prvKeyController = TextEditingController();
   final TextEditingController _pubKeyController = TextEditingController();
   final TextEditingController _prvKeyPrefixController = TextEditingController();
@@ -342,10 +341,6 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
       case 'flood.max':
         final v = int.tryParse(value.trim());
         if (v != null && v >= 0 && v <= 64) _floodMax = v;
-        break;
-      case 'path.hash.mode':
-        final v = int.tryParse(value.trim());
-        if (v != null && v >= 0 && v <= 2) _pathHashMode = v;
         break;
       case 'txdelay':
         if (double.tryParse(value.trim()) != null) {
@@ -618,15 +613,6 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
     );
   }
 
-  Future<void> _refreshPathHashMode() async {
-    final l10n = context.l10n;
-    await _refreshSection(
-      label: l10n.repeater_pathHashMode,
-      commands: const ['get path.hash.mode'],
-      setRefreshing: (value) => _refreshingPathHashMode = value,
-    );
-  }
-
   Future<void> _refreshTxDelay() async {
     final l10n = context.l10n;
     await _refreshSection(
@@ -866,12 +852,6 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
         pending.add((
           field: _SettingField.ownerInfo,
           command: 'set owner.info $encoded',
-        ));
-      }
-      if (_dirtyFields.contains(_SettingField.pathHashMode)) {
-        pending.add((
-          field: _SettingField.pathHashMode,
-          command: 'set path.hash.mode $_pathHashMode',
         ));
       }
       if (_dirtyFields.contains(_SettingField.prvKey)) {
@@ -1886,38 +1866,6 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: DropdownButtonFormField<int>(
-                  initialValue: _pathHashMode,
-                  decoration: InputDecoration(
-                    labelText: l10n.repeater_pathHashMode,
-                    helperText: l10n.repeater_pathHashModeHelper,
-                    helperMaxLines: 5,
-                  ),
-                  items: const [
-                    DropdownMenuItem(value: 0, child: Text('0')),
-                    DropdownMenuItem(value: 1, child: Text('1')),
-                    DropdownMenuItem(value: 2, child: Text('2')),
-                  ],
-                  onChanged: (v) {
-                    if (v != null) {
-                      setState(() => _pathHashMode = v);
-                      _markChanged(_SettingField.pathHashMode);
-                    }
-                  },
-                ),
-              ),
-              _buildInlineRefreshButton(
-                isRefreshing: _refreshingPathHashMode,
-                onRefresh: _refreshPathHashMode,
-                tooltip: l10n.repeater_pathHashMode,
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
                 child: TextField(
                   controller: _txDelayController,
                   decoration: InputDecoration(
@@ -2100,9 +2048,8 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
                   readOnly: true,
                   controller: _pubKeyController,
                   style: TextStyle(
-                    color: Theme.of(
-                      context,
-                    ).textTheme.headlineSmall?.color?.withValues(alpha: 0.6),
+                    color: Theme.of(context).textTheme.headlineSmall?.color
+                        ?.withValues(alpha: 0.6),
                   ),
                   decoration: InputDecoration(
                     labelText: l10n.repeater_pubKey,

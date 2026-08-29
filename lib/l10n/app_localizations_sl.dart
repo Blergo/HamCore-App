@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -739,18 +740,6 @@ class AppLocalizationsSl extends AppLocalizations {
   String get appSettings_languageUk => 'Ukrajinsko';
 
   @override
-  String get repeater_pathHashModeOption0 => '0 - 1 bajt';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 bite';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 bite';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 bite';
-
-  @override
   String get appSettings_enableMessageTracing => 'Omogoči sledenje sporočilom';
 
   @override
@@ -1217,7 +1206,7 @@ class AppLocalizationsSl extends AppLocalizations {
   }
 
   @override
-  String get channels_private => 'Zasebni';
+  String get channels_hashtag => 'Hashtag';
 
   @override
   String get channels_editChannel => 'Uredi kanal';
@@ -1262,17 +1251,7 @@ class AppLocalizationsSl extends AppLocalizations {
   String get channels_standardPublicPsk => 'Standardni javni PSK';
 
   @override
-  String get channels_pskHex => 'PSK (Šestnajstbinska)';
-
-  @override
-  String get channels_generateRandomPsk => 'Generiraj naključni PSK';
-
-  @override
   String get channels_enterChannelName => 'Vnesi ime kanala';
-
-  @override
-  String get channels_pskMustBe32Hex =>
-      'PSK mora biti 32 heksadecimalnih znakov.';
 
   @override
   String channels_channelAdded(String name) {
@@ -1365,19 +1344,6 @@ class AppLocalizationsSl extends AppLocalizations {
 
   @override
   String get channels_sortUnread => 'Nerešeno';
-
-  @override
-  String get channels_createPrivateChannel => 'Ustvari zasebno kanal.';
-
-  @override
-  String get channels_createPrivateChannelDesc =>
-      'Varno zaklenjeno s skrivnim ključem.';
-
-  @override
-  String get channels_joinPrivateChannel => 'Pridružite se zasebni skupini';
-
-  @override
-  String get channels_joinPrivateChannelDesc => 'Ročno vnesite zaporni ključ.';
 
   @override
   String get channels_joinPublicChannel => 'Pridružite se javnemu kanalu';
@@ -2549,6 +2515,9 @@ class AppLocalizationsSl extends AppLocalizations {
   String get repeater_guestAccess => 'Prijemnik';
 
   @override
+  String get repeater_adminAccess => 'Admin Access';
+
+  @override
   String get repeater_guestAccessSubtitle =>
       'Omogoči dostop gostom v samo bralni načinu.';
 
@@ -2712,13 +2681,6 @@ class AppLocalizationsSl extends AppLocalizations {
   @override
   String get repeater_advancedSettingsSubtitle =>
       'Gumbi za nastavljanje za izkušene uporabnike';
-
-  @override
-  String get repeater_pathHashMode => 'Način ustvarjanja hash-a poti';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Bajti, uporabljeni za kodiranje ID-ja tega repetitorja v oznakah flood poti/zaznavanja zank. 0=1 bajt (256 ID-jev, do 64 skokov), 1=2 bajta (65.000 ID-jev, do 32 skokov), 2=3 bajti (16 milijonov ID-jev, do 21 skokov). Vdelana programska oprema pred v1.14 je vedno uporabljala 1-bajtne poti; v1.14 in novejše je mogoče nastaviti na 2- ali 3-bajtne poti.';
 
   @override
   String get repeater_keySettings => 'Zmeničke ključe identitete';
@@ -3241,10 +3203,6 @@ class AppLocalizationsSl extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       'Določi niz z informacijami o kontaktni osebi, ki je v oglasih. Za uporabo novih vrstic uporabite \'|\'.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Nastavlja način \"hash poti\". 0 = za stare sisteme, 1 = za standard, 2 = za stroge. Vpliva na to, kako so poti uskladene.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -3771,175 +3729,6 @@ class AppLocalizationsSl extends AppLocalizations {
   String get channelPath_unknownRepeater => 'Nepoznati ponovitelj';
 
   @override
-  String get community_title => 'Skupnost';
-
-  @override
-  String get community_create => 'Ustvari skupnost';
-
-  @override
-  String get community_createDesc =>
-      'Ustvari novo skupnost in jo deli preko QR kode.';
-
-  @override
-  String get community_join => 'Pridružiti se';
-
-  @override
-  String get community_joinTitle => 'Pridružite se skupnosti';
-
-  @override
-  String community_joinConfirmation(String name) {
-    return 'Želiš se pridružiti skupnosti \"$name\"?';
-  }
-
-  @override
-  String get community_scanQr => 'Skeniraj QR kode skupnosti';
-
-  @override
-  String get community_scanInstructions =>
-      'Nasmerite kamero s skupnostnim QR kodom.';
-
-  @override
-  String get community_showQr => 'Pokaži QR kodo';
-
-  @override
-  String get community_publicChannel => 'Skupnostna javna';
-
-  @override
-  String get community_hashtagChannel => 'Skupnostni hashtag';
-
-  @override
-  String get community_name => 'Komunitarne ime';
-
-  @override
-  String get community_enterName => 'Vnesite ime skupnosti';
-
-  @override
-  String community_created(String name) {
-    return 'Skupnost \"$name\" je bila ustvarila.';
-  }
-
-  @override
-  String community_joined(String name) {
-    return 'Prilojen k skupnosti \"$name\"';
-  }
-
-  @override
-  String get community_qrTitle => 'Delite skupnost';
-
-  @override
-  String community_qrInstructions(String name) {
-    return 'Skenirajte to QR kodo za vključitev $name.';
-  }
-
-  @override
-  String get community_hashtagPrivacyHint =>
-      'Hashtag kanali skupnosti so dostopni samo članom skupnosti';
-
-  @override
-  String get community_invalidQrCode => 'Neveljaven QR koden skupnosti';
-
-  @override
-  String get community_alreadyMember => 'Že član';
-
-  @override
-  String community_alreadyMemberMessage(String name) {
-    return 'Kljub temu ste že član/ka $name.';
-  }
-
-  @override
-  String get community_addPublicChannel => 'Dodaj Objavni Kanal Komunitarja';
-
-  @override
-  String get community_addPublicChannelHint =>
-      'Samodejno dodaj javni kanal za to skupnost.';
-
-  @override
-  String get community_noCommunities => 'Še nobena skupnost se ni pridružila.';
-
-  @override
-  String get community_scanOrCreate =>
-      'Skeniraj QR kodo ali ustvari skupnost za začetek.';
-
-  @override
-  String get community_manageCommunities => 'Upravljanje skupnosti';
-
-  @override
-  String get community_delete => 'Opusti skupnost';
-
-  @override
-  String community_deleteConfirm(String name) {
-    return 'Zapusti \"$name\"?';
-  }
-
-  @override
-  String community_deleteChannelsWarning(int count) {
-    return 'To bo izbrisalo tudi $count kanal/kanalov in njihova sporočila.';
-  }
-
-  @override
-  String community_deleted(String name) {
-    return 'Zapustil skupnost \"$name\"';
-  }
-
-  @override
-  String get community_regenerateSecret => 'Ponovno ustvari geslo';
-
-  @override
-  String community_regenerateSecretConfirm(String name) {
-    return 'Preberite novo tajno geslo za \"$name\"? Vsi članici morajo prebrati novo QR kodo, da lahko nadaljujejo s komunikacijo.';
-  }
-
-  @override
-  String get community_regenerate => 'Preberi znova';
-
-  @override
-  String community_secretRegenerated(String name) {
-    return 'Geslo za \"$name\" ponovno ustvarjeno';
-  }
-
-  @override
-  String get community_updateSecret => 'Ažuriraj ključ';
-
-  @override
-  String community_secretUpdated(String name) {
-    return 'Skrivnostno spremembo za \"$name\"';
-  }
-
-  @override
-  String community_scanToUpdateSecret(String name) {
-    return 'Skeniraj novo QR kodo za posodabljanje ključa za $name';
-  }
-
-  @override
-  String get community_addHashtagChannel => 'Dodaj hashtag kanal';
-
-  @override
-  String get community_addHashtagChannelDesc =>
-      'Dodajte hashtag kanal za to skupnost.';
-
-  @override
-  String get community_selectCommunity => 'Izberi skupnost';
-
-  @override
-  String get community_regularHashtag => 'Oznaka s hashtagom';
-
-  @override
-  String get community_regularHashtagDesc =>
-      'javna oznaka (kdorkoli lahko sodeluje)';
-
-  @override
-  String get community_communityHashtag => 'Skupnostni hashtag';
-
-  @override
-  String get community_communityHashtagDesc =>
-      'Izključeno za uporabnike skupnosti';
-
-  @override
-  String community_forCommunity(String name) {
-    return 'Za $name';
-  }
-
-  @override
   String get listFilter_tooltip => 'Filtri in vrstiči';
 
   @override
@@ -4339,8 +4128,7 @@ class AppLocalizationsSl extends AppLocalizations {
   String get settings_gpxExportAllContacts => 'Lokacije vseh stikov';
 
   @override
-  String get settings_gpxExportShareText =>
-      'Podatki kart izvoženi iz hamcore';
+  String get settings_gpxExportShareText => 'Podatki kart izvoženi iz hamcore';
 
   @override
   String get settings_gpxExportShareSubject =>
@@ -4718,11 +4506,6 @@ class AppLocalizationsSl extends AppLocalizations {
       'Web Bluetooth zahteva brskalnik Chromium.';
 
   @override
-  String channels_communityShortId(String id) {
-    return 'ID: $id...';
-  }
-
-  @override
   String get pathTrace_legendGpsConfirmed => 'GPS potrdilo';
 
   @override
@@ -5036,4 +4819,8 @@ class AppLocalizationsSl extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes m $seconds s';
   }
+
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
 }

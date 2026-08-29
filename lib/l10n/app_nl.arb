@@ -357,7 +357,7 @@
     }
   },
   "channels_public": "Openbaar",
-  "channels_private": "Privé",
+  "channels_hashtag": "Hashtag",
   "channels_editChannel": "Kanaal bewerken",
   "channels_muteChannel": "Kanaal dempen",
   "channels_unmuteChannel": "Kanaal dempen opheffen",
@@ -383,10 +383,7 @@
   "channels_channelName": "Kanaalnaam",
   "channels_usePublicChannel": "Gebruik Open Kanaal",
   "channels_standardPublicPsk": "Standaard open PSK",
-  "channels_pskHex": "PSK (Hex)",
-  "channels_generateRandomPsk": "Willekeurige PSK genereren",
   "channels_enterChannelName": "Voer een kanaalnaam in",
-  "channels_pskMustBe32Hex": "De PSK moet 32 hexadecimale tekens zijn.",
   "channels_channelAdded": "Kanaal \"{name}\" toegevoegd",
   "@channels_channelAdded": {
     "placeholders": {
@@ -1090,6 +1087,7 @@
   "repeater_packetForwarding": "Pakketdoorvoering",
   "repeater_packetForwardingSubtitle": "Repeater instellen om pakketten door te sturen",
   "repeater_guestAccess": "Toegang voor Gasten",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Toegestane leesbeheer toegang voor gasten.",
   "repeater_privacyMode": "Privacymodus",
   "repeater_privacyModeSubtitle": "Naam/locatie verbergen in advertenties",
@@ -1172,8 +1170,6 @@
   "repeater_floodMaxHelper": "Maximale hoeveelheid hop die een pakket kan bevatten (0-64)",
   "repeater_advancedSettings": "Geavanceerd",
   "repeater_advancedSettingsSubtitle": "Regelhendels voor ervaren gebruikers",
-  "repeater_pathHashMode": "Hash-modus voor paden",
-  "repeater_pathHashModeHelper": "Bytes die gebruikt worden om de ID van deze repeater te coderen in flood-pad/lusdetectietags. 0=1 byte (256 ID's, tot 64 hops), 1=2 bytes (65.000 ID's, tot 32 hops), 2=3 bytes (16 miljoen ID's, tot 21 hops). Firmware vóór v1.14 gebruikte altijd 1-byte paden; v1.14 en nieuwer kunnen worden ingesteld op 2- of 3-byte paden.",
   "repeater_txDelay": "Vertraging bij Flood TX",
   "repeater_txDelayHelper": "Herzendinterval voor verkeer tijdens overstromingen, als een veelvoud van de tijd die het pakket nodig heeft (0-2, standaard 0.5). Een hoger getal betekent minder botsingen, maar ook een langere leveringstijd.",
   "repeater_directTxDelay": "Directe vertraging",
@@ -1562,10 +1558,6 @@
   "neighbors_errorLoading": "Fout bij het laden van buren: {error}",
   "neighbors_repeatersNeighbors": "Repeatbburen",
   "neighbors_noData": "Geen gegevens van buren beschikbaar.",
-  "channels_createPrivateChannelDesc": "Beveiligd met een geheime sleutel.",
-  "channels_createPrivateChannel": "PrivéKanaal Aanmaken",
-  "channels_joinPrivateChannel": "PrivéKanaal Toetreden",
-  "channels_joinPrivateChannelDesc": "Voer handmatig een geheime sleutel in.",
   "channels_joinPublicChannel": "Publiek Kanaal Toetreden",
   "channels_joinPublicChannelDesc": "Iedereen kan toetreden tot dit kanaal.",
   "channels_joinHashtagChannel": "Hashtag-kanaal Aanmaken",
@@ -1596,143 +1588,7 @@
   "settings_locationIntervalInvalid": "De intervallen moeten minstens 60 seconden zijn en minder dan 86400 seconden.",
   "contacts_manageRoom": "Beheer Ruimte Server",
   "room_management": "Beheer Server Kamer",
-  "@community_joinConfirmation": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_created": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_joined": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_qrInstructions": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_alreadyMemberMessage": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleteConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleted": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_forCommunity": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_title": "Gemeenschap",
   "common_ok": "Prima",
-  "community_createDesc": "Maak een nieuwe community en deel deze via QR-code.",
-  "community_create": "Maak Gemeenschap",
-  "community_join": "Sluit aan",
-  "community_joinTitle": "Worden lid van de community",
-  "community_joinConfirmation": "Wil je je aansluiten bij de community \"{name}\"?",
-  "community_scanQr": "Scan Gemeenschap QR",
-  "community_scanInstructions": "Richt de camera op een gemeenschappelijke QR-code",
-  "community_showQr": "Toon QR-code",
-  "community_publicChannel": "Gemeenschap Openbaar",
-  "community_hashtagChannel": "Gemeenschappelijk Hashtag",
-  "community_name": "Gemeenschapnaam",
-  "community_enterName": "Voer de gemeenschapsnaam in",
-  "community_created": "Gemeenschap \"{name}\" is aangemaakt",
-  "community_joined": "Gevonden in de community \"{name}\"",
-  "community_qrTitle": "Deel Gemeenschap",
-  "community_qrInstructions": "Scan deze QR-code om je aan te sluiten bij {name}",
-  "community_hashtagPrivacyHint": "Community hashtag-kanalen zijn alleen toegankelijk voor leden van de community",
-  "community_invalidQrCode": "Ongeldige community QR-code",
-  "community_alreadyMember": "Alleen al lid",
-  "community_alreadyMemberMessage": "U bent al lid van \"{name}\".",
-  "community_addPublicChannel": "Voeg een Openbaar Gemeenschapskanaal toe",
-  "community_addPublicChannelHint": "Automatisch de publieke kanaal toevoegen voor deze community",
-  "community_noCommunities": "Nog geen gemeenschappen zijn bijgesloten.",
-  "community_scanOrCreate": "Scan een QR-code of een community aanmaken om te beginnen",
-  "community_manageCommunities": "Beheer Gemeenschappen",
-  "community_delete": "Laat Gemeenschap",
-  "community_deleteConfirm": "\"{name}\" verlaten?",
-  "community_deleteChannelsWarning": "Dit verwijdert ook {count} kanaal/kanalen en hun berichten.",
-  "@community_deleteChannelsWarning": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "community_deleted": "Community \"{name}\" verlaten",
-  "community_addHashtagChannel": "Voeg Community Hashtag toe",
-  "community_addHashtagChannelDesc": "Voeg een hashtag-kanaal toe aan deze community",
-  "community_selectCommunity": "Selecteer Gemeenschap",
-  "community_regularHashtag": "Gewone Hashtag",
-  "community_regularHashtagDesc": "Open hashtag (iedereen kan deelnemen)",
-  "community_communityHashtag": "Gemeenschappelijk Hashtag",
-  "community_communityHashtagDesc": "Alleen zichtbaar voor leden van de community",
-  "community_forCommunity": "Voor {name}",
-  "@community_regenerateSecretConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretRegenerated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretUpdated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_scanToUpdateSecret": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_secretRegenerated": "Geheim hersteld voor \"{name}\"",
-  "community_regenerateSecret": "Regeneer Geheimwoord",
-  "community_regenerateSecretConfirm": "Regeneere de geheime sleutel voor \"{name}\"? Alle leden moeten de nieuwe QR-code scannen om verder te communiceren.",
-  "community_regenerate": "Regeneer",
-  "community_updateSecret": "Bijwerken Geheime",
-  "community_secretUpdated": "Geheim gewijzigd voor \"{name}\"",
-  "community_scanToUpdateSecret": "Scan de nieuwe QR-code om het geheim voor \"{name}\" bij te werken",
   "@contacts_pathTraceTo": {
     "placeholders": {
       "name": {
@@ -2280,7 +2136,6 @@
   "repeater_cliHelpSetPrvKey": "(Alleen voor seriële toepassingen) Vervangt de private sleutel van het apparaat. Een herstart is vereist om deze wijziging toe te passen. Genereert een nieuwe publieke sleutel.",
   "repeater_cliHelpSetRadioRxGain": "(Alleen voor SX126x-chips) Schakelt de versterkte RX-gain in om de gevoeligheid te verbeteren bij een hoger stroomverbruik.",
   "repeater_cliHelpSetOwnerInfo": "Definieert de string met contactgegevens van de eigenaar, die in de advertenties wordt opgenomen. Gebruik '|' voor nieuwe regels.",
-  "repeater_cliHelpSetPathHashMode": "Stelt de modus voor het berekenen van de hash van de route in. 0 = voorheen, 1 = standaard, 2 = strikt. Beïnvloedt hoe de routes worden gematched.",
   "repeater_cliHelpSetLoopDetect": "Stelt de gevoeligheid voor het detecteren van een lus in de routing in: uit, minimaal, matig of strikt.",
   "repeater_cliHelpSetFreq": "(Alleen voor seriële communicatie) Stelt snel alleen de frequentie in. Herstart is vereist. Het is aan te raden om \"radio instellingen\" te gebruiken voor alle radioparameters.",
   "repeater_cliHelpSetBridgeChannel": "(Alleen voor ESPNow-brug) Stelt het WiFi-kanaal (1-14) in dat door de brug wordt gebruikt.",
@@ -2451,13 +2306,6 @@
       }
     }
   },
-  "@channels_communityShortId": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "messageStatus_sent": "Verzonden",
   "common_undo": "Achterhalen/Annuleren",
   "messageStatus_delivered": "Leverd",
@@ -2510,7 +2358,6 @@
   "map_zoomOut": "Inzoomen",
   "map_centerMap": "Centraal overzicht",
   "chrome_bluetoothRequiresChromium": "Web Bluetooth vereist een Chromium-browser.",
-  "channels_communityShortId": "ID: {id}...",
   "pathTrace_legendGpsConfirmed": "GPS-locatie bevestigd",
   "pathTrace_legendInferred": "Afgeleide positie",
   "@pathMap_hopOf": {
@@ -2748,10 +2595,6 @@
   "settings_deleteRegionConfirm": "Verwijder \"{region}\" uit de regio-lijst?",
   "settings_infoHardware": "Hardware",
   "settings_infoFirmware": "Firmware",
-  "repeater_pathHashModeOption0": "0 - 1 byte",
-  "repeater_pathHashModeOption1": "1 - 2 bytes",
-  "repeater_pathHashModeOption2": "2 - 3 bytes",
-  "repeater_pathHashModeOption3": "3 - 4 bytes",
   "appSettings_batteryLipoHv": "LiPo HV (3,0-4,35 V)",
   "channels_regionSetTo": "Regio: {region}",
   "channels_regionNotSet": "Regio: geen",
@@ -2828,5 +2671,6 @@
   "receivedImage_tapToProcess": "Tik om te verwerken",
   "receivedImage_awaiting": "{bytes} bytes · {packets} {packets, plural, =1{pakket} other{pakketten}}",
   "imageSend_secondsValue": "{seconds} seconden",
-  "imageSend_minutesSecondsValue": "{minutes} m {seconds} s"
+  "imageSend_minutesSecondsValue": "{minutes} m {seconds} s",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

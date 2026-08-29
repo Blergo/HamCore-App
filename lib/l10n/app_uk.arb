@@ -360,7 +360,7 @@
   },
   "channels_public": "Публічний",
   "channels_via": "через {path}",
-  "channels_private": "Приватний",
+  "channels_hashtag": "Hashtag",
   "channels_editChannel": "Редагувати канал",
   "channels_muteChannel": "Вимкнути сповіщення каналу",
   "channels_unmuteChannel": "Увімкнути сповіщення каналу",
@@ -386,10 +386,7 @@
   "channels_channelName": "Назва каналу",
   "channels_usePublicChannel": "Використовувати публічний канал",
   "channels_standardPublicPsk": "Стандартний публічний PSK",
-  "channels_pskHex": "PSK (шестнадцяткова система)",
-  "channels_generateRandomPsk": "Згенерувати випадковий ключ PSK",
   "channels_enterChannelName": "Будь ласка, введіть назву каналу",
-  "channels_pskMustBe32Hex": "PSK має складатись з 32 шістнадцяткових символів.",
   "channels_channelAdded": "Канал «{name}» додано",
   "@channels_channelAdded": {
     "placeholders": {
@@ -1100,6 +1097,7 @@
   "repeater_packetForwarding": "Пересилання пакетів",
   "repeater_packetForwardingSubtitle": "Дозволити ретранслятору пересилати пакети",
   "repeater_guestAccess": "Гостьовий доступ",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "Дозволити гостьовий доступ лише для читання",
   "repeater_privacyMode": "Режим приватності",
   "repeater_privacyModeSubtitle": "Приховати ім'я/геопозицію в оголошеннях",
@@ -1182,8 +1180,6 @@
   "repeater_floodMaxHelper": "Максимальна кількість хмелю, яку може містити один пакет (0-64)",
   "repeater_advancedSettings": "Просунутий",
   "repeater_advancedSettingsSubtitle": "Регулювальні ручки для досвідчених операторів",
-  "repeater_pathHashMode": "Режим хешування шляху",
-  "repeater_pathHashModeHelper": "Байти, що використовуються для кодування ідентифікатора цього ретранслятора в тегах flood-шляху/виявлення петель. 0=1 байт (256 ідентифікаторів, до 64 переходів), 1=2 байти (65 000 ідентифікаторів, до 32 переходів), 2=3 байти (16 мільйонів ідентифікаторів, до 21 переходу). Прошивки до v1.14 завжди використовували 1-байтові шляхи; v1.14 і новіші можна налаштувати на 2- або 3-байтові шляхи.",
   "repeater_txDelay": "Затримка у Flood, штат Техас",
   "repeater_txDelayHelper": "Повторне надсилання з урахуванням навантаження від потоків транспорту, як множник від часу передачі пакета (0-2, за замовчуванням 0,5). Чим вище значення, тим менше конфліктів, але повільніше передавання.",
   "repeater_directTxDelay": "Пряме затримка TX",
@@ -1573,10 +1569,6 @@
   "neighbors_errorLoading": "Помилка завантаження сусідів: {error}",
   "neighbors_repeatersNeighbors": "Ретранслятори-сусіди",
   "neighbors_noData": "Дані про сусідів недоступні.",
-  "channels_createPrivateChannelDesc": "Захищено секретним ключем.",
-  "channels_joinPrivateChannel": "Приєднатись до приватного каналу",
-  "channels_createPrivateChannel": "Створити приватний канал",
-  "channels_joinPrivateChannelDesc": "Ввести секретний ключ вручну.",
   "channels_joinPublicChannel": "Приєднатись до публічного каналу",
   "channels_joinPublicChannelDesc": "Будь-хто може приєднатись до цього каналу.",
   "channels_joinHashtagChannel": "Приєднатись до хештег-каналу",
@@ -1607,143 +1599,7 @@
   "settings_locationIntervalInvalid": "Інтервал має бути не менше 60 секунд і менше 86400 секунд.",
   "contacts_manageRoom": "Керувати сервером кімнати",
   "room_management": "Адміністрування сервера кімнати",
-  "@community_joinConfirmation": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_created": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_joined": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_qrInstructions": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_alreadyMemberMessage": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleteConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_deleted": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_forCommunity": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "common_ok": "ОК",
-  "community_title": "Спільнота",
-  "community_create": "Створити спільноту",
-  "community_createDesc": "Створити нову спільноту та поділитись через QR-код.",
-  "community_join": "Приєднатись",
-  "community_joinTitle": "Приєднатись до спільноти",
-  "community_joinConfirmation": "Ви бажаєте приєднатись до спільноти «{name}»?",
-  "community_scanQr": "Сканувати QR спільноти",
-  "community_scanInstructions": "Наведіть камеру на QR-код спільноти.",
-  "community_showQr": "Показати QR-код",
-  "community_publicChannel": "Публічна спільнота",
-  "community_hashtagChannel": "Хештег спільноти",
-  "community_name": "Назва спільноти",
-  "community_enterName": "Введіть назву спільноти",
-  "community_created": "Спільноту «{name}» створено",
-  "community_joined": "Приєднався до спільноти «{name}»",
-  "community_qrTitle": "Поділитись спільнотою",
-  "community_qrInstructions": "Відскануйте цей QR-код, щоб приєднатись до {name}",
-  "community_hashtagPrivacyHint": "Хештег-канали спільноти доступні лише членам спільноти",
-  "community_invalidQrCode": "Недійсний QR-код спільноти",
-  "community_alreadyMember": "Вже учасник",
-  "community_alreadyMemberMessage": "Ви вже є учасником «{name}».",
-  "community_addPublicChannel": "Додати публічний канал спільноти",
-  "community_addPublicChannelHint": "Автоматично додати публічний канал для цієї спільноти",
-  "community_noCommunities": "Поки не приєднано до жодної групи.",
-  "community_scanOrCreate": "Відскануйте QR-код або створіть спільноту, щоб почати",
-  "community_manageCommunities": "Керувати спільнотами",
-  "community_delete": "Покинути спільноту",
-  "community_deleteConfirm": "Покинути «{name}»?",
-  "community_deleteChannelsWarning": "Це також видалить {count} {count, plural, =1{канал} few{канали} many{каналів} other{каналів}} та їх повідомлення.",
-  "@community_deleteChannelsWarning": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "community_deleted": "Спільноту «{name}» покинуто",
-  "community_addHashtagChannel": "Додати хештег спільноти",
-  "community_addHashtagChannelDesc": "Додати хештег-канал для цієї спільноти",
-  "community_selectCommunity": "Вибрати спільноту",
-  "community_regularHashtag": "Звичайний хештег",
-  "community_regularHashtagDesc": "Публічний хештег (будь-хто може приєднатись)",
-  "community_communityHashtag": "Хештег спільноти",
-  "community_communityHashtagDesc": "Ексклюзивно для членів спільноти",
-  "community_forCommunity": "Для {name}",
-  "@community_regenerateSecretConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretRegenerated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_secretUpdated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "@community_scanToUpdateSecret": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_regenerateSecret": "Перегенерувати секретний ключ",
-  "community_regenerateSecretConfirm": "Перегенерувати секретний ключ для «{name}»? Усі учасники матимуть відсканувати новий QR-код, щоб продовжити спілкування.",
-  "community_regenerate": "Перегенерувати",
-  "community_secretRegenerated": "Секретний ключ для «{name}» перегенеровано",
-  "community_scanToUpdateSecret": "Відскануйте новий QR-код, щоб оновити секретний ключ для «{name}»",
-  "community_updateSecret": "Оновити секретний ключ",
-  "community_secretUpdated": "Секретний ключ для «{name}» оновлено",
   "@contacts_pathTraceTo": {
     "placeholders": {
       "name": {
@@ -2289,7 +2145,6 @@
   "repeater_cliHelpSetPrvKey": "(Тільки для серійного використання) Замінює приватний ключ ідентифікації пристрою. Необхідне перезавантаження для застосування. Генерує новий публічний ключ.",
   "repeater_cliHelpSetRadioRxGain": "(Тільки для SX126x) Увімкнення посиленого рівня RX для покращення чутливості при високому споживанні струму.",
   "repeater_cliHelpSetOwnerInfo": "Вказує рядок з контактною інформацією власника, який вказано в оголошеннях. Використовуйте '|' для переходу на новий рядок.",
-  "repeater_cliHelpSetPathHashMode": "Встановлює режим хешування шляху. 0 = для старих систем, 1 = для стандартних, 2 = для суворих. Впливає на те, як маршрути порівнюються.",
   "repeater_cliHelpSetLoopDetect": "Встановлює чутливість виявлення циклів маршрутизації: вимкнено, мінімальну, помірну або жорстку.",
   "repeater_cliHelpSetFreq": "(Тільки для серійного пристрою) Швидко встановлює лише частоту. Потрібно перезавантажити. Рекомендується використовувати функцію \"налаштування радіо\", щоб задати всі параметри радіо.",
   "repeater_cliHelpSetBridgeChannel": "(Тільки для мосту ESPNow) Встановлює канал Wi-Fi (від 1 до 14), який використовується мостом.",
@@ -2431,13 +2286,6 @@
       }
     }
   },
-  "@channels_communityShortId": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "messageStatus_delivered": "Доставлено",
   "messageStatus_sent": "Надіслано",
   "common_undo": "Скасувати",
@@ -2490,7 +2338,6 @@
   "map_zoomOut": "Видалити зум",
   "map_centerMap": "Карта центру",
   "chrome_bluetoothRequiresChromium": "Web Bluetooth вимагає браузера на основі Chromium",
-  "channels_communityShortId": "ID: {id}...",
   "pathTrace_legendGpsConfirmed": "GPS підтверджено",
   "pathTrace_legendInferred": "Висновок щодо положення",
   "@pathMap_hopOf": {
@@ -2728,10 +2575,6 @@
   "settings_deleteRegionConfirm": "Вирішіть \"{region}\" з списку регіонів?",
   "settings_infoHardware": "Оборудовання",
   "settings_infoFirmware": "Програмне вміст (фirmware)",
-  "repeater_pathHashModeOption0": "0 - 1 байт",
-  "repeater_pathHashModeOption1": "1 - 2 байти",
-  "repeater_pathHashModeOption2": "2 - 3 байти",
-  "repeater_pathHashModeOption3": "3 - 4 байта",
   "appSettings_batteryLipoHv": "ЛиPo HV (3,0-4,35 В)",
   "channels_regionSetTo": "Ріон: {region}",
   "channels_regionNotSet": "Ріон: нема",
@@ -2808,5 +2651,6 @@
   "receivedImage_tapToProcess": "Кликніть для обробки",
   "receivedImage_awaiting": "{bytes} байтів · {packets} {packets, plural, =1{пакет} other{пакетів}}",
   "imageSend_secondsValue": "{seconds} секунди",
-  "imageSend_minutesSecondsValue": "{minutes} хв {seconds} с"
+  "imageSend_minutesSecondsValue": "{minutes} хв {seconds} с",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

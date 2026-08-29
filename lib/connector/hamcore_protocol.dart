@@ -235,6 +235,14 @@ Uint8List buildTelemetryBinaryPayload() {
 
 const int anonReqTypeRegions = 0x01;
 
+// Repeater login is now requested via CMD_SEND_LOGIN with the old password
+// field repurposed as a single type byte: the repeater grants guest access
+// unconditionally (no auth check at all) and currently rejects admin outright
+// ("not yet implemented" on the firmware side) - kept here as a documented
+// slot for when firmware-side admin auth lands.
+const int repeaterLoginTypeGuest = 0x04;
+const int repeaterLoginTypeAdmin = 0x05;
+
 // Control data sub-types used by HamCore discovery packets.
 const int controlSubtypeDiscoverReq = 0x08;
 const int controlSubtypeDiscoverResp = 0x09;
@@ -574,12 +582,6 @@ Uint8List buildGetBattAndStorageFrame() {
 /// Companion radio stats: [56][statsType] where statsType is statsTypeCore/Radio/Packets.
 Uint8List buildGetStatsFrame(int statsType) {
   return Uint8List.fromList([cmdGetStats, statsType & 0xFF]);
-}
-
-/// Path hash width on air: [61][0][mode], mode 0..3 → (mode+1) bytes per hop hash.
-Uint8List buildSetPathHashModeFrame(int mode) {
-  final m = mode.clamp(0, 3).toInt();
-  return Uint8List.fromList([cmdSetPathHashMode, 0, m]);
 }
 
 // Build CMD_SET_DEVICE_TIME frame
@@ -923,6 +925,22 @@ Uint8List buildSendAnonReqFrame(
   writer.writeByte(requestType);
   writer.writeByte(encodedPathLen);
   writer.writeBytes(_reversePathByHop(path, width));
+  return writer.toBytes();
+}
+
+// Build CMD_SEND_LOGIN frame for repeater guest/admin login.
+// For a repeater target, the old password field is repurposed as a single
+// login-type selector byte (0x04 guest / 0x05 admin) instead of a password
+// string - the room-server password login above is a separate, untouched
+// flow. Format: [cmd][repeater_pubkey x32][login_type]
+Uint8List buildRepeaterLoginFrame(
+  Uint8List repeaterPubKey, {
+  required int loginType,
+}) {
+  final writer = BufferWriter();
+  writer.writeByte(cmdSendLogin);
+  writer.writeBytes(repeaterPubKey);
+  writer.writeByte(loginType);
   return writer.toBytes();
 }
 

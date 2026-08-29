@@ -480,28 +480,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ? () => pushCompanionRadioStatsScreen(context)
               : null,
         ),
-        const Divider(height: 1, indent: 16),
-        _tappableTile(
-          context,
-          icon: Icons.route_outlined,
-          title: l10n.repeater_pathHashMode,
-          subtitle: _pathHashModeSubtitle(context, connector.pathHashByteWidth),
-          onTap: connector.isConnected
-              ? () => _editPathHashMode(context, connector)
-              : null,
-        ),
       ],
     );
-  }
-
-  String _pathHashModeSubtitle(BuildContext context, int pathHashByteWidth) {
-    final l10n = context.l10n;
-    return switch (pathHashByteWidth.clamp(1, 4).toInt()) {
-      1 => l10n.repeater_pathHashModeOption0,
-      2 => l10n.repeater_pathHashModeOption1,
-      3 => l10n.repeater_pathHashModeOption2,
-      _ => l10n.repeater_pathHashModeOption3,
-    };
   }
 
   Widget _buildLocationCardContent(
@@ -789,87 +769,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     showDialog(
       context: context,
       builder: (context) => _RadioSettingsDialog(connector: connector),
-    );
-  }
-
-  void _editPathHashMode(BuildContext context, HamCoreConnector connector) {
-    final l10n = context.l10n;
-    var selectedMode = (connector.pathHashByteWidth - 1).clamp(0, 3).toInt();
-
-    showDialog(
-      context: context,
-      builder: (dialogContext) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: Text(l10n.repeater_pathHashMode),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DropdownButtonFormField<int>(
-                initialValue: selectedMode,
-                decoration: InputDecoration(
-                  labelText: l10n.repeater_pathHashMode,
-                  border: const OutlineInputBorder(),
-                ),
-                items: [
-                  DropdownMenuItem(
-                    value: 0,
-                    child: Text(l10n.repeater_pathHashModeOption0),
-                  ),
-                  DropdownMenuItem(
-                    value: 1,
-                    child: Text(l10n.repeater_pathHashModeOption1),
-                  ),
-                  DropdownMenuItem(
-                    value: 2,
-                    child: Text(l10n.repeater_pathHashModeOption2),
-                  ),
-                  DropdownMenuItem(
-                    value: 3,
-                    child: Text(l10n.repeater_pathHashModeOption3),
-                  ),
-                ],
-                onChanged: (value) {
-                  if (value == null) return;
-                  setDialogState(() => selectedMode = value);
-                },
-              ),
-              const SizedBox(height: 12),
-              Text(
-                l10n.repeater_pathHashModeHelper,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: Text(l10n.common_cancel),
-            ),
-            FilledButton(
-              onPressed: () async {
-                Navigator.pop(dialogContext);
-                try {
-                  await connector.setPathHashMode(selectedMode);
-                  await connector.refreshDeviceInfo();
-                  if (!context.mounted) return;
-                  showDismissibleSnackBar(
-                    context,
-                    content: Text(l10n.repeater_settingsSaved),
-                  );
-                } catch (e) {
-                  if (!context.mounted) return;
-                  showDismissibleSnackBar(
-                    context,
-                    content: Text(l10n.settings_error(e.toString())),
-                  );
-                }
-              },
-              child: Text(l10n.common_save),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -1551,8 +1450,7 @@ class _RadioSettingsDialogState extends State<_RadioSettingsDialog> {
       if (preset.frequencyHz == snapshot.frequencyHz &&
           preset.bandwidth == snapshot.bandwidth &&
           preset.spreadingFactor == snapshot.spreadingFactor &&
-          preset.codingRate == snapshot.codingRate &&
-          preset.txPowerDbm == snapshot.txPowerDbm) {
+          preset.codingRate == snapshot.codingRate) {
         return i;
       }
     }
@@ -1633,14 +1531,13 @@ class _RadioSettingsDialogState extends State<_RadioSettingsDialog> {
       if (offGridFreqHz == current.frequencyHz &&
           preset.bandwidth == current.bandwidth &&
           preset.spreadingFactor == current.spreadingFactor &&
-          preset.codingRate == current.codingRate &&
-          preset.txPowerDbm == current.txPowerDbm) {
+          preset.codingRate == current.codingRate) {
         return _RadioSettingsSnapshot(
           frequencyMHz: preset.frequencyMHz,
           bandwidth: preset.bandwidth,
           spreadingFactor: preset.spreadingFactor,
           codingRate: preset.codingRate,
-          txPowerDbm: preset.txPowerDbm,
+          txPowerDbm: current.txPowerDbm,
         );
       }
     }
@@ -1662,7 +1559,7 @@ class _RadioSettingsDialogState extends State<_RadioSettingsDialog> {
       bandwidth: preset.bandwidth,
       spreadingFactor: preset.spreadingFactor,
       codingRate: preset.codingRate,
-      txPowerDbm: preset.txPowerDbm,
+      txPowerDbm: int.tryParse(_txPowerController.text) ?? 20,
     );
     final frequencyMHz = _clientRepeat
         ? _offGridFrequencyForBaseFrequency(baseSnapshot.frequencyMHz)
@@ -1671,7 +1568,6 @@ class _RadioSettingsDialogState extends State<_RadioSettingsDialog> {
     _bandwidth = preset.bandwidth;
     _spreadingFactor = preset.spreadingFactor;
     _codingRate = preset.codingRate;
-    _txPowerController.text = preset.txPowerDbm.toString();
     _selectedPresetIndex = index;
     _lastNonRepeatSnapshot = baseSnapshot;
   }

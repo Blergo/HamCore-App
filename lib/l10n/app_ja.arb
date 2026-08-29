@@ -515,7 +515,7 @@
     }
   },
   "channels_public": "公開",
-  "channels_private": "非公開",
+  "channels_hashtag": "Hashtag",
   "channels_editChannel": "チャンネルを編集",
   "channels_muteChannel": "チャンネルをミュート",
   "channels_unmuteChannel": "チャンネルのミュートを解除",
@@ -549,10 +549,7 @@
   "channels_channelName": "チャンネル名",
   "channels_usePublicChannel": "パブリックチャンネルを使用する",
   "channels_standardPublicPsk": "公開用の標準 PSK",
-  "channels_pskHex": "PSK（16 進数）",
-  "channels_generateRandomPsk": "ランダムな PSK を生成",
   "channels_enterChannelName": "チャンネル名を入力してください",
-  "channels_pskMustBe32Hex": "PSKは32桁の16進数で構成されている必要があります。",
   "channels_channelAdded": "チャンネル「{name}」を追加しました",
   "@channels_channelAdded": {
     "placeholders": {
@@ -612,10 +609,6 @@
   "channels_sortAZ": "AからZ",
   "channels_sortLatestMessages": "最新のメッセージ",
   "channels_sortUnread": "未読",
-  "channels_createPrivateChannel": "プライベートチャンネルを作成する",
-  "channels_createPrivateChannelDesc": "秘密鍵で保護されます。",
-  "channels_joinPrivateChannel": "プライベートチャンネルに参加する",
-  "channels_joinPrivateChannelDesc": "秘密鍵を手動で入力します。",
   "channels_joinPublicChannel": "公開チャンネルに参加する",
   "channels_joinPublicChannelDesc": "誰でもこのチャンネルに参加できます。",
   "channels_joinHashtagChannel": "ハッシュタグチャンネルに参加する",
@@ -1294,6 +1287,7 @@
   "repeater_packetForwarding": "パケット転送",
   "repeater_packetForwardingSubtitle": "リピータがパケットを転送できるように設定する",
   "repeater_guestAccess": "ゲストへのアクセス",
+  "repeater_adminAccess": "Admin Access",
   "repeater_guestAccessSubtitle": "ゲストへの読み取り専用アクセスを許可する",
   "repeater_privacyMode": "プライバシーモード",
   "repeater_privacyModeSubtitle": "広告に名前/場所を記載しない",
@@ -1376,8 +1370,6 @@
   "repeater_floodMaxHelper": "フラッドパケットが移動できる最大ホップ数 (0-64)",
   "repeater_advancedSettings": "高度な",
   "repeater_advancedSettingsSubtitle": "経験豊富なオペレーター向けの調整ノブ",
-  "repeater_pathHashMode": "パスハッシュモード",
-  "repeater_pathHashModeHelper": "このリピータのIDをフローパス/ループ検出タグにエンコードするために使用されるバイト数。 0=1バイト (256個のID、最大64ホップ)、1=2バイト (65,000個のID、最大32ホップ)、2=3バイト (160万個のID、最大21ホップ)。 v1.13およびそれ以前のファームウェアでは、マルチバイトパスがサポートされていません。 v1.14以降のバージョンでは、一度ネットワークが起動されると、パスが一度だけ検出されます。",
   "repeater_txDelay": "フロイド・TXでの遅延",
   "repeater_txDelayHelper": "フラッド時の交通量に対応するための再送信間隔を、パケットの通信時間を掛けた値（0～2、デフォルト0.5）で設定します。値を大きくすると衝突が減りますが、通信速度が遅くなります。",
   "repeater_directTxDelay": "直接的なTX遅延",
@@ -1845,142 +1837,6 @@
   },
   "channelPath_noHopDetailsAvailable": "このパッケージに関する詳細な配送情報は利用できません。",
   "channelPath_unknownRepeater": "不明な増幅機",
-  "community_title": "コミュニティ",
-  "community_create": "コミュニティを作成",
-  "community_createDesc": "新しいコミュニティを作成して QR コードで共有します。",
-  "community_join": "参加",
-  "community_joinTitle": "コミュニティに参加",
-  "community_joinConfirmation": "{name} のコミュニティに参加しますか？",
-  "@community_joinConfirmation": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_scanQr": "コミュニティの QR コードをスキャン",
-  "community_scanInstructions": "カメラをコミュニティの QR コードに向けてください",
-  "community_showQr": "QR コードを表示",
-  "community_publicChannel": "公開チャンネル",
-  "community_hashtagChannel": "コミュニティ用ハッシュタグ",
-  "community_name": "コミュニティ名",
-  "community_enterName": "コミュニティ名を入力してください",
-  "community_created": "コミュニティ「{name}」を作成しました",
-  "@community_created": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_joined": "{name} のコミュニティに参加しました",
-  "@community_joined": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_qrTitle": "コミュニティ共有",
-  "community_qrInstructions": "この QR コードをスキャンして {name} に参加してください。",
-  "@community_qrInstructions": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_hashtagPrivacyHint": "コミュニティのハッシュタグチャンネルには、コミュニティのメンバーだけが参加できます。",
-  "community_invalidQrCode": "無効なコミュニティQRコード",
-  "community_alreadyMember": "すでにメンバーです",
-  "community_alreadyMemberMessage": "あなたはすでに {name} のメンバーです。",
-  "@community_alreadyMemberMessage": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_addPublicChannel": "公開チャンネルを追加",
-  "community_addPublicChannelHint": "このコミュニティの公開チャンネルを自動で追加します",
-  "community_noCommunities": "まだコミュニティはありません",
-  "community_scanOrCreate": "QR コードをスキャンするか、コミュニティを作成して始めてください。",
-  "community_manageCommunities": "コミュニティを管理",
-  "community_delete": "コミュニティを離脱",
-  "community_deleteConfirm": "{name} から離脱しますか？",
-  "@community_deleteConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_deleteChannelsWarning": "これにより、{count} のチャンネルとそのメッセージも削除されます。",
-  "@community_deleteChannelsWarning": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "community_deleted": "コミュニティ「{name}」から離脱しました",
-  "@community_deleted": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_regenerateSecret": "秘密鍵を再生成",
-  "community_regenerateSecretConfirm": "{name} の秘密鍵を再生成しますか？ 継続して通信するには、すべてのメンバーが新しい QR コードをスキャンする必要があります。",
-  "@community_regenerateSecretConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_regenerate": "再生成",
-  "community_secretRegenerated": "{name} の秘密鍵を再生成しました",
-  "@community_secretRegenerated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_updateSecret": "秘密鍵を更新",
-  "community_secretUpdated": "{name} の秘密設定を更新しました",
-  "@community_secretUpdated": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_scanToUpdateSecret": "新しい QR コードをスキャンして {name} の秘密設定を更新してください。",
-  "@community_scanToUpdateSecret": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "community_addHashtagChannel": "ハッシュタグチャンネルを追加",
-  "community_addHashtagChannelDesc": "このコミュニティ用のハッシュタグチャンネルを追加します",
-  "community_selectCommunity": "コミュニティを選択",
-  "community_regularHashtag": "通常のハッシュタグ",
-  "community_regularHashtagDesc": "公開ハッシュタグ（誰でも参加可能）",
-  "community_communityHashtag": "コミュニティ用ハッシュタグ",
-  "community_communityHashtagDesc": "コミュニティメンバーのみ利用できます",
-  "community_forCommunity": "{name} 向け",
-  "@community_forCommunity": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "listFilter_tooltip": "フィルタリングと並べ替え",
   "listFilter_sortBy": "並び替え",
   "listFilter_latestMessages": "最新のメッセージ",
@@ -2412,7 +2268,6 @@
   "repeater_cliHelpSetPrvKey": "（シリアル番号のみ）デバイスのプライベートキーを置き換えます。適用には再起動が必要です。新しいパブリックキーを生成します。",
   "repeater_cliHelpSetRadioRxGain": "（SX126xのみ）高電流での使用時に、感度を向上させるために、増幅されたRXのゲインを切り替えることができます。",
   "repeater_cliHelpSetOwnerInfo": "広告に記載されている所有者連絡先情報を設定します。改行には'|'を使用してください。",
-  "repeater_cliHelpSetPathHashMode": "パスハッシュモードを設定します。 0 = 従来のモード、1 = 標準モード、2 = 厳格モード。ルーティングパスのマッチング方法に影響します。",
   "repeater_cliHelpSetLoopDetect": "ルーティングループ検出の感度を設定します：オフ、最小、中程度、または厳格。",
   "repeater_cliHelpSetFreq": "（シリアル設定のみ）特定の周波数のみを素早く設定できます。再起動が必要です。「ラジオ設定」を使用すると、ラジオのすべてのパラメータを設定できます。",
   "repeater_cliHelpSetBridgeChannel": "（ESPNowブリッジのみ）ブリッジで使用するWi-Fiチャンネル（1～14）を設定します。",
@@ -2591,13 +2446,6 @@
       }
     }
   },
-  "@channels_communityShortId": {
-    "placeholders": {
-      "id": {
-        "type": "String"
-      }
-    }
-  },
   "contacts_moreOptions": "さらに多くの選択肢",
   "contacts_searchOpen": "連絡先を検索する",
   "contacts_searchClose": "検索を終了",
@@ -2644,7 +2492,6 @@
   "routing_deliveryCounts": "{successes} 件配信済み、{failures} 件失敗",
   "map_centerMap": "地図を中央に移動",
   "chrome_bluetoothRequiresChromium": "Web Bluetooth には Chromium ベースのブラウザが必要です。",
-  "channels_communityShortId": "ID: {id}…",
   "pathTrace_legendGpsConfirmed": "GPSによる確認",
   "pathTrace_legendInferred": "推測される位置",
   "@pathMap_hopOf": {
@@ -2882,10 +2729,6 @@
   "settings_deleteRegionConfirm": "{region} を地域リストから削除しますか？",
   "settings_infoHardware": "ハードウェア",
   "settings_infoFirmware": "ファームウェア",
-  "repeater_pathHashModeOption0": "0 - 1バイト",
-  "repeater_pathHashModeOption1": "1〜2バイト",
-  "repeater_pathHashModeOption2": "2〜3バイト",
-  "repeater_pathHashModeOption3": "3〜4バイト",
   "appSettings_batteryLipoHv": "リポバッテリー HV（3.0〜4.35V）",
   "channels_regionSetTo": "地域：{region}",
   "channels_regionNotSet": "地域：なし",
@@ -2962,5 +2805,6 @@
   "receivedImage_tapToProcess": "処理するにはタップしてください",
   "receivedImage_awaiting": "{bytes} バイト・{packets} {packets, plural, =1{パケット} other{パケット}}",
   "imageSend_secondsValue": "{seconds}秒",
-  "imageSend_minutesSecondsValue": "{minutes}分 {seconds}秒"
+  "imageSend_minutesSecondsValue": "{minutes}分 {seconds}秒",
+  "login_repeaterAccessUnavailable": "Guest and admin access are temporarily unavailable."
 }

@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -751,18 +752,6 @@ class AppLocalizationsBg extends AppLocalizations {
   String get appSettings_languageUk => 'Украински';
 
   @override
-  String get repeater_pathHashModeOption0 => '0 - 1 байт';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1 - 2 байта';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 байта';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 байта';
-
-  @override
   String get appSettings_enableMessageTracing =>
       'Разрешаване на проследяване на съобщения';
 
@@ -1235,7 +1224,7 @@ class AppLocalizationsBg extends AppLocalizations {
   }
 
   @override
-  String get channels_private => 'Частен';
+  String get channels_hashtag => 'Hashtag';
 
   @override
   String get channels_editChannel => 'Редактирай канал';
@@ -1280,17 +1269,7 @@ class AppLocalizationsBg extends AppLocalizations {
   String get channels_standardPublicPsk => 'Стандартен публичен PSK';
 
   @override
-  String get channels_pskHex => 'PSK (шестнадесетичен код)';
-
-  @override
-  String get channels_generateRandomPsk => 'Генерирай случайна PSK';
-
-  @override
   String get channels_enterChannelName => 'Моля, въведете име на канал.';
-
-  @override
-  String get channels_pskMustBe32Hex =>
-      'PSK трябва да бъде 32 шестнадесетични знака.';
 
   @override
   String channels_channelAdded(String name) {
@@ -1383,18 +1362,6 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get channels_sortUnread => 'Непрочетено';
-
-  @override
-  String get channels_createPrivateChannel => 'Създай Частен Канал';
-
-  @override
-  String get channels_createPrivateChannelDesc => 'Защитено с таен ключ.';
-
-  @override
-  String get channels_joinPrivateChannel => 'Присъедини се към Частен Канал';
-
-  @override
-  String get channels_joinPrivateChannelDesc => 'Ръчно въведете таен ключ.';
 
   @override
   String get channels_joinPublicChannel =>
@@ -2570,6 +2537,9 @@ class AppLocalizationsBg extends AppLocalizations {
   String get repeater_guestAccess => 'Достъп за гости';
 
   @override
+  String get repeater_adminAccess => 'Admin Access';
+
+  @override
   String get repeater_guestAccessSubtitle => 'Разрешете само четене за гости';
 
   @override
@@ -2736,13 +2706,6 @@ class AppLocalizationsBg extends AppLocalizations {
   @override
   String get repeater_advancedSettingsSubtitle =>
       'Експериментални настройки за опитни оператори';
-
-  @override
-  String get repeater_pathHashMode => 'Режим за хеширане на пътища';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      'Байтовете, използвани за кодиране на идентификатора на този повторител в таговете за откриване на потоци/цикли, са: 0=1 байт (256 идентификатора, до 64 скока), 1=2 байта (65 000 идентификатора, до 32 скока), 2=3 байта (16 милиона идентификатора, до 21 скока). Версиите 1.13 и по-старите фърмуери използват многобайтови пътища - само след като мрежата е актуализирана до версия 1.14 или по-нова.';
 
   @override
   String get repeater_keySettings => 'Изменяне на идентичности ключа';
@@ -3263,10 +3226,6 @@ class AppLocalizationsBg extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       'Задава низовете с информация за контакт на собственика, които са включени в рекламите. Използвайте \'|\' за нови редове.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      'Задава режима за хеширане на пътищата. 0 = за стари системи, 1 = за стандартни системи, 2 = за строги системи. Влияе върху начина, по който се съпоставят маршрутите.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -3791,174 +3750,6 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => 'Неизвестен повторител';
-
-  @override
-  String get community_title => 'Общност';
-
-  @override
-  String get community_create => 'Създай общност';
-
-  @override
-  String get community_createDesc =>
-      'Създайте нова общност и я споделете чрез QR код.';
-
-  @override
-  String get community_join => 'Присъедини се';
-
-  @override
-  String get community_joinTitle => 'Присъедини се към общността';
-
-  @override
-  String community_joinConfirmation(String name) {
-    return 'Искате ли да се присъедините към общността \"$name\"?';
-  }
-
-  @override
-  String get community_scanQr => 'Сканирайте QR кода на общността';
-
-  @override
-  String get community_scanInstructions =>
-      'Насочете камерата към QR код на общността';
-
-  @override
-  String get community_showQr => 'Покажи QR код';
-
-  @override
-  String get community_publicChannel => 'Обществено общност';
-
-  @override
-  String get community_hashtagChannel => 'Хаштаг на общността';
-
-  @override
-  String get community_name => 'Име на общността';
-
-  @override
-  String get community_enterName => 'Въведете име на общността';
-
-  @override
-  String community_created(String name) {
-    return 'Общността \"$name\" е създадена';
-  }
-
-  @override
-  String community_joined(String name) {
-    return 'Присъединено общност \"$name\"';
-  }
-
-  @override
-  String get community_qrTitle => 'Споделяне в общността';
-
-  @override
-  String community_qrInstructions(String name) {
-    return 'Сканирайте този QR код, за да се присъедините към $name.';
-  }
-
-  @override
-  String get community_hashtagPrivacyHint =>
-      'Хаштаг каналите на общността са достъпни само за членове на общността';
-
-  @override
-  String get community_invalidQrCode => 'Невалиден QR код на общността';
-
-  @override
-  String get community_alreadyMember => 'Вече съм член';
-
-  @override
-  String community_alreadyMemberMessage(String name) {
-    return 'Вие вече сте член на \"$name\".';
-  }
-
-  @override
-  String get community_addPublicChannel => 'Добави публичен общностен канал';
-
-  @override
-  String get community_addPublicChannelHint =>
-      'Автоматично добавете публичния канал за тази общност.';
-
-  @override
-  String get community_noCommunities => 'Няма присъединени общности още.';
-
-  @override
-  String get community_scanOrCreate =>
-      'Сканирайте QR код или създайте общност, за да започнете.';
-
-  @override
-  String get community_manageCommunities => 'Управление на общности';
-
-  @override
-  String get community_delete => 'Напусни общността';
-
-  @override
-  String community_deleteConfirm(String name) {
-    return 'Напускате \"$name\"?';
-  }
-
-  @override
-  String community_deleteChannelsWarning(int count) {
-    return 'Това ще изтрие също $count канал(а) и техните съобщения.';
-  }
-
-  @override
-  String community_deleted(String name) {
-    return 'Остави общността \"$name\"';
-  }
-
-  @override
-  String get community_regenerateSecret => 'Регенерейрай секрет';
-
-  @override
-  String community_regenerateSecretConfirm(String name) {
-    return 'Регенерация на секретния ключ за \"$name\"? Всички членове ще трябва да сканират новия QR код, за да продължат комуникацията.';
-  }
-
-  @override
-  String get community_regenerate => 'Регенерация';
-
-  @override
-  String community_secretRegenerated(String name) {
-    return 'Секретно презареждане за \"$name\"';
-  }
-
-  @override
-  String get community_updateSecret => 'Актуализирай тайна';
-
-  @override
-  String community_secretUpdated(String name) {
-    return 'Секретно обновено за \"$name\"';
-  }
-
-  @override
-  String community_scanToUpdateSecret(String name) {
-    return 'Сканьорвайте новия QR код, за да актуализирате секрета за \"$name\"';
-  }
-
-  @override
-  String get community_addHashtagChannel => 'Добави общностен хаштаг';
-
-  @override
-  String get community_addHashtagChannelDesc =>
-      'Добавете хаштаг канал за тази общност';
-
-  @override
-  String get community_selectCommunity => 'Изберете общност';
-
-  @override
-  String get community_regularHashtag => 'Обикновен хаштаг';
-
-  @override
-  String get community_regularHashtagDesc =>
-      'Общ хаштаг (всеки може да се присъедини)';
-
-  @override
-  String get community_communityHashtag => 'Общностен хаштаг';
-
-  @override
-  String get community_communityHashtagDesc => 'Само за членове на общността';
-
-  @override
-  String community_forCommunity(String name) {
-    return 'За $name';
-  }
 
   @override
   String get listFilter_tooltip => 'Филтрирайте и сортирайте';
@@ -4737,11 +4528,6 @@ class AppLocalizationsBg extends AppLocalizations {
       'Web Bluetooth изисква браузър, базиран на Chromium.';
 
   @override
-  String channels_communityShortId(String id) {
-    return 'Идентификационен номер: $id...';
-  }
-
-  @override
   String get pathTrace_legendGpsConfirmed => 'GPS потвърдено';
 
   @override
@@ -5052,4 +4838,8 @@ class AppLocalizationsBg extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes мин $seconds сек';
   }
+
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
 }

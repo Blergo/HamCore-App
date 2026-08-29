@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -716,18 +717,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get appSettings_languageUk => '우크라이나어';
 
   @override
-  String get repeater_pathHashModeOption0 => '0 - 1 바이트';
-
-  @override
-  String get repeater_pathHashModeOption1 => '1~2 바이트';
-
-  @override
-  String get repeater_pathHashModeOption2 => '2 - 3 바이트';
-
-  @override
-  String get repeater_pathHashModeOption3 => '3 - 4 바이트';
-
-  @override
   String get appSettings_enableMessageTracing => '메시지 추적 기능 활성화';
 
   @override
@@ -1169,7 +1158,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get channels_private => '사립';
+  String get channels_hashtag => 'Hashtag';
 
   @override
   String get channels_editChannel => '채널 편집';
@@ -1214,16 +1203,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get channels_standardPublicPsk => '표준 공공 PSK';
 
   @override
-  String get channels_pskHex => 'PSK (헥스)';
-
-  @override
-  String get channels_generateRandomPsk => '임의의 PSK 생성';
-
-  @override
   String get channels_enterChannelName => '채널 이름을 입력해 주세요.';
-
-  @override
-  String get channels_pskMustBe32Hex => 'PSK(개인식별키)는 32자리 16진수 문자여야 합니다.';
 
   @override
   String channels_channelAdded(String name) {
@@ -1312,18 +1292,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get channels_sortUnread => '읽지 않음';
-
-  @override
-  String get channels_createPrivateChannel => '개인 채널 만들기';
-
-  @override
-  String get channels_createPrivateChannelDesc => '비밀 키로 암호화되어 있습니다.';
-
-  @override
-  String get channels_joinPrivateChannel => '개인 채널에 참여하기';
-
-  @override
-  String get channels_joinPrivateChannelDesc => '비밀 키를 수동으로 입력합니다.';
 
   @override
   String get channels_joinPublicChannel => '공개 채널에 참여하세요';
@@ -2463,6 +2431,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get repeater_guestAccess => '게스트 접근';
 
   @override
+  String get repeater_adminAccess => 'Admin Access';
+
+  @override
   String get repeater_guestAccessSubtitle => '게스트의 읽기 전용 접근 권한 허용';
 
   @override
@@ -2616,13 +2587,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get repeater_advancedSettingsSubtitle => '숙련된 운영자를 위한 조절 노브';
-
-  @override
-  String get repeater_pathHashMode => '패스 해시 모드';
-
-  @override
-  String get repeater_pathHashModeHelper =>
-      '이 리피터의 ID를 플러드 경로/루프 감지 태그에 인코딩하는 데 사용되는 바이트 수입니다. 0=1바이트(256개 ID, 최대 64홉), 1=2바이트(65,000개 ID, 최대 32홉), 2=3바이트(1,600만 개 ID, 최대 21홉). v1.14 이전 펌웨어는 항상 1바이트 경로를 사용했으며, v1.14 이상은 2바이트 또는 3바이트 경로로 설정할 수 있습니다.';
 
   @override
   String get repeater_keySettings => '신원 키 변경';
@@ -3108,10 +3072,6 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get repeater_cliHelpSetOwnerInfo =>
       '광고에 포함된 소유자 연락처 정보를 지정합니다. 줄 바꿈을 위해 \'|\' 문자를 사용합니다.';
-
-  @override
-  String get repeater_cliHelpSetPathHashMode =>
-      '경로 해시 모드를 설정합니다. 0 = 고전 방식, 1 = 표준 방식, 2 = 엄격한 방식. 경로 매칭 방식에 영향을 미칩니다.';
 
   @override
   String get repeater_cliHelpSetLoopDetect =>
@@ -3603,168 +3563,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => '알 수 없는 중계기';
-
-  @override
-  String get community_title => '지역 사회';
-
-  @override
-  String get community_create => '커뮤니티 만들기';
-
-  @override
-  String get community_createDesc => '새로운 커뮤니티를 만들고 QR 코드를 통해 공유하세요.';
-
-  @override
-  String get community_join => '참여하기';
-
-  @override
-  String get community_joinTitle => '커뮤니티에 참여하기';
-
-  @override
-  String community_joinConfirmation(String name) {
-    return '$name님, 커뮤니티에 참여하고 싶으신가요?';
-  }
-
-  @override
-  String get community_scanQr => '커뮤니티 QR 스캔';
-
-  @override
-  String get community_scanInstructions => '카메라를 커뮤니티 QR 코드 방향으로 향하게 하세요.';
-
-  @override
-  String get community_showQr => 'QR 코드 표시';
-
-  @override
-  String get community_publicChannel => '지역 사회 대상';
-
-  @override
-  String get community_hashtagChannel => '커뮤니티 해시태그';
-
-  @override
-  String get community_name => '지역 이름';
-
-  @override
-  String get community_enterName => '커뮤니티 이름을 입력하세요';
-
-  @override
-  String community_created(String name) {
-    return '커뮤니티 \"$name\"이 생성되었습니다.';
-  }
-
-  @override
-  String community_joined(String name) {
-    return '\"$name\" 커뮤니티에 가입';
-  }
-
-  @override
-  String get community_qrTitle => '커뮤니티 공유';
-
-  @override
-  String community_qrInstructions(String name) {
-    return '이 QR 코드를 스캔하여 \"$name\"에 가입하세요.';
-  }
-
-  @override
-  String get community_hashtagPrivacyHint =>
-      '커뮤니티 해시태그 채널은 커뮤니티 구성원만 가입할 수 있습니다.';
-
-  @override
-  String get community_invalidQrCode => '유효하지 않은 커뮤니티 QR 코드';
-
-  @override
-  String get community_alreadyMember => '이미 회원인 경우';
-
-  @override
-  String community_alreadyMemberMessage(String name) {
-    return '이미 $name의 회원입니다.';
-  }
-
-  @override
-  String get community_addPublicChannel => '커뮤니티 공개 채널 추가';
-
-  @override
-  String get community_addPublicChannelHint => '이 커뮤니티에 공개 채널을 자동으로 추가합니다.';
-
-  @override
-  String get community_noCommunities => '아직 어느 커뮤니티도 가입하지 않았습니다.';
-
-  @override
-  String get community_scanOrCreate => 'QR 코드를 스캔하거나 커뮤니티를 만들어 시작하세요.';
-
-  @override
-  String get community_manageCommunities => '커뮤니티 관리';
-
-  @override
-  String get community_delete => '커뮤니티 떠나기';
-
-  @override
-  String community_deleteConfirm(String name) {
-    return '$name을 묻어두나요?';
-  }
-
-  @override
-  String community_deleteChannelsWarning(int count) {
-    return '또한, 이 기능은 $count개의 채널과 그에 해당하는 메시지를 삭제합니다.';
-  }
-
-  @override
-  String community_deleted(String name) {
-    return '지역 커뮤니티 \"$name\"';
-  }
-
-  @override
-  String get community_regenerateSecret => '비밀 복원';
-
-  @override
-  String community_regenerateSecretConfirm(String name) {
-    return '$name의 비밀 키를 재생성하시겠습니까? 모든 회원은 계속 통신을 위해 새로운 QR 코드를 스캔해야 합니다.';
-  }
-
-  @override
-  String get community_regenerate => '재생';
-
-  @override
-  String community_secretRegenerated(String name) {
-    return '$name을 위한 비밀 정보가 복원되었습니다.';
-  }
-
-  @override
-  String get community_updateSecret => '비밀 업데이트';
-
-  @override
-  String community_secretUpdated(String name) {
-    return '$name을 위한 비밀 정보 업데이트';
-  }
-
-  @override
-  String community_scanToUpdateSecret(String name) {
-    return '새로운 QR 코드를 스캔하여 $name의 비밀번호를 업데이트하세요.';
-  }
-
-  @override
-  String get community_addHashtagChannel => '커뮤니티 해시태그 추가';
-
-  @override
-  String get community_addHashtagChannelDesc => '이 커뮤니티를 위한 해시태그 채널을 추가하세요.';
-
-  @override
-  String get community_selectCommunity => '커뮤니티 선택';
-
-  @override
-  String get community_regularHashtag => '일반 해시태그';
-
-  @override
-  String get community_regularHashtagDesc => '공개 해시태그 (누구나 참여 가능)';
-
-  @override
-  String get community_communityHashtag => '커뮤니티 해시태그';
-
-  @override
-  String get community_communityHashtagDesc => '지역 주민을 위한';
-
-  @override
-  String community_forCommunity(String name) {
-    return '$name 님께';
-  }
 
   @override
   String get listFilter_tooltip => '필터링 및 정렬';
@@ -4506,11 +4304,6 @@ class AppLocalizationsKo extends AppLocalizations {
       '웹 블루투스는 Chromium 기반 브라우저가 필요합니다.';
 
   @override
-  String channels_communityShortId(String id) {
-    return 'ID: $id...';
-  }
-
-  @override
   String get pathTrace_legendGpsConfirmed => 'GPS로 확인됨';
 
   @override
@@ -4812,4 +4605,8 @@ class AppLocalizationsKo extends AppLocalizations {
   String imageSend_minutesSecondsValue(String minutes, String seconds) {
     return '$minutes분 $seconds초';
   }
+
+  @override
+  String get login_repeaterAccessUnavailable =>
+      'Guest and admin access are temporarily unavailable.';
 }
