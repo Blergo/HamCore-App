@@ -234,12 +234,14 @@ Uint8List buildTelemetryBinaryPayload() {
 }
 
 const int anonReqTypeRegions = 0x01;
-// Login is now requested by type byte instead of a password: the repeater
-// grants guest access unconditionally (no auth check at all) and currently
-// rejects admin outright ("not yet implemented" on the firmware side) - kept
-// here as a documented slot for when firmware-side admin auth lands.
-const int anonReqTypeLoginGuest = 0x04;
-const int anonReqTypeLoginAdmin = 0x05;
+
+// Repeater login is now requested via CMD_SEND_LOGIN with the old password
+// field repurposed as a single type byte: the repeater grants guest access
+// unconditionally (no auth check at all) and currently rejects admin outright
+// ("not yet implemented" on the firmware side) - kept here as a documented
+// slot for when firmware-side admin auth lands.
+const int repeaterLoginTypeGuest = 0x04;
+const int repeaterLoginTypeAdmin = 0x05;
 
 // Control data sub-types used by HamCore discovery packets.
 const int controlSubtypeDiscoverReq = 0x08;
@@ -926,20 +928,19 @@ Uint8List buildSendAnonReqFrame(
   return writer.toBytes();
 }
 
-// Build CMD_SEND_ANON_REQ frame for repeater login (guest/admin).
-// Unlike the regions variant above, login requests carry no reply-path
-// payload at all - the companion firmware's own sendAnonReq() prepends its
-// anti-replay timestamp and picks flood vs a known direct path to the
-// repeater on its own. The app only supplies the target and request type.
-// Format: [cmd][repeater_pubkey x32][anon_req_type]
-Uint8List buildSendLoginAnonReqFrame(
+// Build CMD_SEND_LOGIN frame for repeater guest/admin login.
+// For a repeater target, the old password field is repurposed as a single
+// login-type selector byte (0x04 guest / 0x05 admin) instead of a password
+// string - the room-server password login above is a separate, untouched
+// flow. Format: [cmd][repeater_pubkey x32][login_type]
+Uint8List buildRepeaterLoginFrame(
   Uint8List repeaterPubKey, {
-  required int requestType,
+  required int loginType,
 }) {
   final writer = BufferWriter();
-  writer.writeByte(cmdSendAnonReq);
+  writer.writeByte(cmdSendLogin);
   writer.writeBytes(repeaterPubKey);
-  writer.writeByte(requestType);
+  writer.writeByte(loginType);
   return writer.toBytes();
 }
 

@@ -59,10 +59,11 @@ class _RepeaterLoginDialogState extends State<RepeaterLoginDialog> {
   }
 
   // Guest access is granted unconditionally by the firmware now (no password
-  // check at all) - this just asks for it via ANON_REQ_TYPE_LOGIN_GUEST
-  // instead of the old password-based CMD_SEND_LOGIN. The reply is still the
-  // same PUSH_CODE_LOGIN_SUCCESS/FAIL push the app has always listened for,
-  // so _awaitLoginResponse below is unchanged.
+  // check at all) - this still sends CMD_SEND_LOGIN, but the password field
+  // is repurposed as a single login-type byte (0x04 guest / 0x05 admin)
+  // instead of a password string. The reply is still the same
+  // PUSH_CODE_LOGIN_SUCCESS/FAIL push the app has always listened for, so
+  // _awaitLoginResponse below is unchanged.
   Future<void> _handleGuestLogin() async {
     if (_isLoggingIn) return;
 
@@ -79,9 +80,9 @@ class _RepeaterLoginDialogState extends State<RepeaterLoginDialog> {
         tag: 'RepeaterLogin',
       );
       final selection = await _connector.preparePathForContactSend(repeater);
-      final loginFrame = buildSendLoginAnonReqFrame(
+      final loginFrame = buildRepeaterLoginFrame(
         repeater.publicKey,
-        requestType: anonReqTypeLoginGuest,
+        loginType: repeaterLoginTypeGuest,
       );
       final pathLengthValue = selection.useFlood ? -1 : selection.hopCount;
       final responseBytes = loginFrame.length > maxFrameSize
