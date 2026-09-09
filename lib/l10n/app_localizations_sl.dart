@@ -1752,6 +1752,9 @@ class AppLocalizationsSl extends AppLocalizations {
   String get chat_path => 'Pot';
 
   @override
+  String get chat_repeats => 'Repeats';
+
+  @override
   String get chat_publicKey => 'Ključ javnega tipa';
 
   @override
@@ -2531,14 +2534,6 @@ class AppLocalizationsSl extends AppLocalizations {
   String get repeater_advertisementSettings => 'Nastavitve oglasnika';
 
   @override
-  String get repeater_localAdvertInterval => 'Lokalen Oglasovni Razpon';
-
-  @override
-  String repeater_localAdvertIntervalMinutes(int minutes) {
-    return '$minutes minut';
-  }
-
-  @override
   String get repeater_floodAdvertInterval => 'Razpon Obvestil o Poplavah';
 
   @override
@@ -2945,10 +2940,6 @@ class AppLocalizationsSl extends AppLocalizations {
   @override
   String get repeater_cliHelpSetMultiAcks =>
       'Omogoči ali onemogoči funkcijo \"dvojakih potrdil\".';
-
-  @override
-  String get repeater_cliHelpSetAdvertInterval =>
-      'Nastavi časovno obmesto v minutah za pošiljanje lokalnega (brezposrednega) napovednega paketa. Nastavi na 0 za onemogočiti.';
 
   @override
   String get repeater_cliHelpSetFloodAdvertInterval =>
@@ -3727,6 +3718,16 @@ class AppLocalizationsSl extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => 'Nepoznati ponovitelj';
+
+  @override
+  String get channelRepeats_title => 'Message Repeats';
+
+  @override
+  String get channelRepeats_heardBy => 'Heard By';
+
+  @override
+  String get channelRepeats_none =>
+      'No repeaters have echoed this message yet.';
 
   @override
   String get listFilter_tooltip => 'Filtri in vrstiči';

@@ -1764,6 +1764,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get chat_path => 'Ruta';
 
   @override
+  String get chat_repeats => 'Repeats';
+
+  @override
   String get chat_publicKey => 'Clave pública';
 
   @override
@@ -2544,14 +2547,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get repeater_advertisementSettings => 'Ajustes de anuncios';
 
   @override
-  String get repeater_localAdvertInterval => 'Intervalo de anuncio local';
-
-  @override
-  String repeater_localAdvertIntervalMinutes(int minutes) {
-    return '$minutes minutos';
-  }
-
-  @override
   String get repeater_floodAdvertInterval =>
       'Intervalo de anuncio por inundación';
 
@@ -2958,10 +2953,6 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get repeater_cliHelpSetMultiAcks =>
       'Habilita o deshabilita la función de \'ACKs dobles\'.';
-
-  @override
-  String get repeater_cliHelpSetAdvertInterval =>
-      'Establece el intervalo del temporizador en minutos para enviar un paquete de anuncio local (sin salto). Establecer en 0 para desactivarlo.';
 
   @override
   String get repeater_cliHelpSetFloodAdvertInterval =>
@@ -3742,6 +3733,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => 'Repetidor Desconocido';
+
+  @override
+  String get channelRepeats_title => 'Message Repeats';
+
+  @override
+  String get channelRepeats_heardBy => 'Heard By';
+
+  @override
+  String get channelRepeats_none =>
+      'No repeaters have echoed this message yet.';
 
   @override
   String get listFilter_tooltip => 'Filtrar y ordenar';

@@ -640,6 +640,7 @@
   "chat_pathDeviceNotConfirmed": "设备尚未确认。",
   "chat_type": "类型",
   "chat_path": "路径",
+  "chat_repeats": "Repeats",
   "chat_publicKey": "公钥",
   "chat_compressOutgoingMessages": "压缩发送的消息",
   "chat_floodForced": "泛洪（强制）",
@@ -1118,15 +1119,6 @@
   "repeater_privacyMode": "隐私模式",
   "repeater_privacyModeSubtitle": "在广播中隐藏姓名/位置",
   "repeater_advertisementSettings": "广播设置",
-  "repeater_localAdvertInterval": "本地广播间隔",
-  "repeater_localAdvertIntervalMinutes": "{minutes} 分钟",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "泛洪广播间隔",
   "repeater_floodAdvertIntervalHours": "{hours} 小时",
   "@repeater_floodAdvertIntervalHours": {
@@ -1309,7 +1301,6 @@
   "repeater_cliHelpSetIntThresh": "设置干扰阈值 (dB)，默认14，设为0禁用",
   "repeater_cliHelpSetAgcResetInterval": "设置 AGC 重置间隔（秒），设为0禁用",
   "repeater_cliHelpSetMultiAcks": "启用或禁用“多重确认”功能",
-  "repeater_cliHelpSetAdvertInterval": "设置本地广播间隔（分钟），设为0禁用",
   "repeater_cliHelpSetFloodAdvertInterval": "设置泛洪广播间隔（小时），设为0禁用",
   "repeater_cliHelpSetGuestPassword": "设置/更新访客密码",
   "repeater_cliHelpSetName": "设置广播名称",
@@ -1586,6 +1577,9 @@
   },
   "channelPath_noHopDetailsAvailable": "此数据包暂无详细信息",
   "channelPath_unknownRepeater": "未知转发节点",
+  "channelRepeats_title": "Message Repeats",
+  "channelRepeats_heardBy": "Heard By",
+  "channelRepeats_none": "No repeaters have echoed this message yet.",
   "listFilter_tooltip": "筛选与排序",
   "listFilter_sortBy": "排序方式",
   "listFilter_latestMessages": "最新消息",

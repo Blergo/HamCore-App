@@ -1744,6 +1744,9 @@ class AppLocalizationsSv extends AppLocalizations {
   String get chat_path => 'Sökväg';
 
   @override
+  String get chat_repeats => 'Repeats';
+
+  @override
   String get chat_publicKey => 'Allmänt nyckel';
 
   @override
@@ -2517,14 +2520,6 @@ class AppLocalizationsSv extends AppLocalizations {
   String get repeater_advertisementSettings => 'Annonsinställningar';
 
   @override
-  String get repeater_localAdvertInterval => 'Lokalt Annonsintervall';
-
-  @override
-  String repeater_localAdvertIntervalMinutes(int minutes) {
-    return '$minutes minuter';
-  }
-
-  @override
   String get repeater_floodAdvertInterval =>
       'Översvämnadsannonsens tidsintervall';
 
@@ -2928,10 +2923,6 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get repeater_cliHelpSetMultiAcks =>
       'Aktiverar eller inaktiverar funktionen \'dubbla ACKs\'.';
-
-  @override
-  String get repeater_cliHelpSetAdvertInterval =>
-      'Ställer in tidsintervallen i minuter för att skicka ett lokalt (utan-hopp) annonseringspaket. Ställs till 0 för att inaktivera.';
 
   @override
   String get repeater_cliHelpSetFloodAdvertInterval =>
@@ -3704,6 +3695,16 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => 'Okänt Upprepare';
+
+  @override
+  String get channelRepeats_title => 'Message Repeats';
+
+  @override
+  String get channelRepeats_heardBy => 'Heard By';
+
+  @override
+  String get channelRepeats_none =>
+      'No repeaters have echoed this message yet.';
 
   @override
   String get listFilter_tooltip => 'Filtrera och sortera';

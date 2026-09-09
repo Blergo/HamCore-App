@@ -804,6 +804,7 @@
   "chat_pathDeviceNotConfirmed": "デバイスではまだ確認されていません",
   "chat_type": "種類",
   "chat_path": "道",
+  "chat_repeats": "Repeats",
   "chat_publicKey": "公開鍵",
   "chat_compressOutgoingMessages": "送信メッセージを圧縮する",
   "chat_floodForced": "フラッド（強制）",
@@ -1292,15 +1293,6 @@
   "repeater_privacyMode": "プライバシーモード",
   "repeater_privacyModeSubtitle": "広告に名前/場所を記載しない",
   "repeater_advertisementSettings": "広告設定",
-  "repeater_localAdvertInterval": "地域広告掲載期間",
-  "repeater_localAdvertIntervalMinutes": "{minutes} 分",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "フラッドに関する広告の表示間隔",
   "repeater_floodAdvertIntervalHours": "{hours} 時間",
   "@repeater_floodAdvertIntervalHours": {
@@ -1483,7 +1475,6 @@
   "repeater_cliHelpSetIntThresh": "干渉閾値を設定します（dB単位）。デフォルト値は14です。0に設定すると、チャンネル間の干渉を検出する機能を無効にします。",
   "repeater_cliHelpSetAgcResetInterval": "オートゲインコントローラーのリセット間隔を設定します。 0 に設定すると無効化されます。",
   "repeater_cliHelpSetMultiAcks": "「ダブルACK」機能の有効化または無効化を可能にします。",
-  "repeater_cliHelpSetAdvertInterval": "ローカル（ホップなし）の広告パケットを送信する間隔を分単位で設定します。 0 に設定すると、機能を無効にします。",
   "repeater_cliHelpSetFloodAdvertInterval": "フラッド広告の送信間隔を時間単位で設定します。0に設定すると、送信を停止します。",
   "repeater_cliHelpSetGuestPassword": "ゲストのパスワードを設定/更新します。（繰り返し利用の場合、ゲストのログインは「統計情報を取得」のリクエストを送信できます）",
   "repeater_cliHelpSetName": "広告の名前を設定します。",
@@ -1837,6 +1828,9 @@
   },
   "channelPath_noHopDetailsAvailable": "このパッケージに関する詳細な配送情報は利用できません。",
   "channelPath_unknownRepeater": "不明な増幅機",
+  "channelRepeats_title": "Message Repeats",
+  "channelRepeats_heardBy": "Heard By",
+  "channelRepeats_none": "No repeaters have echoed this message yet.",
   "listFilter_tooltip": "フィルタリングと並べ替え",
   "listFilter_sortBy": "並び替え",
   "listFilter_latestMessages": "最新のメッセージ",

@@ -3208,6 +3208,12 @@ abstract class AppLocalizations {
   /// **'Path'**
   String get chat_path;
 
+  /// No description provided for @chat_repeats.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats'**
+  String get chat_repeats;
+
   /// No description provided for @chat_publicKey.
   ///
   /// In en, this message translates to:
@@ -4586,18 +4592,6 @@ abstract class AppLocalizations {
   /// **'Advertisement Settings'**
   String get repeater_advertisementSettings;
 
-  /// No description provided for @repeater_localAdvertInterval.
-  ///
-  /// In en, this message translates to:
-  /// **'Local Advertisement Interval'**
-  String get repeater_localAdvertInterval;
-
-  /// No description provided for @repeater_localAdvertIntervalMinutes.
-  ///
-  /// In en, this message translates to:
-  /// **'{minutes} minutes'**
-  String repeater_localAdvertIntervalMinutes(int minutes);
-
   /// No description provided for @repeater_floodAdvertInterval.
   ///
   /// In en, this message translates to:
@@ -5281,12 +5275,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enables or disables the \'double ACKs\' feature.'**
   String get repeater_cliHelpSetMultiAcks;
-
-  /// No description provided for @repeater_cliHelpSetAdvertInterval.
-  ///
-  /// In en, this message translates to:
-  /// **'Sets the timer interval in minutes to send a local (zero-hop) advertisement packet. Set to 0 to disable.'**
-  String get repeater_cliHelpSetAdvertInterval;
 
   /// No description provided for @repeater_cliHelpSetFloodAdvertInterval.
   ///
@@ -6523,6 +6511,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown Repeater'**
   String get channelPath_unknownRepeater;
+
+  /// No description provided for @channelRepeats_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Message Repeats'**
+  String get channelRepeats_title;
+
+  /// No description provided for @channelRepeats_heardBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Heard By'**
+  String get channelRepeats_heardBy;
+
+  /// No description provided for @channelRepeats_none.
+  ///
+  /// In en, this message translates to:
+  /// **'No repeaters have echoed this message yet.'**
+  String get channelRepeats_none;
 
   /// No description provided for @listFilter_tooltip.
   ///

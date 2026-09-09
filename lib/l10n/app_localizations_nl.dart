@@ -1753,6 +1753,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String get chat_path => 'Pad';
 
   @override
+  String get chat_repeats => 'Repeats';
+
+  @override
   String get chat_publicKey => 'Openbare Sleutel';
 
   @override
@@ -2529,14 +2532,6 @@ class AppLocalizationsNl extends AppLocalizations {
   String get repeater_advertisementSettings => 'Advertentie-instellingen';
 
   @override
-  String get repeater_localAdvertInterval => 'Lokale Advertentie Interval';
-
-  @override
-  String repeater_localAdvertIntervalMinutes(int minutes) {
-    return '$minutes minuten';
-  }
-
-  @override
   String get repeater_floodAdvertInterval => 'Flood Advertentie Interval';
 
   @override
@@ -2944,10 +2939,6 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get repeater_cliHelpSetMultiAcks =>
       'Activeert of deactiveert de functie \'duplicate ACKs\'.';
-
-  @override
-  String get repeater_cliHelpSetAdvertInterval =>
-      'Stelt het timerinterval in minuten in om een lokale (zero-hop) advertentiepakket te versturen. Stel in op 0 om uit te schakelen.';
 
   @override
   String get repeater_cliHelpSetFloodAdvertInterval =>
@@ -3728,6 +3719,16 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => 'Onbekend Repeater';
+
+  @override
+  String get channelRepeats_title => 'Message Repeats';
+
+  @override
+  String get channelRepeats_heardBy => 'Heard By';
+
+  @override
+  String get channelRepeats_none =>
+      'No repeaters have echoed this message yet.';
 
   @override
   String get listFilter_tooltip => 'Filteren en sorteren';

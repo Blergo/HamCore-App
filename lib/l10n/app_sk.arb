@@ -617,6 +617,7 @@
   "chat_pathDeviceNotConfirmed": "Zariadenie zatiaľ nebolo potvrdené.",
   "chat_type": "Napište",
   "chat_path": "Cesta",
+  "chat_repeats": "Repeats",
   "chat_publicKey": "Verejný kľúč",
   "chat_compressOutgoingMessages": "Komprimovať odoslané správy",
   "chat_floodForced": "Povodňová (nutená)",
@@ -1092,15 +1093,6 @@
   "repeater_privacyMode": "Režim ochrany súkromia",
   "repeater_privacyModeSubtitle": "Skryť meno/poloha v reklamách",
   "repeater_advertisementSettings": "Nastavenia reklamy",
-  "repeater_localAdvertInterval": "Lokálna reklamná časová obdoba",
-  "repeater_localAdvertIntervalMinutes": "{minutes} minút",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "Interval reklamnej povodňovej reklamy",
   "repeater_floodAdvertIntervalHours": "{hours} hodín",
   "@repeater_floodAdvertIntervalHours": {
@@ -1283,7 +1275,6 @@
   "repeater_cliHelpSetIntThresh": "Nastavuje hranicu ruživeho ladenia (v dB). Predvolené je 14. Nastavením na 0 sa vypne detekcia ruživeho ladenia kanálu.",
   "repeater_cliHelpSetAgcResetInterval": "Nastavuje interval na reštartovanie Auto Gain Controlleru. Nastavenie na 0 vypne funkciu.",
   "repeater_cliHelpSetMultiAcks": "Povolí alebo pozastaví funkciiu \"dvojité potvrdenia\".",
-  "repeater_cliHelpSetAdvertInterval": "Nastavuje interval časovača v minútach na odošle miestny (bezprostredný) reklamný paket. Nastavenie na 0 vypne funkciu.",
   "repeater_cliHelpSetFloodAdvertInterval": "Nastavuje interval časovača v hodinách na odeslanie reklamnej vlne. Nastavenie na 0 vypne.",
   "repeater_cliHelpSetGuestPassword": "Nastavuje/aktualizuje heslo hosťa. (pre opakované pripojenia môžu hosťovské prihlásenia posielať požadanie \"Get Stats\")",
   "repeater_cliHelpSetName": "Nastaví názov reklamy.",
@@ -1532,6 +1523,9 @@
   },
   "channelPath_noHopDetailsAvailable": "Pre toto balíček nie sú dostupné údaje o skokoch.",
   "channelPath_unknownRepeater": "Neznáme opakovače",
+  "channelRepeats_title": "Message Repeats",
+  "channelRepeats_heardBy": "Heard By",
+  "channelRepeats_none": "No repeaters have echoed this message yet.",
   "listFilter_tooltip": "Filtrovať a triediť",
   "listFilter_sortBy": "Triediť podľa",
   "listFilter_latestMessages": "Posledné správy",

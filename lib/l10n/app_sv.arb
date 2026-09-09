@@ -617,6 +617,7 @@
   "chat_pathDeviceNotConfirmed": "Enheten har inte bekräftats ännu.",
   "chat_type": "Skriv",
   "chat_path": "Sökväg",
+  "chat_repeats": "Repeats",
   "chat_publicKey": "Allmänt nyckel",
   "chat_compressOutgoingMessages": "Kryptera utgående meddelanden",
   "chat_floodForced": "Översvämning (tvingad)",
@@ -1092,15 +1093,6 @@
   "repeater_privacyMode": "Privatläge",
   "repeater_privacyModeSubtitle": "Dölj namn/plats i annonser",
   "repeater_advertisementSettings": "Annonsinställningar",
-  "repeater_localAdvertInterval": "Lokalt Annonsintervall",
-  "repeater_localAdvertIntervalMinutes": "{minutes} minuter",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "Översvämnadsannonsens tidsintervall",
   "repeater_floodAdvertIntervalHours": "{hours} timmar",
   "@repeater_floodAdvertIntervalHours": {
@@ -1283,7 +1275,6 @@
   "repeater_cliHelpSetIntThresh": "Ställer Interferensgränsen (i dB). Standardvärdet är 14. Ställ in den på 0 för att inaktivera detektion av kanalinterferens.",
   "repeater_cliHelpSetAgcResetInterval": "Ställer in intervallet för att återställa Auto Gain-kontrollen. Ställ in till 0 för att inaktivera.",
   "repeater_cliHelpSetMultiAcks": "Aktiverar eller inaktiverar funktionen 'dubbla ACKs'.",
-  "repeater_cliHelpSetAdvertInterval": "Ställer in tidsintervallen i minuter för att skicka ett lokalt (utan-hopp) annonseringspaket. Ställs till 0 för att inaktivera.",
   "repeater_cliHelpSetFloodAdvertInterval": "Ställer in tidsintervallen i timmar för att skicka ett flödesannonspaket. Ställ in på 0 för att inaktivera.",
   "repeater_cliHelpSetGuestPassword": "Ställer in/uppdaterar gästlösenordet. (för återvändare kan gästloggar skicka \"Get Stats\"-förfrågan)",
   "repeater_cliHelpSetName": "Ställer in annonstexterna namn.",
@@ -1532,6 +1523,9 @@
   },
   "channelPath_noHopDetailsAvailable": "Inga hoppdetaljer finns tillgängliga för detta paket.",
   "channelPath_unknownRepeater": "Okänt Upprepare",
+  "channelRepeats_title": "Message Repeats",
+  "channelRepeats_heardBy": "Heard By",
+  "channelRepeats_none": "No repeaters have echoed this message yet.",
   "listFilter_tooltip": "Filtrera och sortera",
   "listFilter_sortBy": "Sortera efter",
   "listFilter_latestMessages": "Senaste meddelanden",

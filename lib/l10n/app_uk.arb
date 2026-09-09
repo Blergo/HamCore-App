@@ -621,6 +621,7 @@
   "chat_pathDeviceNotConfirmed": "Пристрій ще не підтверджено.",
   "chat_type": "Ввід",
   "chat_path": "Шлях",
+  "chat_repeats": "Repeats",
   "chat_publicKey": "Відкритий ключ",
   "chat_compressOutgoingMessages": "Стискати вихідні повідомлення",
   "chat_floodForced": "Через всю мережу (примусово)",
@@ -1102,15 +1103,6 @@
   "repeater_privacyMode": "Режим приватності",
   "repeater_privacyModeSubtitle": "Приховати ім'я/геопозицію в оголошеннях",
   "repeater_advertisementSettings": "Налаштування оголошень",
-  "repeater_localAdvertInterval": "Інтервал локальних оголошень (без ретрансляції)",
-  "repeater_localAdvertIntervalMinutes": "{minutes} хвилин",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "Інтервал оголошень через всю мережу (flood)",
   "repeater_floodAdvertIntervalHours": "{hours} годин",
   "@repeater_floodAdvertIntervalHours": {
@@ -1294,7 +1286,6 @@
   "repeater_cliHelpSetIntThresh": "Встановлює поріг інтерференції (в дБ). Значення за замовчуванням — 14. Встановлення на 0 вимикає виявлення інтерференції каналу.",
   "repeater_cliHelpSetAgcResetInterval": "Встановлює інтервал скидання автоматичного контролера посилення (AGC). Встановіть 0 для вимкнення.",
   "repeater_cliHelpSetMultiAcks": "Вмикає або вимикає функціональність подвійних ACK.",
-  "repeater_cliHelpSetAdvertInterval": "Встановлює інтервал таймера для надсилання локального пакету оголошення (без ретрансляції). Встановіть 0 для вимкнення.",
   "repeater_cliHelpSetFloodAdvertInterval": "Встановлює інтервал таймера в годинах для надсилання пакету оголошення через всю мережу. Встановіть 0 для вимкнення.",
   "repeater_cliHelpSetGuestPassword": "Встановлює/оновлює гостьовий пароль. (для ретрансляторів гостьові підключення можуть надсилати запит «Get Stats»)",
   "repeater_cliHelpSetName": "Встановлює ім'я для оголошення.",
@@ -1543,6 +1534,9 @@
   },
   "channelPath_noHopDetailsAvailable": "Деталі переходів недоступні для цього пакету.",
   "channelPath_unknownRepeater": "Невідомий ретранслятор",
+  "channelRepeats_title": "Message Repeats",
+  "channelRepeats_heardBy": "Heard By",
+  "channelRepeats_none": "No repeaters have echoed this message yet.",
   "listFilter_tooltip": "Фільтр та сортування",
   "listFilter_sortBy": "Сортувати за",
   "listFilter_latestMessages": "Останні повідомлення",

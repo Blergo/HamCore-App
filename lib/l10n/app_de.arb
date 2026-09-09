@@ -639,6 +639,7 @@
   "chat_pathDeviceNotConfirmed": "Gerät noch nicht bestätigt.",
   "chat_type": "Gebe ein",
   "chat_path": "Pfad",
+  "chat_repeats": "Repeats",
   "chat_publicKey": "Öffentlicher Schlüssel",
   "chat_compressOutgoingMessages": "Komprimieren ausgehender Nachrichten",
   "chat_floodForced": "Geflutet (erzwungen)",
@@ -1114,15 +1115,6 @@
   "repeater_privacyMode": "Privatsphärenmodus",
   "repeater_privacyModeSubtitle": "Name und Standort in Ankündigungen verbergen",
   "repeater_advertisementSettings": "Ankündigungseinstellungen",
-  "repeater_localAdvertInterval": "Lokales Ankündigungsintervall",
-  "repeater_localAdvertIntervalMinutes": "{minutes} Minuten",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "Flood-Ankündigungsintervall",
   "repeater_floodAdvertIntervalHours": "{hours} Stunden",
   "@repeater_floodAdvertIntervalHours": {
@@ -1305,7 +1297,6 @@
   "repeater_cliHelpSetIntThresh": "Legt den Interferenzeniveau (in dB) fest. Der Standardwert ist 14. Auf 0 setzen, um die Erkennung von Kanalinterferenzen zu deaktivieren.",
   "repeater_cliHelpSetAgcResetInterval": "Legt das Intervall für das Zurücksetzen des Auto Gain Controllers fest. Auf 0 setzen, um die Funktion zu deaktivieren.",
   "repeater_cliHelpSetMultiAcks": "Aktiviert oder deaktiviert die Funktion 'Doppel-ACKs'.",
-  "repeater_cliHelpSetAdvertInterval": "Legt das Timer-Intervall in Minuten fest, um ein lokales (ohne-Weiterleitung) Ankündigungspaket zu senden. Auf 0 setzen, um die Funktion zu deaktivieren.",
   "repeater_cliHelpSetFloodAdvertInterval": "Legt das Timer-Intervall in Stunden für den Versand eines Flut-Ankündigungspacket fest. Auf 0 setzen, um es zu deaktivieren.",
   "repeater_cliHelpSetGuestPassword": "Legt/aktualisiert das Gastpasswort fest. (für Repeater können Gast-Logins die \"Get Stats\"-Anfrage senden)",
   "repeater_cliHelpSetName": "Legt den Anzeigenamen fest.",
@@ -1631,6 +1622,9 @@
   },
   "channelPath_noHopDetailsAvailable": "Keine Informationen zu dieser Paketroute verfügbar.",
   "channelPath_unknownRepeater": "Unbekannter Repeater",
+  "channelRepeats_title": "Message Repeats",
+  "channelRepeats_heardBy": "Heard By",
+  "channelRepeats_none": "No repeaters have echoed this message yet.",
   "listFilter_tooltip": "Filteren und sortieren",
   "listFilter_sortBy": "Sortiere nach",
   "listFilter_latestMessages": "Letzte Nachrichten",

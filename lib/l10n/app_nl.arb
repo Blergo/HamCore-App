@@ -617,6 +617,7 @@
   "chat_pathDeviceNotConfirmed": "Apparaat nog niet bevestigd.",
   "chat_type": "Typen",
   "chat_path": "Pad",
+  "chat_repeats": "Repeats",
   "chat_publicKey": "Openbare Sleutel",
   "chat_compressOutgoingMessages": "Verzenden van uitgaande berichten comprimeren",
   "chat_floodForced": "Flood (afgedwongen)",
@@ -1092,15 +1093,6 @@
   "repeater_privacyMode": "Privacymodus",
   "repeater_privacyModeSubtitle": "Naam/locatie verbergen in advertenties",
   "repeater_advertisementSettings": "Advertentie-instellingen",
-  "repeater_localAdvertInterval": "Lokale Advertentie Interval",
-  "repeater_localAdvertIntervalMinutes": "{minutes} minuten",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "Flood Advertentie Interval",
   "repeater_floodAdvertIntervalHours": "{hours} uur",
   "@repeater_floodAdvertIntervalHours": {
@@ -1283,7 +1275,6 @@
   "repeater_cliHelpSetIntThresh": "Stelt de Interferentiewaarde (in dB) in. Standaardwaarde is 14. Stel in op 0 om het detecteren van kanaalinterferentie uit te schakelen.",
   "repeater_cliHelpSetAgcResetInterval": "Stelt het interval in om de Auto Gain Controller te resetten. Stel in op 0 om dit uit te schakelen.",
   "repeater_cliHelpSetMultiAcks": "Activeert of deactiveert de functie 'duplicate ACKs'.",
-  "repeater_cliHelpSetAdvertInterval": "Stelt het timerinterval in minuten in om een lokale (zero-hop) advertentiepakket te versturen. Stel in op 0 om uit te schakelen.",
   "repeater_cliHelpSetFloodAdvertInterval": "Stelt het timerinterval in uren in om een floodadvertentiepakket te versturen. Stel in op 0 om dit uit te schakelen.",
   "repeater_cliHelpSetGuestPassword": "Stelt/past de gastenwacht aan of wijzigt deze. (voor herstelcontacten kunnen gastelogins de \"Get Stats\" verzoek verzenden)",
   "repeater_cliHelpSetName": "Stelt de advertentietitel in.",
@@ -1532,6 +1523,9 @@
   },
   "channelPath_noHopDetailsAvailable": "Geen details beschikbaar voor dit pakket.",
   "channelPath_unknownRepeater": "Onbekend Repeater",
+  "channelRepeats_title": "Message Repeats",
+  "channelRepeats_heardBy": "Heard By",
+  "channelRepeats_none": "No repeaters have echoed this message yet.",
   "listFilter_tooltip": "Filteren en sorteren",
   "listFilter_sortBy": "Sorteren door",
   "listFilter_latestMessages": "Recente berichten",

@@ -51,6 +51,7 @@ import '../theme/mesh_theme.dart';
 import '../widgets/mesh_ui.dart';
 import 'app_settings_screen.dart';
 import 'channel_message_path_screen.dart';
+import 'channel_message_repeats_screen.dart';
 import 'map_screen.dart';
 import 'region_management_screen.dart';
 import '../storage/region_store.dart';
@@ -652,7 +653,9 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                               ),
                             ],
                           ),
-                        if (enableTracing && displayPath.isNotEmpty) ...[
+                        if (enableTracing &&
+                            !isOutgoing &&
+                            displayPath.isNotEmpty) ...[
                           const SizedBox(height: 3),
                           Padding(
                             padding: gifId != null
@@ -1948,6 +1951,15 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
     );
   }
 
+  void _showMessageRepeatsInfo(ChannelMessage message) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChannelMessageRepeatsScreen(message: message),
+      ),
+    );
+  }
+
   void _showMessageActions(ChannelMessage message) {
     final translationService = context.read<TranslationService>();
     final canTranslateMessage =
@@ -1980,14 +1992,24 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                 _setReplyingTo(message);
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.route),
-              title: Text(context.l10n.chat_path),
-              onTap: () {
-                Navigator.pop(sheetContext);
-                _showMessagePathInfo(message);
-              },
-            ),
+            if (message.isOutgoing)
+              ListTile(
+                leading: const Icon(Icons.repeat),
+                title: Text(context.l10n.chat_repeats),
+                onTap: () {
+                  Navigator.pop(sheetContext);
+                  _showMessageRepeatsInfo(message);
+                },
+              )
+            else
+              ListTile(
+                leading: const Icon(Icons.route),
+                title: Text(context.l10n.chat_path),
+                onTap: () {
+                  Navigator.pop(sheetContext);
+                  _showMessagePathInfo(message);
+                },
+              ),
             // Can't react to your own messages
             if (!message.isOutgoing)
               ListTile(

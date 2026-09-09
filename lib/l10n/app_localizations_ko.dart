@@ -1690,6 +1690,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get chat_path => '경로';
 
   @override
+  String get chat_repeats => 'Repeats';
+
+  @override
   String get chat_publicKey => '공개 키';
 
   @override
@@ -2446,14 +2449,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get repeater_advertisementSettings => '광고 설정';
 
   @override
-  String get repeater_localAdvertInterval => '지역 광고 시간 간격';
-
-  @override
-  String repeater_localAdvertIntervalMinutes(int minutes) {
-    return '$minutes 분';
-  }
-
-  @override
   String get repeater_floodAdvertInterval => '홍수 광고 간격';
 
   @override
@@ -2835,10 +2830,6 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get repeater_cliHelpSetMultiAcks =>
       '\'더블 ACK\' 기능을 활성화하거나 비활성화할 수 있습니다.';
-
-  @override
-  String get repeater_cliHelpSetAdvertInterval =>
-      '로컬 (제로 홉) 광고 패킷을 전송하는 간격 (분 단위)을 설정합니다. 0으로 설정하면 비활성화됩니다.';
 
   @override
   String get repeater_cliHelpSetFloodAdvertInterval =>
@@ -3563,6 +3554,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => '알 수 없는 중계기';
+
+  @override
+  String get channelRepeats_title => 'Message Repeats';
+
+  @override
+  String get channelRepeats_heardBy => 'Heard By';
+
+  @override
+  String get channelRepeats_none =>
+      'No repeaters have echoed this message yet.';
 
   @override
   String get listFilter_tooltip => '필터링 및 정렬';

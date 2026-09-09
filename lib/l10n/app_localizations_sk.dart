@@ -1757,6 +1757,9 @@ class AppLocalizationsSk extends AppLocalizations {
   String get chat_path => 'Cesta';
 
   @override
+  String get chat_repeats => 'Repeats';
+
+  @override
   String get chat_publicKey => 'Verejný kľúč';
 
   @override
@@ -2531,14 +2534,6 @@ class AppLocalizationsSk extends AppLocalizations {
   String get repeater_advertisementSettings => 'Nastavenia reklamy';
 
   @override
-  String get repeater_localAdvertInterval => 'Lokálna reklamná časová obdoba';
-
-  @override
-  String repeater_localAdvertIntervalMinutes(int minutes) {
-    return '$minutes minút';
-  }
-
-  @override
   String get repeater_floodAdvertInterval =>
       'Interval reklamnej povodňovej reklamy';
 
@@ -2944,10 +2939,6 @@ class AppLocalizationsSk extends AppLocalizations {
   @override
   String get repeater_cliHelpSetMultiAcks =>
       'Povolí alebo pozastaví funkciiu \"dvojité potvrdenia\".';
-
-  @override
-  String get repeater_cliHelpSetAdvertInterval =>
-      'Nastavuje interval časovača v minútach na odošle miestny (bezprostredný) reklamný paket. Nastavenie na 0 vypne funkciu.';
 
   @override
   String get repeater_cliHelpSetFloodAdvertInterval =>
@@ -3729,6 +3720,16 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => 'Neznáme opakovače';
+
+  @override
+  String get channelRepeats_title => 'Message Repeats';
+
+  @override
+  String get channelRepeats_heardBy => 'Heard By';
+
+  @override
+  String get channelRepeats_none =>
+      'No repeaters have echoed this message yet.';
 
   @override
   String get listFilter_tooltip => 'Filtrovať a triediť';
