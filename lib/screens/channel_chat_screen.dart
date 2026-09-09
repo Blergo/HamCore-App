@@ -652,7 +652,9 @@ class _ChannelChatScreenState extends State<ChannelChatScreen> {
                               ),
                             ],
                           ),
-                        if (enableTracing && displayPath.isNotEmpty) ...[
+                        if (enableTracing &&
+                            !isOutgoing &&
+                            displayPath.isNotEmpty) ...[
                           const SizedBox(height: 3),
                           Padding(
                             padding: gifId != null
