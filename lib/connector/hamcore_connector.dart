@@ -6691,11 +6691,15 @@ class HamCoreConnector extends ChangeNotifier {
     // window needs to be a bit wider than the plain cross-peer one, but
     // repeats are only ever heard directly, not relayed multiple hops deep,
     // so it doesn't need to be huge either.
+    // Only the incoming copy's claimed sender name proves anything here -
+    // existing.senderName is always selfName for a message we sent, so
+    // checking it would be tautological and let any identical-text message
+    // from a different sender masquerade as our own echo.
     final selfName = _selfName ?? 'Me';
     final isSelfEcho =
         existing.isOutgoing &&
         !incoming.isOutgoing &&
-        (incoming.senderName == selfName || existing.senderName == selfName);
+        incoming.senderName == selfName;
 
     final windowMs = isSelfEcho ? 60 * 1000 : 30000;
     final diffMs =

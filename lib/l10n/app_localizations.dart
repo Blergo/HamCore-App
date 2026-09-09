@@ -3208,6 +3208,12 @@ abstract class AppLocalizations {
   /// **'Path'**
   String get chat_path;
 
+  /// No description provided for @chat_repeats.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats'**
+  String get chat_repeats;
+
   /// No description provided for @chat_publicKey.
   ///
   /// In en, this message translates to:
@@ -6505,6 +6511,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown Repeater'**
   String get channelPath_unknownRepeater;
+
+  /// No description provided for @channelRepeats_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Message Repeats'**
+  String get channelRepeats_title;
+
+  /// No description provided for @channelRepeats_heardBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Heard By'**
+  String get channelRepeats_heardBy;
+
+  /// No description provided for @channelRepeats_none.
+  ///
+  /// In en, this message translates to:
+  /// **'No repeaters have echoed this message yet.'**
+  String get channelRepeats_none;
 
   /// No description provided for @listFilter_tooltip.
   ///

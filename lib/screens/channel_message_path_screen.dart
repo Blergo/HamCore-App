@@ -9,7 +9,6 @@ import 'package:hamcore/screens/path_trace_map.dart';
 import 'package:provider/provider.dart';
 
 import '../connector/hamcore_connector.dart';
-import '../helpers/path_hop_resolver.dart';
 import '../services/map_tile_cache_service.dart';
 import '../services/app_settings_service.dart';
 import '../l10n/app_localizations.dart';
@@ -22,6 +21,7 @@ import '../models/path_playback.dart';
 import '../theme/mesh_theme.dart';
 import '../widgets/adaptive_app_bar_title.dart';
 import '../widgets/mesh_ui.dart';
+import '../widgets/path_hop_timeline.dart';
 import '../widgets/path_map_ui.dart';
 
 class ChannelMessagePathScreen extends StatelessWidget {
@@ -52,7 +52,7 @@ class ChannelMessagePathScreen extends StatelessWidget {
           hashByteWidth,
           reverse: !channelMessage && !message.isOutgoing,
         );
-        final hops = _buildPathHops(
+        final hops = buildPathHops(
           primaryPath,
           connector,
           l10n,
@@ -138,7 +138,7 @@ class ChannelMessagePathScreen extends StatelessWidget {
                 if (!hasHopDetails)
                   _buildNoHopCard(context, l10n)
                 else
-                  _buildHopTimeline(context, hops, l10n),
+                  buildHopTimeline(context, hops, l10n),
                 const SizedBox(height: 16),
               ],
             ),
@@ -249,9 +249,8 @@ class ChannelMessagePathScreen extends StatelessWidget {
                             l10n,
                           ),
                         ),
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: Theme.of(context).textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 2),
                       Text(
@@ -290,134 +289,6 @@ class ChannelMessagePathScreen extends StatelessWidget {
             child: Text(
               l10n.channelPath_noHopDetails,
               style: TextStyle(color: scheme.onSurfaceVariant),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHopTimeline(
-    BuildContext context,
-    List<_PathHop> hops,
-    AppLocalizations l10n,
-  ) {
-    if (hops.isEmpty) return const SizedBox.shrink();
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          for (int i = 0; i < hops.length; i++)
-            ListEntrance(
-              index: i,
-              child: _buildTimelineNode(
-                context,
-                hops[i],
-                l10n,
-                isLast: i == hops.length - 1,
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTimelineNode(
-    BuildContext context,
-    _PathHop hop,
-    AppLocalizations l10n, {
-    required bool isLast,
-  }) {
-    final scheme = Theme.of(context).colorScheme;
-    final hexPrefix = _formatPrefix(hop.prefix);
-    final locationText = hop.hasLocation
-        ? '${hop.position!.latitude.toStringAsFixed(5)}, '
-              '${hop.position!.longitude.toStringAsFixed(5)}'
-        : l10n.channelPath_noLocationData;
-
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(
-            width: 48,
-            child: Column(
-              children: [
-                Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    AvatarCircle(name: hop.displayLabel, size: 36),
-                    Positioned(
-                      right: -4,
-                      top: -4,
-                      child: Container(
-                        width: 18,
-                        height: 18,
-                        decoration: BoxDecoration(
-                          color: MeshPalette.blueDim,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: scheme.surfaceContainerLow,
-                            width: 1.5,
-                          ),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          hop.index.toString(),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 9,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                if (!isLast)
-                  Expanded(
-                    child: Container(
-                      width: 2,
-                      margin: const EdgeInsets.symmetric(vertical: 4),
-                      color: MeshPalette.blueLine,
-                    ),
-                  )
-                else
-                  const SizedBox(height: 12),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 16, top: 4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    hop.displayLabel,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    hexPrefix,
-                    style: MeshTheme.mono(
-                      fontSize: 11,
-                      color: scheme.onSurfaceVariant,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    locationText,
-                    style: MeshTheme.mono(
-                      fontSize: 11,
-                      color: scheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
-              ),
             ),
           ),
         ],
@@ -600,7 +471,7 @@ class _ChannelMessagePathMapScreenState
     required int index,
     required bool isPrimary,
     required Uint8List orientedBytes,
-    required List<_PathHop> hops,
+    required List<PathHop> hops,
     required HamCoreConnector connector,
   }) {
     final l10n = context.l10n;
@@ -635,7 +506,7 @@ class _ChannelMessagePathMapScreenState
       }
       locatedHops++;
       points.add(hop.position!);
-      labels.add(hop.contact?.name ?? _formatPrefix(hop.prefix));
+      labels.add(hop.contact?.name ?? formatPrefix(hop.prefix));
       confirmed.add(true);
       rowIdx.add(i);
       gapBefore.add(pendingGap);
@@ -745,7 +616,7 @@ class _ChannelMessagePathMapScreenState
     return totalDistance;
   }
 
-  void _focusHop(_PathHop hop) {
+  void _focusHop(PathHop hop) {
     if (!hop.hasLocation) return;
     final targetZoom = _didReceivePositionUpdate
         ? max(_mapController.camera.zoom, 10.0)
@@ -753,7 +624,7 @@ class _ChannelMessagePathMapScreenState
     _mapController.move(hop.position!, targetZoom);
   }
 
-  void _onHopTapped(_PathHop hop) {
+  void _onHopTapped(PathHop hop) {
     _focusHop(hop);
     if (!mounted) return;
     setState(() {
@@ -857,7 +728,7 @@ class _ChannelMessagePathMapScreenState
         // Match on the unoriented bytes — observedPaths stores them as
         // recorded, while selectedPath may be reversed for display.
         final selectedIndex = _indexForPath(selectedPathTmp, observedPaths);
-        final hops = _buildPathHops(
+        final hops = buildPathHops(
           selectedPath,
           connector,
           context.l10n,
@@ -871,7 +742,7 @@ class _ChannelMessagePathMapScreenState
           final oriented = _orientPath(observedPaths[i].pathBytes, width);
           final pathHops = i == selectedIndex
               ? hops
-              : _buildPathHops(
+              : buildPathHops(
                   oriented,
                   connector,
                   context.l10n,
@@ -1199,7 +1070,7 @@ class _ChannelMessagePathMapScreenState
   }
 
   List<Marker> _buildHopMarkers(
-    List<_PathHop> hops, {
+    List<PathHop> hops, {
     required bool showLabels,
   }) {
     final markers = <Marker>[];
@@ -1244,7 +1115,7 @@ class _ChannelMessagePathMapScreenState
         markers.add(
           _buildNodeLabelMarker(
             point: point,
-            label: hop.contact?.name ?? _formatPrefix(hop.prefix),
+            label: hop.contact?.name ?? formatPrefix(hop.prefix),
           ),
         );
       }
@@ -1330,7 +1201,7 @@ class _ChannelMessagePathMapScreenState
     for (final node in nodes.values) {
       final hop = node.hop;
       final point = hop.position!;
-      final label = _formatPrefix(hop.prefix);
+      final label = formatPrefix(hop.prefix);
       final shared = node.paths.length > 1;
 
       markers.add(
@@ -1341,7 +1212,7 @@ class _ChannelMessagePathMapScreenState
           child: GestureDetector(
             onTap: () => showSharedNodeSheet(
               context,
-              title: '$label: ${_resolveName(hop.contact, context.l10n)}',
+              title: '$label: ${resolveHopName(hop.contact, context.l10n)}',
               paths: node.paths,
               onSelect: (display) {
                 for (final entry in visibleEntries) {
@@ -1471,7 +1342,7 @@ class _ChannelMessagePathMapScreenState
 
   Widget _buildLegendCard(
     BuildContext context,
-    List<_PathHop> hops,
+    List<PathHop> hops,
     bool isImperial, {
     required List<_ObservedPathEntry> entries,
     required _ObservedPathEntry? selectedEntry,
@@ -1652,7 +1523,7 @@ class _ChannelMessagePathMapScreenState
   }
 
   Widget _buildHopListView(
-    List<_PathHop> hops,
+    List<PathHop> hops,
     DisplayPath? selectedDisplay,
     Map<int, int> hopUseCount,
   ) {
@@ -1763,7 +1634,7 @@ class _ObservedPathEntry {
   final int index;
   final Uint8List observedBytes;
   final DisplayPath display;
-  final List<_PathHop> hops;
+  final List<PathHop> hops;
 
   const _ObservedPathEntry({
     required this.index,
@@ -1775,40 +1646,10 @@ class _ObservedPathEntry {
 
 /// A located hop shared across one or more visible paths.
 class _SharedNode {
-  final _PathHop hop;
+  final PathHop hop;
   final List<DisplayPath> paths = [];
 
   _SharedNode(this.hop);
-}
-
-class _PathHop {
-  final int index;
-  final int prefix;
-  final Contact? contact;
-  final LatLng? position;
-  final AppLocalizations l10n;
-  final Uint8List? hopBytes;
-
-  const _PathHop({
-    required this.index,
-    required this.prefix,
-    required this.contact,
-    required this.position,
-    required this.l10n,
-    this.hopBytes,
-  });
-
-  bool get hasLocation => position != null;
-
-  String get displayLabel {
-    final prefixLabel = hopBytes != null && hopBytes!.isNotEmpty
-        ? hopBytes!
-              .map((b) => b.toRadixString(16).padLeft(2, '0'))
-              .join('')
-              .toUpperCase()
-        : _formatPrefix(prefix);
-    return '($prefixLabel) ${_resolveName(contact, l10n)}';
-  }
 }
 
 class _ObservedPath {
@@ -1816,60 +1657,6 @@ class _ObservedPath {
   final bool isPrimary;
 
   const _ObservedPath({required this.pathBytes, required this.isPrimary});
-}
-
-List<_PathHop> _buildPathHops(
-  Uint8List pathBytes,
-  HamCoreConnector connector,
-  AppLocalizations l10n,
-  int hashByteWidth, {
-  bool resolveFromEnd = false,
-}) {
-  if (pathBytes.isEmpty) return const [];
-  final width = hashByteWidth.clamp(1, 4).toInt();
-  final endpoint =
-      (connector.selfLatitude != null && connector.selfLongitude != null)
-      ? LatLng(connector.selfLatitude!, connector.selfLongitude!)
-      : null;
-  final resolvedContacts = PathHopResolver.resolve(
-    pathBytes: pathBytes,
-    contacts: connector.allContacts,
-    endpoint: endpoint,
-    resolveFromEnd: resolveFromEnd,
-    pathHashByteWidth: width,
-  );
-
-  final hopChunks = PathHelper.splitPathBytes(pathBytes, width);
-  final hops = <_PathHop>[];
-  for (var i = 0; i < hopChunks.length; i++) {
-    final hopBytes = hopChunks[i];
-    final contact = i < resolvedContacts.length ? resolvedContacts[i] : null;
-    final resolvedPosition = _resolvePosition(contact);
-    hops.add(
-      _PathHop(
-        index: i + 1,
-        prefix: hopBytes.isNotEmpty ? hopBytes[0] : 0,
-        contact: contact,
-        position: resolvedPosition,
-        l10n: l10n,
-        hopBytes: hopBytes,
-      ),
-    );
-  }
-  return hops;
-}
-
-LatLng? _resolvePosition(Contact? contact) {
-  if (contact == null) return null;
-  if (!contact.hasLocation) return null;
-  final latitude = contact.latitude;
-  final longitude = contact.longitude;
-  if (latitude == null || longitude == null) return null;
-  return LatLng(latitude, longitude);
-}
-
-String _formatPrefix(int prefix) {
-  return prefix.toRadixString(16).padLeft(2, '0').toUpperCase();
 }
 
 String _formatPathPrefixes(Uint8List pathBytes, int hashByteWidth) {
@@ -1901,15 +1688,6 @@ String _formatHopCount(
   AppLocalizations l10n,
 ) {
   return l10n.chat_hopsCount(_hopCountFromBytes(byteCount, hashByteWidth));
-}
-
-String _resolveName(Contact? contact, AppLocalizations l10n) {
-  if (contact == null) return l10n.channelPath_unknownRepeater;
-  final name = contact.name.trim();
-  if (name.isEmpty || name.toLowerCase() == 'unknown') {
-    return l10n.channelPath_unknownRepeater;
-  }
-  return name;
 }
 
 Uint8List _selectPrimaryPath(Uint8List pathBytes, List<Uint8List> variants) {

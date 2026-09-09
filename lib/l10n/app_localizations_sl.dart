@@ -1752,6 +1752,9 @@ class AppLocalizationsSl extends AppLocalizations {
   String get chat_path => 'Pot';
 
   @override
+  String get chat_repeats => 'Repeats';
+
+  @override
   String get chat_publicKey => 'Ključ javnega tipa';
 
   @override
@@ -3715,6 +3718,16 @@ class AppLocalizationsSl extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => 'Nepoznati ponovitelj';
+
+  @override
+  String get channelRepeats_title => 'Message Repeats';
+
+  @override
+  String get channelRepeats_heardBy => 'Heard By';
+
+  @override
+  String get channelRepeats_none =>
+      'No repeaters have echoed this message yet.';
 
   @override
   String get listFilter_tooltip => 'Filtri in vrstiči';

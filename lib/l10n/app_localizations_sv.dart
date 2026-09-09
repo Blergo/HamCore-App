@@ -1744,6 +1744,9 @@ class AppLocalizationsSv extends AppLocalizations {
   String get chat_path => 'Sökväg';
 
   @override
+  String get chat_repeats => 'Repeats';
+
+  @override
   String get chat_publicKey => 'Allmänt nyckel';
 
   @override
@@ -3692,6 +3695,16 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => 'Okänt Upprepare';
+
+  @override
+  String get channelRepeats_title => 'Message Repeats';
+
+  @override
+  String get channelRepeats_heardBy => 'Heard By';
+
+  @override
+  String get channelRepeats_none =>
+      'No repeaters have echoed this message yet.';
 
   @override
   String get listFilter_tooltip => 'Filtrera och sortera';

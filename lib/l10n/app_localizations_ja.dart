@@ -1686,6 +1686,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get chat_path => '道';
 
   @override
+  String get chat_repeats => 'Repeats';
+
+  @override
   String get chat_publicKey => '公開鍵';
 
   @override
@@ -3541,6 +3544,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => '不明な増幅機';
+
+  @override
+  String get channelRepeats_title => 'Message Repeats';
+
+  @override
+  String get channelRepeats_heardBy => 'Heard By';
+
+  @override
+  String get channelRepeats_none =>
+      'No repeaters have echoed this message yet.';
 
   @override
   String get listFilter_tooltip => 'フィルタリングと並べ替え';

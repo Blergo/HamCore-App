@@ -1690,6 +1690,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get chat_path => '경로';
 
   @override
+  String get chat_repeats => 'Repeats';
+
+  @override
   String get chat_publicKey => '공개 키';
 
   @override
@@ -3551,6 +3554,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get channelPath_unknownRepeater => '알 수 없는 중계기';
+
+  @override
+  String get channelRepeats_title => 'Message Repeats';
+
+  @override
+  String get channelRepeats_heardBy => 'Heard By';
+
+  @override
+  String get channelRepeats_none =>
+      'No repeaters have echoed this message yet.';
 
   @override
   String get listFilter_tooltip => '필터링 및 정렬';
