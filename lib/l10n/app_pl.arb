@@ -1102,15 +1102,6 @@
   "repeater_privacyMode": "Tryb prywatności",
   "repeater_privacyModeSubtitle": "Ukryj imię/lokalizację w rozgłoszeniach",
   "repeater_advertisementSettings": "Ustawienia rozgłoszeń",
-  "repeater_localAdvertInterval": "Interwał rozgłoszenia lokalnego",
-  "repeater_localAdvertIntervalMinutes": "{minutes} minut",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "Interwał rozgłoszenia zalewowego",
   "repeater_floodAdvertIntervalHours": "{hours} godzin",
   "@repeater_floodAdvertIntervalHours": {
@@ -1293,7 +1284,6 @@
   "repeater_cliHelpSetIntThresh": "Ustawia Próg Interferencji (w dB). Domyślnie wynosi 14. Ustaw na 0, aby wyłączyć wykrywanie zakłóceń kanału.",
   "repeater_cliHelpSetAgcResetInterval": "Ustawia interwał do zresetowania automatycznego wzmocnienia (AGC). Ustaw na 0, aby wyłączyć.",
   "repeater_cliHelpSetMultiAcks": "Włącza lub wyłącza funkcję 'podwójnych potwierdzeń'.",
-  "repeater_cliHelpSetAdvertInterval": "Ustawia interwał timera w minutach do wysyłania pakietu rozgłoszenia lokalnego (bezpośredniego). Ustaw na 0, aby wyłączyć.",
   "repeater_cliHelpSetFloodAdvertInterval": "Ustawia interwał timera w godzinach do wysłania pakietu rozgłoszeniowego typu \"flood\". Ustaw na 0, aby wyłączyć.",
   "repeater_cliHelpSetGuestPassword": "Ustawia/aktualizuje hasło gościa. (dla przekaźników loginy gości mogą wysyłać żądanie \"Get Stats\")",
   "repeater_cliHelpSetName": "Ustawia nazwę rozgłoszenia.",

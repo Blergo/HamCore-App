@@ -2442,14 +2442,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get repeater_advertisementSettings => '広告設定';
 
   @override
-  String get repeater_localAdvertInterval => '地域広告掲載期間';
-
-  @override
-  String repeater_localAdvertIntervalMinutes(int minutes) {
-    return '$minutes 分';
-  }
-
-  @override
   String get repeater_floodAdvertInterval => 'フラッドに関する広告の表示間隔';
 
   @override
@@ -2827,10 +2819,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get repeater_cliHelpSetMultiAcks => '「ダブルACK」機能の有効化または無効化を可能にします。';
-
-  @override
-  String get repeater_cliHelpSetAdvertInterval =>
-      'ローカル（ホップなし）の広告パケットを送信する間隔を分単位で設定します。 0 に設定すると、機能を無効にします。';
 
   @override
   String get repeater_cliHelpSetFloodAdvertInterval =>

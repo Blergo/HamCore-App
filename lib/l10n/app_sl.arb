@@ -1092,15 +1092,6 @@
   "repeater_privacyMode": "Privatni način",
   "repeater_privacyModeSubtitle": "Skrita imena/lokacije v oglasih",
   "repeater_advertisementSettings": "Nastavitve oglasnika",
-  "repeater_localAdvertInterval": "Lokalen Oglasovni Razpon",
-  "repeater_localAdvertIntervalMinutes": "{minutes} minut",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "Razpon Obvestil o Poplavah",
   "repeater_floodAdvertIntervalHours": "{hours} ur",
   "@repeater_floodAdvertIntervalHours": {
@@ -1283,7 +1274,6 @@
   "repeater_cliHelpSetIntThresh": "Nastavi Prag Interferencij (v dB). Privzeto je 14. Nastavi na 0 za onemogočitev zaznavanja interferenc kanalov.",
   "repeater_cliHelpSetAgcResetInterval": "Nastavi časovno razdaljo za ponovni zagon nadzornika Avtomatske uteži. Nastavi na 0 za onemogočanje.",
   "repeater_cliHelpSetMultiAcks": "Omogoči ali onemogoči funkcijo \"dvojakih potrdil\".",
-  "repeater_cliHelpSetAdvertInterval": "Nastavi časovno obmesto v minutah za pošiljanje lokalnega (brezposrednega) napovednega paketa. Nastavi na 0 za onemogočiti.",
   "repeater_cliHelpSetFloodAdvertInterval": "Nastavi časovno obmesto v urah za pošiljanje plovilnega oglasnega paketa. Nastavi na 0 za onemogočanje.",
   "repeater_cliHelpSetGuestPassword": "Nastavi/posodobi geslo gosta. (za ponovitve lahko gostov prijavi pošiljajo zahtevo \"Get Stats\")",
   "repeater_cliHelpSetName": "Nastavi ime oglasnika.",

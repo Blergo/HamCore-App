@@ -4586,18 +4586,6 @@ abstract class AppLocalizations {
   /// **'Advertisement Settings'**
   String get repeater_advertisementSettings;
 
-  /// No description provided for @repeater_localAdvertInterval.
-  ///
-  /// In en, this message translates to:
-  /// **'Local Advertisement Interval'**
-  String get repeater_localAdvertInterval;
-
-  /// No description provided for @repeater_localAdvertIntervalMinutes.
-  ///
-  /// In en, this message translates to:
-  /// **'{minutes} minutes'**
-  String repeater_localAdvertIntervalMinutes(int minutes);
-
   /// No description provided for @repeater_floodAdvertInterval.
   ///
   /// In en, this message translates to:
@@ -5281,12 +5269,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enables or disables the \'double ACKs\' feature.'**
   String get repeater_cliHelpSetMultiAcks;
-
-  /// No description provided for @repeater_cliHelpSetAdvertInterval.
-  ///
-  /// In en, this message translates to:
-  /// **'Sets the timer interval in minutes to send a local (zero-hop) advertisement packet. Set to 0 to disable.'**
-  String get repeater_cliHelpSetAdvertInterval;
 
   /// No description provided for @repeater_cliHelpSetFloodAdvertInterval.
   ///

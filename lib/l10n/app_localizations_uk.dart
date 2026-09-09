@@ -2545,15 +2545,6 @@ class AppLocalizationsUk extends AppLocalizations {
   String get repeater_advertisementSettings => 'Налаштування оголошень';
 
   @override
-  String get repeater_localAdvertInterval =>
-      'Інтервал локальних оголошень (без ретрансляції)';
-
-  @override
-  String repeater_localAdvertIntervalMinutes(int minutes) {
-    return '$minutes хвилин';
-  }
-
-  @override
   String get repeater_floodAdvertInterval =>
       'Інтервал оголошень через всю мережу (flood)';
 
@@ -2960,10 +2951,6 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get repeater_cliHelpSetMultiAcks =>
       'Вмикає або вимикає функціональність подвійних ACK.';
-
-  @override
-  String get repeater_cliHelpSetAdvertInterval =>
-      'Встановлює інтервал таймера для надсилання локального пакету оголошення (без ретрансляції). Встановіть 0 для вимкнення.';
 
   @override
   String get repeater_cliHelpSetFloodAdvertInterval =>

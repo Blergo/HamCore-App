@@ -1114,15 +1114,6 @@
   "repeater_privacyMode": "Privatsphärenmodus",
   "repeater_privacyModeSubtitle": "Name und Standort in Ankündigungen verbergen",
   "repeater_advertisementSettings": "Ankündigungseinstellungen",
-  "repeater_localAdvertInterval": "Lokales Ankündigungsintervall",
-  "repeater_localAdvertIntervalMinutes": "{minutes} Minuten",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "Flood-Ankündigungsintervall",
   "repeater_floodAdvertIntervalHours": "{hours} Stunden",
   "@repeater_floodAdvertIntervalHours": {
@@ -1305,7 +1296,6 @@
   "repeater_cliHelpSetIntThresh": "Legt den Interferenzeniveau (in dB) fest. Der Standardwert ist 14. Auf 0 setzen, um die Erkennung von Kanalinterferenzen zu deaktivieren.",
   "repeater_cliHelpSetAgcResetInterval": "Legt das Intervall für das Zurücksetzen des Auto Gain Controllers fest. Auf 0 setzen, um die Funktion zu deaktivieren.",
   "repeater_cliHelpSetMultiAcks": "Aktiviert oder deaktiviert die Funktion 'Doppel-ACKs'.",
-  "repeater_cliHelpSetAdvertInterval": "Legt das Timer-Intervall in Minuten fest, um ein lokales (ohne-Weiterleitung) Ankündigungspaket zu senden. Auf 0 setzen, um die Funktion zu deaktivieren.",
   "repeater_cliHelpSetFloodAdvertInterval": "Legt das Timer-Intervall in Stunden für den Versand eines Flut-Ankündigungspacket fest. Auf 0 setzen, um es zu deaktivieren.",
   "repeater_cliHelpSetGuestPassword": "Legt/aktualisiert das Gastpasswort fest. (für Repeater können Gast-Logins die \"Get Stats\"-Anfrage senden)",
   "repeater_cliHelpSetName": "Legt den Anzeigenamen fest.",

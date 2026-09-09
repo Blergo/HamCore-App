@@ -2541,14 +2541,6 @@ class AppLocalizationsHu extends AppLocalizations {
   String get repeater_advertisementSettings => 'Reklámbeállítások';
 
   @override
-  String get repeater_localAdvertInterval => 'Helyi hirdetési intervallum';
-
-  @override
-  String repeater_localAdvertIntervalMinutes(int minutes) {
-    return '$minutes perc';
-  }
-
-  @override
   String get repeater_floodAdvertInterval => 'Árvízi hirdetési intervallum';
 
   @override
@@ -2952,10 +2944,6 @@ class AppLocalizationsHu extends AppLocalizations {
   @override
   String get repeater_cliHelpSetMultiAcks =>
       'Engedélyezi vagy letiltja a „dupla ACK” funkciót.';
-
-  @override
-  String get repeater_cliHelpSetAdvertInterval =>
-      'Beállítja a helyi (nulla ugrású) hirdetési csomag küldésének időzítési időközét percekben. A letiltáshoz állítsa 0-ra.';
 
   @override
   String get repeater_cliHelpSetFloodAdvertInterval =>

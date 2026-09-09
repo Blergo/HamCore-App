@@ -660,10 +660,6 @@ class _RepeaterCliScreenState extends State<RepeaterCliScreen> {
         description: l10n.repeater_cliHelpSetMultiAcks,
       ),
       _CommandHelpEntry(
-        command: 'set advert.interval {minutes}',
-        description: l10n.repeater_cliHelpSetAdvertInterval,
-      ),
-      _CommandHelpEntry(
         command: 'set flood.advert.interval {hours}',
         description: l10n.repeater_cliHelpSetFloodAdvertInterval,
       ),

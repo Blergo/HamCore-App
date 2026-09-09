@@ -1399,15 +1399,6 @@
   "repeater_privacyMode": "Privacy Mode",
   "repeater_privacyModeSubtitle": "Hide name/location in advertisements",
   "repeater_advertisementSettings": "Advertisement Settings",
-  "repeater_localAdvertInterval": "Local Advertisement Interval",
-  "repeater_localAdvertIntervalMinutes": "{minutes} minutes",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "Flood Advertisement Interval",
   "repeater_floodAdvertIntervalHours": "{hours} hours",
   "@repeater_floodAdvertIntervalHours": {
@@ -1609,7 +1600,6 @@
   "repeater_cliHelpSetIntThresh": "Sets the Interference Threshold (in DB). Default is 14. Set to 0 to disable channel interference detection.",
   "repeater_cliHelpSetAgcResetInterval": "Sets the interval to reset the Auto Gain Controller. Set to 0 to disable.",
   "repeater_cliHelpSetMultiAcks": "Enables or disables the 'double ACKs' feature.",
-  "repeater_cliHelpSetAdvertInterval": "Sets the timer interval in minutes to send a local (zero-hop) advertisement packet. Set to 0 to disable.",
   "repeater_cliHelpSetFloodAdvertInterval": "Sets the timer interval in hours to send a flood advertisement packet. Set to 0 to disable.",
   "repeater_cliHelpSetGuestPassword": "Sets/updates the guest password. (for repeaters, guest logins can send the \"Get Stats\" request)",
   "repeater_cliHelpSetName": "Sets the advertisement name.",

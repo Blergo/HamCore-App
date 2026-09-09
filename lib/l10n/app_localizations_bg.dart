@@ -2553,14 +2553,6 @@ class AppLocalizationsBg extends AppLocalizations {
   String get repeater_advertisementSettings => 'Настройки на рекламите';
 
   @override
-  String get repeater_localAdvertInterval => 'Интервал на местната реклама';
-
-  @override
-  String repeater_localAdvertIntervalMinutes(int minutes) {
-    return '$minutes минути';
-  }
-
-  @override
   String get repeater_floodAdvertInterval =>
       'Интервал на рекламата за наводняване';
 
@@ -2967,10 +2959,6 @@ class AppLocalizationsBg extends AppLocalizations {
   @override
   String get repeater_cliHelpSetMultiAcks =>
       'Активира или деактивира функцията \'двойни ACKs\'.';
-
-  @override
-  String get repeater_cliHelpSetAdvertInterval =>
-      'Задава интервала на таймера в минути за изпращане на локален (безпроблемен) рекламен пакет. Задайте на 0, за да го деактивирате.';
 
   @override
   String get repeater_cliHelpSetFloodAdvertInterval =>

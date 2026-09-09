@@ -1092,15 +1092,6 @@
   "repeater_privacyMode": "Режим на поверителност",
   "repeater_privacyModeSubtitle": "Скриване на име/местоположение в рекламите",
   "repeater_advertisementSettings": "Настройки на рекламите",
-  "repeater_localAdvertInterval": "Интервал на местната реклама",
-  "repeater_localAdvertIntervalMinutes": "{minutes} минути",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "Интервал на рекламата за наводняване",
   "repeater_floodAdvertIntervalHours": "{hours} часа",
   "@repeater_floodAdvertIntervalHours": {
@@ -1283,7 +1274,6 @@
   "repeater_cliHelpSetIntThresh": "Задава праг на интерференцията (в dB). По подразбиране е 14. Задайте на 0, за да деактивирате откриването на интерференция на каналите.",
   "repeater_cliHelpSetAgcResetInterval": "Задава интервала за рестартиране на Автоматичния контролер за усилване. Задайте на 0, за да го деактивирате.",
   "repeater_cliHelpSetMultiAcks": "Активира или деактивира функцията 'двойни ACKs'.",
-  "repeater_cliHelpSetAdvertInterval": "Задава интервала на таймера в минути за изпращане на локален (безпроблемен) рекламен пакет. Задайте на 0, за да го деактивирате.",
   "repeater_cliHelpSetFloodAdvertInterval": "Задава интервала на таймера в часове за изпращане на пакет с реклама за наводнение. Задайте на 0, за да го деактивирате.",
   "repeater_cliHelpSetGuestPassword": "Задава/обновява паролата на гост. (за повторители, гостите могат да изпращат заявката \"Get Stats\")",
   "repeater_cliHelpSetName": "Задава име на обявата.",

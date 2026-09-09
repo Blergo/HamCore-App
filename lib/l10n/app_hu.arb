@@ -1274,15 +1274,6 @@
   "repeater_privacyMode": "Adatvédelmi mód",
   "repeater_privacyModeSubtitle": "Név/hely elrejtése a hirdetésekben",
   "repeater_advertisementSettings": "Reklámbeállítások",
-  "repeater_localAdvertInterval": "Helyi hirdetési intervallum",
-  "repeater_localAdvertIntervalMinutes": "{minutes} perc",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "Árvízi hirdetési intervallum",
   "repeater_floodAdvertIntervalHours": "{hours} óra",
   "@repeater_floodAdvertIntervalHours": {
@@ -1465,7 +1456,6 @@
   "repeater_cliHelpSetIntThresh": "Beállítja az interferencia küszöböt (DB-ben). Az alapértelmezett érték 14. Állítsa 0-ra a csatornainterferencia-érzékelés letiltásához.",
   "repeater_cliHelpSetAgcResetInterval": "Beállítja az Auto Gain Controller alaphelyzetbe állításának intervallumát. A letiltáshoz állítsa 0-ra.",
   "repeater_cliHelpSetMultiAcks": "Engedélyezi vagy letiltja a „dupla ACK” funkciót.",
-  "repeater_cliHelpSetAdvertInterval": "Beállítja a helyi (nulla ugrású) hirdetési csomag küldésének időzítési időközét percekben. A letiltáshoz állítsa 0-ra.",
   "repeater_cliHelpSetFloodAdvertInterval": "Beállítja az időzítő intervallumát órákban az árvízhirdetési csomag küldéséhez. A letiltáshoz állítsa 0-ra.",
   "repeater_cliHelpSetGuestPassword": "Beállítja/frissíti a vendég jelszavát. (Repeaterek esetén a vendégbejelentkezés elküldheti a \"Statisztikák lekérése\" kérést)",
   "repeater_cliHelpSetName": "Beállítja a hirdetés nevét.",

@@ -1114,15 +1114,6 @@
   "repeater_privacyMode": "Modo de privacidad",
   "repeater_privacyModeSubtitle": "Ocultar nombre/ubicación en anuncios",
   "repeater_advertisementSettings": "Ajustes de anuncios",
-  "repeater_localAdvertInterval": "Intervalo de anuncio local",
-  "repeater_localAdvertIntervalMinutes": "{minutes} minutos",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "Intervalo de anuncio por inundación",
   "repeater_floodAdvertIntervalHours": "{hours} horas",
   "@repeater_floodAdvertIntervalHours": {
@@ -1305,7 +1296,6 @@
   "repeater_cliHelpSetIntThresh": "Establece el Umbral de Interferencia (en dB). El valor predeterminado es 14. Establecerlo en 0 desactiva la detección de interferencias del canal.",
   "repeater_cliHelpSetAgcResetInterval": "Establece el intervalo para restablecer el Control Automático de Ganancia. Establecer en 0 para desactivarlo.",
   "repeater_cliHelpSetMultiAcks": "Habilita o deshabilita la función de 'ACKs dobles'.",
-  "repeater_cliHelpSetAdvertInterval": "Establece el intervalo del temporizador en minutos para enviar un paquete de anuncio local (sin salto). Establecer en 0 para desactivarlo.",
   "repeater_cliHelpSetFloodAdvertInterval": "Establece el intervalo del temporizador en horas para enviar un paquete de anuncio masivo. Establecer en 0 para desactivarlo.",
   "repeater_cliHelpSetGuestPassword": "Establece/actualiza la contraseña del invitado. (para repetidores, los inicios de sesión de invitado pueden enviar la solicitud \"Obtener Estadísticas\")",
   "repeater_cliHelpSetName": "Establece el nombre del anuncio.",

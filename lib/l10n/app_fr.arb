@@ -1114,15 +1114,6 @@
   "repeater_privacyMode": "Mode de confidentialité",
   "repeater_privacyModeSubtitle": "Masquer le nom et la localisation dans les annonces",
   "repeater_advertisementSettings": "Paramètres d'annonces",
-  "repeater_localAdvertInterval": "Intervalle des annonces Locale (0 saut)",
-  "repeater_localAdvertIntervalMinutes": "{minutes} minutes",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "Intervalle des annonces à tout le réseau (flood)",
   "repeater_floodAdvertIntervalHours": "{hours} heures",
   "@repeater_floodAdvertIntervalHours": {
@@ -1305,7 +1296,6 @@
   "repeater_cliHelpSetIntThresh": "Définit le seuil d'interférence (en dB). La valeur par défaut est de 14. Définir sur 0 désactive la détection des interférences de canal.",
   "repeater_cliHelpSetAgcResetInterval": "Définit l'intervalle pour réinitialiser le contrôleur de gain automatique. Mettez à 0 pour désactiver.",
   "repeater_cliHelpSetMultiAcks": "Active ou désactive la fonctionnalité « double ACKs ».",
-  "repeater_cliHelpSetAdvertInterval": "Définit l'intervalle entre chaque émission d'une annonce locale (sans relais). Définir sur 0 pour désactiver.",
   "repeater_cliHelpSetFloodAdvertInterval": "Définit l'intervalle du minuteur en heures pour envoyer un paquet d'annonce massive. Définir sur 0 pour désactiver.",
   "repeater_cliHelpSetGuestPassword": "Définit/met à jour le mot de passe de l'invité. (pour les répéteurs, les connexions d'invités peuvent envoyer la requête \"Get Stats\")",
   "repeater_cliHelpSetName": "Définit le nom de l'annonce.",

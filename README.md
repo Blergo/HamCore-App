@@ -16,3 +16,7 @@ Forked from [zjs81/meshcore-open](https://github.com/zjs81/meshcore-open) at com
 6. **Repeat Counting:** Fixed several bugs in channel message "heard repeats" counting caused by HamCore firmware sending plaintext payloads with a zeroed MAC field instead of encrypting them — raw-packet parsing, duplicate-send miscounting, dedup hash matching, and self-echo dropping.
 7. **RF Defaults:** Removed the ability to set path hash mode from both the companion device settings and repeater remote admin settings — HamCore firmware now fixes this at 3 bytes, so it's no longer a configurable option. The "get path.hash.mode" CLI reference is kept for querying the fixed value.
 8. **Radio Presets:** Replaced the full regional radio preset list (Australia, EU, Russia, USA, etc.) with a single UK 70cm preset (434.150 MHz, 62.5 kHz, SF8, CR 4/5). TX power is no longer part of a preset — it's a per-hardware-variant radio setting the firmware bounds and defaults on its own, not an RF band-plan characteristic.
+
+### v0.1.1
+
+1. **RF Defaults:** Removed the ability to set the local (zero-hop) advertisement interval from repeater remote admin settings — HamCore firmware now fixes this for compliance reasons, so it's no longer a configurable option. The "get advert.interval" CLI reference is kept for querying the fixed value. Flood advertisement interval remains configurable.

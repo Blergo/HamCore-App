@@ -45,7 +45,6 @@ enum _SettingField {
   dutyCycle,
   ownerInfo,
   floodMax,
-  advertInterval,
   floodAdvertInterval,
   prvKey,
   txDelay,
@@ -104,7 +103,6 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
   bool _refreshingLon = false;
   bool _refreshingLoopDetect = false;
   bool _refreshingDutyCycle = false;
-  bool _refreshingAdvertInterval = false;
   bool _refreshingFloodAdvertInterval = false;
   bool _refreshingFloodMax = false;
   bool _refreshingTxDelay = false;
@@ -144,8 +142,6 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
   bool _autoClockSyncAfterLogin = false;
 
   // Advertisement settings
-  bool _advertEnable = true;
-  int _advertInterval = 120; // minutes/2
   bool _floodAdvertEnable = true;
   int _floodAdvertInterval = 12; // hours
   int _floodMax = 64; // 0-64 hops
@@ -301,13 +297,6 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
         break;
       case 'allow.read.only':
         _allowReadOnly = _parseOnOff(value);
-        break;
-      case 'advert.interval':
-        final v = int.tryParse(value.trim());
-        if (v != null && v >= 0) {
-          _advertInterval = v;
-          _advertEnable = v > 0;
-        }
         break;
       case 'flood.advert.interval':
         final v = int.tryParse(value.trim());
@@ -586,15 +575,6 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
     );
   }
 
-  Future<void> _refreshAdvertInterval() async {
-    final l10n = context.l10n;
-    await _refreshSection(
-      label: l10n.repeater_localAdvertInterval,
-      commands: const ['get advert.interval'],
-      setRefreshing: (value) => _refreshingAdvertInterval = value,
-    );
-  }
-
   Future<void> _refreshFloodAdvertInterval() async {
     final l10n = context.l10n;
     await _refreshSection(
@@ -803,12 +783,6 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
         ));
       }
 
-      if (_dirtyFields.contains(_SettingField.advertInterval)) {
-        pending.add((
-          field: _SettingField.advertInterval,
-          command: 'set advert.interval $_advertInterval',
-        ));
-      }
       if (_dirtyFields.contains(_SettingField.floodAdvertInterval)) {
         pending.add((
           field: _SettingField.floodAdvertInterval,
@@ -1501,65 +1475,6 @@ class _RepeaterSettingsScreenState extends State<RepeaterSettingsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: ListTile(
-                      title: Text(l10n.repeater_localAdvertInterval),
-                      subtitle: Text(
-                        l10n.repeater_localAdvertIntervalMinutes(
-                          _advertInterval,
-                        ),
-                      ),
-                      trailing: Switch(
-                        value: _advertEnable,
-                        onChanged: (value) {
-                          setState(() {
-                            _advertInterval = value ? 60 : 0;
-                            _advertEnable = value;
-                          });
-                          _markChanged(_SettingField.advertInterval);
-                        },
-                      ),
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                  ),
-                  IconButton(
-                    icon: _refreshingAdvertInterval
-                        ? const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.refresh, size: 20),
-                    onPressed: _refreshingAdvertInterval
-                        ? null
-                        : _refreshAdvertInterval,
-                    tooltip: l10n.repeater_localAdvertInterval,
-                    visualDensity: VisualDensity.compact,
-                  ),
-                ],
-              ),
-              Slider(
-                value: _advertInterval == 0
-                    ? 60.toDouble()
-                    : _advertInterval.toDouble(),
-                min: 60,
-                max: 240,
-                divisions: 18,
-                label: l10n.repeater_localAdvertIntervalMinutes(
-                  _advertInterval,
-                ),
-                onChanged: _advertEnable
-                    ? (value) {
-                        setState(() {
-                          _advertInterval = value.toInt();
-                        });
-                        _markChanged(_SettingField.advertInterval);
-                      }
-                    : null,
-              ),
-              const SizedBox(height: 8),
               Row(
                 children: [
                   Expanded(

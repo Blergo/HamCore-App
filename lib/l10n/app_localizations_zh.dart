@@ -2419,14 +2419,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get repeater_advertisementSettings => '广播设置';
 
   @override
-  String get repeater_localAdvertInterval => '本地广播间隔';
-
-  @override
-  String repeater_localAdvertIntervalMinutes(int minutes) {
-    return '$minutes 分钟';
-  }
-
-  @override
   String get repeater_floodAdvertInterval => '泛洪广播间隔';
 
   @override
@@ -2796,9 +2788,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get repeater_cliHelpSetMultiAcks => '启用或禁用“多重确认”功能';
-
-  @override
-  String get repeater_cliHelpSetAdvertInterval => '设置本地广播间隔（分钟），设为0禁用';
 
   @override
   String get repeater_cliHelpSetFloodAdvertInterval => '设置泛洪广播间隔（小时），设为0禁用';

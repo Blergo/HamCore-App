@@ -1274,15 +1274,6 @@
   "repeater_privacyMode": "개인 정보 보호 모드",
   "repeater_privacyModeSubtitle": "광고에 이름/위치 정보 숨기기",
   "repeater_advertisementSettings": "광고 설정",
-  "repeater_localAdvertInterval": "지역 광고 시간 간격",
-  "repeater_localAdvertIntervalMinutes": "{minutes} 분",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "홍수 광고 간격",
   "repeater_floodAdvertIntervalHours": "{hours} 시간",
   "@repeater_floodAdvertIntervalHours": {
@@ -1465,7 +1456,6 @@
   "repeater_cliHelpSetIntThresh": "간섭 임계값을 설정합니다 (dB 단위). 기본값은 14입니다. 0으로 설정하면 채널 간섭 감지 기능을 비활성화합니다.",
   "repeater_cliHelpSetAgcResetInterval": "자동 게인 제어기를 재설정하는 간격을 설정합니다. 0으로 설정하면 비활성화됩니다.",
   "repeater_cliHelpSetMultiAcks": "'더블 ACK' 기능을 활성화하거나 비활성화할 수 있습니다.",
-  "repeater_cliHelpSetAdvertInterval": "로컬 (제로 홉) 광고 패킷을 전송하는 간격 (분 단위)을 설정합니다. 0으로 설정하면 비활성화됩니다.",
   "repeater_cliHelpSetFloodAdvertInterval": "시간 단위로 광고 패킷을 전송하는 간격을 설정합니다. 0으로 설정하면 비활성화됩니다.",
   "repeater_cliHelpSetGuestPassword": "게스트 비밀번호를 설정하거나 업데이트합니다. (반복 사용자, 게스트 로그인 시 \"통계 가져오기\" 요청을 보낼 수 있음)",
   "repeater_cliHelpSetName": "광고 이름을 설정합니다.",

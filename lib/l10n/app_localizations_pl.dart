@@ -2562,14 +2562,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get repeater_advertisementSettings => 'Ustawienia rozgłoszeń';
 
   @override
-  String get repeater_localAdvertInterval => 'Interwał rozgłoszenia lokalnego';
-
-  @override
-  String repeater_localAdvertIntervalMinutes(int minutes) {
-    return '$minutes minut';
-  }
-
-  @override
   String get repeater_floodAdvertInterval => 'Interwał rozgłoszenia zalewowego';
 
   @override
@@ -2975,10 +2967,6 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get repeater_cliHelpSetMultiAcks =>
       'Włącza lub wyłącza funkcję \'podwójnych potwierdzeń\'.';
-
-  @override
-  String get repeater_cliHelpSetAdvertInterval =>
-      'Ustawia interwał timera w minutach do wysyłania pakietu rozgłoszenia lokalnego (bezpośredniego). Ustaw na 0, aby wyłączyć.';
 
   @override
   String get repeater_cliHelpSetFloodAdvertInterval =>

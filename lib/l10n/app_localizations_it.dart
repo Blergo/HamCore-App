@@ -2548,14 +2548,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get repeater_advertisementSettings => 'Impostazioni annuncio';
 
   @override
-  String get repeater_localAdvertInterval => 'Intervallo annuncio locale';
-
-  @override
-  String repeater_localAdvertIntervalMinutes(int minutes) {
-    return '$minutes minuti';
-  }
-
-  @override
   String get repeater_floodAdvertInterval => 'Intervallo annuncio flood';
 
   @override
@@ -2966,10 +2958,6 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get repeater_cliHelpSetMultiAcks =>
       'Abilita o disabilita la funzione \'double ACKs\'.';
-
-  @override
-  String get repeater_cliHelpSetAdvertInterval =>
-      'Imposta l\'intervallo del timer in minuti per inviare un pacchetto di pubblicità locale (senza salto). Imposta su 0 per disabilitare.';
 
   @override
   String get repeater_cliHelpSetFloodAdvertInterval =>

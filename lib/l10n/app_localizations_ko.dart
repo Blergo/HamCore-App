@@ -2446,14 +2446,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get repeater_advertisementSettings => '광고 설정';
 
   @override
-  String get repeater_localAdvertInterval => '지역 광고 시간 간격';
-
-  @override
-  String repeater_localAdvertIntervalMinutes(int minutes) {
-    return '$minutes 분';
-  }
-
-  @override
   String get repeater_floodAdvertInterval => '홍수 광고 간격';
 
   @override
@@ -2835,10 +2827,6 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get repeater_cliHelpSetMultiAcks =>
       '\'더블 ACK\' 기능을 활성화하거나 비활성화할 수 있습니다.';
-
-  @override
-  String get repeater_cliHelpSetAdvertInterval =>
-      '로컬 (제로 홉) 광고 패킷을 전송하는 간격 (분 단위)을 설정합니다. 0으로 설정하면 비활성화됩니다.';
 
   @override
   String get repeater_cliHelpSetFloodAdvertInterval =>

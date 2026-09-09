@@ -1158,15 +1158,6 @@
   "repeater_privacyMode": "Modalità Privacy",
   "repeater_privacyModeSubtitle": "Nascondi nome/posizione negli annunci",
   "repeater_advertisementSettings": "Impostazioni annuncio",
-  "repeater_localAdvertInterval": "Intervallo annuncio locale",
-  "repeater_localAdvertIntervalMinutes": "{minutes} minuti",
-  "@repeater_localAdvertIntervalMinutes": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
   "repeater_floodAdvertInterval": "Intervallo annuncio flood",
   "repeater_floodAdvertIntervalHours": "{hours} ore",
   "@repeater_floodAdvertIntervalHours": {
@@ -1349,7 +1340,6 @@
   "repeater_cliHelpSetIntThresh": "Imposta il Limite di Interferenza (in dB). Il valore predefinito è 14. Imposta su 0 per disabilitare il rilevamento delle interferenze del canale.",
   "repeater_cliHelpSetAgcResetInterval": "Imposta l'intervallo per resettare il controllore Automatico del Guadagno. Imposta su 0 per disabilitare.",
   "repeater_cliHelpSetMultiAcks": "Abilita o disabilita la funzione 'double ACKs'.",
-  "repeater_cliHelpSetAdvertInterval": "Imposta l'intervallo del timer in minuti per inviare un pacchetto di pubblicità locale (senza salto). Imposta su 0 per disabilitare.",
   "repeater_cliHelpSetFloodAdvertInterval": "Imposta l'intervallo del timer in ore per inviare un pacchetto pubblicitario di massa. Imposta su 0 per disabilitare.",
   "repeater_cliHelpSetGuestPassword": "Imposta/aggiorna la password dell'ospite. (per ripetitori, gli accessi degli ospiti possono inviare la richiesta \"Get Stats\")",
   "repeater_cliHelpSetName": "Imposta il nome dell'annuncio.",
